@@ -582,6 +582,183 @@
 }
 .tnf-btn-dark:hover { transform: translateY(-2px); }
 
+/* ===== ARTICLE STYLES ===== */
+.tnf-article-intro {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-right: 5px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 30px;
+}
+.tnf-article-intro p { font-size: 15px; color: var(--text); line-height: 1.9; margin-bottom: 12px; }
+.tnf-article-intro p:last-child { margin-bottom: 0; }
+
+.tnf-why-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.tnf-why-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.tnf-why-item:hover { box-shadow: var(--shadow); border-color: var(--primary-light); }
+.tnf-why-icon {
+  width: 38px; height: 38px;
+  background: var(--bg-light);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--primary);
+}
+.tnf-why-item p { font-size: 14px; color: var(--text); line-height: 1.7; margin: 0; }
+
+.tnf-signs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px; margin-top: 24px;
+}
+.tnf-sign-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 22px 18px; text-align: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.tnf-sign-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.tnf-sign-num {
+  width: 42px; height: 42px;
+  background: var(--primary); color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px;
+  margin: 0 auto 12px;
+}
+.tnf-sign-card h3 { font-size: 15px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px; }
+.tnf-sign-card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin: 0; }
+
+.tnf-types-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px; margin-top: 24px;
+}
+.tnf-type-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  display: flex; align-items: center; gap: 12px;
+  transition: all 0.2s;
+}
+.tnf-type-card:hover { background: var(--bg-light); border-color: var(--primary-light); }
+.tnf-type-emoji { font-size: 26px; flex-shrink: 0; }
+.tnf-type-card h3 { font-size: 15px; font-weight: 700; color: var(--primary-dark); margin: 0; }
+
+.tnf-companies-table { width: 100%; border-collapse: collapse; background: #fff; min-width: 500px; }
+.tnf-companies-table th {
+  background: var(--primary-dark); color: #fff;
+  padding: 14px 18px; font-size: 14px; font-weight: 800; text-align: right;
+}
+.tnf-companies-table td { padding: 14px 18px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.tnf-companies-table td:last-child { text-align: center; font-weight: 800; color: var(--primary); }
+.tnf-companies-table tr:last-child td { border-bottom: none; }
+.tnf-companies-table tr.featured { background: rgba(27,107,58,0.05); }
+.tnf-companies-table tr.featured td:first-child { font-weight: 800; color: var(--primary); }
+
+.tnf-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px; margin-top: 20px;
+}
+.tnf-service-item {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 14px; font-weight: 600; color: var(--text);
+  transition: all 0.2s;
+}
+.tnf-service-item:hover { background: var(--bg-light); border-color: var(--primary-light); color: var(--primary-dark); }
+.tnf-service-item svg { flex-shrink: 0; color: var(--primary); }
+
+.tnf-price-table { width: 100%; border-collapse: collapse; background: #fff; min-width: 520px; }
+.tnf-price-table th {
+  background: var(--primary); color: #fff;
+  padding: 14px 16px; font-size: 13px; font-weight: 800; text-align: right;
+}
+.tnf-price-table td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.tnf-price-table td:nth-child(2) { color: var(--text-muted); font-size: 13px; }
+.tnf-price-table td:nth-child(3) { color: var(--primary); font-weight: 800; white-space: nowrap; }
+.tnf-price-table td:last-child { color: var(--success); font-weight: 600; font-size: 13px; white-space: nowrap; }
+.tnf-price-table tr:last-child td { border-bottom: none; }
+.tnf-price-table tr:hover td { background: var(--bg-light); }
+
+.tnf-inject-box {
+  background: linear-gradient(135deg, var(--bg-light), #fff);
+  border: 1px solid var(--border);
+  border-right: 5px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 28px; margin-top: 10px;
+}
+.tnf-inject-box h3 {
+  font-size: 19px; font-weight: 800; color: var(--primary-dark);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.tnf-inject-box p { font-size: 14px; color: var(--text); line-height: 1.85; margin-bottom: 10px; }
+
+.tnf-tips-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.tnf-tip-item {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.tnf-tip-num {
+  width: 32px; height: 32px;
+  background: var(--accent); color: var(--primary-dark);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 14px; flex-shrink: 0;
+}
+.tnf-tip-item p { font-size: 14px; color: var(--text); line-height: 1.7; margin: 0; }
+
+.tnf-safety-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-top: 20px;
+}
+.tnf-safety-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 16px; text-align: center;
+}
+.tnf-safety-icon { font-size: 32px; margin-bottom: 10px; }
+.tnf-safety-card h4 { font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px; }
+.tnf-safety-card p { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin: 0; }
+
+.tnf-highlight {
+  background: rgba(212,160,23,0.08);
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: var(--radius); padding: 16px 20px;
+  font-size: 14px; color: var(--text); margin-top: 16px;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+
+/* Mecca widget wrapper */
+.tnf-mecca-wrap {
+  max-width: 1200px; margin: 0 auto; padding: 40px 20px;
+}
+.tnf-mecca-label {
+  text-align: center; margin-bottom: 24px;
+}
+.tnf-mecca-label h2 {
+  font-size: clamp(20px, 2.5vw, 28px); font-weight: 800;
+  color: var(--primary-dark); margin-bottom: 8px;
+}
+.tnf-mecca-label p { font-size: 15px; color: var(--text-muted); }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .tnf-hero-inner { grid-template-columns: 1fr; gap: 30px; }
@@ -593,10 +770,15 @@
   .tnf-geo-wrap { padding: 30px 20px; }
   .tnf-geo-grid { grid-template-columns: repeat(2, 1fr); }
   .tnf-section { padding: 40px 16px; }
+  .tnf-signs-grid { grid-template-columns: 1fr; }
+  .tnf-types-grid { grid-template-columns: repeat(2, 1fr); }
+  .tnf-safety-grid { grid-template-columns: 1fr; }
+  .tnf-services-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
   .tnf-numbers-inner { grid-template-columns: repeat(2, 1fr); }
   .tnf-geo-grid { grid-template-columns: repeat(2, 1fr); }
+  .tnf-types-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -1108,6 +1290,620 @@
     width="1100" height="450"
     style="width:100%; height:auto; object-fit:cover; border-radius:20px; max-height:380px;"
   >
+</div>
+
+<!-- ============================================================
+     ARTICLE: لماذا تحتاج شركة متخصصة
+     ============================================================ -->
+<section class="tnf-section-full" style="background: var(--bg-light, #f4f9f5);">
+  <div style="max-width:1100px; margin:0 auto; padding:0 20px;">
+    <div class="tnf-article-intro">
+      <p>مشكلة كبرى بل وكارثة لا يستطيع مواجهتها الكثير من الناس هي انتشار الصراصير في المكان، تلك الأزمة التي تزيد عواقبها في حال كان هذا المكان سكنيًا، إذ تبدأ حالة من القلق والاضطراب بين أفراده، فضلًا عن الخسائر المادية.</p>
+      <p>وفي ظل الحاجة إلى حلول جذرية قاطعة، نشارك أهم التفاصيل التي تساعد في هذا الصدد، مع الرد على جميع التساؤلات المتعلقة بأفضل شركة مكافحة الصراصير بجدة.</p>
+    </div>
+
+    <h2 class="tnf-h2">ما هي الحاجة إلى <span>خدمات شركة مكافحة الصراصير</span>؟</h2>
+    <div class="tnf-divider"></div>
+    <p class="tnf-subtitle">الاستعانة بالمتخصصين ليست رفاهية بل ضرورة — إليك الأسباب الأربعة</p>
+
+    <div class="tnf-why-list">
+      <div class="tnf-why-item">
+        <div class="tnf-why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <p><strong>حل جذري لا سطحي:</strong> الاستعانة بخدمات شركة التنفيذ يعني ضمان حل المشكلة من جذورها، وليس تخلصًا مؤقتًا منها دون معالجة المصدر الأصلي.</p>
+      </div>
+      <div class="tnf-why-item">
+        <div class="tnf-why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <p><strong>طرق علمية متطورة:</strong> نتأكد من استخدام طرق مكافحة علمية متطورة وليس الاعتماد على طرق تقليدية غير مضمونة الفعالية قد تكون جاذبة للحشرات بدلاً من طردها.</p>
+      </div>
+      <div class="tnf-why-item">
+        <div class="tnf-why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <p><strong>فريق متخصص محترف:</strong> تشكيل فريق عمل مخصص لأداء المهمة باحتياطات السلامة اللازمة التي لا يعرف بها الكثير من الناس العاديين، مما يجنبهم أضرارًا صحية ومادية.</p>
+      </div>
+      <div class="tnf-why-item">
+        <div class="tnf-why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
+        <p><strong>مبيدات آمنة ومعتمدة:</strong> عدم التعرض لمشكلة استخدام مبيدات أو مواد طاردة ضارة أو غير آمنة على الصحة، سواء على المدى القريب أو البعيد.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: أهمية مكافحة صراصير المطبخ
+     ============================================================ -->
+<section class="tnf-section">
+  <h2 class="tnf-h2">أهمية مكافحة <span>صراصير المطبخ</span></h2>
+  <div class="tnf-divider"></div>
+  <p class="tnf-subtitle">المطبخ أكثر المناطق عرضةً للصراصير وأشدّها خطرًا على صحة الأسرة</p>
+
+  <div class="tnf-signs-grid">
+    <div class="tnf-sign-card">
+      <div class="tnf-sign-num">1</div>
+      <h3>الحفاظ على صحة الأسرة</h3>
+      <p>ضمان نظافة وسلامة المطبخ الذي يحتوي على الأطعمة والمشروبات، وارتباطه الوثيق بصحة أفراد المنزل جميعًا.</p>
+    </div>
+    <div class="tnf-sign-card">
+      <div class="tnf-sign-num">2</div>
+      <h3>تجنب الخسائر المادية</h3>
+      <p>تجنب التخلص الإجباري من المواد الغذائية المشكوك فيها، وكذلك الأواني التي قد تحتوي على بيض الصراصير المخفي.</p>
+    </div>
+    <div class="tnf-sign-card">
+      <div class="tnf-sign-num">3</div>
+      <h3>القضاء النهائي التام</h3>
+      <p>القضاء على الصراصير في المطبخ نهائيًا يضمن عدم انتشارها إلى الغرف الأخرى والمستودعات داخل المنزل.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: علامات الحاجة لشركة متخصصة
+     ============================================================ -->
+<section class="tnf-section-full" style="background: var(--bg-light, #f4f9f5);">
+  <div style="max-width:1100px; margin:0 auto; padding:0 20px;">
+    <h2 class="tnf-h2">كيف تعرف أنك <span>تحتاج شركة متخصصة</span> فورًا؟</h2>
+    <div class="tnf-divider"></div>
+    <p class="tnf-subtitle">3 علامات واضحة تستدعي تدخلًا احترافيًا عاجلًا</p>
+
+    <div class="tnf-why-list">
+      <div class="tnf-why-item">
+        <div class="tnf-why-icon" style="background:rgba(27,107,58,0.12);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <p><strong>رؤية الصراصير بأعداد كبيرة:</strong> العلامة الأولى هي رؤية الصراصير في أي جزء من مكان السكن أو العمل، وبالأخص بأعداد كبيرة في وضح النهار.</p>
+      </div>
+      <div class="tnf-why-item">
+        <div class="tnf-why-icon" style="background:rgba(220,38,38,0.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <p><strong>ظهور الصراصير الصغيرة:</strong> وجود صراصير صغيرة يعني أن التكاثر يحدث داخل المكان منذ فترة طويلة، وأن الإصابة وصلت مرحلة متقدمة تحتاج تدخلًا جذريًا.</p>
+      </div>
+      <div class="tnf-why-item">
+        <div class="tnf-why-icon" style="background:rgba(212,160,23,0.15);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <p><strong>فشل الطرق التقليدية:</strong> في حال محاولة تطبيق طرق المكافحة التقليدية وباءت بالفشل، يلزم التوجه فورًا لشركة متخصصة قبل تفاقم المشكلة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: أنواع الصراصير
+     ============================================================ -->
+<section class="tnf-section">
+  <h2 class="tnf-h2">أنواع <span>الصراصير المنزلية</span> الشائعة</h2>
+  <div class="tnf-divider"></div>
+  <p class="tnf-subtitle">لكل نوع طريقة مكافحة مختلفة — يحددها فنيّونا بدقة قبل البدء</p>
+
+  <div class="tnf-types-grid">
+    <div class="tnf-type-card"><div class="tnf-type-emoji">🟤</div><h3>الصراصير البنية</h3></div>
+    <div class="tnf-type-card"><div class="tnf-type-emoji">🇩🇪</div><h3>الصراصير الألمانية</h3></div>
+    <div class="tnf-type-card"><div class="tnf-type-emoji">🦗</div><h3>الصراصير الأمريكية</h3></div>
+    <div class="tnf-type-card"><div class="tnf-type-emoji">🌍</div><h3>الصراصير الشرقية</h3></div>
+    <div class="tnf-type-card"><div class="tnf-type-emoji">🌏</div><h3>الصراصير الآسيوية</h3></div>
+    <div class="tnf-type-card"><div class="tnf-type-emoji">🦂</div><h3>الصراصير الأسترالية</h3></div>
+  </div>
+
+  <div class="tnf-highlight">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <p><strong>فنيّونا يحددون النوع بدقة:</strong> قبل بدء أي عملية رش، يقوم متخصصونا بتحديد نوع الصرصار المنتشر واختيار المبيد الألماني الأنسب للقضاء التام عليه من جذوره.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: مقارنة أفضل الشركات
+     ============================================================ -->
+<section class="tnf-section-full" style="background: var(--bg-light, #f4f9f5);">
+  <div style="max-width:1100px; margin:0 auto; padding:0 20px;">
+    <h2 class="tnf-h2">مقارنة <span>أفضل شركات مكافحة الصراصير</span> بجدة</h2>
+    <div class="tnf-divider"></div>
+    <p class="tnf-subtitle">قارن بنفسك واختر الأفضل لمنزلك وعائلتك</p>
+
+    <div style="overflow-x:auto; border-radius:var(--radius-lg); box-shadow:var(--shadow);">
+      <table class="tnf-companies-table">
+        <thead>
+          <tr>
+            <th>اسم الشركة</th>
+            <th>الخدمة</th>
+            <th>السعر</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="featured">
+            <td>⭐ شركة التنفيذ</td>
+            <td>خبرة أكثر من 24 عامًا، مبيدات ألمانية آمنة ومصرح بها، تغطية جميع مناطق المملكة، فريق فني مُدرب على أعلى مستوى دولي</td>
+            <td>أرخص سعر</td>
+          </tr>
+          <tr>
+            <td>شركة الالمانية</td>
+            <td>خبرة تصل إلى 18 عامًا، توفر خدمة الفحص الشامل للمكان قبل بدء مهمة الرش بالمبيدات الآمنة</td>
+            <td>أسعار تنافسية</td>
+          </tr>
+          <tr>
+            <td>شركة الجدارة</td>
+            <td>خبرة أكثر من 20 عامًا، تتوفر خدمات الرش والمكافحة المتكاملة</td>
+            <td>أسعار تنافسية</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: خدمات شركات مكافحة الحشرات
+     ============================================================ -->
+<section class="tnf-section">
+  <h2 class="tnf-h2">خدمات <span>شركات مكافحة الحشرات</span> بجدة</h2>
+  <div class="tnf-divider"></div>
+  <p class="tnf-subtitle">نقدم حلولاً متكاملة لجميع أنواع الحشرات والقوارض في جدة</p>
+
+  <div class="tnf-services-grid">
+    <div class="tnf-service-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> مكافحة الصراصير بكافة أنواعها</div>
+    <div class="tnf-service-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> مكافحة النمل الأبيض بجدة</div>
+    <div class="tnf-service-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> مكافحة النمل الأسود</div>
+    <div class="tnf-service-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> القضاء على الفئران والقوارض</div>
+    <div class="tnf-service-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> مكافحة حشرات الفراش (بق الفراش)</div>
+    <div class="tnf-service-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> مكافحة الحمام وتركيب الطوارد</div>
+    <div class="tnf-service-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> رش الدفان لحماية الأساسات</div>
+    <div class="tnf-service-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> القضاء على البعوض والذباب</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: أسعار مفصلة بجدة
+     ============================================================ -->
+<section class="tnf-section-full" style="background: var(--bg-light, #f4f9f5);">
+  <div style="max-width:1100px; margin:0 auto; padding:0 20px;">
+    <h2 class="tnf-h2">قائمة أسعار <span>مكافحة الصراصير</span> بجدة</h2>
+    <div class="tnf-divider"></div>
+    <p class="tnf-subtitle">أسعار شفافة بدون رسوم مخفية — السعر يعتمد على المساحة ودرجة الإصابة</p>
+
+    <div style="overflow-x:auto; border-radius:var(--radius-lg); box-shadow:var(--shadow);">
+      <table class="tnf-price-table">
+        <thead>
+          <tr>
+            <th>نوع الخدمة / حجم الوحدة</th>
+            <th>تفاصيل الخدمة</th>
+            <th>السعر (ريال سعودي)</th>
+            <th>فترة الضمان</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>مكافحة المطبخ فقط</strong></td><td>رش مبيد سائل + حقن جل</td><td>150 - 200 ر.س</td><td>3 أشهر</td></tr>
+          <tr><td><strong>شقة صغيرة (غرفة وصالة)</strong></td><td>رش كامل + وقاية للمجاري</td><td>200 - 300 ر.س</td><td>3 - 6 أشهر</td></tr>
+          <tr><td><strong>شقة متوسطة (3-4 غرف)</strong></td><td>رش شامل + جل ألماني</td><td>300 - 450 ر.س</td><td>6 أشهر</td></tr>
+          <tr><td><strong>شقة كبيرة / دور كامل</strong></td><td>رش شامل + تبخير</td><td>450 - 600 ر.س</td><td>6 أشهر - سنة</td></tr>
+          <tr><td><strong>فيلا (دورين + ملحق)</strong></td><td>مكافحة شاملة داخلية وخارجية</td><td>700 - 1200 ر.س</td><td>سنة (زيارات مجانية)</td></tr>
+          <tr><td><strong>حقن الجل فقط (بدون رائحة)</strong></td><td>للمطابخ والحمامات فقط</td><td>يبدأ من 250 ر.س</td><td>6 أشهر</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tnf-highlight" style="margin-top:16px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <p>💡 <strong>الفحص الأولي مجاني تماماً</strong> — وبعده تحصل على سعر شفاف ومحدد قبل بدء العمل بدون أي رسوم مخفية. <a href="https://wa.me/966509674920?text=أريد%20عرض%20سعر%20مجاني%20لمكافحة%20الصراصير%20بجدة" target="_blank" rel="noopener" style="color:var(--primary);font-weight:700;">تواصل معنا الآن للحصول على عرض سعر مجاني ←</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: إبرة كومبات
+     ============================================================ -->
+<section class="tnf-section">
+  <h2 class="tnf-h2">ما هي <span>إبرة كومبات</span> للصراصير؟</h2>
+  <div class="tnf-divider"></div>
+
+  <div class="tnf-inject-box">
+    <h3>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      تقنية الجل (كومبات) — الأقوى في القضاء على الصراصير
+    </h3>
+    <p>إبرة كومبات هي مادة قاتلة للصراصير على هيئة جيل يُوضع داخل سرنجة متخصصة. يقوم الفني المتخصص بحقنها في الأماكن المشكوك في وجود الحشرة فيها أو المؤكد انتشارها بها، كزوايا الجدران والشقوق الدقيقة ودواليب المطابخ.</p>
+    <p>تلك المادة تحتوي على مكونات عالية السُمية للحشرة تقضي عليها فور تناولها، مع القضاء على بقية أفراد المستعمرة التي تتغذى على الصرصار الميت — مما يجعلها من أسرع وأفضل طرق المكافحة المتاحة.</p>
+    <div class="tnf-highlight" style="background:rgba(27,107,58,0.08);border-color:rgba(27,107,58,0.25);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B6B3A" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+      <p><strong>تنبيه مهم:</strong> لا يُنصح باستخدام إبرة كومبات أو أي مبيدات بشكل ذاتي — يجب التعامل معها من قِبل متخصصين مدربين لضمان الجرعة الصحيحة والتطبيق الآمن.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: احتياطات السلامة
+     ============================================================ -->
+<section class="tnf-section-full" style="background: var(--bg-light, #f4f9f5);">
+  <div style="max-width:1100px; margin:0 auto; padding:0 20px;">
+    <h2 class="tnf-h2">احتياطات السلامة عند <span>استخدام المبيدات</span></h2>
+    <div class="tnf-divider"></div>
+    <p class="tnf-subtitle">فريق شركة التنفيذ يطبق أعلى معايير السلامة الدولية لحماية عائلتك</p>
+
+    <div class="tnf-safety-grid">
+      <div class="tnf-safety-card">
+        <div class="tnf-safety-icon">🏠</div>
+        <h4>إخلاء مؤقت للغرفة</h4>
+        <p>إخراج جميع الأفراد من الغرفة محل العمل أو الانتقال لغرفة مجاورة، دون الحاجة لمغادرة المنزل بالكامل في معظم الحالات.</p>
+      </div>
+      <div class="tnf-safety-card">
+        <div class="tnf-safety-icon">🥽</div>
+        <h4>معدات وقاية كاملة</h4>
+        <p>جميع أعضاء الفريق يرتدون ملابس واقية متكاملة وكمامة وجه ونظارات للتأمين الكامل أثناء التعامل مع المبيدات الكيميائية.</p>
+      </div>
+      <div class="tnf-safety-card">
+        <div class="tnf-safety-icon">⚗️</div>
+        <h4>جرعة علمية محددة</h4>
+        <p>تحديد الجرعة ونسبة تركيز المبيد بدقة علمية حسب نوع الحشرة وحجم انتشارها لضمان أعلى فعالية مع الحفاظ على السلامة التامة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: نصائح الوقاية
+     ============================================================ -->
+<section class="tnf-section">
+  <h2 class="tnf-h2">نصائح لـ<span>تجنب ظهور الصراصير</span> في منزلك</h2>
+  <div class="tnf-divider"></div>
+  <p class="tnf-subtitle">الوقاية خير من العلاج — اتبع هذه النصائح للحفاظ على منزل خالٍ من الحشرات</p>
+
+  <div class="tnf-tips-list">
+    <div class="tnf-tip-item">
+      <div class="tnf-tip-num">1</div>
+      <p><strong>نظافة شاملة ومستمرة:</strong> الاهتمام بنظافة جميع أركان المنزل سواءً الغرف أو المطابخ أو الحمامات وغرف التخزين بشكل دوري منتظم.</p>
+    </div>
+    <div class="tnf-tip-item">
+      <div class="tnf-tip-num">2</div>
+      <p><strong>استخدام منظفات آمنة معروفة:</strong> تجنب المواد المجهولة غير معروفة التركيب، إذ قد يحتوي بعضها على مكونات جاذبة للحشرات بدلًا من طردها.</p>
+    </div>
+    <div class="tnf-tip-item">
+      <div class="tnf-tip-num">3</div>
+      <p><strong>صيانة دورية للسباكة:</strong> إجراء فحص دوري على جميع أجزاء السباكة؛ لأن تلفها قد يكون مصدرًا رئيسيًا لقدوم الصراصير من شبكات الصرف.</p>
+    </div>
+    <div class="tnf-tip-item">
+      <div class="tnf-tip-num">4</div>
+      <p><strong>متابعة المجاري والمصارف:</strong> التأكد من صحة جريان المصارف ومواسير المياه والمجاري لتجنب مشكلة انتشار الحشرات من تلك الأماكن.</p>
+    </div>
+    <div class="tnf-tip-item">
+      <div class="tnf-tip-num">5</div>
+      <p><strong>التخلص الفوري من القمامة:</strong> عدم الإبقاء على القاذورات في المنزل خاصةً في أوقات الليل، وهو وقت النشاط الأعلى للصراصير.</p>
+    </div>
+    <div class="tnf-tip-item">
+      <div class="tnf-tip-num">6</div>
+      <p><strong>إغلاق النوافذ والأبواب ليلًا:</strong> الاهتمام بإغلاق جميع النوافذ والأبواب وقت الليل لضمان عدم دخول الصراصير من الخارج.</p>
+    </div>
+    <div class="tnf-tip-item">
+      <div class="tnf-tip-num">7</div>
+      <p><strong>الوقاية الدورية في المناطق الخطرة:</strong> في حال المنزل في منطقة زراعية أو قريبة من موطن الحشرات، يُنصح بالتواصل مع شركة التنفيذ لإجراء رش وقائي دوري.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTICLE: معلومات التواصل
+     ============================================================ -->
+<section class="tnf-section-full" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);">
+  <div style="max-width:800px; margin:0 auto; padding:0 20px; text-align:center;">
+    <h2 class="tnf-h2" style="color:#fff;">معلومات التواصل مع <span style="color:#f5c842;">شركة التنفيذ</span></h2>
+    <div class="tnf-divider"></div>
+    <p style="color:rgba(255,255,255,0.8); margin-bottom:28px; font-size:15px;">تواصل معنا الآن للحصول على فحص مجاني وبدء إجراءات المكافحة في أقرب وقت</p>
+
+    <div style="overflow-x:auto; border-radius:var(--radius-lg); box-shadow:0 8px 30px rgba(0,0,0,0.25);">
+      <table style="width:100%;border-collapse:collapse;background:#fff;min-width:280px;">
+        <tbody>
+          <tr>
+            <td style="padding:16px 24px;font-weight:800;color:var(--primary-dark);border-bottom:1px solid #eee;font-size:15px;text-align:right;">📞 رقم التواصل</td>
+            <td style="padding:16px 24px;border-bottom:1px solid #eee;text-align:right;"><a href="tel:+966509674920" style="color:var(--primary);font-weight:800;font-size:16px;text-decoration:none;">0509674920</a></td>
+          </tr>
+          <tr>
+            <td style="padding:16px 24px;font-weight:800;color:var(--primary-dark);border-bottom:1px solid #eee;font-size:15px;text-align:right;">💬 واتساب</td>
+            <td style="padding:16px 24px;border-bottom:1px solid #eee;text-align:right;"><a href="https://wa.me/966509674920" target="_blank" rel="noopener" style="color:#25D366;font-weight:800;font-size:16px;text-decoration:none;">966509674920+</a></td>
+          </tr>
+          <tr>
+            <td style="padding:16px 24px;font-weight:800;color:var(--primary-dark);font-size:15px;text-align:right;">📘 فيس بوك</td>
+            <td style="padding:16px 24px;font-weight:700;color:#1877F2;font-size:14px;text-align:right;">شركة التنفيذ للخدمات المنزلية</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap;">
+      <a href="tel:+966509674920" class="tnf-btn-primary" style="background:#fff;color:var(--primary-dark);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.7A2 2 0 012 .82h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        اتصل الآن: 0509674920
+      </a>
+      <a href="https://wa.me/966509674920?text=أريد%20طلب%20خدمة%20مكافحة%20صراصير%20بجدة" class="tnf-btn-wa" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        واتساب فوري
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MECCA WIDGET — خدماتنا في مكة المكرمة أيضًا
+     ============================================================ -->
+<div class="tnf-mecca-wrap">
+  <div class="tnf-mecca-label">
+    <h2>خدماتنا في <span style="color:var(--primary);">مكة المكرمة</span> أيضًا</h2>
+    <p>شركة التنفيذ تغطي مكة المكرمة بنفس الجودة والضمان — مكافحة جميع أنواع الحشرات</p>
+  </div>
+
+  <div id="tnfz-mk" dir="rtl">
+<style>
+#tnfz-mk{font-family:'Cairo','Tajawal',system-ui,sans-serif;color:#1a2332;line-height:1.85;font-size:16px}
+#tnfz-mk *{box-sizing:border-box;margin:0;padding:0}
+#tnfz-mk h1,#tnfz-mk h2,#tnfz-mk h3{font-weight:800;color:#0a2540;line-height:1.4}
+#tnfz-mk h1{font-size:clamp(24px,4vw,36px);margin-bottom:14px}
+#tnfz-mk h2{font-size:clamp(22px,3vw,30px);margin:0 0 24px;text-align:center;position:relative;padding-bottom:14px}
+#tnfz-mk h2:after{content:"";position:absolute;bottom:0;right:50%;transform:translateX(50%);width:70px;height:4px;background:linear-gradient(90deg,#1e62d0,#f5b800);border-radius:2px}
+#tnfz-mk h3{font-size:18px;margin-bottom:10px}
+#tnfz-mk p{margin-bottom:10px;color:#3a4759}
+#tnfz-mk a{color:inherit;text-decoration:none}
+#tnfz-mk .tnf-sec{padding:50px 20px;max-width:1200px;margin:0 auto}
+#tnfz-mk .tnf-hero{background:linear-gradient(135deg,#0a2540 0%,#1e62d0 100%);color:#fff;border-radius:18px;padding:40px 28px;margin:20px auto;max-width:1160px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;position:relative;overflow:hidden}
+#tnfz-mk .tnf-hero:before{content:"";position:absolute;top:-60px;left:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(245,184,0,.18),transparent 70%);border-radius:50%}
+#tnfz-mk .tnf-hero h1{color:#fff}
+#tnfz-mk .tnf-hero p{color:#dde7f5;font-size:16px;margin-bottom:18px}
+#tnfz-mk .tnf-badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 22px}
+#tnfz-mk .tnf-badges span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:6px 12px;border-radius:20px;font-size:13px;font-weight:600;backdrop-filter:blur(8px)}
+#tnfz-mk .tnf-cta{display:flex;flex-wrap:wrap;gap:10px}
+#tnfz-mk .tnf-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s;text-decoration:none}
+#tnfz-mk .tnf-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.18)}
+#tnfz-mk .tnf-btn-wa{background:#25D366;color:#fff}
+#tnfz-mk .tnf-btn-call{background:#f5b800;color:#0a2540}
+#tnfz-mk .tnf-btn-pri{background:#1e62d0;color:#fff;width:100%;justify-content:center;padding:15px}
+#tnfz-mk .tnf-form{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:22px;backdrop-filter:blur(10px)}
+#tnfz-mk .tnf-form h3{color:#fff;margin-bottom:14px;font-size:17px;text-align:center}
+#tnfz-mk .tnf-form input,#tnfz-mk .tnf-form select{width:100%;padding:11px 14px;margin-bottom:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.96);color:#0a2540;border-radius:8px;font-family:inherit;font-size:14px;outline:none}
+#tnfz-mk .tnf-form select{cursor:pointer}
+#tnfz-mk .tnf-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:30px auto;max-width:1160px;padding:0 20px}
+#tnfz-mk .tnf-stat{background:#fff;border:1px solid #e5ecf5;border-radius:14px;padding:22px 14px;text-align:center;box-shadow:0 4px 14px rgba(10,37,64,.05)}
+#tnfz-mk .tnf-stat .n{font-size:28px;font-weight:900;color:#1e62d0;display:block}
+#tnfz-mk .tnf-stat .l{font-size:13px;color:#5a6878;font-weight:600;margin-top:4px}
+#tnfz-mk .tnf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+#tnfz-mk .tnf-card{background:#fff;border:1px solid #e5ecf5;border-radius:14px;padding:24px 20px;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative}
+#tnfz-mk .tnf-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(30,98,208,.12);border-color:#1e62d0}
+#tnfz-mk .tnf-icon{width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#f0f6ff);display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:#1e62d0}
+#tnfz-mk .tnf-icon svg{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#tnfz-mk .tnf-card p{font-size:14px;color:#5a6878;line-height:1.7}
+#tnfz-mk .tnf-feat{background:#f7faff;border:1px solid #e5ecf5;border-right:4px solid #f5b800;border-radius:10px;padding:18px}
+#tnfz-mk .tnf-feat h3{display:flex;align-items:center;gap:8px;color:#1e62d0;font-size:16px;margin-bottom:6px}
+#tnfz-mk .tnf-feat p{font-size:14px;margin:0}
+#tnfz-mk .tnf-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+#tnfz-mk .tnf-pricebox{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px}
+#tnfz-mk .tnf-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,37,64,.06)}
+#tnfz-mk .tnf-table th{background:#0a2540;color:#fff;padding:12px;font-size:14px;text-align:right}
+#tnfz-mk .tnf-table td{padding:11px 12px;border-bottom:1px solid #eef2f7;font-size:14px}
+#tnfz-mk .tnf-table td:last-child{color:#1e62d0;font-weight:800;text-align:center}
+#tnfz-mk .tnf-table tr:last-child td{border-bottom:none}
+#tnfz-mk .tnf-calc{background:linear-gradient(135deg,#0a2540,#143a6b);border-radius:14px;padding:24px;color:#fff}
+#tnfz-mk .tnf-calc h3{color:#fff;text-align:center;margin-bottom:6px}
+#tnfz-mk .tnf-calc .sub{text-align:center;color:#dde7f5;font-size:13px;margin-bottom:16px}
+#tnfz-mk .tnf-calc label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:#dde7f5}
+#tnfz-mk .tnf-calc select,#tnfz-mk .tnf-calc input{width:100%;padding:10px 12px;border:none;border-radius:8px;margin-bottom:12px;font-family:inherit;font-size:14px;background:#fff;color:#0a2540;outline:none}
+#tnfz-mk .tnf-result{background:rgba(245,184,0,.15);border:1.5px dashed #f5b800;border-radius:10px;padding:14px;text-align:center;margin:8px 0 14px}
+#tnfz-mk .tnf-result .lbl{font-size:13px;color:#f5e1a3}
+#tnfz-mk .tnf-result .val{font-size:30px;font-weight:900;color:#f5b800;line-height:1.2}
+#tnfz-mk .tnf-result .vat{font-size:11px;color:#dde7f5;margin-top:2px}
+#tnfz-mk .tnf-process{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+#tnfz-mk .tnf-step{text-align:center;padding:22px 16px;background:#fff;border:1px solid #e5ecf5;border-radius:14px;position:relative}
+#tnfz-mk .tnf-stepnum{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1e62d0,#0a2540);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;margin:0 auto 12px;box-shadow:0 6px 14px rgba(30,98,208,.3)}
+#tnfz-mk .tnf-step h3{font-size:15px;margin-bottom:6px}
+#tnfz-mk .tnf-step p{font-size:13px;color:#5a6878}
+#tnfz-mk .tnf-areas{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+#tnfz-mk .tnf-area{background:#fff;border:1px solid #e5ecf5;padding:12px 8px;border-radius:10px;text-align:center;font-size:14px;font-weight:700;color:#0a2540;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
+#tnfz-mk .tnf-area:hover{background:#f7faff;border-color:#1e62d0;color:#1e62d0}
+#tnfz-mk .tnf-area svg{width:14px;height:14px;color:#f5b800;flex-shrink:0}
+#tnfz-mk .tnf-faq{max-width:900px;margin:0 auto}
+#tnfz-mk .tnf-q{background:#fff;border:1px solid #e5ecf5;border-radius:10px;margin-bottom:10px;overflow:hidden}
+#tnfz-mk .tnf-q summary{padding:16px 18px;cursor:pointer;font-weight:700;font-size:15px;color:#0a2540;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+#tnfz-mk .tnf-q summary:after{content:"+";font-size:22px;color:#1e62d0;font-weight:700;transition:transform .2s}
+#tnfz-mk .tnf-q[open] summary:after{content:"−"}
+#tnfz-mk .tnf-q[open] summary{background:#f7faff;color:#1e62d0}
+#tnfz-mk .tnf-q .ans{padding:14px 18px;font-size:14px;color:#3a4759;line-height:1.85;border-top:1px solid #eef2f7}
+#tnfz-mk .tnf-final{background:linear-gradient(135deg,#0a2540,#1e62d0);border-radius:16px;padding:36px 24px;text-align:center;color:#fff;max-width:1160px;margin:30px auto}
+#tnfz-mk .tnf-final h2{color:#fff;margin-bottom:10px}
+#tnfz-mk .tnf-final h2:after{background:#f5b800}
+#tnfz-mk .tnf-final p{color:#dde7f5;margin-bottom:18px;max-width:600px;margin-right:auto;margin-left:auto}
+#tnfz-mk .tnf-final .tnf-cta{justify-content:center}
+#tnfz-mk .tnf-note{font-size:13px;color:#dde7f5;margin-top:12px}
+@media(max-width:900px){
+#tnfz-mk .tnf-hero{grid-template-columns:1fr;padding:28px 20px}
+#tnfz-mk .tnf-stats{grid-template-columns:repeat(2,1fr)}
+#tnfz-mk .tnf-grid,#tnfz-mk .tnf-grid2,#tnfz-mk .tnf-pricebox,#tnfz-mk .tnf-process{grid-template-columns:1fr}
+#tnfz-mk .tnf-areas{grid-template-columns:repeat(3,1fr)}
+#tnfz-mk .tnf-sec{padding:35px 16px}
+}
+@media(max-width:480px){#tnfz-mk .tnf-areas{grid-template-columns:repeat(2,1fr)}}
+</style>
+<section class="tnf-hero">
+<div>
+<h1>شركة مكافحة حشرات بمكة المكرمة</h1>
+<p>تتمتع <strong>شركة التنفيذ</strong> بخبرة تتجاوز <strong>25 عاماً</strong> في القضاء النهائي على جميع أنواع الحشرات الزاحفة والطائرة والقوارض، بأحدث التقنيات ومبيدات مستوردة آمنة معتمدة من وزارة الصحة، مع <strong>ضمان سنة كاملة</strong>.</p>
+<div class="tnf-badges"><span>✓ ضمان سنة</span><span>✓ مبيدات مستوردة</span><span>✓ بدون رائحة</span><span>✓ خصم 35%</span></div>
+<div class="tnf-cta">
+<a class="tnf-btn tnf-btn-wa" href="https://wa.me/966509674920?text=أرغب%20بخدمة%20مكافحة%20حشرات%20بمكة" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.6-1.5-.9-2.1-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1.1 3 .9 3.6.8.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.2-.1-.4-.2-.7-.3z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.8 1.4 6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.3zM12 21.8c-1.8 0-3.6-.5-5.2-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.5-1.5-5.4 0-5.5 4.5-10 10-10 2.7 0 5.2 1 7.1 2.9 1.9 1.9 2.9 4.4 2.9 7.1 0 5.5-4.5 10-10 10z"/></svg> واتساب فوري</a>
+<a class="tnf-btn tnf-btn-call" href="tel:+966509674920">📞 0509674920</a>
+</div>
+</div>
+<div class="tnf-form">
+<h3>اطلب الكشف الآن — مجاناً خلال 5 دقائق</h3>
+<form onsubmit="return tnfQuick(event)">
+<input type="text" id="tnfQn" placeholder="الاسم" required>
+<input type="tel" id="tnfQp" placeholder="رقم الجوال" required>
+<select id="tnfQs" required><option value="">نوع الحشرة</option><option>صراصير</option><option>بق الفراش</option><option>نمل أبيض</option><option>نمل أسود</option><option>فئران</option><option>حمام</option><option>بعوض/ذباب</option><option>براغيث</option><option>أخرى</option></select>
+<button type="submit" class="tnf-btn tnf-btn-pri">إرسال الطلب عبر واتساب</button>
+</form>
+</div>
+</section>
+<section class="tnf-stats">
+<div class="tnf-stat"><span class="n">+25</span><span class="l">سنة خبرة</span></div>
+<div class="tnf-stat"><span class="n">+15K</span><span class="l">عميل سعيد</span></div>
+<div class="tnf-stat"><span class="n">15</span><span class="l">حي في مكة</span></div>
+<div class="tnf-stat"><span class="n">24/7</span><span class="l">خدمة فورية</span></div>
+</section>
+<section class="tnf-sec">
+<h2>نكافح جميع أنواع الحشرات في مكة المكرمة</h2>
+<div class="tnf-grid">
+<div class="tnf-card"><div class="tnf-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg></div><h3>مكافحة بق الفراش</h3><p>قضاء تام على البق العادي والدقيقي في ثوانٍ بمبيدات آمنة على الأطفال — مع حماية المفروشات.</p></div>
+<div class="tnf-card"><div class="tnf-icon"><svg viewBox="0 0 24 24"><path d="M3 21l3-3M21 3l-3 3M12 6c3 0 6 3 6 6s-3 6-6 6-6-3-6-6 3-6 6-6z"/><path d="M9 9l6 6M15 9l-6 6"/></svg></div><h3>مكافحة النمل الأبيض</h3><p>حقن مدفون لكامل الأساسات والحوائط قبل وبعد البناء، يقضي على المستعمرة من الجذور.</p></div>
+<div class="tnf-card"><div class="tnf-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="6" ry="8"/><path d="M12 4v16M6 8l-3-2M6 16l-3 2M18 8l3-2M18 16l3 2"/></svg></div><h3>مكافحة الصراصير</h3><p>إبادة شاملة للصراصير الألمانية والأمريكية بجل ورش متخصص يصل لأعمق الشقوق والبالوعات.</p></div>
+<div class="tnf-card"><div class="tnf-icon"><svg viewBox="0 0 24 24"><path d="M12 2c-3 4-6 6-6 11a6 6 0 0012 0c0-5-3-7-6-11z"/><path d="M12 22v-4"/></svg></div><h3>رش دفان قبل البناء</h3><p>حماية الأساسات بالكامل بعازل كيميائي مقاوم لمدة طويلة يمنع ظهور النمل الأبيض نهائياً.</p></div>
+<div class="tnf-card"><div class="tnf-icon"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div><h3>مكافحة الفئران</h3><p>مصائد متعددة الأحجام + طُعوم آمنة، مع تنظيف الفضلات وسد المداخل لمنع العودة.</p></div>
+<div class="tnf-card"><div class="tnf-icon"><svg viewBox="0 0 24 24"><path d="M3 12c2-3 5-4 9-4s7 1 9 4M5 18l3-2M19 18l-3-2"/><circle cx="12" cy="11" r="2"/></svg></div><h3>مكافحة البعوض والذباب</h3><p>رش ضبابي حراري للحدائق والمستودعات بمبيدات لا تؤثر على صحة الأفراد أو الحيوانات.</p></div>
+<div class="tnf-card"><div class="tnf-icon"><svg viewBox="0 0 24 24"><path d="M5 11l7-8 7 8v8H5z"/><path d="M9 19v-5h6v5"/></svg></div><h3>مكافحة النمل الأسود</h3><p>قضاء على النمل المنزلي والصحراوي والكبير بتركيبات تستهدف المستعمرة الأم.</p></div>
+<div class="tnf-card"><div class="tnf-icon"><svg viewBox="0 0 24 24"><path d="M3 12c2-2 5-4 9-4s7 2 9 4M12 8v8M8 16h8"/></svg></div><h3>مكافحة الحمام</h3><p>طارد حمام بالأشواك المعدنية والشباك المستوردة، إبعاد دون قتل مع ضمان عدم العودة.</p></div>
+<div class="tnf-card"><div class="tnf-icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="14" r="3"/><circle cx="16" cy="14" r="3"/><path d="M8 11V8M16 11V8M5 14h-3M22 14h-3"/></svg></div><h3>مكافحة البراغيث</h3><p>رش متخصص للسجاد والمفروشات والحدائق، يقضي على البراغيث ويرقاتها بشكل نهائي.</p></div>
+</div>
+</section>
+<section class="tnf-sec" style="background:#f7faff;border-radius:18px;max-width:1160px">
+<h2>لماذا شركة التنفيذ هي الأفضل؟</h2>
+<div class="tnf-grid2">
+<div class="tnf-feat"><h3>⭐ خبرة 25 عاماً</h3><p>ربع قرن من الخبرة في مكافحة كافة أنواع الحشرات داخل مكة المكرمة.</p></div>
+<div class="tnf-feat"><h3>🛡️ ضمان سنة كاملة</h3><p>نضمن لك عدم عودة الحشرة لمدة 12 شهر، أو نعيد الخدمة مجاناً.</p></div>
+<div class="tnf-feat"><h3>🧪 مبيدات مستوردة</h3><p>مبيدات أوروبية معتمدة من وزارة الصحة، آمنة على الأطفال وكبار السن.</p></div>
+<div class="tnf-feat"><h3>👨‍🔧 فريق محترف</h3><p>فنيون مدربون على أحدث تقنيات IPM العالمية مع شهادات اعتماد.</p></div>
+<div class="tnf-feat"><h3>💰 أسعار تنافسية</h3><p>أفضل الأسعار في السوق + خصومات تصل إلى 35% على الباقات.</p></div>
+<div class="tnf-feat"><h3>⏱️ خدمة سريعة</h3><p>وصول الفريق خلال 60 دقيقة من الاتصال داخل جميع أحياء مكة.</p></div>
+</div>
+</section>
+<section class="tnf-sec">
+<h2>كم يبلغ سعر مكافحة الحشرات في مكة؟</h2>
+<div class="tnf-pricebox">
+<div>
+<table class="tnf-table">
+<tr><th>الخدمة</th><th>السعر يبدأ من</th></tr>
+<tr><td>مكافحة الصراصير</td><td>350 ريال</td></tr>
+<tr><td>مكافحة بق الفراش</td><td>350 ريال</td></tr>
+<tr><td>مكافحة النمل الأبيض</td><td>500 ريال</td></tr>
+<tr><td>مكافحة النمل الأسود</td><td>200 ريال</td></tr>
+<tr><td>مكافحة الفئران</td><td>300 ريال</td></tr>
+<tr><td>مكافحة البعوض/الذباب</td><td>400 ريال</td></tr>
+<tr><td>مكافحة الحمام (تركيب)</td><td>1500 ريال</td></tr>
+</table>
+<p style="font-size:13px;color:#5a6878;margin-top:10px">💡 السعر يختلف حسب المساحة، نوع الحشرة، حجم الإصابة، عدد الجلسات، ونوع المكان.</p>
+</div>
+<div class="tnf-calc">
+<h3>🧮 احسب سعر خدمتك الآن</h3>
+<p class="sub">حاسبة فورية — السعر شامل الفحص والضمان</p>
+<label>نوع الخدمة</label>
+<select id="tnfS"><option value="350">مكافحة الصراصير — 350</option><option value="350">مكافحة بق الفراش — 350</option><option value="500">مكافحة النمل الأبيض — 500</option><option value="200">مكافحة النمل الأسود — 200</option><option value="300">مكافحة الفئران — 300</option><option value="400">مكافحة البعوض — 400</option><option value="1500">مكافحة الحمام — 1500</option></select>
+<label>نوع المكان</label>
+<select id="tnfP"><option value="1">شقة</option><option value="1.4">فيلا</option><option value="1.6">مستودع/مطعم</option><option value="2">مزرعة</option></select>
+<label>الحي</label>
+<select id="tnfA"><option value="1">العزيزية</option><option value="1">النسيم</option><option value="1">الشوقية</option><option value="1.05">العوالي</option><option value="1">الششة</option><option value="1">الزاهر</option><option value="1.05">الزيمر</option><option value="1">الرصيفة</option><option value="1.05">النوارية</option><option value="1.1">بطحاء قريش</option><option value="1">الكعكية</option><option value="1.05">أم الجود</option><option value="1.15">الجموم</option><option value="1.1">الهجرة</option><option value="1.05">الحسينية</option></select>
+<label>عدد الجلسات</label>
+<select id="tnfJ"><option value="1">جلسة واحدة</option><option value="1.8">جلستان (خصم 10%)</option><option value="2.55">3 جلسات (خصم 15%)</option><option value="3.2">4 جلسات (خصم 20%)</option></select>
+<div class="tnf-result"><div class="lbl">السعر التقديري النهائي</div><div class="val" id="tnfR">350 ريال</div><div class="vat">شامل الضريبة • قابل للخصم بالاتفاق</div></div>
+<button class="tnf-btn tnf-btn-pri" onclick="tnfBook()" style="background:#25D366">احجز الآن عبر واتساب</button>
+</div>
+</div>
+</section>
+<section class="tnf-sec">
+<h2>كيف تتم عملية مكافحة الحشرات معنا؟</h2>
+<div class="tnf-process">
+<div class="tnf-step"><div class="tnf-stepnum">1</div><h3>التواصل والاستشارة</h3><p>اتصل بنا أو أرسل واتساب وسنرد فوراً.</p></div>
+<div class="tnf-step"><div class="tnf-stepnum">2</div><h3>المعاينة والتشخيص</h3><p>زيارة فني متخصص لتحديد نوع الحشرة وحجم الإصابة.</p></div>
+<div class="tnf-step"><div class="tnf-stepnum">3</div><h3>تنفيذ المكافحة</h3><p>رش/حقن بأحدث المعدات والمبيدات الآمنة.</p></div>
+<div class="tnf-step"><div class="tnf-stepnum">4</div><h3>المتابعة والضمان</h3><p>زيارة متابعة مجانية + ضمان كتابي لمدة سنة.</p></div>
+</div>
+</section>
+<section class="tnf-sec">
+<h2>نخدم جميع أحياء مكة المكرمة</h2>
+<p style="text-align:center;color:#5a6878;margin-bottom:24px;font-size:14px">فريقنا يصل إلى منزلك خلال 60 دقيقة في أي حي من الأحياء التالية:</p>
+<div class="tnf-areas">
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>العزيزية</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>النسيم</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>الشوقية</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>العوالي</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>الششة</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>الزاهر</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>الزيمر</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>الرصيفة</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>النوارية</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>بطحاء قريش</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>الكعكية</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>أم الجود</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>الجموم</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>الهجرة</div>
+<div class="tnf-area"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>الحسينية</div>
+</div>
+</section>
+<section class="tnf-sec">
+<h2>الأسئلة الشائعة عن مكافحة الحشرات في مكة</h2>
+<div class="tnf-faq">
+<details class="tnf-q"><summary>هل المبيدات المستخدمة آمنة على الأطفال والحوامل؟</summary><div class="ans">نعم، نستخدم مبيدات أوروبية مستوردة معتمدة من وزارة الصحة السعودية، خالية من الروائح النفاذة وآمنة تماماً على الأطفال وكبار السن والحوامل والحيوانات الأليفة بعد جفافها بساعتين فقط.</div></details>
+<details class="tnf-q"><summary>هل أحتاج لمغادرة المنزل أثناء عملية الرش؟</summary><div class="ans">في معظم الحالات لا تحتاج للمغادرة، لكن يُفضّل عند رش النمل الأبيض أو الإصابات الكبيرة المغادرة لمدة 2-4 ساعات حتى جفاف المبيد تماماً.</div></details>
+<details class="tnf-q"><summary>كم تستغرق عملية المكافحة؟</summary><div class="ans">تتراوح بين 30 دقيقة للشقق الصغيرة و3 ساعات للفلل الكبيرة والمستودعات، حسب المساحة ونوع الإصابة.</div></details>
+<details class="tnf-q"><summary>ما الفرق بين الجلسة الواحدة والجلسات المتعددة؟</summary><div class="ans">الجلسة الواحدة كافية للإصابات البسيطة، أما الإصابات الشديدة (خاصة النمل الأبيض والبق) فتحتاج 2-4 جلسات للقضاء على البيض واليرقات الخفية بشكل كامل.</div></details>
+<details class="tnf-q"><summary>هل تقدمون ضماناً مكتوباً؟</summary><div class="ans">نعم، نقدم ضماناً كتابياً موثقاً لمدة سنة كاملة، وفي حال عودة الحشرة خلال فترة الضمان نعيد الخدمة مجاناً دون أي رسوم إضافية.</div></details>
+<details class="tnf-q"><summary>كم يبلغ متوسط سعر مكافحة الحشرات بمكة؟</summary><div class="ans">يبدأ من 200 ريال للنمل الأسود وحتى 1500 ريال لتركيب طارد الحمام. استخدم الحاسبة أعلاه للحصول على سعر دقيق حسب حالتك.</div></details>
+<details class="tnf-q"><summary>هل تعملون 24 ساعة وفي العطلات؟</summary><div class="ans">نعم، خدماتنا متاحة على مدار 24 ساعة طوال أيام الأسبوع بما فيها العطلات الرسمية، ونصل إليك خلال 60 دقيقة داخل مكة.</div></details>
+<details class="tnf-q"><summary>هل الخدمة متاحة للمنشآت التجارية والمطاعم؟</summary><div class="ans">بالتأكيد، لدينا برامج متخصصة للمطاعم والفنادق والمستودعات والمدارس بعقود سنوية وتقارير دورية معتمدة من البلدية.</div></details>
+</div>
+</section>
+<div class="tnf-final">
+<h2>لا تترك الحشرات تنتشر — تواصل معنا الآن</h2>
+<p>عرض خاص: خصم 35% على جميع الباقات هذا الأسبوع + معاينة مجانية وضمان سنة كاملة.</p>
+<div class="tnf-cta">
+<a class="tnf-btn tnf-btn-call" href="tel:+966509674920">📞 اتصل: 0509674920</a>
+<a class="tnf-btn tnf-btn-wa" href="https://wa.me/966509674920" target="_blank" rel="noopener">واتساب فوري</a>
+</div>
+<p class="tnf-note">⚡ استجابة خلال دقائق • معاينة مجانية • ضمان سنة كاملة</p>
+</div>
+<script>
+(function(){
+function calc(){
+var s=parseFloat(document.getElementById('tnfS').value);
+var p=parseFloat(document.getElementById('tnfP').value);
+var a=parseFloat(document.getElementById('tnfA').value);
+var j=parseFloat(document.getElementById('tnfJ').value);
+var t=Math.round(s*p*a*j);
+document.getElementById('tnfR').textContent=t+' ريال';
+}
+['tnfS','tnfP','tnfA','tnfJ'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('change',calc);});
+window.tnfBook=function(){
+var s=document.getElementById('tnfS').selectedOptions[0].textContent;
+var p=document.getElementById('tnfP').selectedOptions[0].textContent;
+var a=document.getElementById('tnfA').selectedOptions[0].textContent;
+var j=document.getElementById('tnfJ').selectedOptions[0].textContent;
+var r=document.getElementById('tnfR').textContent;
+var msg='السلام عليكم، أرغب بحجز خدمة مكافحة حشرات بمكة:%0A• الخدمة: '+s+'%0A• المكان: '+p+'%0A• الحي: '+a+'%0A• الجلسات: '+j+'%0A• السعر التقديري: '+r;
+window.open('https://wa.me/966509674920?text='+msg,'_blank');
+};
+window.tnfQuick=function(e){
+e.preventDefault();
+var n=document.getElementById('tnfQn').value;
+var p=document.getElementById('tnfQp').value;
+var s=document.getElementById('tnfQs').value;
+var msg='طلب خدمة جديد:%0A• الاسم: '+n+'%0A• الجوال: '+p+'%0A• نوع الحشرة: '+s+'%0A• المدينة: مكة المكرمة';
+window.open('https://wa.me/966509674920?text='+msg,'_blank');
+return false;
+};
+})();
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"هل المبيدات المستخدمة آمنة على الأطفال والحوامل؟","acceptedAnswer":{"@type":"Answer","text":"نعم، نستخدم مبيدات أوروبية مستوردة معتمدة من وزارة الصحة السعودية، خالية من الروائح النفاذة وآمنة تماماً على الأطفال وكبار السن والحوامل والحيوانات الأليفة."}},{"@type":"Question","name":"هل أحتاج لمغادرة المنزل أثناء عملية الرش؟","acceptedAnswer":{"@type":"Answer","text":"في معظم الحالات لا تحتاج للمغادرة، لكن يُفضّل عند الإصابات الكبيرة المغادرة لمدة 2-4 ساعات حتى جفاف المبيد."}},{"@type":"Question","name":"كم تستغرق عملية المكافحة؟","acceptedAnswer":{"@type":"Answer","text":"تتراوح بين 30 دقيقة للشقق الصغيرة و3 ساعات للفلل الكبيرة والمستودعات، حسب المساحة ونوع الإصابة."}},{"@type":"Question","name":"هل تقدمون ضماناً مكتوباً؟","acceptedAnswer":{"@type":"Answer","text":"نعم، نقدم ضماناً كتابياً موثقاً لمدة سنة كاملة، وفي حال عودة الحشرة نعيد الخدمة مجاناً."}},{"@type":"Question","name":"كم يبلغ متوسط سعر مكافحة الحشرات بمكة؟","acceptedAnswer":{"@type":"Answer","text":"يبدأ من 200 ريال للنمل الأسود وحتى 1500 ريال لتركيب طارد الحمام، حسب نوع الحشرة والمساحة."}},{"@type":"Question","name":"هل تعملون 24 ساعة وفي العطلات؟","acceptedAnswer":{"@type":"Answer","text":"نعم، خدماتنا متاحة على مدار 24 ساعة طوال أيام الأسبوع، ونصل إليك خلال 60 دقيقة داخل مكة."}}]}
+</script>
+</div>
 </div>
 
 <!-- ============================================================
