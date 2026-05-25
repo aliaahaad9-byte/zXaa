@@ -2,16 +2,19 @@
 /**
  * Tracker Class
  *
- * Registers two tracking surfaces:
- *  1. REST API endpoint  POST /wp-json/wpfc/v1/track  (primary — no nonce,
- *     works perfectly with page-caching plugins and sendBeacon on mobile).
- *  2. Legacy wp-ajax fallback  (kept for backwards compat / no-REST hosts).
+ * Why we use wp-admin/admin-ajax.php instead of the REST API:
  *
- * Root cause of "counter stops on new mobile visitor": WordPress nonces are
- * user-session-specific. Caching plugins serve the same HTML (including the
- * cached nonce) to every visitor, so the nonce fails for anyone other than
- * the user who originally triggered the cache fill. The REST endpoint is
- * public and requires no nonce, eliminating the problem entirely.
+ * sendBeacon() with a Blob typed as 'application/x-www-form-urlencoded' is
+ * unreliable on Safari iOS — the browser sometimes strips the Content-Type
+ * header, so PHP's $_POST superglobal is empty and the request appears empty.
+ *
+ * sendBeacon() with a FormData object ALWAYS sends as 'multipart/form-data'
+ * which PHP parses natively and reliably into $_POST on every browser and OS.
+ * We therefore route tracking through admin-ajax.php (which reads $_POST)
+ * instead of the REST API (which has its own body-parsing logic).
+ *
+ * No nonce is required: this is anonymous analytics. The only security check
+ * is a type whitelist to prevent garbage being written to the DB.
  *
  * @package WP_Floating_Contact
  */
@@ -22,96 +25,49 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WPFC_Tracker {
 
+    /** Only these two values are accepted as click_type. */
     private const ALLOWED_TYPES = array( 'phone', 'whatsapp' );
 
     public function __construct() {
-        // REST API — primary tracking surface.
-        add_action( 'rest_api_init', array( $this, 'register_rest_route' ) );
-
-        // AJAX fallback (logged-in and guests).
-        add_action( 'wp_ajax_wpfc_track_click',        array( $this, 'handle_ajax_track' ) );
-        add_action( 'wp_ajax_nopriv_wpfc_track_click', array( $this, 'handle_ajax_track' ) );
-    }
-
-    // ─── REST API ─────────────────────────────────────────────────────────────
-
-    public function register_rest_route(): void {
-        register_rest_route(
-            'wpfc/v1',
-            '/track',
-            array(
-                'methods'             => 'POST',
-                'callback'            => array( $this, 'handle_rest_track' ),
-                'permission_callback' => '__return_true', // public endpoint — no auth required
-                'args'                => array(
-                    'click_type' => array(
-                        'required'          => true,
-                        'type'              => 'string',
-                        'enum'              => self::ALLOWED_TYPES,
-                        'sanitize_callback' => 'sanitize_key',
-                    ),
-                    'page_url'   => array(
-                        'required'          => true,
-                        'type'              => 'string',
-                        'sanitize_callback' => 'esc_url_raw',
-                    ),
-                ),
-            )
-        );
+        // Both hooks needed: nopriv = visitors, wp_ajax = logged-in users.
+        add_action( 'wp_ajax_wpfc_track_click',        array( $this, 'handle_track' ) );
+        add_action( 'wp_ajax_nopriv_wpfc_track_click', array( $this, 'handle_track' ) );
     }
 
     /**
-     * REST handler — params are pre-validated by the args schema above.
+     * Handles a tracking POST from the frontend.
+     *
+     * Expected $_POST fields (sent as multipart/form-data via FormData):
+     *   action     = 'wpfc_track_click'
+     *   click_type = 'phone' | 'whatsapp'
+     *   page_url   = the URL of the page where the button was clicked
      */
-    public function handle_rest_track( WP_REST_Request $request ): WP_REST_Response {
-        $click_type = $request->get_param( 'click_type' );
-        $page_url   = $request->get_param( 'page_url' );
+    public function handle_track(): void {
 
-        if ( empty( $page_url ) ) {
-            return new WP_REST_Response( array( 'success' => false, 'message' => 'Missing URL.' ), 400 );
-        }
-
-        $result = WPFC_Database::insert_log( $click_type, $page_url );
-
-        if ( false !== $result ) {
-            return new WP_REST_Response( array( 'success' => true ), 200 );
-        }
-
-        return new WP_REST_Response( array( 'success' => false, 'message' => 'DB error.' ), 500 );
-    }
-
-    // ─── AJAX fallback ────────────────────────────────────────────────────────
-
-    /**
-     * Legacy AJAX handler — still validates nonce but used only when REST
-     * is unavailable. Front-end JS tries REST first, falls back to this.
-     */
-    public function handle_ajax_track(): void {
-        // Nonce check is soft here: we log even on nonce mismatch (caching
-        // environments will send stale nonces), but we still reject clearly
-        // malformed requests.
+        // ── 1. Validate click type ────────────────────────────────────────────
         $click_type = isset( $_POST['click_type'] )
             ? sanitize_key( wp_unslash( $_POST['click_type'] ) )
             : '';
 
         if ( ! in_array( $click_type, self::ALLOWED_TYPES, true ) ) {
-            wp_send_json_error( array( 'message' => 'Invalid type.' ), 400 );
+            wp_send_json_error( array( 'message' => 'Invalid click type.' ), 400 );
         }
 
+        // ── 2. Sanitise page URL ──────────────────────────────────────────────
         $page_url = isset( $_POST['page_url'] )
             ? esc_url_raw( wp_unslash( $_POST['page_url'] ) )
             : '';
 
-        if ( empty( $page_url ) ) {
-            wp_send_json_error( array( 'message' => 'Missing URL.' ), 400 );
-        }
+        // Allow empty URL — insert_log() will fall back to home_url('/').
 
+        // ── 3. Persist ────────────────────────────────────────────────────────
         $result = WPFC_Database::insert_log( $click_type, $page_url );
 
         if ( false !== $result ) {
-            wp_send_json_success( array( 'message' => 'Tracked.' ) );
+            // Return 200 with a minimal body so sendBeacon doesn't complain.
+            wp_send_json_success( array( 'ok' => true ) );
         } else {
-            wp_send_json_error( array( 'message' => 'DB error.' ), 500 );
+            wp_send_json_error( array( 'message' => 'DB write failed.' ), 500 );
         }
     }
 }

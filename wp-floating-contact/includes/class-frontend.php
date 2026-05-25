@@ -74,9 +74,9 @@ class WPFC_Frontend {
         wp_enqueue_script(
             'wpfc-frontend',
             WPFC_PLUGIN_URL . 'assets/js/frontend.js',
-            array( 'jquery' ),
+            array(), // no jQuery dependency — pure vanilla JS
             WPFC_VERSION,
-            true   // load in footer
+            true
         );
 
         // Determine the current page URL safely.

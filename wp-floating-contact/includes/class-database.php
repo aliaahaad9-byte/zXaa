@@ -2,9 +2,6 @@
 /**
  * Database Class
  *
- * Handles all direct database interactions: table creation, CRUD operations,
- * and cleanup. All methods are static — no instantiation required.
- *
  * @package WP_Floating_Contact
  */
 
@@ -14,14 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WPFC_Database {
 
-    /** Database table name (without prefix). */
-    private static string $table = 'wpfc_click_logs';
+    private static string $table      = 'wpfc_click_logs';
+    private static string $db_version = '1.0.1';
 
     // ─── Schema ───────────────────────────────────────────────────────────────
 
     /**
-     * Creates the click-log table. Called on plugin activation via dbDelta so
-     * it is safe to run on repeated activations (upgrade-safe).
+     * Creates / upgrades the click-log table via dbDelta (idempotent).
+     * Called on activation AND by maybe_create_table() on every page load.
      */
     public static function create_table(): void {
         global $wpdb;
@@ -42,13 +39,20 @@ class WPFC_Database {
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta( $sql );
 
-        // Record the installed DB schema version for future migrations.
-        add_option( 'wpfc_db_version', '1.0.0' );
+        update_option( 'wpfc_db_version', self::$db_version );
     }
 
     /**
-     * Drops the table on plugin uninstall (called from main file, not deactivation).
+     * Ensures the table exists on every page load. Cheap: only calls
+     * create_table() when the stored version does not match — i.e., first
+     * run after a manual (FTP) install or after a DB wipe.
      */
+    public static function maybe_create_table(): void {
+        if ( get_option( 'wpfc_db_version' ) !== self::$db_version ) {
+            self::create_table();
+        }
+    }
+
     public static function drop_table(): void {
         global $wpdb;
         $table_name = $wpdb->prefix . self::$table;
@@ -56,12 +60,10 @@ class WPFC_Database {
         $wpdb->query( "DROP TABLE IF EXISTS {$table_name}" );
     }
 
-    /** No-op deactivation hook — data is intentionally kept across deactivations. */
     public static function deactivate(): void {}
 
     // ─── Helpers ──────────────────────────────────────────────────────────────
 
-    /** Returns the fully-prefixed table name. */
     public static function get_table_name(): string {
         global $wpdb;
         return $wpdb->prefix . self::$table;
@@ -74,27 +76,37 @@ class WPFC_Database {
      *
      * @param string $click_type  'phone' or 'whatsapp'.
      * @param string $page_url    The frontend URL where the click occurred.
-     * @return int|false          Number of rows inserted, or false on failure.
+     * @return int|false          Rows inserted (1) or false on failure.
      */
     public static function insert_log( string $click_type, string $page_url ) {
         global $wpdb;
 
-        return $wpdb->insert(
+        // Safety: if URL is empty after sanitisation, store the site home URL
+        // rather than an empty string so the row is still useful.
+        $clean_url = esc_url_raw( $page_url );
+        if ( empty( $clean_url ) ) {
+            $clean_url = home_url( '/' );
+        }
+
+        $result = $wpdb->insert(
             self::get_table_name(),
             array(
                 'click_type' => sanitize_text_field( $click_type ),
-                'page_url'   => esc_url_raw( $page_url ),
+                'page_url'   => $clean_url,
                 'clicked_at' => current_time( 'mysql' ),
             ),
             array( '%s', '%s', '%s' )
         );
+
+        // Log a DB error to the WP debug log so it is visible during diagnosis.
+        if ( false === $result ) {
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+            error_log( 'WPFC: DB insert failed — ' . $wpdb->last_error );
+        }
+
+        return $result;
     }
 
-    /**
-     * Truncates the entire log table (irreversible — caller must confirm intent).
-     *
-     * @return int|bool  Result of TRUNCATE, or false on failure.
-     */
     public static function clear_logs() {
         global $wpdb;
         $table_name = self::get_table_name();
@@ -104,13 +116,6 @@ class WPFC_Database {
 
     // ─── Read ─────────────────────────────────────────────────────────────────
 
-    /**
-     * Returns a paginated result set ordered newest-first.
-     *
-     * @param int $page     1-based page number.
-     * @param int $per_page Rows per page.
-     * @return array        Array of stdClass row objects.
-     */
     public static function get_logs( int $page = 1, int $per_page = 50 ): array {
         global $wpdb;
 
@@ -124,12 +129,9 @@ class WPFC_Database {
                 $per_page,
                 $offset
             )
-        );
+        ) ?: array();
     }
 
-    /**
-     * Total row count across the entire table.
-     */
     public static function get_total_count(): int {
         global $wpdb;
         $table_name = self::get_table_name();
@@ -137,11 +139,6 @@ class WPFC_Database {
         return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" );
     }
 
-    /**
-     * Row count filtered by click type.
-     *
-     * @param string $type  'phone' or 'whatsapp'.
-     */
     public static function get_count_by_type( string $type ): int {
         global $wpdb;
         $table_name = self::get_table_name();
