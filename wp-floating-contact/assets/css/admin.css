@@ -17,6 +17,51 @@
     color: #1d2327;
 }
 
+/* ── Live badge (dashboard title) ───────────────────────────────────────── */
+
+.wpfc-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    color: #fff;
+    background: #46b450;
+    border-radius: 20px;
+    padding: 3px 10px;
+    margin-left: 4px;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+
+.wpfc-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #fff;
+    display: inline-block;
+    animation: wpfc-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes wpfc-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: .2; }
+}
+
+/* ── Counter flash on new data ──────────────────────────────────────────── */
+
+@keyframes wpfc-counter-flash {
+    0%   { color: inherit; }
+    20%  { color: #46b450; transform: scale(1.12); }
+    100% { color: inherit; transform: scale(1); }
+}
+
+.wpfc-counter-flash {
+    animation: wpfc-counter-flash .9s ease both;
+    display: inline-block;
+}
+
 .wpfc-page-title .dashicons {
     font-size: 28px;
     width: 28px;

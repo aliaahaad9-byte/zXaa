@@ -21,15 +21,17 @@ class WPFC_Admin {
         'whatsapp_message' => 'Hello! I would like to get in touch.',
         'button_position'  => 'bottom-right',
         'enable_plugin'    => '1',
+        'phone_color'      => '#1e88e5',
     );
 
     // ─── Bootstrap ────────────────────────────────────────────────────────────
 
     public function __construct() {
-        add_action( 'admin_menu',             array( $this, 'add_admin_menu' ) );
-        add_action( 'admin_init',             array( $this, 'register_settings' ) );
-        add_action( 'admin_enqueue_scripts',  array( $this, 'enqueue_assets' ) );
+        add_action( 'admin_menu',              array( $this, 'add_admin_menu' ) );
+        add_action( 'admin_init',              array( $this, 'register_settings' ) );
+        add_action( 'admin_enqueue_scripts',   array( $this, 'enqueue_assets' ) );
         add_action( 'wp_ajax_wpfc_clear_logs', array( $this, 'ajax_clear_logs' ) );
+        add_action( 'wp_ajax_wpfc_get_stats',  array( $this, 'ajax_get_stats' ) );
     }
 
     // ─── Menu ─────────────────────────────────────────────────────────────────
@@ -98,6 +100,7 @@ class WPFC_Admin {
         $clean['whatsapp_number']  = sanitize_text_field( $input['whatsapp_number'] ?? '' );
         $clean['whatsapp_message'] = sanitize_textarea_field( $input['whatsapp_message'] ?? '' );
         $clean['enable_plugin']    = isset( $input['enable_plugin'] ) ? '1' : '0';
+        $clean['phone_color']      = sanitize_hex_color( $input['phone_color'] ?? '#1e88e5' ) ?: '#1e88e5';
 
         // Whitelist the position value so nothing unexpected is stored.
         $allowed_positions         = array( 'bottom-right', 'bottom-left' );
@@ -128,17 +131,19 @@ class WPFC_Admin {
             return;
         }
 
+        wp_enqueue_style( 'wp-color-picker' );
+
         wp_enqueue_style(
             'wpfc-admin',
             WPFC_PLUGIN_URL . 'assets/css/admin.css',
-            array(),
+            array( 'wp-color-picker' ),
             WPFC_VERSION
         );
 
         wp_enqueue_script(
             'wpfc-admin',
             WPFC_PLUGIN_URL . 'assets/js/admin.js',
-            array( 'jquery' ),
+            array( 'jquery', 'wp-color-picker' ),
             WPFC_VERSION,
             true
         );
@@ -153,6 +158,8 @@ class WPFC_Admin {
                 'clearing'      => __( 'Clearing…', 'wp-floating-contact' ),
                 'cleared'       => __( 'All logs cleared successfully!', 'wp-floating-contact' ),
                 'error'         => __( 'An error occurred. Please try again.', 'wp-floating-contact' ),
+                'poll_interval' => 6000,  // ms — live stats refresh rate
+                'is_dashboard'  => ( strpos( $hook, 'wp-floating-contact' ) !== false && strpos( $hook, 'settings' ) === false && strpos( $hook, 'analytics' ) === false ) ? '1' : '0',
             )
         );
     }
@@ -175,6 +182,23 @@ class WPFC_Admin {
         }
     }
 
+    /**
+     * Returns live click counts for the real-time dashboard poller.
+     */
+    public function ajax_get_stats(): void {
+        check_ajax_referer( 'wpfc_admin_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( null, 403 );
+        }
+
+        wp_send_json_success( array(
+            'total'    => WPFC_Database::get_total_count(),
+            'phone'    => WPFC_Database::get_count_by_type( 'phone' ),
+            'whatsapp' => WPFC_Database::get_count_by_type( 'whatsapp' ),
+        ) );
+    }
+
     // ─── Page: Dashboard ──────────────────────────────────────────────────────
 
     public function render_dashboard_page(): void {
@@ -190,6 +214,10 @@ class WPFC_Admin {
             <h1 class="wpfc-page-title">
                 <span class="dashicons dashicons-phone"></span>
                 <?php esc_html_e( 'Floating Contact — Dashboard', 'wp-floating-contact' ); ?>
+                <span class="wpfc-live-badge" title="<?php esc_attr_e( 'Live — updates every 6 seconds', 'wp-floating-contact' ); ?>">
+                    <span class="wpfc-live-dot"></span>
+                    <?php esc_html_e( 'LIVE', 'wp-floating-contact' ); ?>
+                </span>
             </h1>
 
             <!-- ── Stats row ── -->
@@ -198,7 +226,7 @@ class WPFC_Admin {
                 <div class="wpfc-stat-card wpfc-stat-total">
                     <div class="wpfc-stat-icon"><span class="dashicons dashicons-chart-bar"></span></div>
                     <div class="wpfc-stat-content">
-                        <span class="wpfc-stat-number"><?php echo esc_html( number_format( $total_clicks ) ); ?></span>
+                        <span class="wpfc-stat-number" id="wpfc-stat-total"><?php echo esc_html( number_format( $total_clicks ) ); ?></span>
                         <span class="wpfc-stat-label"><?php esc_html_e( 'Total Clicks', 'wp-floating-contact' ); ?></span>
                     </div>
                 </div>
@@ -206,7 +234,7 @@ class WPFC_Admin {
                 <div class="wpfc-stat-card wpfc-stat-phone">
                     <div class="wpfc-stat-icon"><span class="dashicons dashicons-phone"></span></div>
                     <div class="wpfc-stat-content">
-                        <span class="wpfc-stat-number"><?php echo esc_html( number_format( $phone_clicks ) ); ?></span>
+                        <span class="wpfc-stat-number" id="wpfc-stat-phone"><?php echo esc_html( number_format( $phone_clicks ) ); ?></span>
                         <span class="wpfc-stat-label"><?php esc_html_e( 'Phone Clicks', 'wp-floating-contact' ); ?></span>
                     </div>
                 </div>
@@ -214,7 +242,7 @@ class WPFC_Admin {
                 <div class="wpfc-stat-card wpfc-stat-whatsapp">
                     <div class="wpfc-stat-icon"><span class="dashicons dashicons-whatsapp"></span></div>
                     <div class="wpfc-stat-content">
-                        <span class="wpfc-stat-number"><?php echo esc_html( number_format( $wa_clicks ) ); ?></span>
+                        <span class="wpfc-stat-number" id="wpfc-stat-whatsapp"><?php echo esc_html( number_format( $wa_clicks ) ); ?></span>
                         <span class="wpfc-stat-label"><?php esc_html_e( 'WhatsApp Clicks', 'wp-floating-contact' ); ?></span>
                     </div>
                 </div>
@@ -406,6 +434,21 @@ class WPFC_Admin {
                                            class="regular-text" placeholder="+1234567890"
                                            autocomplete="off">
                                     <p class="description"><?php esc_html_e( 'Include the country code, e.g. +966501234567. Leave empty to hide this button.', 'wp-floating-contact' ); ?></p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <label for="wpfc_phone_color"><?php esc_html_e( 'Button Color', 'wp-floating-contact' ); ?></label>
+                                </th>
+                                <td>
+                                    <input type="text"
+                                           id="wpfc_phone_color"
+                                           name="wpfc_settings[phone_color]"
+                                           value="<?php echo esc_attr( $settings['phone_color'] ); ?>"
+                                           class="wpfc-color-picker"
+                                           data-default-color="#1e88e5">
+                                    <p class="description"><?php esc_html_e( 'Choose the phone button background color. WhatsApp color is fixed green.', 'wp-floating-contact' ); ?></p>
                                 </td>
                             </tr>
 

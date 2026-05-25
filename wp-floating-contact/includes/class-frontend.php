@@ -22,6 +22,7 @@ class WPFC_Frontend {
         'whatsapp_message' => 'Hello! I would like to get in touch.',
         'button_position'  => 'bottom-right',
         'enable_plugin'    => '1',
+        'phone_color'      => '#1e88e5',
     );
 
     public function __construct() {
@@ -37,6 +38,23 @@ class WPFC_Frontend {
 
     private function is_enabled(): bool {
         return $this->get_settings()['enable_plugin'] === '1';
+    }
+
+    /**
+     * Returns a darker shade of a hex colour for the gradient endpoint.
+     *
+     * @param string $hex    Six-digit hex colour (with or without #).
+     * @param int    $amount Amount (0-255) to subtract from each channel.
+     */
+    private function darken_hex( string $hex, int $amount = 30 ): string {
+        $hex = ltrim( $hex, '#' );
+        if ( strlen( $hex ) === 3 ) {
+            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+        }
+        $r = max( 0, hexdec( substr( $hex, 0, 2 ) ) - $amount );
+        $g = max( 0, hexdec( substr( $hex, 2, 2 ) ) - $amount );
+        $b = max( 0, hexdec( substr( $hex, 4, 2 ) ) - $amount );
+        return sprintf( '#%02x%02x%02x', $r, $g, $b );
     }
 
     // ─── Assets ───────────────────────────────────────────────────────────────
@@ -75,8 +93,8 @@ class WPFC_Frontend {
             'wpfc-frontend',
             'wpfc_vars',
             array(
+                'rest_url' => esc_url_raw( rest_url( 'wpfc/v1/track' ) ),
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
-                'nonce'    => wp_create_nonce( 'wpfc_track_click' ),
                 'page_url' => esc_url( $page_url ),
             )
         );
@@ -96,12 +114,16 @@ class WPFC_Frontend {
             return;
         }
 
-        $position   = sanitize_html_class( $settings['button_position'] );
-        $phone_num  = esc_attr( $settings['phone_number'] );
+        $position    = sanitize_html_class( $settings['button_position'] );
+        $phone_num   = esc_attr( $settings['phone_number'] );
+        $phone_color = sanitize_hex_color( $settings['phone_color'] ) ?: '#1e88e5';
         // Strip everything except digits for the wa.me URL.
-        $wa_digits  = preg_replace( '/[^0-9]/', '', $settings['whatsapp_number'] );
-        $wa_message = rawurlencode( $settings['whatsapp_message'] );
-        $wa_href    = esc_url( "https://wa.me/{$wa_digits}?text={$wa_message}" );
+        $wa_digits   = preg_replace( '/[^0-9]/', '', $settings['whatsapp_number'] );
+        $wa_message  = rawurlencode( $settings['whatsapp_message'] );
+        $wa_href     = esc_url( "https://wa.me/{$wa_digits}?text={$wa_message}" );
+
+        // Inject the custom phone color as a CSS variable so CSS can consume it.
+        echo '<style>.wpfc-btn-phone{background:linear-gradient(135deg,' . esc_attr( $phone_color ) . ' 0%,' . esc_attr( $this->darken_hex( $phone_color, 30 ) ) . ' 100%)!important}</style>';
         ?>
 
         <div class="wpfc-buttons-container wpfc-position-<?php echo esc_attr( $position ); ?>"
