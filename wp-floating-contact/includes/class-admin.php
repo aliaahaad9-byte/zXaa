@@ -27,16 +27,33 @@ class WPFC_Admin {
     // ─── Bootstrap ────────────────────────────────────────────────────────────
 
     public function __construct() {
-        add_action( 'admin_menu',              array( $this, 'add_admin_menu' ) );
-        add_action( 'admin_init',              array( $this, 'register_settings' ) );
-        add_action( 'admin_enqueue_scripts',   array( $this, 'enqueue_assets' ) );
-        add_action( 'wp_ajax_wpfc_clear_logs', array( $this, 'ajax_clear_logs' ) );
-        add_action( 'wp_ajax_wpfc_get_stats',  array( $this, 'ajax_get_stats' ) );
+        add_action( 'admin_menu',                    array( $this, 'add_admin_menu' ) );
+        add_action( 'admin_init',                    array( $this, 'register_settings' ) );
+        add_action( 'admin_enqueue_scripts',         array( $this, 'enqueue_assets' ) );
+        add_action( 'wp_ajax_wpfc_clear_logs',       array( $this, 'ajax_clear_logs' ) );
+        add_action( 'wp_ajax_wpfc_get_stats',        array( $this, 'ajax_get_stats' ) );
+        add_action( 'wp_ajax_wpfc_activate_license', array( $this, 'ajax_activate_license' ) );
+        add_action( 'wp_ajax_wpfc_deactivate_license', array( $this, 'ajax_deactivate_license' ) );
     }
 
     // ─── Menu ─────────────────────────────────────────────────────────────────
 
     public function add_admin_menu(): void {
+        // ── If NOT licensed: show only the activation page ────────────────────
+        if ( ! WPFC_License::is_active() ) {
+            add_menu_page(
+                __( 'Floating Contact — Activate', 'wp-floating-contact' ),
+                __( 'Floating Contact', 'wp-floating-contact' ),
+                'manage_options',
+                'wp-floating-contact',
+                array( $this, 'render_license_page' ),
+                'dashicons-lock',
+                58
+            );
+            return;
+        }
+
+        // ── Licensed: full menu ───────────────────────────────────────────────
         add_menu_page(
             __( 'Floating Contact', 'wp-floating-contact' ),
             __( 'Floating Contact', 'wp-floating-contact' ),
@@ -72,6 +89,15 @@ class WPFC_Admin {
             'manage_options',
             'wpfc-analytics',
             array( $this, 'render_analytics_page' )
+        );
+
+        add_submenu_page(
+            'wp-floating-contact',
+            __( 'License', 'wp-floating-contact' ),
+            __( 'License', 'wp-floating-contact' ),
+            'manage_options',
+            'wpfc-license',
+            array( $this, 'render_license_page' )
         );
     }
 
@@ -125,9 +151,47 @@ class WPFC_Admin {
             'toplevel_page_wp-floating-contact',
             'floating-contact_page_wpfc-settings',
             'floating-contact_page_wpfc-analytics',
+            'floating-contact_page_wpfc-license',
         );
 
         if ( ! in_array( $hook, $plugin_pages, true ) ) {
+            return;
+        }
+
+        // ── License page assets (always, regardless of active state) ──────────
+        wp_enqueue_style(
+            'wpfc-license',
+            WPFC_PLUGIN_URL . 'assets/css/license.css',
+            array(),
+            WPFC_VERSION
+        );
+
+        wp_enqueue_script(
+            'wpfc-license',
+            WPFC_PLUGIN_URL . 'assets/js/license.js',
+            array(),
+            WPFC_VERSION,
+            true
+        );
+
+        wp_localize_script(
+            'wpfc-license',
+            'wpfc_license',
+            array(
+                'ajax_url'           => admin_url( 'admin-ajax.php' ),
+                'nonce'              => wp_create_nonce( 'wpfc_license_nonce' ),
+                'msg_empty'          => __( 'Please enter your serial number.', 'wp-floating-contact' ),
+                'msg_invalid'        => __( 'Invalid serial number. Please check and try again.', 'wp-floating-contact' ),
+                'msg_success'        => __( 'License activated! Loading your dashboard…', 'wp-floating-contact' ),
+                'msg_error'          => __( 'Connection error. Please try again.', 'wp-floating-contact' ),
+                'activate_label'     => __( 'Activate License', 'wp-floating-contact' ),
+                'activating'         => __( 'Activating…', 'wp-floating-contact' ),
+                'confirm_deactivate' => __( 'Deactivate this license? The plugin will stop working until a new serial is entered.', 'wp-floating-contact' ),
+            )
+        );
+
+        // Stop here if not licensed — no need to load the rest of the admin assets.
+        if ( ! WPFC_License::is_active() ) {
             return;
         }
 
@@ -197,6 +261,116 @@ class WPFC_Admin {
             'phone'    => WPFC_Database::get_count_by_type( 'phone' ),
             'whatsapp' => WPFC_Database::get_count_by_type( 'whatsapp' ),
         ) );
+    }
+
+    // ─── License AJAX ─────────────────────────────────────────────────────────
+
+    public function ajax_activate_license(): void {
+        check_ajax_referer( 'wpfc_license_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Permission denied.' ), 403 );
+        }
+
+        $serial = isset( $_POST['serial'] ) ? sanitize_text_field( wp_unslash( $_POST['serial'] ) ) : '';
+
+        if ( empty( $serial ) ) {
+            wp_send_json_error( array( 'message' => __( 'Serial number is required.', 'wp-floating-contact' ) ), 400 );
+        }
+
+        if ( WPFC_License::activate( $serial ) ) {
+            wp_send_json_success( array( 'message' => __( 'License activated successfully.', 'wp-floating-contact' ) ) );
+        } else {
+            wp_send_json_error( array( 'message' => __( 'Invalid serial number. Please check and try again.', 'wp-floating-contact' ) ), 400 );
+        }
+    }
+
+    public function ajax_deactivate_license(): void {
+        check_ajax_referer( 'wpfc_license_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Permission denied.' ), 403 );
+        }
+
+        WPFC_License::deactivate();
+        wp_send_json_success( array( 'message' => __( 'License deactivated.', 'wp-floating-contact' ) ) );
+    }
+
+    // ─── Page: License ────────────────────────────────────────────────────────
+
+    public function render_license_page(): void {
+        $is_active = WPFC_License::is_active();
+        ?>
+        <div class="wpfc-license-wrap">
+            <div class="wpfc-license-card">
+
+                <!-- Icon -->
+                <div class="wpfc-license-icon">
+                    <span class="dashicons <?php echo $is_active ? 'dashicons-yes-alt' : 'dashicons-lock'; ?>"></span>
+                </div>
+
+                <?php if ( $is_active ) : ?>
+                <!-- ── Active state ── -->
+                <h1><?php esc_html_e( 'License Active', 'wp-floating-contact' ); ?></h1>
+                <p class="wpfc-license-subtitle">
+                    <?php esc_html_e( 'Your plugin is fully activated and running.', 'wp-floating-contact' ); ?>
+                </p>
+
+                <div class="wpfc-license-active-badge">
+                    <span class="dashicons dashicons-yes-alt"></span>
+                    <?php esc_html_e( 'Licensed', 'wp-floating-contact' ); ?>
+                </div>
+
+                <div class="wpfc-license-serial-display">
+                    <?php echo esc_html( WPFC_License::get_masked_display() ); ?>
+                </div>
+
+                <button id="wpfc-deactivate-btn" class="wpfc-deactivate-btn">
+                    <span class="dashicons dashicons-no-alt" style="vertical-align:middle;font-size:14px;width:14px;height:14px;margin-right:4px;"></span>
+                    <?php esc_html_e( 'Deactivate License', 'wp-floating-contact' ); ?>
+                </button>
+
+                <?php else : ?>
+                <!-- ── Activation form ── -->
+                <h1><?php esc_html_e( 'Activate Your License', 'wp-floating-contact' ); ?></h1>
+                <p class="wpfc-license-subtitle">
+                    <?php esc_html_e( 'Enter your serial number below to unlock the plugin. The buttons will not appear on the frontend until the license is activated.', 'wp-floating-contact' ); ?>
+                </p>
+
+                <form id="wpfc-license-form" class="wpfc-license-form" autocomplete="off">
+                    <label for="wpfc-serial-input">
+                        <?php esc_html_e( 'Serial Number', 'wp-floating-contact' ); ?>
+                    </label>
+                    <div class="wpfc-serial-input-wrap">
+                        <input type="text"
+                               id="wpfc-serial-input"
+                               class="wpfc-serial-input"
+                               placeholder="WPFC-XXXXXX-XXXXXX-XXXXXX"
+                               maxlength="25"
+                               spellcheck="false"
+                               autocomplete="off"
+                               autocorrect="off"
+                               autocapitalize="characters">
+                    </div>
+
+                    <button type="submit" id="wpfc-activate-btn" class="wpfc-activate-btn">
+                        <span class="dashicons dashicons-shield-alt" style="font-size:18px;width:18px;height:18px;line-height:1;"></span>
+                        <?php esc_html_e( 'Activate License', 'wp-floating-contact' ); ?>
+                    </button>
+
+                    <div id="wpfc-license-msg" class="wpfc-license-msg"></div>
+                </form>
+
+                <?php endif; ?>
+
+                <div class="wpfc-license-footer">
+                    <strong><?php esc_html_e( 'WP Floating Contact Buttons', 'wp-floating-contact' ); ?></strong>
+                    <?php esc_html_e( '— Each serial number is for one site only.', 'wp-floating-contact' ); ?>
+                </div>
+
+            </div>
+        </div>
+        <?php
     }
 
     // ─── Page: Dashboard ──────────────────────────────────────────────────────

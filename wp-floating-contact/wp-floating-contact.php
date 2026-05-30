@@ -22,6 +22,7 @@ define( 'WPFC_PLUGIN_URL',      plugin_dir_url( __FILE__ ) );
 define( 'WPFC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 require_once WPFC_PLUGIN_DIR . 'includes/class-database.php';
+require_once WPFC_PLUGIN_DIR . 'includes/class-license.php';
 require_once WPFC_PLUGIN_DIR . 'includes/class-admin.php';
 require_once WPFC_PLUGIN_DIR . 'includes/class-frontend.php';
 require_once WPFC_PLUGIN_DIR . 'includes/class-tracker.php';
@@ -34,15 +35,19 @@ function wpfc_uninstall() {
     WPFC_Database::drop_table();
     delete_option( 'wpfc_settings' );
     delete_option( 'wpfc_db_version' );
+    delete_option( 'wpfc_license_hash' );
 }
 
 function wpfc_init() {
-    // Ensure the DB table always exists — covers manual (FTP) installs where
-    // the activation hook never fires.
     WPFC_Database::maybe_create_table();
 
+    // Admin always loads (needed to show the license activation page).
     new WPFC_Admin();
-    new WPFC_Frontend();
-    new WPFC_Tracker();
+
+    // Frontend features only run when a valid license is present.
+    if ( WPFC_License::is_active() ) {
+        new WPFC_Frontend();
+        new WPFC_Tracker();
+    }
 }
 add_action( 'plugins_loaded', 'wpfc_init' );
