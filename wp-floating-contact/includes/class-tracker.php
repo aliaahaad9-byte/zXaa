@@ -44,30 +44,41 @@ class WPFC_Tracker {
      */
     public function handle_track(): void {
 
+        // ── 0. Rate-limit: max 15 requests per IP per 60 seconds ─────────────
+        // Prevents automated scripts from flooding the analytics database.
+        $ip_raw  = isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $ip_key  = 'wpfc_rl_' . md5( $ip_raw );
+        $hits    = (int) get_transient( $ip_key );
+        if ( $hits >= 15 ) {
+            wp_send_json_error( null, 429 );
+        }
+        set_transient( $ip_key, $hits + 1, 60 );
+
         // ── 1. Validate click type ────────────────────────────────────────────
         $click_type = isset( $_POST['click_type'] )
             ? sanitize_key( wp_unslash( $_POST['click_type'] ) )
             : '';
 
         if ( ! in_array( $click_type, self::ALLOWED_TYPES, true ) ) {
-            wp_send_json_error( array( 'message' => 'Invalid click type.' ), 400 );
+            wp_send_json_error( null, 400 );
         }
 
-        // ── 2. Sanitise page URL ──────────────────────────────────────────────
-        $page_url = isset( $_POST['page_url'] )
-            ? esc_url_raw( wp_unslash( $_POST['page_url'] ) )
-            : '';
+        // ── 2. Sanitise and cap page URL ──────────────────────────────────────
+        $raw_url  = isset( $_POST['page_url'] ) ? wp_unslash( $_POST['page_url'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $page_url = esc_url_raw( $raw_url );
 
-        // Allow empty URL — insert_log() will fall back to home_url('/').
+        // Hard cap: 2 000 chars is sufficient for any real-world URL.
+        if ( strlen( $page_url ) > 2000 ) {
+            $page_url = substr( $page_url, 0, 2000 );
+        }
 
         // ── 3. Persist ────────────────────────────────────────────────────────
         $result = WPFC_Database::insert_log( $click_type, $page_url );
 
         if ( false !== $result ) {
-            // Return 200 with a minimal body so sendBeacon doesn't complain.
             wp_send_json_success( array( 'ok' => true ) );
         } else {
-            wp_send_json_error( array( 'message' => 'DB write failed.' ), 500 );
+            wp_send_json_error( null, 500 );
         }
     }
 }

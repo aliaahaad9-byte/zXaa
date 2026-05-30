@@ -88,6 +88,11 @@ class WPFC_Database {
             $clean_url = home_url( '/' );
         }
 
+        // Defence-in-depth: enforce the 2 000-char cap at the DB layer too.
+        if ( strlen( $clean_url ) > 2000 ) {
+            $clean_url = substr( $clean_url, 0, 2000 );
+        }
+
         $result = $wpdb->insert(
             self::get_table_name(),
             array(

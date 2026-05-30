@@ -80,22 +80,24 @@ class WPFC_Frontend {
         );
 
         // Determine the current page URL safely.
+        // esc_url_raw() is correct here (not esc_url) — esc_url encodes & as &amp;
+        // which corrupts query strings when the value is used inside JavaScript.
         $page_url = '';
         if ( is_singular() ) {
-            $page_url = get_permalink();
+            $page_url = (string) get_permalink();
         }
         if ( ! $page_url ) {
-            // Fallback: build from the request URI (safe — we escape it in JS).
-            $page_url = home_url( isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '/' );
+            $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            $page_url    = home_url( $request_uri );
         }
+        $page_url = esc_url_raw( $page_url );
 
         wp_localize_script(
             'wpfc-frontend',
             'wpfc_vars',
             array(
-                'rest_url' => esc_url_raw( rest_url( 'wpfc/v1/track' ) ),
-                'ajax_url' => admin_url( 'admin-ajax.php' ),
-                'page_url' => esc_url( $page_url ),
+                'ajax_url' => esc_url_raw( admin_url( 'admin-ajax.php' ) ),
+                'page_url' => $page_url,
             )
         );
     }

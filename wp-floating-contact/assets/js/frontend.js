@@ -31,7 +31,7 @@
     if ( typeof wpfc_vars === 'undefined' ) { return; }
 
     var AJAX_URL = wpfc_vars.ajax_url;
-    var PAGE_URL = wpfc_vars.page_url;
+    var PAGE_URL = wpfc_vars.page_url || '';
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
