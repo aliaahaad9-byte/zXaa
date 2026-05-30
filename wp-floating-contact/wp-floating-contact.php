@@ -3,7 +3,7 @@
  * Plugin Name:       WP Floating Contact Buttons
  * Plugin URI:        https://github.com/
  * Description:       Adds floating phone and WhatsApp contact buttons to the frontend with full click analytics tracking and an admin dashboard.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Your Name
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'WPFC_VERSION',         '1.0.1' );
+define( 'WPFC_VERSION',         '1.0.2' );
 define( 'WPFC_PLUGIN_DIR',      plugin_dir_path( __FILE__ ) );
 define( 'WPFC_PLUGIN_URL',      plugin_dir_url( __FILE__ ) );
 define( 'WPFC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -36,16 +36,20 @@ function wpfc_uninstall() {
     delete_option( 'wpfc_settings' );
     delete_option( 'wpfc_db_version' );
     delete_option( 'wpfc_license_hash' );
+    delete_option( 'wpfc_trial_start' );
 }
 
 function wpfc_init() {
     WPFC_Database::maybe_create_table();
 
-    // Admin always loads (needed to show the license activation page).
+    // Start the 14-day trial clock on first ever page load.
+    WPFC_License::maybe_start_trial();
+
+    // Admin always loads — shows either the full UI or the activation screen.
     new WPFC_Admin();
 
-    // Frontend features only run when a valid license is present.
-    if ( WPFC_License::is_active() ) {
+    // Frontend buttons + tracker only run during trial OR with a valid license.
+    if ( WPFC_License::can_use() ) {
         new WPFC_Frontend();
         new WPFC_Tracker();
     }

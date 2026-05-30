@@ -534,3 +534,121 @@
 .wpfc-notice {
     margin: 0 0 16px !important;
 }
+
+/* ── Trial banner (dashboard) ───────────────────────────────────────────── */
+
+.wpfc-trial-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-left: 4px solid #f9a825;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+}
+
+.wpfc-trial-banner-urgent {
+    background: #fbeaea;
+    border-color: #f5c6c6;
+    border-left-color: #dc3232;
+}
+
+.wpfc-trial-banner-icon {
+    font-size: 24px !important;
+    width: 24px !important;
+    height: 24px !important;
+    color: #f9a825;
+    flex-shrink: 0;
+}
+
+.wpfc-trial-banner-urgent .wpfc-trial-banner-icon {
+    color: #dc3232;
+}
+
+.wpfc-trial-banner-text {
+    flex: 1;
+    line-height: 1.4;
+}
+
+.wpfc-trial-banner-text strong {
+    display: block;
+    font-size: 13px;
+    color: #1d2327;
+    margin-bottom: 2px;
+}
+
+.wpfc-trial-banner-text span {
+    font-size: 12px;
+    color: #646970;
+}
+
+.wpfc-trial-banner-cta {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #2271b1;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .2s;
+    flex-shrink: 0;
+}
+
+.wpfc-trial-banner-cta:hover {
+    background: #135e96;
+    color: #fff;
+}
+
+.wpfc-trial-banner-urgent .wpfc-trial-banner-cta {
+    background: #dc3232;
+}
+
+.wpfc-trial-banner-urgent .wpfc-trial-banner-cta:hover {
+    background: #c62d2d;
+    color: #fff;
+}
+
+/* ── Buy section (bottom of dashboard) ──────────────────────────────────── */
+
+.wpfc-buy-section {
+    text-align: center;
+    padding: 28px 20px 8px;
+    margin-top: 4px;
+    border-top: 1px solid #f0f0f1;
+}
+
+.wpfc-buy-btn-dashboard {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, .4);
+    transition: opacity .2s, transform .15s, box-shadow .2s;
+}
+
+.wpfc-buy-btn-dashboard:hover {
+    opacity: .92;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, .5);
+    color: #fff;
+}
+
+.wpfc-buy-btn-dashboard:active {
+    transform: translateY(0);
+}
+
+.wpfc-buy-section-note {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: #a0a5aa;
+}

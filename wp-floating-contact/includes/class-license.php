@@ -21,7 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WPFC_License {
 
-    const OPTION_KEY = 'wpfc_license_hash';
+    const OPTION_KEY   = 'wpfc_license_hash';
+    const TRIAL_OPTION = 'wpfc_trial_start';
+    const TRIAL_DAYS   = 14;
+    const BUY_WHATSAPP = 'https://wa.me/201279541407?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C+%D8%A3%D8%B1%D9%8A%D8%AF+%D8%B4%D8%B1%D8%A7%D8%A1+%D8%A5%D8%B6%D8%A7%D9%81%D8%A9+WP+Floating+Contact+Buttons';
 
     private static array $valid_hashes = [
         '71e07d1f705389b61d4ff776422d3f87dcecb99394f59081a9cf93ebf7985e38',
@@ -526,7 +529,55 @@ class WPFC_License {
         '0a731a284ad864fbabe292b73840897162f2596aec64bf5048f1e3c5b1ba4b02',
     ];
 
-    // ─── Public API ───────────────────────────────────────────────────────────
+    // ─── Trial API ────────────────────────────────────────────────────────────
+
+    /**
+     * Records the trial start timestamp the very first time this runs.
+     * Safe to call on every page load — does nothing if already started.
+     */
+    public static function maybe_start_trial(): void {
+        if ( ! get_option( self::TRIAL_OPTION ) ) {
+            update_option( self::TRIAL_OPTION, time(), false );
+        }
+    }
+
+    /** True if the 14-day trial window is still open. */
+    public static function is_trial_active(): bool {
+        $start = (int) get_option( self::TRIAL_OPTION, 0 );
+        if ( ! $start ) {
+            return false;
+        }
+        return ( time() - $start ) < ( self::TRIAL_DAYS * DAY_IN_SECONDS );
+    }
+
+    /** How many full days remain in the trial (0 when expired). */
+    public static function trial_days_remaining(): int {
+        $start = (int) get_option( self::TRIAL_OPTION, 0 );
+        if ( ! $start ) {
+            return 0;
+        }
+        $elapsed = ( time() - $start ) / DAY_IN_SECONDS;
+        return (int) max( 0, ceil( self::TRIAL_DAYS - $elapsed ) );
+    }
+
+    /** True once the trial period has ended (and no valid license). */
+    public static function trial_expired(): bool {
+        $start = (int) get_option( self::TRIAL_OPTION, 0 );
+        if ( ! $start ) {
+            return false; // trial never even started
+        }
+        return ( time() - $start ) >= ( self::TRIAL_DAYS * DAY_IN_SECONDS );
+    }
+
+    /**
+     * Master gate: plugin features are available if either condition holds.
+     * Called from the main plugin file to decide whether to load Frontend/Tracker.
+     */
+    public static function can_use(): bool {
+        return self::is_active() || self::is_trial_active();
+    }
+
+    // ─── License API ──────────────────────────────────────────────────────────
 
     /**
      * Returns true if a valid serial has been activated on this site.
