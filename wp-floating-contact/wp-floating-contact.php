@@ -1,15 +1,17 @@
 <?php
 /**
  * Plugin Name:       WP Floating Contact Buttons
- * Plugin URI:        https://github.com/
+ * Plugin URI:        https://wordpress.org/plugins/wp-floating-contact/
  * Description:       Adds floating phone and WhatsApp contact buttons to the frontend with full click analytics tracking and an admin dashboard.
  * Version:           1.0.2
  * Requires at least: 5.8
  * Requires PHP:      7.4
- * Author:            Your Name
+ * Author:            WP Floating Contact
+ * Author URI:        https://wordpress.org/plugins/wp-floating-contact/
  * Text Domain:       wp-floating-contact
  * Domain Path:       /languages
  * License:           GPL-2.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,6 +42,9 @@ function wpfc_uninstall() {
 }
 
 function wpfc_init() {
+    // Load translations before anything else.
+    load_plugin_textdomain( 'wp-floating-contact', false, dirname( WPFC_PLUGIN_BASENAME ) . '/languages' );
+
     WPFC_Database::maybe_create_table();
 
     // Start the 14-day trial clock on first ever page load.
