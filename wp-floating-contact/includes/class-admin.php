@@ -338,7 +338,7 @@ class WPFC_Admin {
                 <!-- ══ State 2: Trial Expired ══ -->
                 <h1><?php esc_html_e( 'Trial Period Ended', 'wp-floating-contact' ); ?></h1>
                 <p class="wpfc-license-subtitle">
-                    <?php esc_html_e( 'Your 14-day free trial has expired. Enter a serial number to continue using the plugin, or purchase a license via WhatsApp.', 'wp-floating-contact' ); ?>
+                    <?php esc_html_e( 'Your 3-day free trial has expired. Enter a serial number to continue using the plugin, or purchase a license via WhatsApp.', 'wp-floating-contact' ); ?>
                 </p>
 
                 <a href="<?php echo esc_url( $buy_url ); ?>" target="_blank" rel="noopener noreferrer" class="wpfc-buy-btn wpfc-buy-btn-large">

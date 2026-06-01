@@ -23,7 +23,7 @@ class WPFC_License {
 
     const OPTION_KEY   = 'wpfc_license_hash';
     const TRIAL_OPTION = 'wpfc_trial_start';
-    const TRIAL_DAYS   = 14;
+    const TRIAL_DAYS   = 3;
     const BUY_WHATSAPP = 'https://wa.me/201279541407?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C+%D8%A3%D8%B1%D9%8A%D8%AF+%D8%B4%D8%B1%D8%A7%D8%A1+%D8%A5%D8%B6%D8%A7%D9%81%D8%A9+WP+Floating+Contact+Buttons';
 
     private static array $valid_hashes = [

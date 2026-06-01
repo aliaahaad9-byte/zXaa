@@ -103,7 +103,7 @@ All plugin data (settings, click logs, and database table) is removed cleanly on
 == Changelog ==
 
 = 1.0.2 =
-* Added 14-day free trial period on first activation.
+* Added 3-day free trial period on first activation.
 * Added serial number license activation system.
 * Added WhatsApp purchase button at the bottom of the dashboard.
 * Security hardening: rate limiting on tracking endpoint (15 req/IP/min).
@@ -125,4 +125,4 @@ All plugin data (settings, click logs, and database table) is removed cleanly on
 == Upgrade Notice ==
 
 = 1.0.2 =
-Adds a 14-day free trial and optional serial-number activation. Existing installs continue to work normally after upgrading.
+Adds a 3-day free trial and optional serial-number activation. Existing installs continue to work normally after upgrading.
