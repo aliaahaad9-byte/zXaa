@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شركة عزل خزانات بالرياض — خبرة +25 عاماً وضمان مكتوب 10 سنوات | البرق</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary:     #0B2D6B;
+    --primary-dark:#071A40;
+    --accent:      #F5A623;
+    --accent-dark: #D4891A;
+    --green:       #1E8449;
+    --red:         #C0392B;
+    --text:        #1A1A2E;
+    --text-light:  #5A6070;
+    --bg:          #F4F6FB;
+    --bg-card:     #FFFFFF;
+    --border:      #DDE3F0;
+    --radius:      12px;
+    --shadow:      0 4px 24px rgba(11,45,107,0.10);
+    --shadow-lg:   0 8px 40px rgba(11,45,107,0.16);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 17px;
+  }
+
+  /* ─── TOP BAR ─── */
+  .topbar {
+    background: var(--primary-dark);
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .topbar a { color: var(--accent); text-decoration: none; font-weight: 700; }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    background: var(--primary);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  }
+  .logo {
+    font-size: 26px;
+    font-weight: 900;
+    color: #fff;
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo span { color: var(--accent); }
+  .logo-icon { font-size: 30px; }
+  .nav-links { display: flex; gap: 4px; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    padding: 20px 14px;
+    font-size: 15px;
+    font-weight: 500;
+    display: block;
+    transition: color 0.2s, background 0.2s;
+    border-bottom: 3px solid transparent;
+  }
+  .nav-links a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: rgba(255,255,255,0.06);
+  }
+  .nav-cta {
+    background: var(--accent);
+    color: var(--primary-dark) !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    padding: 10px 20px !important;
+    margin: 8px 0;
+    border-bottom: none !important;
+  }
+  .nav-cta:hover { background: var(--accent-dark) !important; }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #1A4FA0 100%);
+    color: #fff;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="40" fill="rgba(245,166,35,0.05)"/><circle cx="80" cy="80" r="60" fill="rgba(255,255,255,0.03)"/></svg>');
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-text h1 {
+    font-size: clamp(26px, 4vw, 42px);
+    font-weight: 900;
+    line-height: 1.4;
+    margin-bottom: 20px;
+  }
+  .hero-text h1 em {
+    color: var(--accent);
+    font-style: normal;
+    display: block;
+  }
+  .hero-text p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 32px;
+    line-height: 1.9;
+  }
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s;
+    cursor: pointer;
+    border: none;
+    font-family: 'Tajawal', sans-serif;
+  }
+  .btn-primary { background: var(--accent); color: var(--primary-dark); }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,166,35,0.4); }
+  .btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5); }
+  .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+  .hero-image { border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-lg); position: relative; }
+  .hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; max-height: 420px; }
+  .hero-stat-bar {
+    background: var(--accent);
+    padding: 18px 32px;
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; color: var(--primary-dark); }
+  .stat-num { font-size: 28px; font-weight: 900; display: block; line-height: 1.1; }
+  .stat-label { font-size: 13px; font-weight: 600; opacity: 0.85; }
+
+  /* ─── SECTIONS ─── */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 32px;
+  }
+  .section-title {
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 12px;
+    position: relative;
+    padding-bottom: 16px;
+  }
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .section-subtitle {
+    color: var(--text-light);
+    font-size: 16px;
+    margin-bottom: 40px;
+    max-width: 700px;
+  }
+  .bg-white { background: #fff; }
+  .bg-dark { background: var(--primary-dark); color: #fff; }
+  .bg-accent-soft { background: linear-gradient(135deg, #FFF8EE 0%, #FFF3DC 100%); }
+  .bg-blue-soft { background: linear-gradient(135deg, #EEF3FF 0%, #E4ECFF 100%); }
+
+  /* ─── ALERT BOX ─── */
+  .alert {
+    background: linear-gradient(135deg, #FFF8EE, #FFF3DC);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 32px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .alert-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+  .alert-text { font-size: 16px; line-height: 1.8; color: var(--primary-dark); }
+  .alert-text strong { color: var(--primary); }
+
+  /* ─── CARDS GRID ─── */
+  .cards-grid { display: grid; gap: 24px; }
+  .cards-2 { grid-template-columns: repeat(2, 1fr); }
+  .cards-3 { grid-template-columns: repeat(3, 1fr); }
+  .cards-4 { grid-template-columns: repeat(4, 1fr); }
+  .card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .card-icon { font-size: 36px; margin-bottom: 14px; display: block; }
+  .card h3 { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+  .card p { font-size: 15px; color: var(--text-light); line-height: 1.8; }
+  .card-num {
+    width: 44px; height: 44px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 14px;
+    flex-shrink: 0;
+  }
+  .card-accent { border-top: 4px solid var(--accent); }
+  .card-primary { border-top: 4px solid var(--primary); }
+
+  /* ─── STEPS ─── */
+  .steps { counter-reset: step; display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    counter-increment: step;
+    width: 52px; height: 52px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  .step-body h3 { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+  .step-body p { font-size: 15px; color: var(--text-light); }
+
+  /* ─── WARNINGS LIST ─── */
+  .warnings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .warning-item {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: border-color 0.2s;
+  }
+  .warning-item:hover { border-color: var(--accent); }
+  .warn-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+  .warning-item p { font-size: 15px; color: var(--text); line-height: 1.7; }
+
+  /* ─── TABLE ─── */
+  .table-wrap { overflow-x: auto; border-radius: var(--radius); box-shadow: var(--shadow); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 15px;
+  }
+  thead { background: var(--primary); color: #fff; }
+  thead th {
+    padding: 16px 20px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:hover { background: #F0F5FF; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody td {
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 15px;
+    color: var(--text);
+  }
+  tbody td:first-child { font-weight: 700; color: var(--primary); text-align: right; }
+  .badge-yes { color: var(--green); font-weight: 700; }
+  .badge-no  { color: var(--red);   font-weight: 700; }
+  .badge-ext { color: #E67E22;      font-weight: 700; }
+
+  /* ─── WHY TABLE (7 reasons) ─── */
+  .reasons-grid { display: grid; gap: 20px; }
+  .reason-card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 28px;
+    display: flex;
+    gap: 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .reason-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .reason-num {
+    min-width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--primary), #1A4FA0);
+    color: #fff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  .reason-body h3 { font-size: 17px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+  .reason-body p { font-size: 15px; color: var(--text-light); line-height: 1.8; }
+
+  /* ─── IMAGE + TEXT SPLIT ─── */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .split.reverse { direction: ltr; }
+  .split.reverse > * { direction: rtl; }
+  .split-img { border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-lg); }
+  .split-img img { width: 100%; height: 360px; object-fit: cover; display: block; }
+  .split-text h2 { font-size: clamp(20px, 2.5vw, 28px); font-weight: 900; color: var(--primary); margin-bottom: 16px; line-height: 1.5; }
+  .split-text p { color: var(--text-light); font-size: 16px; line-height: 1.9; margin-bottom: 16px; }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .checklist li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 16px;
+    color: var(--text);
+  }
+  .checklist li::before {
+    content: '✓';
+    min-width: 28px; height: 28px;
+    background: var(--accent);
+    color: var(--primary-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 900;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ─── PRICING TABLE ─── */
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .price-card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--border);
+    text-align: center;
+    transition: all 0.25s;
+  }
+  .price-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .price-card.featured { border-color: var(--primary); background: var(--primary); color: #fff; }
+  .price-card.featured .price-label { color: rgba(255,255,255,0.8); }
+  .price-card.featured .price-amount { color: var(--accent); }
+  .price-label { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+  .price-amount { font-size: 26px; font-weight: 900; color: var(--primary); margin-bottom: 8px; }
+  .price-note { font-size: 13px; color: var(--text-light); }
+  .price-card.featured .price-note { color: rgba(255,255,255,0.7); }
+
+  /* ─── FAQ ─── */
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .faq-q {
+    padding: 20px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.6;
+  }
+  .faq-q::after { content: '▼'; font-size: 13px; color: var(--accent); flex-shrink: 0; margin-top: 4px; }
+  .faq-a {
+    padding: 0 24px 20px;
+    font-size: 15px;
+    color: var(--text-light);
+    line-height: 1.9;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  /* ─── MATERIALS LIST ─── */
+  .materials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .material-tag {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.2s;
+  }
+  .material-tag:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /* ─── EQUIPMENT ─── */
+  .equip-section { margin-bottom: 32px; }
+  .equip-section h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 16px;
+    padding-right: 16px;
+    border-right: 4px solid var(--accent);
+  }
+
+  /* ─── CTA BANNER ─── */
+  .cta-banner {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    border-radius: 20px;
+    padding: 56px 40px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-banner::before {
+    content: '⚡';
+    position: absolute;
+    top: -20px; left: -10px;
+    font-size: 150px;
+    opacity: 0.05;
+    transform: rotate(-15deg);
+  }
+  .cta-banner h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 900; margin-bottom: 16px; }
+  .cta-banner p { font-size: 17px; color: rgba(255,255,255,0.85); margin-bottom: 32px; }
+  .cta-phone {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 24px;
+    text-decoration: none;
+    direction: ltr;
+  }
+  .cta-phone:hover { color: #fff; }
+  .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-white { background: #fff; color: var(--primary); }
+  .btn-white:hover { background: var(--accent); color: var(--primary-dark); }
+  .btn-wa { background: #25D366; color: #fff; }
+  .btn-wa:hover { background: #128C7E; }
+
+  /* ─── DISCOUNT BANNER ─── */
+  .discount-banner {
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .discount-pct {
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--primary-dark);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .discount-body h3 { font-size: 22px; font-weight: 900; color: var(--primary-dark); margin-bottom: 8px; }
+  .discount-body p { font-size: 15px; color: rgba(11,45,107,0.8); }
+
+  /* ─── CONTACT PHONE ─── */
+  .phone-box {
+    background: var(--bg-card);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 24px 32px;
+    text-align: center;
+    margin: 32px 0;
+  }
+  .phone-box p { font-size: 15px; color: var(--text-light); margin-bottom: 8px; }
+  .phone-box a {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--primary);
+    text-decoration: none;
+    direction: ltr;
+    display: block;
+  }
+  .phone-box a:hover { color: var(--accent); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--primary-dark);
+    color: rgba(255,255,255,0.7);
+    padding: 48px 32px 24px;
+    margin-top: 0;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 32px;
+  }
+  .footer-logo {
+    font-size: 24px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .footer-logo span { color: var(--accent); }
+  footer p { font-size: 14px; line-height: 1.8; }
+  footer h4 { color: #fff; font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  footer ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  footer ul li a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  footer ul li a:hover { color: var(--accent); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider { height: 1px; background: var(--border); margin: 0; }
+
+  /* ─── ANCHOR LINKS ─── */
+  a.internal-link {
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  a.internal-link:hover { color: var(--accent); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-image { order: -1; }
+    .split, .split.reverse { grid-template-columns: 1fr; }
+    .cards-3, .cards-4 { grid-template-columns: repeat(2, 1fr); }
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    .warnings-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .materials-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .section { padding: 40px 20px; }
+    nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    .hero-inner { padding: 40px 20px; }
+    .cards-2, .cards-3, .cards-4 { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .topbar { flex-direction: column; text-align: center; }
+    .hero-stat-bar { gap: 24px; }
+    .materials-grid { grid-template-columns: 1fr; }
+    .cta-banner { padding: 36px 24px; }
+    .discount-banner { flex-direction: column; text-align: center; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span>📍 نخدم جميع أحياء الرياض | خبرة +25 عاماً منذ 2000</span>
+  <span>📞 اتصل الآن: <a href="tel:0563088091">0563088091</a></span>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">
+    <span class="logo-icon">⚡</span>
+    شركة <span>البرق</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">خدماتنا</a></li>
+    <li><a href="#materials">المواد</a></li>
+    <li><a href="#why-us">لماذا البرق</a></li>
+    <li><a href="#pricing">الأسعار</a></li>
+    <li><a href="#faq">الأسئلة الشائعة</a></li>
+    <li><a href="#contact" class="nav-cta">احجز معاينة مجانية</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>
+        شركة عزل خزانات بالرياض
+        <em>خبرة +25 عاماً | ضمان مكتوب 10 سنوات</em>
+      </h1>
+      <p>تضم شركة البرق مجموعة من حلول العزل الشاملة التي تُقدَّم من خلال فريق متخصص يمتلك خبرة تتجاوز 25 عاماً في سوق الرياض منذ تأسيسنا عام 2000. نحل المشكلات التي تواجهها الخزانات من ارتفاع حرارة صيف الرياض عند 50 درجة، إلى تمدد وانكماش يومي يُحدث شروخاً دقيقة.</p>
+      <div class="hero-badges">
+        <div class="badge"><span class="dot"></span> مواد معتمدة آمنة</div>
+        <div class="badge"><span class="dot"></span> ضمان مكتوب 10 سنوات</div>
+        <div class="badge"><span class="dot"></span> معاينة مجانية</div>
+        <div class="badge"><span class="dot"></span> تغطية كاملة للرياض</div>
+      </div>
+      <div class="hero-btns">
+        <a href="tel:0563088091" class="btn btn-primary">📞 اتصل بنا الآن</a>
+        <a href="#services" class="btn btn-outline">اعرف المزيد</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://albaarq.com/wp-content/uploads/2025/04/%D8%B4%D8%B1%D9%83%D8%A9-%D8%B9%D8%B2%D9%84-%D8%AE%D8%B2%D8%A7%D9%86%D8%A7%D8%AA-%D8%A8%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6-%D8%A8%D8%A7%D9%84%D8%B6%D9%85%D8%A7%D9%86.webp" alt="شركة عزل خزانات بالرياض بالضمان">
+    </div>
+  </div>
+  <div class="hero-stat-bar">
+    <div class="stat"><span class="stat-num">+25</span><span class="stat-label">سنة خبرة</span></div>
+    <div class="stat"><span class="stat-num">10</span><span class="stat-label">سنوات ضمان مكتوب</span></div>
+    <div class="stat"><span class="stat-num">20%</span><span class="stat-label">خصم حالياً</span></div>
+    <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">خدمة طوال اليوم</span></div>
+  </div>
+</section>
+
+<!-- WHY INSULATION -->
+<div class="bg-white">
+<div class="section">
+  <h2 class="section-title">★ ما هو عزل الخزانات ولماذا هو ضرورة صحية لا رفاهية؟</h2>
+  <p class="section-subtitle">عزل الخزانات هو الحاجز الوقائي الذي يفصل الجدار الداخلي للخزان عن المياه المخزّنة</p>
+
+  <div class="alert">
+    <span class="alert-icon">⚠️</span>
+    <div class="alert-text">
+      الخزان غير المعزول في مناخ الرياض القاسي يتحول خلال <strong>3 إلى 5 سنوات</strong> إلى بيئة مثالية لنمو الكائنات الدقيقة. تُحدد وزارة الصحة السعودية اشتراطات صارمة لجودة مياه الشرب — أي تصدع أو تسريب غير معالج يُعرّض المياه لتلوثات قد لا تظهر بالعين المجردة.
+    </div>
+  </div>
+
+  <div class="split">
+    <div class="split-text">
+      <p>عزل الخزانات يمنع تسلل الرطوبة والبكتيريا والطحالب، ويحمي البنية الإنشائية من التآكل والتشقق. الخزانات الخرسانية الأرضية تتعرض لضغط تربة متغير ورطوبة صاعدة. الخزانات العلوية البلاستيكية تعاني تمدداً حرارياً يومياً يصل فارق درجة الحرارة فيه إلى 30 درجة بين الصباح والظهيرة.</p>
+      <p>كلا النوعين يحتاج إلى طريقة عزل مختلفة — وهذا بالضبط ما نُميِّز فيه عملاءنا عند المعاينة.</p>
+      <ul class="checklist">
+        <li>يمنع تسلل الرطوبة والبكتيريا والطحالب</li>
+        <li>يحمي البنية الإنشائية من التآكل</li>
+        <li>يضمن مطابقة اشتراطات وزارة الصحة</li>
+        <li>يمنع تلوث مياه الشرب</li>
+      </ul>
+    </div>
+    <div class="split-img">
+      <img src="https://albaarq.com/wp-content/uploads/2025/04/%D8%B4%D8%B1%D9%83%D8%A9-%D8%B9%D8%B2%D9%84-%D8%AE%D8%B2%D8%A7%D9%86%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D9%8A%D8%A7%D9%87-%D8%A8%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6.webp" alt="شركة عزل خزانات المياه بالرياض">
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 8 WARNING SIGNS -->
+<div class="bg-blue-soft">
+<div class="section">
+  <h2 class="section-title">★ 8 علامات تخبرك بأن خزانك يحتاج عزلاً فورياً</h2>
+  <p class="section-subtitle">لا تنتظر حتى يظهر التسريب في السقف أو الجدران. هذه العلامات الثماني تُنذرك قبل أن تتفاقم المشكلة:</p>
+
+  <div class="warnings-grid">
+    <div class="warning-item">
+      <span class="warn-icon">💧</span>
+      <p>ظهور بقع رطوبة أو تشققات على الجدار المجاور للخزان أو أسفله مباشرة</p>
+    </div>
+    <div class="warning-item">
+      <span class="warn-icon">👃</span>
+      <p>رائحة غريبة في المياه أو تغير في طعمها بدون سبب واضح — دليل على تلوث داخل الخزان</p>
+    </div>
+    <div class="warning-item">
+      <span class="warn-icon">📈</span>
+      <p>ارتفاع فاتورة المياه بنسبة ملحوظة دون زيادة في الاستهلاك الفعلي</p>
+    </div>
+    <div class="warning-item">
+      <span class="warn-icon">🌿</span>
+      <p>وجود طحالب خضراء أو رواسب متراكمة في قاع الخزان عند التنظيف الدوري</p>
+    </div>
+    <div class="warning-item">
+      <span class="warn-icon">🔧</span>
+      <p>تآكل مرئي أو تسرب واضح في مفاصل الخزان وحول صنابير الدخول والخروج</p>
+    </div>
+    <div class="warning-item">
+      <span class="warn-icon">🌡️</span>
+      <p>ارتفاع درجة حرارة مياه الشبكة في الصيف بشكل غير طبيعي — مؤشر على غياب العزل الحراري</p>
+    </div>
+    <div class="warning-item">
+      <span class="warn-icon">📅</span>
+      <p>مرور أكثر من 5 سنوات منذ آخر عملية عزل أو فحص دوري للخزان</p>
+    </div>
+    <div class="warning-item">
+      <span class="warn-icon">🏠</span>
+      <p>شراء منزل أو استئجار وحدة تجارية دون معرفة تاريخ صيانة الخزان</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- HOW TO HIRE -->
+<div class="bg-white">
+<div class="section">
+  <h2 class="section-title">كيفية استئجار شركة عزل خزانات بالرياض</h2>
+  <p class="section-subtitle">خطوات بسيطة وواضحة تضمن لك تنفيذاً احترافياً من أول زيارة:</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>التواصل والحجز</h3>
+        <p>اختر أي من طرق التواصل لدى شركة البرق من واتساب أو رَقَم هاتف، ثم اعرض المشكلة بالتفصيل واحجز فريق المعاينة المجانية.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>الفحص والمعاينة</h3>
+        <p>يحضر فريق فني خبير يفحص الخزان من الداخل والخارج بكاميرا متخصصة للكشف عن مناطق الإصابة الخفية والظاهرة للتعرف على منطقة الإصابة التي تحتاج إلى عزل.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>تجهيز العملية</h3>
+        <p>يبدأ تجهيز العملية من استدعاء فرق العمل المتخصصة مع مواد العزل المناسبة (إيبوكسي أو فايبرجلاس أو بولي يوريثان حسب نوع خزانك) والمعدات اللازمة.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>التفريغ والتنظيف والتجفيف</h3>
+        <p>يتم تفريغ الخزان من المياه ثم تنظيفه بالكامل بمواد متخصصة آمنة لا تتفاعل مع جسمه، ثم تجفيفه تجفيفاً كاملاً — هذه الخطوة غير قابلة للتخطي لأن أي مادة عزل تُطبَّق على سطح رطب ستتقشر خلال أشهر.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>تطبيق العزل والاختبار</h3>
+        <p>يبدأ تطبيق مادة العزل المحددة في عدة طبقات متتالية بما يناسب حالة الخزان، مع مراقبة جفاف كل طبقة، ثم اختبار كفاءة العزل النهائي قبل التسليم.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SERVICES -->
+<div id="services" class="bg-blue-soft">
+<div class="section">
+  <h2 class="section-title">خدمات أفضل شركة عزل خزانات بالرياض</h2>
+  <p class="section-subtitle">لا تقتصر خدماتنا على تطبيقات العزل فقط بل تتعدى إلى أعمال متكاملة تشمل:</p>
+
+  <div class="cards-grid cards-3">
+    <div class="card card-accent">
+      <span class="card-icon">🛡️</span>
+      <h3>عزل الخزانات المائي والحراري</h3>
+      <p>الخدمة الأساسية التي نتميز بها — تطبيق مواد إيبوكسي أو فايبرجلاس أو إسمنتي أو بولي يوريثان حسب تشخيص حالة الخزان، مع ضمان مكتوب على كل عملية.</p>
+    </div>
+    <div class="card card-accent">
+      <span class="card-icon">🧹</span>
+      <h3>تنظيف وتعقيم الخزانات</h3>
+      <p>خدمة التنظيف الدوري السنوي بمواد آمنة معتمدة، مع شطف كامل وتجفيف قبل إعادة التشغيل. من <a href="https://albaarq.com/%d8%b4%d8%b1%d9%83%d8%a9-%d8%aa%d9%86%d8%b8%d9%8a%d9%81-%d8%ae%d8%b2%d8%a7%d9%86%d8%a7%d8%aa-%d8%a8%d8%a7%d9%84%d8%b1%d9%8a%d8%a7%d8%b6/" class="internal-link">شركة غسيل خزانات بالرياض</a> المتخصصة.</p>
+    </div>
+    <div class="card card-accent">
+      <span class="card-icon">🔨</span>
+      <h3>ترميم خزانات</h3>
+      <p>تشمل أعمال الترميم إعادة بناء الأجزاء المنهارة من الخزانات الأرضية الخرسانية وحشو الشروخ العميقة بمواد الرغوة المتخصصة وعلاج التسربات المتقدمة.</p>
+    </div>
+    <div class="card card-primary">
+      <span class="card-icon">⚙️</span>
+      <h3>لحام خزانات</h3>
+      <p>مهما كان عمق الشرخ في الهيكل أو التوصيلات أو المواسير، لدينا مواد لحام متخصصة: الفايبرجلاس للبلاستيك، وخلطات الأسمنت المعالج للخرسانة، ولحامات المعادن للهياكل الحديدية.</p>
+    </div>
+    <div class="card card-primary">
+      <span class="card-icon">🔩</span>
+      <h3>تركيب خزانات</h3>
+      <p>نمتلك عمالة خبيرة في تركيب جميع أنواع الخزانات — علوية على السطح أو أرضية مدفونة — مع ضمان الإحكام التام لجميع التوصيلات من أول تشغيل.</p>
+    </div>
+    <div class="card card-primary">
+      <span class="card-icon">🚛</span>
+      <h3>نقل خزانات</h3>
+      <p>نوفر مركبات مجهزة لنقل الخزانات على اختلاف أحجامها وأنواعها في جميع أحياء الرياض خلال وقت محدد مسبقاً وبكل دِقَّة.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MATERIALS -->
+<div id="materials" class="bg-white">
+<div class="section">
+  <h2 class="section-title">المواد المستخدمة في شركة عزل خزانات بالرياض</h2>
+  <p class="section-subtitle">يمكنك التعرف على أهم المواد المستخدمة بمجرد الدخول على موقع <a href="https://albaarq.com/" class="internal-link">شركة البرق</a>:</p>
+
+  <div class="materials-grid">
+    <div class="material-tag">🧪 البولي يوريثان (رغوة – ألواح)</div>
+    <div class="material-tag">🔬 البيتومين (لفائف – سائل – مستحلب)</div>
+    <div class="material-tag">🧊 البوليسترين (حبيبات – ألواح)</div>
+    <div class="material-tag">🏗️ الأسمنت المعالج (سيكا – بيرلايت)</div>
+    <div class="material-tag">🛡️ أغشية عازلة مثل PVC</div>
+    <div class="material-tag">📦 رولات البولي إيثيلين</div>
+    <div class="material-tag">🪨 الصوف الصخري</div>
+    <div class="material-tag">🎨 دهانات (الايبوكسي – الأكريليك)</div>
+    <div class="material-tag">✅ سيكو بروف</div>
+  </div>
+</div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="bg-blue-soft">
+<div class="section">
+  <h2 class="section-title">★ أنواع مواد عزل الخزانات — جدول المقارنة الشامل</h2>
+  <p class="section-subtitle">اختيار المادة الخاطئة يعني إعادة العمل كاملاً بعد سنتين. هذا الجدول يُوضح أنواع مواد العزل وكيف نختار المناسب لخزانك:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>المادة</th>
+          <th>أفضل استخدام</th>
+          <th>المميزات الرئيسية</th>
+          <th>مدة الضمان</th>
+          <th>آمن للشرب؟</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>الإيبوكسي (Epoxy)</td>
+          <td>الخرسانة والمعدن</td>
+          <td>مقاومة كيميائية عالية، سطح أملس غير مسامي يمنع الطحالب</td>
+          <td><strong>10-15 سنة</strong></td>
+          <td><span class="badge-yes">✅ نعم</span></td>
+        </tr>
+        <tr>
+          <td>الفايبرجلاس (Fiberglass)</td>
+          <td>البلاستيك وGRP</td>
+          <td>خفيف، مرن، مقاوم للصدأ والحرارة</td>
+          <td><strong>8-12 سنة</strong></td>
+          <td><span class="badge-yes">✅ نعم</span></td>
+        </tr>
+        <tr>
+          <td>البولي يوريثان (PU)</td>
+          <td>العزل الحراري الخارجي</td>
+          <td>يمنع ارتفاع الحرارة صيفاً في الرياض</td>
+          <td><strong>5-10 سنوات</strong></td>
+          <td><span class="badge-ext">⚠️ خارجي فقط</span></td>
+        </tr>
+        <tr>
+          <td>العازل الإسمنتي</td>
+          <td>الخزانات الخرسانية القديمة</td>
+          <td>اقتصادي، سهل التطبيق، متوافق مع الخرسانة</td>
+          <td><strong>5-7 سنوات</strong></td>
+          <td><span class="badge-yes">✅ نعم</span></td>
+        </tr>
+        <tr>
+          <td>ارك بلاك (Arc Black)</td>
+          <td>الأسطح والقواعد الخارجية</td>
+          <td>مقاوم للأحوال الجوية، مرن، مقاوم للأشعة فوق البنفسجية</td>
+          <td><strong>7-10 سنوات</strong></td>
+          <td><span class="badge-no">❌ للخارج</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert" style="margin-top:28px;">
+    <span class="alert-icon">💡</span>
+    <div class="alert-text">
+      <strong>نصيحة الخبير:</strong> لخزانات الشرب الخرسانية في الرياض يُعدّ الإيبوكسي المائي الخيار الأمثل — سطحه غير المسامي يمنع تكاثر الطحالب ويتحمل ارتفاعات الحرارة. للخزانات البلاستيكية الفايبرجلاس أكثر ملاءمة لمرونته. وإذا كانت مشكلتك الرئيسية حرارة المياه صيفاً فالبولي يوريثان حرارياً على السطح الخارجي هو الحل.
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- UNDERGROUND vs OVERHEAD -->
+<div class="bg-white">
+<div class="section">
+  <h2 class="section-title">★ عزل الخزانات الأرضية مقابل العلوية — الفروق الجوهرية</h2>
+  <p class="section-subtitle">ليس كل الخزانات متشابهة في احتياجاتها — والخطأ الأكثر شيوعاً هو تطبيق نفس مادة العزل على كلا النوعين:</p>
+
+  <div class="split">
+    <div>
+      <div class="card card-accent" style="height:100%">
+        <span class="card-icon">⬇️</span>
+        <h3>الخزانات الأرضية (Underground Tanks)</h3>
+        <p style="margin-bottom:16px;">تواجه ثلاثة تحديات متزامنة: ضغط تربة متغير، رطوبة صاعدة من باطن الأرض، وعزلة تامة عن الهواء تجعل اكتشاف التسربات متأخراً.</p>
+        <ul class="checklist">
+          <li>طبقة داخلية بالإيبوكسي: تمنع تسلل الرطوبة الخارجية إلى المياه المخزنة</li>
+          <li>طبقة خارجية مائية: تمنع تسلل المياه الجوفية والمواد الكيميائية من التربة</li>
+          <li>الأكثر عرضة للتلوث الباطني لأنه محاط بالتربة من كل الجهات</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card card-primary" style="height:100%">
+        <span class="card-icon">⬆️</span>
+        <h3>الخزانات العلوية (Overhead Tanks)</h3>
+        <p style="margin-bottom:16px;">تواجه تحدياً مختلفاً تماماً: الأشعة فوق البنفسجية المباشرة، وتمدد حراري يومي يصل فارق درجة الحرارة فيه إلى 30 درجة بين الفجر والظهيرة.</p>
+        <ul class="checklist">
+          <li>عزل حراري بالبولي يوريثان على السطح الخارجي: الأولوية القصوى</li>
+          <li>عزل مائي داخلي بالإيبوكسي أو الفايبرجلاس: يحمي من الشروخ الدقيقة</li>
+          <li>فحص سنوي دوري للتحقق من سلامة الطبقات بعد كل صيف</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- UNDERGROUND TANK TECHNIQUE -->
+<div class="bg-blue-soft">
+<div class="section">
+  <h2 class="section-title">تقنية العزل لدى شركة عزل الخزان الارضي بالرياض</h2>
+  <p class="section-subtitle">تفاصيل تقنية العزل المنفذة من فرق شركة عزل خزانات بالرياض:</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>تحديد الأبعاد وتطبيق اللفائف البيتومية</h3>
+        <p>يتم تحديد أبعاد الخزان المطلوب عزله لتطبيق اللفائف البيتومية عليه بعد انتهاء بناء طبقة الخرسانة الأولية.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>تنظيف طبقة الخرسانة</h3>
+        <p>يبدأ تنظيف طبقة الخرسانة الموجودة بأرضية وجوانب الخزان باستخدام مكانس متخصصة في إزالة الأتربة.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>معالجة الفراغات</h3>
+        <p>يتم علاج أي من الفراغات الموجودة بالسطح الخارجي للخرسانة قبل البَدْء في تطبيق العازل عليها.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>فرد طبقة البيتومين</h3>
+        <p>بعد التحقق من تسوية السطح الخارجي للخرسانة يتم فرد طبقة من البيتومين على السطح بعد قصها حسب الأبعاد.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>التثبيت والاختبار</h3>
+        <p>تثبت الرولات بشعلة متخصصة ثم يتم فرد طبقة من الممبرين ثم طبقة من الخرسانة ثم تختبر طبقة العزل كلها.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- EQUIPMENT -->
+<div class="bg-white">
+<div class="section">
+  <h2 class="section-title">أفضل المعدات اللازمة في شركة عزل خزانات المياه بالرياض</h2>
+
+  <div class="equip-section">
+    <h3>1. أدوات تطبيق مواد العزل: الدقة في التغطية</h3>
+    <p style="margin-bottom:16px;">تتنوع المواد المستخدمة في عزل خزانات المياه، مثل الإيبوكسي، المواد الأسمنتية العازلة، ولفائف البيتومين. يتطلب كل نوع أدوات تطبيق مخصصة لضمان التوزيع السليم والالتصاق القوي:</p>
+    <div class="cards-grid cards-3">
+      <div class="card">
+        <span class="card-icon">🔫</span>
+        <h3>أجهزة الرش وآلات الطلاء</h3>
+        <p>مثالية لتطبيق العوازل السائلة مثل الإيبوكسي والدهانات الأسمنتية الخاصة.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🖌️</span>
+        <h3>الفرش والرولات</h3>
+        <p>تستخدم للوصول إلى الزوايا الضيقة والحواف والمناطق التي يصعب الوصول إليها بالرش.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🛠️</span>
+        <h3>أدوات فرد وتسوية العوازل</h3>
+        <p>مثل المالج والمسطرين، تُستخدم لتوزيع وتمليس العوازل ذات القوام السميك لضمان سطح أملس ومستوٍ.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="equip-section">
+    <h3>2. مواقد التسخين (شعلات الهواء الساخن): لعزل البيتومين</h3>
+    <p>عند استخدام لفائف العزل البيتوميني، تُعد مواقد التسخين أداة لا غنى عنها. يتم تسخين الجانب السفلي من اللفائف لإذابة المادة البيتومينية جزئياً، مما يسمح بتثبيتها بإحكام على سطح الخزان وتحقيق إلتصاق ممتاز يمنع تسرب المياه.</p>
+  </div>
+
+  <div class="equip-section">
+    <h3>3. معدات التنظيف القوية: التهيئة الجيدة أساس العمل الناجح</h3>
+    <p style="margin-bottom:16px;">تعتبر مرحلة تنظيف الخزان من <a href="https://albaarq.com/%d8%b4%d8%b1%d9%83%d8%a9-%d8%aa%d9%86%d8%b8%d9%8a%d9%81-%d8%ae%d8%b2%d8%a7%d9%86%d8%a7%d8%aa-%d8%a8%d8%a7%d9%84%d8%b1%d9%8a%d8%a7%d8%b6/" class="internal-link"><strong>شركة غسيل خزانات بالرياض</strong></a> قبل العزل خطوة محورية لضمان فعالية مواد العزل:</p>
+    <div class="cards-grid cards-2">
+      <div class="card">
+        <span class="card-icon">💦</span>
+        <h3>خراطيم المياه عالية الضغط</h3>
+        <p>تُستخدم لضخ المياه بقوة لإزالة الأوساخ والرواسب العنيدة على جدران وأرضية الخزان بسرعة وكفاءة.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌀</span>
+        <h3>مكانس شفط سوائل وجاف متعددة الأطوال</h3>
+        <p>تستخدم لشفط المياه المتبقية بعد الغسيل، وإزالة الأتربة والمخلفات الجافة، خاصة في الأركان الضيقة.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="equip-section">
+    <h3>4. مواد الحجز المائي المتخصصة وأدوات تطبيقها</h3>
+    <div class="cards-grid cards-3">
+      <div class="card">
+        <span class="card-icon">📜</span>
+        <h3>لفائف العزل</h3>
+        <p>مثل لفائف البيتومين أو البولي يوريثين، تشكل حاجزاً قوياً ضد الماء وتختلف أنواعها حسب طبيعة الخزان.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔗</span>
+        <h3>المواد اللاصقة العازلة</h3>
+        <p>مثل غراء الإيبوكسي المصمم خصيصاً للخزانات، يستخدم لتثبيت العوازل أو تعزيز التماسك بين الطبقات.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">💉</span>
+        <h3>معدات حقن الشقوق</h3>
+        <p>مثل المحاقن المتخصصة، تستخدم لحقن مواد عازلة في الشقوق الدقيقة والفواصل الضيقة.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="equip-section">
+    <h3>5. معدات السلامة والوصول: حماية العاملين وتسهيل العمل</h3>
+    <p style="margin-bottom:16px;">لا تكتمل جاهزية <a href="https://albaarq.com/%d8%b4%d8%b1%d9%83%d8%a9-%d8%b9%d8%b2%d9%84-%d9%81%d9%88%d9%85-%d8%a8%d8%a7%d9%84%d8%b1%d9%8a%d8%a7%d8%b6/" class="internal-link"><strong>شركة عزل فوم بالرياض</strong></a> دون توفير معدات السلامة الضرورية للعاملين:</p>
+    <div class="cards-grid cards-2">
+      <div class="card">
+        <span class="card-icon">🦺</span>
+        <h3>ملابس ومعدات السلامة للعمال</h3>
+        <p>تشمل القفازات والكمامات والنظارات الواقية والخوذات. حيوية لحماية العاملين من المواد الكيميائية والغبار.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🪜</span>
+        <h3>السلالم والرافعات</h3>
+        <p>أساسية للوصول الآمن إلى داخل وخارج الخزانات المرتفعة أو الأرضية العميقة، تشمل الرافعات الهيدروليكية للمشاريع الكبرى.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- WHY US -->
+<div id="why-us" class="bg-blue-soft">
+<div class="section">
+  <h2 class="section-title">★ 7 أسباب تجعل شركة البرق الخيار الأول لعزل الخزانات بالرياض</h2>
+
+  <div class="split" style="margin-bottom:40px;">
+    <div class="split-img">
+      <img src="https://albaarq.com/wp-content/uploads/2025/04/%D8%A7%D9%81%D8%B6%D9%84-%D8%B4%D8%B1%D9%83%D8%A9-%D8%B9%D8%B2%D9%84-%D8%AE%D8%B2%D8%A7%D9%86%D8%A7%D8%AA-%D8%A8%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6.webp" alt="افضل شركة عزل خزانات بالرياض">
+    </div>
+    <div class="split-text">
+      <h2>لماذا نحن الأفضل في عزل الخزانات بالرياض؟</h2>
+      <p>تأسست شركة البرق عام 2000 واستطاعت الوصول إلى مصاف المؤسسات المتخصصة المعتمدة داخل المملكة. نتخصص في التعامل مع المشكلات الموجودة في جسم الخزان — سواء تعلق الأمر بتسريب مائي، أو تصدع إنشائي، أو تآكل مرتبط بالتفاعلات الكيميائية.</p>
+      <p>نُقدِّم هذه الخدمات عبر خطط موضوعة على أيدي مهندسين ومتخصصين وتُنفَّذ بأيدي عمال مدرَّبين يحملون خبرة ميدانية حقيقية في مشاريع مماثلة.</p>
+    </div>
+  </div>
+
+  <div class="reasons-grid">
+    <div class="reason-card">
+      <div class="reason-num">01</div>
+      <div class="reason-body">
+        <h3>خبرة أكثر من 25 عاماً في سوق الرياض (منذ 2000)</h3>
+        <p>التأسيس عام 2000 يعني أننا عالجنا آلاف الخزانات في مختلف أحياء الرياض عبر أجيال مختلفة من المباني والمواد. هذه الخبرة الميدانية تعني تشخيصاً أسرع، وتنفيذاً أدق، وتوقعاً لمشكلات ما قبل وما بعد العزل.</p>
+      </div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">02</div>
+      <div class="reason-body">
+        <h3>مواد معتمدة آمنة لمياه الشرب — مطابقة للمواصفات السعودية</h3>
+        <p>جميع مواد الإيبوكسي والفايبرجلاس التي نستخدمها مُختبَرة ومعتمدة للتعامل المباشر مع خزانات مياه الشرب، ومطابقة لاشتراطات الجهات السعودية المختصة. لا تؤثر على طعم المياه ولا على سلامتها الصحية بعد الجفاف التام.</p>
+      </div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">03</div>
+      <div class="reason-body">
+        <h3>ضمان مكتوب واضح الشروط يصل إلى 10 سنوات</h3>
+        <p>لا نكتفي بذكر الضمان شفهياً — نُسلِّمك ورقة ضمان مكتوبة تُحدد نوع المادة المستخدمة ومدة الضمان وشروط الاستبدال بدقة. إذا ظهر أي تسريب ضمن مدة الضمان نعود ونُصلحه دون أي تكلفة إضافية.</p>
+      </div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">04</div>
+      <div class="reason-body">
+        <h3>خدمة شاملة: فحص + تنظيف + عزل في زيارة واحدة</h3>
+        <p>لا تحتاج شركتين منفصلتين. فريقنا يفحص الخزان بالكاميرا، ينظفه بمواد آمنة معتمدة، ثم يطبق العزل المناسب — كل ذلك في زيارة واحدة مجدولة بمرونة تتناسب مع وقتك.</p>
+      </div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">05</div>
+      <div class="reason-body">
+        <h3>تغطية جغرافية واسعة في أحياء الرياض</h3>
+        <p>نخدم: العليا، النرجس، حطين، الملقا، الياسمين، الروضة، الدرعية، العمارية، المونسية، غرناطة، القيروان، الربوة، حي السفارات، وسائر أحياء شمال وجنوب وشرق الرياض.</p>
+      </div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">06</div>
+      <div class="reason-body">
+        <h3>أسعار شفافة ومعاينة مجانية بدون مفاجآت</h3>
+        <p>نقدم معاينة مجانية وعرض سعر مكتوب تفصيلي قبل بدء أي عمل. لا رسوم خفية ولا تعديلات مفاجئة بعد الانتهاء. يمكنك استخدام حاسبة الأسعار على موقعنا للحصول على تقدير أولي فوري.</p>
+      </div>
+    </div>
+    <div class="reason-card">
+      <div class="reason-num">07</div>
+      <div class="reason-body">
+        <h3>فريق مؤهّل بخبرة لا تقل عن 10 سنوات لكل فني</h3>
+        <p>شرط التوظيف لدينا صارم: لا نُعيِّن فنياً بخبرة أقل من 10 سنوات في تطبيقات العوازل. جميع أعضاء الفريق يخضعون لتدريب دوري على أحدث مواد ومعدات العزل المتوفرة في السوق السعودي.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- NORTH RIYADH + PHILIPPINE LABOR -->
+<div class="bg-white">
+<div class="section">
+  <div class="split" style="margin-bottom:64px;">
+    <div class="split-text">
+      <h2>شركة عزل خزانات شمال الرياض</h2>
+      <p>إحدى أهم فروعنا هي شركة عزل خزانات شمال الرياض التي تقدم الخدمة لسكان أحياء الياسمين أو العقيق أو حطين أو الصِّحافة أو الربيع أو النخيل أو غيرها.</p>
+      <p>بمجرد اتصالك على رَقَم الفرع نرسل لك فني معاينة للخزان يقدم لك الخدمة بأفضل صورة لها مع تقديم كل التفاصيل المطلوبة.</p>
+      <ul class="checklist">
+        <li>مهما كان نوع الخزان: خرساني أو فايبر أو بلاستيك أو معدن أو رخام</li>
+        <li>أسطول سيارات متاحة على مدار الساعة لتوصيل الفرق لأي مكان</li>
+        <li>مندوب خاص لكل حي يمكنك الاتصال به في أي وقت</li>
+      </ul>
+    </div>
+    <div class="split-img">
+      <img src="https://albaarq.com/wp-content/uploads/2025/04/%D8%B4%D8%B1%D9%83%D8%A9-%D8%B9%D8%B2%D9%84-%D8%AE%D8%B2%D8%A7%D9%86%D8%A7%D8%AA-%D8%A8%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6-%D8%B1%D8%AE%D9%8A%D8%B5%D8%A9.webp" alt="شركة عزل خزانات بالرياض رخيصة">
+    </div>
+  </div>
+
+  <h2 class="section-title">شركة عزل خزانات بالرياض عمالة فلبينية</h2>
+  <p class="section-subtitle">فرق مدربة على تطبيق العوازل المائية أو الحرارية أو الثنائية لحماية الخزان لأطول مدة ممكنة.</p>
+
+  <div class="cards-grid cards-2">
+    <div class="card">
+      <span class="card-icon">👷</span>
+      <h3>فرق عمل متخصصة ومدربة</h3>
+      <p>كل معدات الفرد أو الرش أو الدهان متاحة داخل مقرات شركتنا من أنواع حديثة تعمل بأحدث التقنيات العالمية في المجال.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔍</span>
+      <h3>اختبارات دقيقة لتحديد المشكلة</h3>
+      <p>نقدم مجموعة من الاختبارات التي تساعد الفاحص على تحديد المشكلة ومكانها بكل دِقَّة ثم البَدْء في علاجها بصورة كاملة.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PIPE INSULATION -->
+<div class="bg-blue-soft">
+<div class="section">
+  <h2 class="section-title">خطوات التي تتبعها شركة عزل مواسير المياه بالرياض</h2>
+  <p class="section-subtitle">تتم عملية <a href="https://albaarq.com/%d8%b4%d8%b1%d9%83%d8%a9-%d8%b9%d8%b2%d9%84-%d9%85%d9%88%d8%a7%d8%b3%d9%8a%d8%b1-%d8%a7%d9%84%d9%85%d9%8a%d8%a7%d9%87-%d8%a8%d8%a7%d9%84%d8%b1%d9%8a%d8%a7%d8%b6/" class="internal-link"><strong>عزل مواسير المياه بالرياض</strong></a> من خلال مجموعة من الخطوات المتكاملة:</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>الحجز وتحديد موعد الفحص</h3>
+        <p>تبدأ العملية بالتواصل مع خدمة عملاء <a href="https://albaarq.com/%d8%b4%d8%b1%d9%83%d8%a9-%d8%b9%d8%b2%d9%84-%d9%85%d9%88%d8%a7%d8%b3%d9%8a%d8%b1-%d8%a7%d9%84%d9%85%d9%8a%d8%a7%d9%87-%d8%a8%d8%a7%d9%84%d8%af%d9%85%d8%a7%d9%85/" class="internal-link"><strong>شركة عزل مواسير المياه بالدمام</strong></a> المتخصصة وحجز الخدمة. يتم تحديد موعد مناسب لزيارة فريق التقييم المتخصص للموقع المراد عزل المواسير فيه.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>فحص الموقع وتحديد المشكلة</h3>
+        <p>يتم إجراء فحص دقيق وشامل للمواسير والمناطق المحيطة بها لتحديد منطقة التسرب بدقة، أو تقييم حالة المواسير وتحديد الحاجة إلى العزل الوقائي.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>تنظيف وتجهيز السطح</h3>
+        <p>يتم تنظيف الأسطح الخارجية للجدران أو المناطق المحيطة بالمواسير بشكل كامل من الأتربة والغبار وأي عوائق قد تُقلِّل من فعالية العزل.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>تطبيق المادة اللاصقة</h3>
+        <p>يتم فرد طبقة من غراء لاصق متخصص ومناسب للمادة العازلة التي سيتم استخدامها. يضمن هذا اللاصق التصاق لوح العزل بالمواسير بشكل محكم ويمنع وجود أي فواصل.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>تركيب ألواح العزل والاختبار</h3>
+        <p>يتم تثبيت ألواح العزل الحراري المخصصة للمواسير — تشمل الصوف الصخري والفلين وغيرها من المواد العالية الجودة. بعد الجفاف الكامل يتم إجراء اختبار للتأكد من فعالية العزل والبرودة للمياه. التعاقد مع شركة <a href="https://albaarq.com/%d8%b9%d8%b2%d9%84-%d9%85%d9%88%d8%a7%d8%b3%d9%8a%d8%b1-%d8%a7%d9%84%d8%ae%d8%b2%d8%a7%d9%86-%d8%a8%d8%a7%d9%84%d8%b1%d9%8a%d8%a7%d8%b6/" class="internal-link">عزل مواسير الخزان بالرياض</a> متخصصة يضمن علاج أي مشكلة.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TIPS -->
+<div class="bg-white">
+<div class="section">
+  <h2 class="section-title">نصائح شركة عزل خزانات بالرياض</h2>
+  <p class="section-subtitle">نصائح يمكنك الحفاظ عليها للاستمتاع باستدامة خزانك:</p>
+
+  <div class="cards-grid cards-2">
+    <div class="card card-accent">
+      <span class="card-icon">🔄</span>
+      <h3>التنظيف الدوري المستمر</h3>
+      <p>تنظيف الخزان بصورة مستمرة للتعرف على أي من مشكلات التسربات أو الشروخ التي تحدث به.</p>
+    </div>
+    <div class="card card-accent">
+      <span class="card-icon">🏗️</span>
+      <h3>العزل أثناء التأسيس</h3>
+      <p>التحقق من تطبيق العزل على الخزانات خلال مراحل التأسيس داخل المبنى حتى لا تنتج المشكلات الكبيرة لاحقاً.</p>
+    </div>
+    <div class="card card-accent">
+      <span class="card-icon">📋</span>
+      <h3>التعاقد على أعمال الصيانة</h3>
+      <p>التعاقد على أعمال صيانة مع شركة متخصصة من أجل علاج أي مشكلة قبل تفاقمها.</p>
+    </div>
+    <div class="card card-accent">
+      <span class="card-icon">❓</span>
+      <h3>السؤال عن تفاصيل العزل</h3>
+      <p>السؤال عن تفاصيل عملية العزل المطلوب تنفيذها ومدتها وملاءمتها من الفني المسؤول قبل التعاقد.</p>
+    </div>
+    <div class="card card-accent">
+      <span class="card-icon">✅</span>
+      <h3>التحقق من جودة المادة</h3>
+      <p>التحقق من جودة مادة العزل وعدم إضراراها بأي من مستخدمي المياه الموجودة داخل الخزان أو بالقرب منه.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- B2B -->
+<div class="bg-blue-soft">
+<div class="section">
+  <h2 class="section-title">★ خدمة عزل خزانات الشركات والمجمعات السكنية بالرياض</h2>
+  <p class="section-subtitle">عزل خزانات المجمعات السكنية الكبيرة والمباني التجارية يختلف جوهرياً عن الخدمة السكنية الفردية:</p>
+
+  <ul class="checklist" style="max-width:800px;">
+    <li>جدولة التنفيذ بما لا يُعطِّل ساعات العمل أو يُوقف المياه عن المستخدمين أثناء التنفيذ</li>
+    <li>تقارير فنية مفصلة بعد كل مرحلة لأرشفة الصيانة وتلبية متطلبات إدارة المرافق</li>
+    <li>عقود صيانة دورية سنوية تشمل الفحص الوقائي والتنظيف وتجديد العزل عند الحاجة</li>
+    <li>أسعار تعاقدية مخصصة للمشاريع متعددة الخزانات أو متعددة المواقع</li>
+    <li>فواتير ضريبية رسمية وفق متطلبات هيئة الزكاة والضريبة والجمارك السعودية</li>
+  </ul>
+
+  <div class="phone-box" style="max-width:480px; margin-top:32px;">
+    <p>اتصل بقسم المشاريع مباشرة للحصول على عرض سعر مخصص لمشروعك التجاري أو المجمع السكني</p>
+    <a href="tel:0563088091">0563088091</a>
+  </div>
+</div>
+</div>
+
+<!-- IMPORTANCE -->
+<div class="bg-white">
+<div class="section">
+  <h2 class="section-title">أهمية استدعاء شركة إصلاح وصيانة خزانات بالرياض</h2>
+  <p class="section-subtitle">ما يميز الشركات المتخصصة في صيانة الخزانات ليس فقط جودة المواد بل الطريقة التي يُعالَج بها كل خزان كحالة مستقلة:</p>
+
+  <div class="cards-grid cards-3">
+    <div class="card card-primary">
+      <span class="card-icon">👨‍🔧</span>
+      <h3>عمالة خبيرة +10 سنوات</h3>
+      <p>عمالة مُعيَّنة بشرط امتلاك خبرة تتجاوز 10 سنوات في مجال تطبيقات العوازل المختلفة.</p>
+    </div>
+    <div class="card card-primary">
+      <span class="card-icon">📷</span>
+      <h3>معدات تشخيص حديثة</h3>
+      <p>معدات تشمل كاميرات الفحص الداخلي وأجهزة قياس الرطوبة وآلات الضغط للاختبار الدقيق.</p>
+    </div>
+    <div class="card card-primary">
+      <span class="card-icon">🎯</span>
+      <h3>تشخيص دقيق قبل الاختيار</h3>
+      <p>الخزان المعدني يحتاج مادة مختلفة عن الخرساني أو البلاستيكي — لذا يتم التشخيص أولاً.</p>
+    </div>
+    <div class="card card-primary">
+      <span class="card-icon">📝</span>
+      <h3>ضمان مكتوب على كل عملية</h3>
+      <p>ضمان مكتوب يحمي العميل من تكرار المشكلة خلال فترة الضمان.</p>
+    </div>
+    <div class="card card-primary">
+      <span class="card-icon">📊</span>
+      <h3>تقارير فنية توثيقية</h3>
+      <p>تقارير فنية بعد كل عملية تُوثِّق نوع المادة المستخدمة والطبقات المطبقة وتاريخ التنفيذ.</p>
+    </div>
+    <div class="card card-primary">
+      <span class="card-icon">🌍</span>
+      <h3>جميع أنواع العوازل</h3>
+      <p>نوفر كل أنواع العوازل المحلية أو المستوردة من ألمانيا والصين كحل أمثل لمشكلات التسربات.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- DISCOUNT + PRICING -->
+<div id="pricing" class="bg-accent-soft">
+<div class="section">
+  <div class="discount-banner">
+    <div class="discount-pct">20%</div>
+    <div class="discount-body">
+      <h3>شركة عزل خزانات المياه بالرياض بخصم 20%</h3>
+      <p>احصل على الخصم عند التعاقد معنا في أي وقت يناسبك من اليوم — مع عمالة متخصصة، معدات حديثة، وعقود عزل وصيانة رسمية</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">اسعار عزل خزانات المياه بالرياض</h2>
+  <p class="section-subtitle">الأسعار المقدمة من شركة عزل خزانات بالرياض تبدأ من:</p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-label">عزل الخزانات سيكو بروف</div>
+      <div class="price-amount">من 1,600 ريال</div>
+      <div class="price-note">سعودي</div>
+    </div>
+    <div class="price-card featured">
+      <div class="price-label">عزل الخزانات ايبوكسي</div>
+      <div class="price-amount">من 1,900 ريال</div>
+      <div class="price-note">الأكثر طلباً ✓</div>
+    </div>
+    <div class="price-card">
+      <div class="price-label">عزل الخزان بالبيتومين</div>
+      <div class="price-amount">من 1,700 ريال</div>
+      <div class="price-note">سعودي</div>
+    </div>
+    <div class="price-card">
+      <div class="price-label">عزل الخزانات بولي يوريثان</div>
+      <div class="price-amount">من 2,100 ريال</div>
+      <div class="price-note">سعودي</div>
+    </div>
+    <div class="price-card">
+      <div class="price-label">عزل الخزانات الأرضية</div>
+      <div class="price-amount">من 2,000 ريال</div>
+      <div class="price-note">سعودي</div>
+    </div>
+    <div class="price-card">
+      <div class="price-label">عزل خزانات باللفائف</div>
+      <div class="price-amount">من 1,900 ريال</div>
+      <div class="price-note">سعودي</div>
+    </div>
+  </div>
+
+  <div class="alert" style="margin-top:32px;">
+    <span class="alert-icon">💬</span>
+    <div class="alert-text">تتراوح تكلفة عزل الخزانات بين 200 و1500 ريال سعودي تقريباً حسب حجم الخزان ونوع المادة المستخدمة وحالة الخزان. نقدم <strong>معاينة مجانية وعرض سعر دقيق مكتوب قبل البدء</strong> — اتصل على <strong>0563088091</strong>.</div>
+  </div>
+</div>
+</div>
+
+<!-- FAQ -->
+<div id="faq" class="bg-white">
+<div class="section">
+  <h2 class="section-title">★ أسئلة شائعة عن عزل الخزانات بالرياض</h2>
+  <p class="section-subtitle">هذه أكثر الأسئلة التي يطرحها عملاؤنا قبل الحجز:</p>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">كم تكلفة عزل خزان المياه في الرياض؟</div>
+      <div class="faq-a">تتراوح تكلفة عزل الخزانات بين 200 و1500 ريال سعودي تقريباً حسب حجم الخزان ونوع المادة المستخدمة وحالة الخزان. خزانات 1000-2000 لتر تحتاج ميزانية أقل، فيما تختلف تكلفة الخزانات الأرضية الكبيرة. نقدم معاينة مجانية وعرض سعر دقيق مكتوب قبل البدء — اتصل على 0563088091.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">هل يمكن عزل الخزان دون تفريغه من الماء؟</div>
+      <div class="faq-a">لا. تفريغ الخزان وتنظيفه وتجفيفه خطوة غير قابلة للتخطي بأي حال. أي مادة عزل تُطبَّق على سطح رطب أو متسخ لن تلتصق بشكل صحيح وستتقشر في غضون أشهر. لهذا تشمل خدمتنا التنظيف الكامل أولاً قبل أي تطبيق.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">كم من الوقت يستغرق عزل خزان المياه؟</div>
+      <div class="faq-a">الخزان المنزلي المتوسط يحتاج 4 إلى 8 ساعات شاملاً التنظيف والتجفيف والتطبيق. الخزانات الكبيرة قد تحتاج زيارتين: يوم للتنظيف والتجفيف، ويوم للتطبيق والاختبار النهائي.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">هل مواد عزل الخزانات آمنة لمياه الشرب؟</div>
+      <div class="faq-a">نعم. جميع مواد الإيبوكسي المائي التي نستخدمها معتمدة للتعامل مع خزانات مياه الشرب. لا تنبعث منها أي مواد كيميائية تؤثر على طعم المياه أو سلامتها الصحية بعد الجفاف التام. ننصح دائماً بعدم استخدام الخزان قبل 24 ساعة من اكتمال التطبيق.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">كم مدة ضمان عزل الخزانات لدى البرق؟</div>
+      <div class="faq-a">نقدم ضماناً مكتوباً يصل إلى 10 سنوات على أعمال العزل. مدة الضمان تعتمد على نوع المادة المستخدمة وحجم الخزان. شروط الضمان مُفصَّلة في الوثيقة المكتوبة التي نُسلِّمها لك قبل بدء العمل — ليس بعده.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">هل تخدمون جميع أحياء الرياض؟</div>
+      <div class="faq-a">نعم. نغطي معظم أحياء الرياض بما فيها: العليا، النرجس، حطين، الملقا، الياسمين، الروضة، المونسية، الدرعية، العمارية، غرناطة، القيروان، الربوة، حي السفارات، الحمراء، وغيرها. تواصل معنا لتأكيد تغطية حيّك.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">ما الفرق بين العزل المائي والعزل الحراري للخزانات؟</div>
+      <div class="faq-a">العزل المائي يمنع تسرب المياه من الخزان أو تسلل الرطوبة إليه — ويُطبَّق من الداخل بالإيبوكسي أو الفايبرجلاس. العزل الحراري يمنع ارتفاع درجة حرارة المياه صيفاً ويُقلِّل التمدد الحراري الذي يُحدث الشروخ — ويُطبَّق على السطح الخارجي بالبولي يوريثان. الخزان المثالي يحتاج كليهما. يمكنك الاطلاع على <a href="https://www.nwc.com.sa/AR/HousingSector/Pages/%D8%AF%D9%84%D9%8A%D9%84%20%D8%B9%D8%B2%D9%84%20%D8%AE%D8%B2%D8%A7%D9%86%D8%A7%D8%AA%20%D8%A7%D9%84%D9%85%D9%8A%D8%A7%D9%87%20%D8%A7%D9%84%D8%A3%D8%B1%D8%B6%D9%8A%D8%A9.pdf" class="internal-link" target="_blank">أنواع الخزانات</a> من موقع شركة المياه الوطنية.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FINAL CTA -->
+<div id="contact" class="section" style="padding-top: 0; padding-bottom: 64px;">
+  <div class="cta-banner">
+    <h2>احجز معاينتك المجانية الآن</h2>
+    <p>شركة البرق — عزل خزانات بالرياض | خبرة +25 عام | ضمان مكتوب 10 سنوات<br>لا تترك خزانك دون معاينة — تواصل معنا اليوم واحصل على تقييم مجاني وعرض سعر مكتوب خلال 24 ساعة</p>
+    <a href="tel:0563088091" class="cta-phone">0563088091</a>
+    <div class="cta-btns">
+      <a href="tel:0563088091" class="btn btn-white">📞 اتصل الآن</a>
+      <a href="https://wa.me/966563088091" class="btn btn-wa" target="_blank">💬 واتساب</a>
+      <a href="https://albaarq.com/" class="btn btn-outline" target="_blank">🌐 زيارة الموقع</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">⚡ شركة <span>البرق</span></div>
+      <p>شركة البرق لعزل الخزانات بالرياض — خبرة تتجاوز 25 عاماً في سوق الرياض منذ عام 2000. نوفر حلول عزل مائي وحراري شاملة بمواد معتمدة وضمان مكتوب.</p>
+    </div>
+    <div>
+      <h4>خدماتنا</h4>
+      <ul>
+        <li><a href="#services">عزل الخزانات</a></li>
+        <li><a href="#services">تنظيف الخزانات</a></li>
+        <li><a href="#services">ترميم الخزانات</a></li>
+        <li><a href="#services">لحام الخزانات</a></li>
+        <li><a href="#services">تركيب الخزانات</a></li>
+        <li><a href="#services">نقل الخزانات</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>تواصل معنا</h4>
+      <ul>
+        <li><a href="tel:0563088091">📞 0563088091</a></li>
+        <li><a href="https://wa.me/966563088091">💬 واتساب</a></li>
+        <li><a href="https://albaarq.com/">🌐 albaarq.com</a></li>
+      </ul>
+      <h4 style="margin-top:20px;">نخدم أحياء</h4>
+      <p style="font-size:13px; line-height:1.9; color:rgba(255,255,255,0.55);">العليا، النرجس، حطين، الملقا، الياسمين، الروضة، الدرعية، العمارية، المونسية، غرناطة، القيروان</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 شركة البرق لعزل الخزانات بالرياض. جميع الحقوق محفوظة.</p>
+  </div>
+</footer>
+
+</body>
+</html>
