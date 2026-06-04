@@ -34,69 +34,106 @@
     font-size: 17px;
   }
 
-  /* ─── TOP BAR ─── */
-  .topbar {
-    background: var(--primary-dark);
-    color: #fff;
-    font-size: 14px;
-    padding: 8px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
+  /* ─── FORM ─── */
+  .form-section {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    padding: 64px 32px;
   }
-  .topbar a { color: var(--accent); text-decoration: none; font-weight: 700; }
-
-  /* ─── NAVBAR ─── */
-  nav {
-    background: var(--primary);
-    padding: 0 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  .form-wrap {
+    max-width: 860px;
+    margin: 0 auto;
   }
-  .logo {
-    font-size: 26px;
+  .form-header { text-align: center; margin-bottom: 40px; }
+  .form-header h2 {
+    font-size: clamp(22px, 3vw, 32px);
     font-weight: 900;
     color: #fff;
-    padding: 16px 0;
+    margin-bottom: 10px;
+  }
+  .form-header p { color: rgba(255,255,255,0.75); font-size: 16px; }
+  .form-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 36px;
+    box-shadow: 0 16px 56px rgba(0,0,0,0.25);
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .form-group label span { color: #e53e3e; margin-right: 2px; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-size: 15px;
+    font-family: 'Tajawal', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    width: 100%;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(11,45,107,0.1);
+    background: #fff;
+  }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .form-group select { cursor: pointer; }
+  .form-submit-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 12px;
+    border: none;
+    background: #25D366;
+    color: #fff;
+    cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    font-family: 'Tajawal', sans-serif;
   }
-  .logo span { color: var(--accent); }
-  .logo-icon { font-size: 30px; }
-  .nav-links { display: flex; gap: 4px; list-style: none; }
-  .nav-links a {
-    color: rgba(255,255,255,0.85);
-    text-decoration: none;
-    padding: 20px 14px;
-    font-size: 15px;
-    font-weight: 500;
-    display: block;
-    transition: color 0.2s, background 0.2s;
-    border-bottom: 3px solid transparent;
+  .form-submit-btn:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(37,211,102,0.35);
   }
-  .nav-links a:hover {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-    background: rgba(255,255,255,0.06);
+  .form-note {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
-  .nav-cta {
-    background: var(--accent);
-    color: var(--primary-dark) !important;
-    border-radius: 8px !important;
-    font-weight: 700 !important;
-    padding: 10px 20px !important;
-    margin: 8px 0;
-    border-bottom: none !important;
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 32px 24px;
   }
-  .nav-cta:hover { background: var(--accent-dark) !important; }
+  .form-success .success-icon { font-size: 64px; margin-bottom: 16px; }
+  .form-success h3 { font-size: 24px; font-weight: 900; color: var(--primary); margin-bottom: 10px; }
+  .form-success p { color: var(--text-light); font-size: 16px; }
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-card { padding: 28px 20px; }
+  }
 
   /* ─── HERO ─── */
   .hero {
@@ -568,41 +605,6 @@
   }
   .phone-box a:hover { color: var(--accent); }
 
-  /* ─── FOOTER ─── */
-  footer {
-    background: var(--primary-dark);
-    color: rgba(255,255,255,0.7);
-    padding: 48px 32px 24px;
-    margin-top: 0;
-  }
-  .footer-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 40px;
-    margin-bottom: 32px;
-  }
-  .footer-logo {
-    font-size: 24px;
-    font-weight: 900;
-    color: #fff;
-    margin-bottom: 16px;
-  }
-  .footer-logo span { color: var(--accent); }
-  footer p { font-size: 14px; line-height: 1.8; }
-  footer h4 { color: #fff; font-size: 16px; font-weight: 700; margin-bottom: 16px; }
-  footer ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-  footer ul li a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 14px; transition: color 0.2s; }
-  footer ul li a:hover { color: var(--accent); }
-  .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 13px;
-  }
 
   /* ─── DIVIDER ─── */
   .divider { height: 1px; background: var(--border); margin: 0; }
@@ -646,27 +648,6 @@
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <span>📍 نخدم جميع أحياء الرياض | خبرة +25 عاماً منذ 2000</span>
-  <span>📞 اتصل الآن: <a href="tel:0563088091">0563088091</a></span>
-</div>
-
-<!-- NAVBAR -->
-<nav>
-  <div class="logo">
-    <span class="logo-icon">⚡</span>
-    شركة <span>البرق</span>
-  </div>
-  <ul class="nav-links">
-    <li><a href="#services">خدماتنا</a></li>
-    <li><a href="#materials">المواد</a></li>
-    <li><a href="#why-us">لماذا البرق</a></li>
-    <li><a href="#pricing">الأسعار</a></li>
-    <li><a href="#faq">الأسئلة الشائعة</a></li>
-    <li><a href="#contact" class="nav-cta">احجز معاينة مجانية</a></li>
-  </ul>
-</nav>
 
 <!-- HERO -->
 <section class="hero">
@@ -1461,53 +1442,152 @@
 </div>
 </div>
 
-<!-- FINAL CTA -->
-<div id="contact" class="section" style="padding-top: 0; padding-bottom: 64px;">
-  <div class="cta-banner">
-    <h2>احجز معاينتك المجانية الآن</h2>
-    <p>شركة البرق — عزل خزانات بالرياض | خبرة +25 عام | ضمان مكتوب 10 سنوات<br>لا تترك خزانك دون معاينة — تواصل معنا اليوم واحصل على تقييم مجاني وعرض سعر مكتوب خلال 24 ساعة</p>
-    <a href="tel:0563088091" class="cta-phone">0563088091</a>
-    <div class="cta-btns">
-      <a href="tel:0563088091" class="btn btn-white">📞 اتصل الآن</a>
-      <a href="https://wa.me/966563088091" class="btn btn-wa" target="_blank">💬 واتساب</a>
-      <a href="https://albaarq.com/" class="btn btn-outline" target="_blank">🌐 زيارة الموقع</a>
+<!-- SERVICE REQUEST FORM -->
+<div id="contact" class="form-section">
+  <div class="form-wrap">
+    <div class="form-header">
+      <h2>⚡ احجز معاينتك المجانية الآن</h2>
+      <p>أرسل بياناتك وسيتواصل معك فريقنا خلال دقائق عبر واتساب</p>
+    </div>
+
+    <div class="form-card">
+      <div id="formContent">
+        <form id="serviceForm" novalidate>
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>الاسم الكريم <span>*</span></label>
+              <input type="text" id="f-name" placeholder="أدخل اسمك الكريم" required>
+            </div>
+
+            <div class="form-group">
+              <label>رقم الجوال <span>*</span></label>
+              <input type="tel" id="f-phone" placeholder="05XXXXXXXX" required>
+            </div>
+
+            <div class="form-group">
+              <label>الحي / المنطقة <span>*</span></label>
+              <input type="text" id="f-area" placeholder="مثال: حطين، النرجس، الملقا..." required>
+            </div>
+
+            <div class="form-group">
+              <label>نوع الخزان <span>*</span></label>
+              <select id="f-tank-type" required>
+                <option value="" disabled selected>اختر نوع الخزان</option>
+                <option value="خزان بلاستيك علوي">خزان بلاستيك علوي</option>
+                <option value="خزان فايبر جلاس">خزان فايبر جلاس</option>
+                <option value="خزان خرساني أرضي">خزان خرساني أرضي</option>
+                <option value="خزان معدن">خزان معدن</option>
+                <option value="خزان رخام">خزان رخام</option>
+                <option value="لا أعرف النوع">لا أعرف النوع</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>الخدمة المطلوبة <span>*</span></label>
+              <select id="f-service" required>
+                <option value="" disabled selected>اختر الخدمة</option>
+                <option value="عزل خزان مائي">عزل خزان مائي</option>
+                <option value="عزل خزان حراري">عزل خزان حراري</option>
+                <option value="عزل مائي وحراري معاً">عزل مائي وحراري معاً</option>
+                <option value="تنظيف وتعقيم الخزان">تنظيف وتعقيم الخزان</option>
+                <option value="ترميم الخزان">ترميم الخزان</option>
+                <option value="لحام الخزان">لحام الخزان</option>
+                <option value="تركيب خزان جديد">تركيب خزان جديد</option>
+                <option value="لست متأكداً / أريد معاينة">لست متأكداً / أريد معاينة</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>حجم الخزان (تقريباً)</label>
+              <select id="f-size">
+                <option value="" disabled selected>اختر الحجم</option>
+                <option value="أقل من 500 لتر">أقل من 500 لتر</option>
+                <option value="500 - 1000 لتر">500 – 1000 لتر</option>
+                <option value="1000 - 2000 لتر">1000 – 2000 لتر</option>
+                <option value="2000 - 5000 لتر">2000 – 5000 لتر</option>
+                <option value="أكثر من 5000 لتر">أكثر من 5000 لتر</option>
+                <option value="لا أعرف الحجم">لا أعرف الحجم</option>
+              </select>
+            </div>
+
+            <div class="form-group full">
+              <label>وصف المشكلة أو ملاحظات إضافية</label>
+              <textarea id="f-notes" placeholder="مثال: يوجد تسريب في أسفل الخزان، رائحة في المياه، مرّ على الخزان أكثر من 5 سنوات بدون صيانة..."></textarea>
+            </div>
+
+          </div>
+
+          <div id="formError" style="display:none; background:#FEE2E2; border:1px solid #FCA5A5; border-radius:10px; padding:14px 18px; margin:16px 0 4px; color:#991B1B; font-size:14px; font-weight:600;"></div>
+
+          <button type="submit" class="form-submit-btn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M5.166 0H18.834C21.67 0 24 2.33 24 5.166v13.668C24 21.67 21.67 24 18.834 24H5.166C2.33 24 0 21.67 0 18.834V5.166C0 2.33 2.33 0 5.166 0zm6.82 18.539c1.548 0 3.063-.404 4.394-1.168l3.063.975-.975-2.988a8.52 8.52 0 001.231-4.41C19.699 6.58 16.165 3.047 11.986 3.047c-4.178 0-7.712 3.533-7.712 7.901 0 4.369 3.534 7.591 7.712 7.591z"/></svg>
+            إرسال الطلب عبر واتساب
+          </button>
+
+          <p class="form-note">
+            🔒 بياناتك آمنة وسرية — لن تُستخدم إلا للتواصل معك بخصوص الخدمة
+          </p>
+        </form>
+      </div>
+
+      <div class="form-success" id="formSuccess">
+        <div class="success-icon">✅</div>
+        <h3>تم إرسال طلبك بنجاح!</h3>
+        <p>سيتواصل معك فريق شركة البرق خلال دقائق عبر واتساب.<br>شكراً لثقتك بنا.</p>
+        <a href="tel:0563088091" class="btn btn-primary" style="margin-top:24px; display:inline-flex;">📞 اتصل مباشرة: 0563088091</a>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-logo">⚡ شركة <span>البرق</span></div>
-      <p>شركة البرق لعزل الخزانات بالرياض — خبرة تتجاوز 25 عاماً في سوق الرياض منذ عام 2000. نوفر حلول عزل مائي وحراري شاملة بمواد معتمدة وضمان مكتوب.</p>
-    </div>
-    <div>
-      <h4>خدماتنا</h4>
-      <ul>
-        <li><a href="#services">عزل الخزانات</a></li>
-        <li><a href="#services">تنظيف الخزانات</a></li>
-        <li><a href="#services">ترميم الخزانات</a></li>
-        <li><a href="#services">لحام الخزانات</a></li>
-        <li><a href="#services">تركيب الخزانات</a></li>
-        <li><a href="#services">نقل الخزانات</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>تواصل معنا</h4>
-      <ul>
-        <li><a href="tel:0563088091">📞 0563088091</a></li>
-        <li><a href="https://wa.me/966563088091">💬 واتساب</a></li>
-        <li><a href="https://albaarq.com/">🌐 albaarq.com</a></li>
-      </ul>
-      <h4 style="margin-top:20px;">نخدم أحياء</h4>
-      <p style="font-size:13px; line-height:1.9; color:rgba(255,255,255,0.55);">العليا، النرجس، حطين، الملقا، الياسمين، الروضة، الدرعية، العمارية، المونسية، غرناطة، القيروان</p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2025 شركة البرق لعزل الخزانات بالرياض. جميع الحقوق محفوظة.</p>
-  </div>
-</footer>
+<script>
+document.getElementById('serviceForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name     = document.getElementById('f-name').value.trim();
+  const phone    = document.getElementById('f-phone').value.trim();
+  const area     = document.getElementById('f-area').value.trim();
+  const tankType = document.getElementById('f-tank-type').value;
+  const service  = document.getElementById('f-service').value;
+  const size     = document.getElementById('f-size').value;
+  const notes    = document.getElementById('f-notes').value.trim();
+  const errBox   = document.getElementById('formError');
+
+  if (!name || !phone || !area || !tankType || !service) {
+    errBox.style.display = 'block';
+    errBox.textContent = '⚠️ يرجى تعبئة جميع الحقول الإلزامية المشار إليها بـ (*)';
+    return;
+  }
+  if (!/^05\d{8}$/.test(phone)) {
+    errBox.style.display = 'block';
+    errBox.textContent = '⚠️ يرجى إدخال رقم جوال سعودي صحيح (يبدأ بـ 05 ويتكون من 10 أرقام)';
+    return;
+  }
+  errBox.style.display = 'none';
+
+  const msg = [
+    '🔔 *طلب خدمة جديد — شركة البرق*',
+    '━━━━━━━━━━━━━━━━━━',
+    `👤 *الاسم:* ${name}`,
+    `📱 *الجوال:* ${phone}`,
+    `📍 *الحي / المنطقة:* ${area}`,
+    `🪣 *نوع الخزان:* ${tankType}`,
+    `🛠️ *الخدمة المطلوبة:* ${service}`,
+    size ? `📏 *حجم الخزان:* ${size}` : null,
+    notes ? `📝 *ملاحظات:* ${notes}` : null,
+    '━━━━━━━━━━━━━━━━━━',
+    '⚡ شركة البرق — عزل خزانات بالرياض'
+  ].filter(Boolean).join('\n');
+
+  const waURL = 'https://wa.me/966563088091?text=' + encodeURIComponent(msg);
+
+  document.getElementById('formContent').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+
+  setTimeout(() => { window.open(waURL, '_blank'); }, 400);
+});
+</script>
 
 </body>
 </html>
