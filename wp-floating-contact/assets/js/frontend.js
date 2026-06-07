@@ -30,8 +30,9 @@
     /* wpfc_vars is printed by wp_localize_script in class-frontend.php */
     if ( typeof wpfc_vars === 'undefined' ) { return; }
 
-    var AJAX_URL = wpfc_vars.ajax_url;
-    var PAGE_URL = wpfc_vars.page_url || '';
+    var AJAX_URL   = wpfc_vars.ajax_url;
+    var PAGE_URL   = wpfc_vars.page_url   || '';
+    var PAGE_TITLE = wpfc_vars.page_title || '';
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
@@ -46,6 +47,7 @@
         fd.append( 'action',     'wpfc_track_click' );
         fd.append( 'click_type', clickType );
         fd.append( 'page_url',   PAGE_URL );
+        fd.append( 'page_title', PAGE_TITLE );
         return fd;
     }
 
@@ -84,8 +86,9 @@
         try {
             var xhr  = new XMLHttpRequest();
             var body = 'action=wpfc_track_click' +
-                       '&click_type=' + encodeURIComponent( clickType ) +
-                       '&page_url='   + encodeURIComponent( PAGE_URL );
+                       '&click_type='  + encodeURIComponent( clickType ) +
+                       '&page_url='    + encodeURIComponent( PAGE_URL ) +
+                       '&page_title='  + encodeURIComponent( PAGE_TITLE );
             xhr.open( 'POST', AJAX_URL, true ); // async
             xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
             xhr.send( body );

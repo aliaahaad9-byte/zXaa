@@ -22,6 +22,8 @@ class WPFC_Admin {
         'button_position'  => 'bottom-right',
         'enable_plugin'    => '1',
         'phone_color'      => '#1e88e5',
+        'phone_label'      => 'اتصل بنا',
+        'whatsapp_label'   => 'واتساب',
     );
 
     // ─── Bootstrap ────────────────────────────────────────────────────────────
@@ -34,6 +36,8 @@ class WPFC_Admin {
         add_action( 'wp_ajax_wpfc_get_stats',        array( $this, 'ajax_get_stats' ) );
         add_action( 'wp_ajax_wpfc_activate_license', array( $this, 'ajax_activate_license' ) );
         add_action( 'wp_ajax_wpfc_deactivate_license', array( $this, 'ajax_deactivate_license' ) );
+        add_action( 'add_meta_boxes',                array( $this, 'add_contact_meta_box' ) );
+        add_action( 'save_post',                     array( $this, 'save_contact_meta_box' ) );
     }
 
     // ─── Menu ─────────────────────────────────────────────────────────────────
@@ -133,6 +137,9 @@ class WPFC_Admin {
         $clean['button_position']  = in_array( $input['button_position'] ?? '', $allowed_positions, true )
                                         ? $input['button_position']
                                         : 'bottom-right';
+
+        $clean['phone_label']    = sanitize_text_field( $input['phone_label']    ?? 'اتصل بنا' );
+        $clean['whatsapp_label'] = sanitize_text_field( $input['whatsapp_label'] ?? 'واتساب' );
 
         return $clean;
     }
@@ -547,7 +554,7 @@ class WPFC_Admin {
                             <tr>
                                 <th style="width:120px;"><?php esc_html_e( 'Type', 'wp-floating-contact' ); ?></th>
                                 <th style="width:160px;"><?php esc_html_e( 'Date & Time', 'wp-floating-contact' ); ?></th>
-                                <th><?php esc_html_e( 'Page URL', 'wp-floating-contact' ); ?></th>
+                                <th><?php esc_html_e( 'Page', 'wp-floating-contact' ); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -564,11 +571,18 @@ class WPFC_Admin {
                                         <?php endif; ?>
                                     </span>
                                 </td>
-                                <td><?php echo esc_html( wp_date( 'Y-m-d H:i:s', strtotime( $log->clicked_at ) ) ); ?></td>
+                                <td><?php echo esc_html( wp_date( 'Y-m-d g:i A', strtotime( $log->clicked_at ), new DateTimeZone( 'Asia/Riyadh' ) ) ); ?></td>
                                 <td class="wpfc-url-cell">
-                                    <a href="<?php echo esc_url( $log->page_url ); ?>" target="_blank" rel="noopener noreferrer" class="wpfc-url-link" title="<?php echo esc_attr( $log->page_url ); ?>">
-                                        <?php echo esc_html( $log->page_url ); ?>
-                                    </a>
+                                    <?php if ( ! empty( $log->page_title ) ) : ?>
+                                        <span class="wpfc-page-title-cell"><?php echo esc_html( $log->page_title ); ?></span>
+                                        <a href="<?php echo esc_url( $log->page_url ); ?>" target="_blank" rel="noopener noreferrer" class="wpfc-ext-link" title="<?php echo esc_attr( $log->page_url ); ?>">
+                                            <span class="dashicons dashicons-external"></span>
+                                        </a>
+                                    <?php else : ?>
+                                        <a href="<?php echo esc_url( $log->page_url ); ?>" target="_blank" rel="noopener noreferrer" class="wpfc-url-link" title="<?php echo esc_attr( $log->page_url ); ?>">
+                                            <?php echo esc_html( $log->page_url ); ?>
+                                        </a>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
@@ -697,6 +711,18 @@ class WPFC_Admin {
                                 </td>
                             </tr>
 
+                            <tr>
+                                <th scope="row">
+                                    <label for="wpfc_phone_label"><?php esc_html_e( 'Button Label', 'wp-floating-contact' ); ?></label>
+                                </th>
+                                <td>
+                                    <input type="text" id="wpfc_phone_label" name="wpfc_settings[phone_label]"
+                                           value="<?php echo esc_attr( $settings['phone_label'] ); ?>"
+                                           class="regular-text" placeholder="اتصل بنا">
+                                    <p class="description"><?php esc_html_e( 'The text shown on the phone call button.', 'wp-floating-contact' ); ?></p>
+                                </td>
+                            </tr>
+
                         </table>
                     </div>
 
@@ -732,6 +758,18 @@ class WPFC_Admin {
                                               rows="3" class="large-text"
                                               placeholder="<?php esc_attr_e( 'Hello! I would like to get in touch.', 'wp-floating-contact' ); ?>"><?php echo esc_textarea( $settings['whatsapp_message'] ); ?></textarea>
                                     <p class="description"><?php esc_html_e( 'This text is pre-loaded in the WhatsApp chat input when the user taps the button.', 'wp-floating-contact' ); ?></p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    <label for="wpfc_whatsapp_label"><?php esc_html_e( 'Button Label', 'wp-floating-contact' ); ?></label>
+                                </th>
+                                <td>
+                                    <input type="text" id="wpfc_whatsapp_label" name="wpfc_settings[whatsapp_label]"
+                                           value="<?php echo esc_attr( $settings['whatsapp_label'] ); ?>"
+                                           class="regular-text" placeholder="واتساب">
+                                    <p class="description"><?php esc_html_e( 'The text shown on the WhatsApp button.', 'wp-floating-contact' ); ?></p>
                                 </td>
                             </tr>
 
@@ -803,7 +841,7 @@ class WPFC_Admin {
                             <th style="width:150px;"><?php esc_html_e( 'Action Type', 'wp-floating-contact' ); ?></th>
                             <th style="width:110px;"><?php esc_html_e( 'Date', 'wp-floating-contact' ); ?></th>
                             <th style="width:90px;"><?php esc_html_e( 'Time', 'wp-floating-contact' ); ?></th>
-                            <th><?php esc_html_e( 'Page URL', 'wp-floating-contact' ); ?></th>
+                            <th><?php esc_html_e( 'Page', 'wp-floating-contact' ); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -822,15 +860,25 @@ class WPFC_Admin {
                                     <?php endif; ?>
                                 </span>
                             </td>
-                            <td><?php echo esc_html( wp_date( 'Y-m-d', strtotime( $log->clicked_at ) ) ); ?></td>
-                            <td><?php echo esc_html( wp_date( 'H:i:s', strtotime( $log->clicked_at ) ) ); ?></td>
-                            <td>
-                                <a href="<?php echo esc_url( $log->page_url ); ?>"
-                                   target="_blank" rel="noopener noreferrer"
-                                   class="wpfc-url-link"
-                                   title="<?php echo esc_attr( $log->page_url ); ?>">
-                                    <?php echo esc_html( $log->page_url ); ?>
-                                </a>
+                            <td><?php echo esc_html( wp_date( 'Y-m-d', strtotime( $log->clicked_at ), new DateTimeZone( 'Asia/Riyadh' ) ) ); ?></td>
+                            <td><?php echo esc_html( wp_date( 'g:i A', strtotime( $log->clicked_at ), new DateTimeZone( 'Asia/Riyadh' ) ) ); ?></td>
+                            <td class="wpfc-url-cell">
+                                <?php if ( ! empty( $log->page_title ) ) : ?>
+                                    <span class="wpfc-page-title-cell"><?php echo esc_html( $log->page_title ); ?></span>
+                                    <a href="<?php echo esc_url( $log->page_url ); ?>"
+                                       target="_blank" rel="noopener noreferrer"
+                                       class="wpfc-ext-link"
+                                       title="<?php echo esc_attr( $log->page_url ); ?>">
+                                        <span class="dashicons dashicons-external"></span>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="<?php echo esc_url( $log->page_url ); ?>"
+                                       target="_blank" rel="noopener noreferrer"
+                                       class="wpfc-url-link"
+                                       title="<?php echo esc_attr( $log->page_url ); ?>">
+                                        <?php echo esc_html( $log->page_url ); ?>
+                                    </a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -865,5 +913,75 @@ class WPFC_Admin {
 
         </div>
         <?php
+    }
+
+    // ─── Meta Box: Per-post contact overrides ─────────────────────────────────
+
+    public function add_contact_meta_box(): void {
+        add_meta_box(
+            'wpfc_contact_override',
+            __( 'Floating Contact Override', 'wp-floating-contact' ),
+            array( $this, 'render_contact_meta_box' ),
+            null, // all public post types
+            'side',
+            'default'
+        );
+    }
+
+    public function render_contact_meta_box( WP_Post $post ): void {
+        wp_nonce_field( 'wpfc_meta_box', 'wpfc_meta_nonce' );
+        $phone    = get_post_meta( $post->ID, '_wpfc_phone', true );
+        $whatsapp = get_post_meta( $post->ID, '_wpfc_whatsapp', true );
+        ?>
+        <p>
+            <label for="wpfc_meta_phone" style="display:block;margin-bottom:4px;font-weight:600;">
+                <?php esc_html_e( 'Phone Number Override', 'wp-floating-contact' ); ?>
+            </label>
+            <input type="tel" id="wpfc_meta_phone" name="wpfc_meta_phone"
+                   value="<?php echo esc_attr( $phone ); ?>"
+                   placeholder="<?php esc_attr_e( 'e.g. +966501234567', 'wp-floating-contact' ); ?>"
+                   style="width:100%;">
+            <span class="description" style="font-size:11px;">
+                <?php esc_html_e( 'Leave empty to use the global setting.', 'wp-floating-contact' ); ?>
+            </span>
+        </p>
+        <p>
+            <label for="wpfc_meta_whatsapp" style="display:block;margin-bottom:4px;font-weight:600;">
+                <?php esc_html_e( 'WhatsApp Number Override', 'wp-floating-contact' ); ?>
+            </label>
+            <input type="tel" id="wpfc_meta_whatsapp" name="wpfc_meta_whatsapp"
+                   value="<?php echo esc_attr( $whatsapp ); ?>"
+                   placeholder="<?php esc_attr_e( 'e.g. 966501234567', 'wp-floating-contact' ); ?>"
+                   style="width:100%;">
+            <span class="description" style="font-size:11px;">
+                <?php esc_html_e( 'Leave empty to use the global setting.', 'wp-floating-contact' ); ?>
+            </span>
+        </p>
+        <?php
+    }
+
+    public function save_contact_meta_box( int $post_id ): void {
+        if ( ! isset( $_POST['wpfc_meta_nonce'] ) ) {
+            return;
+        }
+        if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['wpfc_meta_nonce'] ) ), 'wpfc_meta_box' ) ) {
+            return;
+        }
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        $phone = isset( $_POST['wpfc_meta_phone'] )
+            ? sanitize_text_field( wp_unslash( $_POST['wpfc_meta_phone'] ) )
+            : '';
+        $whatsapp = isset( $_POST['wpfc_meta_whatsapp'] )
+            ? sanitize_text_field( wp_unslash( $_POST['wpfc_meta_whatsapp'] ) )
+            : '';
+
+        update_post_meta( $post_id, '_wpfc_phone', $phone );
+        update_post_meta( $post_id, '_wpfc_whatsapp', $whatsapp );
     }
 }

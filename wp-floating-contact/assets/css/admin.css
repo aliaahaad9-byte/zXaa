@@ -261,6 +261,38 @@
     max-width: 0; /* forces ellipsis in table cells */
 }
 
+/* ── Page title + external link icon ───────────────────────────────────── */
+
+.wpfc-page-title-cell {
+    display: inline;
+    vertical-align: middle;
+    color: #1d2327;
+    font-size: 13px;
+}
+
+.wpfc-ext-link {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 4px;
+    color: #2271b1;
+    text-decoration: none;
+    opacity: .7;
+    transition: opacity .15s;
+}
+
+.wpfc-ext-link:hover {
+    opacity: 1;
+    color: #135e96;
+}
+
+.wpfc-ext-link .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    line-height: 1;
+}
+
 /* ── Settings form ──────────────────────────────────────────────────────── */
 
 .wpfc-settings-container {
