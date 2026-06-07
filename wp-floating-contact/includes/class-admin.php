@@ -571,16 +571,17 @@ class WPFC_Admin {
                                         <?php endif; ?>
                                     </span>
                                 </td>
-                                <td><?php echo esc_html( wp_date( 'Y-m-d g:i A', strtotime( $log->clicked_at ), new DateTimeZone( 'Asia/Riyadh' ) ) ); ?></td>
+                                <td><?php echo esc_html( wp_date( 'Y-m-d g:i A', strtotime( $log->clicked_at . ' UTC' ), new DateTimeZone( 'Asia/Riyadh' ) ) ); ?></td>
                                 <td class="wpfc-url-cell">
-                                    <?php if ( ! empty( $log->page_title ) ) : ?>
-                                        <span class="wpfc-page-title-cell"><?php echo esc_html( $log->page_title ); ?></span>
-                                        <a href="<?php echo esc_url( $log->page_url ); ?>" target="_blank" rel="noopener noreferrer" class="wpfc-ext-link" title="<?php echo esc_attr( $log->page_url ); ?>">
+                                    <?php $page = $this->resolve_page_display( $log->page_url, $log->page_title ); ?>
+                                    <?php if ( $page['title'] ) : ?>
+                                        <span class="wpfc-page-title-cell"><?php echo esc_html( $page['title'] ); ?></span>
+                                        <a href="<?php echo esc_url( $page['url'] ); ?>" target="_blank" rel="noopener noreferrer" class="wpfc-ext-link" title="<?php echo esc_attr( $page['url'] ); ?>">
                                             <span class="dashicons dashicons-external"></span>
                                         </a>
                                     <?php else : ?>
-                                        <a href="<?php echo esc_url( $log->page_url ); ?>" target="_blank" rel="noopener noreferrer" class="wpfc-url-link" title="<?php echo esc_attr( $log->page_url ); ?>">
-                                            <?php echo esc_html( $log->page_url ); ?>
+                                        <a href="<?php echo esc_url( $page['url'] ); ?>" target="_blank" rel="noopener noreferrer" class="wpfc-url-link" title="<?php echo esc_attr( $page['url'] ); ?>">
+                                            <?php echo esc_html( $page['url'] ); ?>
                                         </a>
                                     <?php endif; ?>
                                 </td>
@@ -860,23 +861,24 @@ class WPFC_Admin {
                                     <?php endif; ?>
                                 </span>
                             </td>
-                            <td><?php echo esc_html( wp_date( 'Y-m-d', strtotime( $log->clicked_at ), new DateTimeZone( 'Asia/Riyadh' ) ) ); ?></td>
-                            <td><?php echo esc_html( wp_date( 'g:i A', strtotime( $log->clicked_at ), new DateTimeZone( 'Asia/Riyadh' ) ) ); ?></td>
+                            <td><?php echo esc_html( wp_date( 'Y-m-d', strtotime( $log->clicked_at . ' UTC' ), new DateTimeZone( 'Asia/Riyadh' ) ) ); ?></td>
+                            <td><?php echo esc_html( wp_date( 'g:i A', strtotime( $log->clicked_at . ' UTC' ), new DateTimeZone( 'Asia/Riyadh' ) ) ); ?></td>
                             <td class="wpfc-url-cell">
-                                <?php if ( ! empty( $log->page_title ) ) : ?>
-                                    <span class="wpfc-page-title-cell"><?php echo esc_html( $log->page_title ); ?></span>
-                                    <a href="<?php echo esc_url( $log->page_url ); ?>"
+                                <?php $page = $this->resolve_page_display( $log->page_url, $log->page_title ); ?>
+                                <?php if ( $page['title'] ) : ?>
+                                    <span class="wpfc-page-title-cell"><?php echo esc_html( $page['title'] ); ?></span>
+                                    <a href="<?php echo esc_url( $page['url'] ); ?>"
                                        target="_blank" rel="noopener noreferrer"
                                        class="wpfc-ext-link"
-                                       title="<?php echo esc_attr( $log->page_url ); ?>">
+                                       title="<?php echo esc_attr( $page['url'] ); ?>">
                                         <span class="dashicons dashicons-external"></span>
                                     </a>
                                 <?php else : ?>
-                                    <a href="<?php echo esc_url( $log->page_url ); ?>"
+                                    <a href="<?php echo esc_url( $page['url'] ); ?>"
                                        target="_blank" rel="noopener noreferrer"
                                        class="wpfc-url-link"
-                                       title="<?php echo esc_attr( $log->page_url ); ?>">
-                                        <?php echo esc_html( $log->page_url ); ?>
+                                       title="<?php echo esc_attr( $page['url'] ); ?>">
+                                        <?php echo esc_html( $page['url'] ); ?>
                                     </a>
                                 <?php endif; ?>
                             </td>
@@ -913,6 +915,38 @@ class WPFC_Admin {
 
         </div>
         <?php
+    }
+
+    // ─── Helpers ─────────────────────────────────────────────────────────────
+
+    /**
+     * Resolves a stored page URL to its title for display in analytics tables.
+     *
+     * Priority: WordPress post title (via url_to_postid) → JS-captured title → (empty).
+     * The caller falls back to showing the raw URL when the returned title is empty.
+     *
+     * @param string $page_url   The URL stored in the click log.
+     * @param string $page_title The page title captured by the frontend JS at click time.
+     * @return array{title:string,url:string}
+     */
+    private function resolve_page_display( string $page_url, string $page_title ): array {
+        $title = '';
+
+        if ( $page_url ) {
+            $post_id = url_to_postid( $page_url );
+            if ( $post_id ) {
+                $title = get_the_title( $post_id );
+            }
+        }
+
+        if ( ! $title ) {
+            $title = $page_title;
+        }
+
+        return array(
+            'title' => $title,
+            'url'   => $page_url,
+        );
     }
 
     // ─── Meta Box: Per-post contact overrides ─────────────────────────────────

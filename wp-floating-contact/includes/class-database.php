@@ -105,7 +105,7 @@ class WPFC_Database {
                 'click_type' => sanitize_text_field( $click_type ),
                 'page_title' => $clean_title,
                 'page_url'   => $clean_url,
-                'clicked_at' => current_time( 'mysql' ),
+                'clicked_at' => current_time( 'mysql', true ), // UTC — display layer converts to Riyadh
             ),
             array( '%s', '%s', '%s', '%s' )
         );
