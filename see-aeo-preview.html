@@ -68,17 +68,41 @@ ul { list-style: none; }
 /* ============================================================
    BRAND LOGO
 ============================================================ */
-.brand-logo { display: inline-flex; align-items: center; gap: 9px; flex-shrink: 0; transition: opacity var(--transition); }
-.brand-logo:hover { opacity: 0.82; }
+.brand-logo { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; transition: opacity var(--transition); }
+.brand-logo:hover { opacity: 0.85; }
+/* Icon mark: circle with magnifier crosshair */
 .brand-logo__mark {
-  width: 34px; height: 34px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--clr-cyan) 0%, var(--clr-purple) 100%);
+  width: 36px; height: 36px; border-radius: 50%;
+  background: transparent;
+  border: 2px solid var(--clr-cyan);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 16px rgba(0,167,233,0.35);
+  position: relative;
+  box-shadow: 0 0 14px rgba(0,167,233,0.3), inset 0 0 10px rgba(0,167,233,0.08);
 }
-.brand-logo__mark svg { width: 20px; height: 20px; }
-.brand-logo__text { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--clr-white); line-height: 1; }
-.brand-logo__text b { color: var(--clr-cyan); font-weight: 800; }
+.brand-logo__mark::after {
+  content: '';
+  position: absolute;
+  bottom: -6px; right: -6px;
+  width: 12px; height: 2px;
+  background: var(--clr-cyan);
+  border-radius: 2px;
+  transform: rotate(45deg);
+  transform-origin: right center;
+}
+.brand-logo__mark svg { width: 18px; height: 18px; }
+/* Text: See in white, AEO in white with A highlighted */
+.brand-logo__text {
+  font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
+  color: var(--clr-white); line-height: 1;
+  font-family: var(--font-stack);
+}
+.brand-logo__text .logo-see { color: var(--clr-white); }
+.brand-logo__text .logo-a {
+  color: var(--clr-white);
+  position: relative;
+  display: inline-block;
+}
+.brand-logo__text .logo-eo { color: var(--clr-white); }
 
 /* ============================================================
    BADGE
@@ -127,98 +151,128 @@ ul { list-style: none; }
 .btn--full { width: 100%; }
 
 /* ============================================================
-   GLASSY FLOATING NAVBAR
+   FULL-WIDTH GLASSY NAVBAR  (مطابق للصورة المرجعية)
 ============================================================ */
 .navbar {
-  position: fixed; top: 16px; inset-inline: 0; z-index: 1000;
-  display: flex; justify-content: center;
-  pointer-events: none;
-  transition: top var(--transition);
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  background: rgba(5, 8, 28, 0.45);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
-.navbar__inner {
-  pointer-events: auto;
-  width: calc(100% - 48px);
-  max-width: var(--max-w);
-  height: 64px;
-  display: flex; align-items: center; gap: 16px;
-  padding: 8px 8px 8px 18px;
-  background: rgba(14, 18, 44, 0.55);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 50px;
-  box-shadow: 0 10px 34px rgba(0,0,0,0.35);
-  transition: background var(--transition), border-color var(--transition);
+.navbar.scrolled {
+  background: rgba(4, 6, 22, 0.82);
+  border-bottom-color: rgba(255,255,255,0.11);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.45);
 }
-.navbar.scrolled .navbar__inner {
-  background: rgba(8, 11, 30, 0.78);
-  border-color: rgba(255,255,255,0.12);
-}
-.navbar__logo { margin-inline-start: 4px; }
 
-/* nav links pill */
+/* Inner row — max-width container */
+.navbar__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Logo — rightmost in RTL */
+.navbar__logo { flex-shrink: 0; }
+
+/* ---- Centered nav links pill ---- */
 .navbar__links {
-  display: flex; align-items: center; gap: 4px;
-  flex: 1; justify-content: center;
-  background: rgba(255,255,255,0.035);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 40px;
-  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  justify-content: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 50px;
+  padding: 5px 6px;
+  max-width: 580px;
 }
 .nav-link {
-  font-size: 14px; font-weight: 600; color: var(--clr-text-2);
-  padding: 7px 15px; border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(209, 222, 241, 0.85);
+  padding: 7px 16px;
+  border-radius: 50px;
   border: 1px solid transparent;
+  white-space: nowrap;
   transition: color var(--transition), background var(--transition), border-color var(--transition);
+  line-height: 1;
 }
-.nav-link:hover { color: var(--clr-white); background: rgba(255,255,255,0.05); }
+.nav-link:hover {
+  color: var(--clr-white);
+  background: rgba(255,255,255,0.06);
+}
 .nav-link.active {
   color: var(--clr-cyan);
-  background: rgba(0,167,233,0.1);
-  border-color: rgba(0,167,233,0.55);
+  background: rgba(0,167,233,0.12);
+  border-color: rgba(0,167,233,0.5);
 }
 
-/* portfolio button (glassy dark pill) */
+/* ---- Portfolio button — leftmost in RTL ---- */
 .btn--portfolio {
-  display: inline-flex; align-items: center; gap: 8px;
-  height: 46px; padding: 0 22px;
-  background: rgba(6, 9, 26, 0.66);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 40px;
-  color: var(--clr-white); font-size: 14px; font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 20px;
+  background: rgba(8, 12, 34, 0.7);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 50px;
+  color: var(--clr-white);
+  font-family: var(--font-stack);
+  font-size: 14px;
+  font-weight: 700;
   flex-shrink: 0;
+  cursor: pointer;
   transition: var(--transition);
+  white-space: nowrap;
 }
-.btn--portfolio .ico { width: 18px; height: 18px; }
-.btn--portfolio:hover { border-color: var(--clr-cyan); color: var(--clr-cyan); box-shadow: var(--shadow-glow); }
+.btn--portfolio .ico { width: 17px; height: 17px; }
+.btn--portfolio:hover {
+  border-color: rgba(0,167,233,0.5);
+  color: var(--clr-cyan);
+  box-shadow: 0 0 16px rgba(0,167,233,0.2);
+}
 
-/* hamburger */
+/* ---- Hamburger (mobile) ---- */
 .hamburger {
   display: none; flex-direction: column; gap: 5px;
-  background: none; border: none; cursor: pointer; padding: 8px; flex-shrink: 0;
+  background: none; border: none; cursor: pointer;
+  padding: 8px; flex-shrink: 0;
   margin-inline-start: auto;
 }
-.hamburger span { display: block; width: 24px; height: 2px; background: var(--clr-white); border-radius: 2px; transition: var(--transition); }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--clr-white); border-radius: 2px; transition: var(--transition); }
 .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* mobile nav */
+/* ---- Mobile drawer ---- */
 .mobile-nav {
-  position: fixed; top: 88px; right: 24px; left: 24px; z-index: 999;
-  background: rgba(8, 11, 30, 0.92);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  position: fixed; top: var(--nav-h); right: 16px; left: 16px; z-index: 999;
+  background: rgba(6, 9, 26, 0.95);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   display: flex; flex-direction: column; gap: 4px;
-  padding: 14px 16px 18px;
+  padding: 14px 14px 18px;
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 24px;
-  transform: translateY(-130%); opacity: 0;
-  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+  border-radius: 20px;
+  transform: translateY(-10px) scaleY(0.95); opacity: 0;
+  transform-origin: top center;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
   pointer-events: none;
 }
-.mobile-nav.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
-.mobile-nav .nav-link { padding: 12px 14px; font-size: 16px; border-radius: 12px; }
-.mobile-nav .btn--portfolio { margin-top: 6px; justify-content: center; }
+.mobile-nav.open { transform: translateY(0) scaleY(1); opacity: 1; pointer-events: auto; }
+.mobile-nav .nav-link { padding: 12px 14px; font-size: 15px; border-radius: 12px; color: var(--clr-text-2); }
+.mobile-nav .btn--portfolio { margin-top: 8px; justify-content: center; width: 100%; }
 
 /* ============================================================
    HERO
@@ -227,7 +281,7 @@ ul { list-style: none; }
   position: relative; min-height: 100vh;
   background: var(--clr-bg-primary);
   display: flex; align-items: center; overflow: hidden;
-  padding-top: 110px;
+  padding-top: var(--nav-h);
 }
 .hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .hero__orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
@@ -510,7 +564,7 @@ ul { list-style: none; }
 }
 
 @media (max-width: 480px) {
-  .navbar__inner { width: calc(100% - 28px); padding-inline: 12px; }
+  .navbar__inner { padding-inline: 16px; }
   .hero__title { font-size: 26px; }
   .hero__actions { flex-direction: column; align-items: center; }
   .hero__actions .btn { width: 100%; max-width: 280px; }
@@ -522,42 +576,63 @@ ul { list-style: none; }
   <!-- NAVBAR -->
   <header class="navbar" id="navbar">
     <div class="navbar__inner">
+
+      <!-- Logo — right (RTL) -->
       <a href="#hero" class="brand-logo navbar__logo" aria-label="See AEO">
         <span class="brand-logo__mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-3.5-3.5"/></svg>
+          <svg viewBox="0 0 20 20" fill="none" stroke="var(--clr-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8.5" cy="8.5" r="5.2"/>
+            <line x1="12.2" y1="12.2" x2="17" y2="17"/>
+          </svg>
         </span>
-        <span class="brand-logo__text">See<b>AEO</b></span>
+        <span class="brand-logo__text">
+          <span class="logo-see">See</span><span class="logo-a">A</span><span class="logo-eo">EO</span>
+        </span>
       </a>
 
+      <!-- Nav links — center pill -->
       <nav class="navbar__links" id="navLinks">
         <a href="#hero"     class="nav-link active">الرئيسية</a>
         <a href="#services" class="nav-link">خدماتنا</a>
-        <a href="#blog"     class="nav-link">المدونة</a>
         <a href="#works"    class="nav-link">أعمالنا</a>
+        <a href="#blog"     class="nav-link">المدونة</a>
         <a href="#about"    class="nav-link">من نحن</a>
         <a href="#contact"  class="nav-link">تواصل معنا</a>
       </nav>
 
-      <a href="#works" class="btn--portfolio navbar__cta">
-        <svg class="ico" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2.5 12h19"/></svg>
+      <!-- Portfolio CTA — left (RTL end) -->
+      <a href="#works" class="btn--portfolio">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2.5"/>
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+          <line x1="12" y1="12" x2="12" y2="17"/>
+          <line x1="9.5" y1="14.5" x2="14.5" y2="14.5"/>
+        </svg>
         ملف الأعمال
       </a>
 
+      <!-- Hamburger (mobile only) -->
       <button class="hamburger" id="hamburger" aria-label="القائمة" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
+  <!-- Mobile drawer -->
   <div class="mobile-nav" id="mobileNav" aria-hidden="true">
     <a href="#hero"     class="nav-link" onclick="closeMobileNav()">الرئيسية</a>
     <a href="#services" class="nav-link" onclick="closeMobileNav()">خدماتنا</a>
-    <a href="#blog"     class="nav-link" onclick="closeMobileNav()">المدونة</a>
     <a href="#works"    class="nav-link" onclick="closeMobileNav()">أعمالنا</a>
+    <a href="#blog"     class="nav-link" onclick="closeMobileNav()">المدونة</a>
     <a href="#about"    class="nav-link" onclick="closeMobileNav()">من نحن</a>
     <a href="#contact"  class="nav-link" onclick="closeMobileNav()">تواصل معنا</a>
-    <a href="#works"    class="btn--portfolio" onclick="closeMobileNav()">
-      <svg class="ico" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2.5 12h19"/></svg>
+    <a href="#works" class="btn--portfolio" onclick="closeMobileNav()">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2.5"/>
+        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+        <line x1="12" y1="12" x2="12" y2="17"/>
+        <line x1="9.5" y1="14.5" x2="14.5" y2="14.5"/>
+      </svg>
       ملف الأعمال
     </a>
   </div>
@@ -811,8 +886,10 @@ ul { list-style: none; }
     <div class="container footer__inner">
       <div class="footer__brand">
         <a href="#hero" class="brand-logo footer__logo" aria-label="See AEO">
-          <span class="brand-logo__mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-3.5-3.5"/></svg></span>
-          <span class="brand-logo__text">See<b>AEO</b></span>
+          <span class="brand-logo__mark">
+            <svg viewBox="0 0 20 20" fill="none" stroke="var(--clr-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8.5" r="5.2"/><line x1="12.2" y1="12.2" x2="17" y2="17"/></svg>
+          </span>
+          <span class="brand-logo__text"><span class="logo-see">See</span><span class="logo-a">A</span><span class="logo-eo">EO</span></span>
         </a>
         <p class="footer__tagline">نُحوّل وجودك الرقمي إلى قوة لا تُقهر في نتائج البحث وإجابات الذكاء الاصطناعي.</p>
         <div class="social-links__icons" style="margin-top:18px;">
