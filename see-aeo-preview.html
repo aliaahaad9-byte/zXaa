@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>See AEO | الرائدون في تحسين محركات البحث</title>
+  <title>See AEO | تصدّر نتائج البحث وإجابات الذكاء الاصطناعي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    CSS CUSTOM PROPERTIES
@@ -17,13 +20,13 @@
   --clr-text-2:        #D1DEF1;
   --clr-card:          rgba(7, 10, 43, 0.27);
   --clr-purple:        #6A4090;
-  --font-stack: 'Segoe UI', Tahoma, Arial, sans-serif;
+  --font-stack: 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif;
   --radius-card: 20px;
   --radius-btn:  45px;
   --radius-badge:10px;
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.2);
   --shadow-glow: 0 0 24px rgba(0, 167, 233, 0.25);
-  --nav-h: 68px;
+  --nav-h: 72px;
   --section-py: 60px;
   --section-px: 40px;
   --max-w: 1280px;
@@ -39,7 +42,7 @@ body {
   font-family: var(--font-stack);
   background: var(--clr-bg-primary);
   color: var(--clr-text);
-  line-height: 30px;
+  line-height: 1.9;
   overflow-x: hidden;
 }
 img, svg { display: block; max-width: 100%; }
@@ -49,23 +52,33 @@ ul { list-style: none; }
 /* ============================================================
    UTILITIES
 ============================================================ */
-.container {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 var(--section-px);
-}
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--section-px); }
 .text--cyan { color: var(--clr-cyan); }
 .hide-mobile { display: block; }
 
-.fade-in {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.65s ease, transform 0.65s ease;
-}
+.fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 .fade-in:nth-child(2) { transition-delay: 0.1s; }
 .fade-in:nth-child(3) { transition-delay: 0.2s; }
 .fade-in:nth-child(4) { transition-delay: 0.3s; }
+
+/* SVG icon base */
+.ico { width: 24px; height: 24px; stroke-width: 1.8; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+/* ============================================================
+   BRAND LOGO
+============================================================ */
+.brand-logo { display: inline-flex; align-items: center; gap: 9px; flex-shrink: 0; transition: opacity var(--transition); }
+.brand-logo:hover { opacity: 0.82; }
+.brand-logo__mark {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--clr-cyan) 0%, var(--clr-purple) 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 16px rgba(0,167,233,0.35);
+}
+.brand-logo__mark svg { width: 20px; height: 20px; }
+.brand-logo__text { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--clr-white); line-height: 1; }
+.brand-logo__text b { color: var(--clr-cyan); font-weight: 800; }
 
 /* ============================================================
    BADGE
@@ -79,282 +92,182 @@ ul { list-style: none; }
   padding: 5px 16px;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
 }
 
 /* ============================================================
    BUTTONS
 ============================================================ */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  font-family: var(--font-stack);
-  font-weight: 800;
-  border: none;
-  transition: var(--transition);
-  white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  cursor: pointer; font-family: var(--font-stack); font-weight: 700;
+  border: none; transition: var(--transition); white-space: nowrap;
 }
 .btn--primary {
   background: var(--clr-bg-primary);
   color: var(--clr-white);
   border-radius: var(--radius-btn);
-  padding: 12px 30px;
-  font-size: 15px;
-  height: 48px;
+  padding: 12px 30px; font-size: 15px; height: 48px;
   border: 1.5px solid rgba(0,167,233,0.35);
-  box-shadow: 0 0 0 0 rgba(0,167,233,0);
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
 .btn--primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background: linear-gradient(135deg, rgba(0,167,233,0.18) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity var(--transition);
+  opacity: 0; transition: opacity var(--transition);
 }
 .btn--primary:hover { border-color: var(--clr-cyan); box-shadow: var(--shadow-glow); color: var(--clr-cyan); }
 .btn--primary:hover::before { opacity: 1; }
-
 .btn--ghost {
-  background: transparent;
-  color: var(--clr-text-2);
-  border-radius: var(--radius-btn);
-  padding: 12px 30px;
-  font-size: 15px;
-  height: 48px;
+  background: transparent; color: var(--clr-text-2);
+  border-radius: var(--radius-btn); padding: 12px 30px; font-size: 15px; height: 48px;
   border: 1.5px solid rgba(185,200,222,0.25);
 }
 .btn--ghost:hover { border-color: var(--clr-cyan); color: var(--clr-cyan); }
 .btn--full { width: 100%; }
 
 /* ============================================================
-   NAVBAR
+   GLASSY FLOATING NAVBAR
 ============================================================ */
 .navbar {
-  position: fixed;
-  top: 0;
-  inset-inline: 0;
-  z-index: 1000;
-  height: var(--nav-h);
-  background: transparent;
-  transition: background var(--transition), backdrop-filter var(--transition), box-shadow var(--transition);
-}
-.navbar.scrolled {
-  background: rgba(2, 4, 21, 0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 1px 0 rgba(185,200,222,0.08);
+  position: fixed; top: 16px; inset-inline: 0; z-index: 1000;
+  display: flex; justify-content: center;
+  pointer-events: none;
+  transition: top var(--transition);
 }
 .navbar__inner {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  gap: 32px;
+  pointer-events: auto;
+  width: calc(100% - 48px);
+  max-width: var(--max-w);
+  height: 64px;
+  display: flex; align-items: center; gap: 16px;
+  padding: 8px 8px 8px 18px;
+  background: rgba(14, 18, 44, 0.55);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 50px;
+  box-shadow: 0 10px 34px rgba(0,0,0,0.35);
+  transition: background var(--transition), border-color var(--transition);
 }
-.navbar__logo {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--clr-cyan);
-  letter-spacing: -0.02em;
-  flex-shrink: 0;
-  transition: opacity var(--transition);
+.navbar.scrolled .navbar__inner {
+  background: rgba(8, 11, 30, 0.78);
+  border-color: rgba(255,255,255,0.12);
 }
-.navbar__logo:hover { opacity: 0.8; }
+.navbar__logo { margin-inline-start: 4px; }
+
+/* nav links pill */
 .navbar__links {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  flex: 1;
-  justify-content: center;
+  display: flex; align-items: center; gap: 4px;
+  flex: 1; justify-content: center;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 40px;
+  padding: 5px 8px;
 }
 .nav-link {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--clr-text-2);
-  position: relative;
-  padding-bottom: 2px;
-  transition: color var(--transition);
+  font-size: 14px; font-weight: 600; color: var(--clr-text-2);
+  padding: 7px 15px; border-radius: 30px;
+  border: 1px solid transparent;
+  transition: color var(--transition), background var(--transition), border-color var(--transition);
 }
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  right: 0;
-  width: 0;
-  height: 2px;
-  background: var(--clr-cyan);
-  border-radius: 2px;
-  transition: width var(--transition);
+.nav-link:hover { color: var(--clr-white); background: rgba(255,255,255,0.05); }
+.nav-link.active {
+  color: var(--clr-cyan);
+  background: rgba(0,167,233,0.1);
+  border-color: rgba(0,167,233,0.55);
 }
-.nav-link:hover { color: var(--clr-white); }
-.nav-link:hover::after { width: 100%; }
-.navbar__cta { margin-inline-start: auto; flex-shrink: 0; }
 
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
+/* portfolio button (glassy dark pill) */
+.btn--portfolio {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 46px; padding: 0 22px;
+  background: rgba(6, 9, 26, 0.66);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 40px;
+  color: var(--clr-white); font-size: 14px; font-weight: 700;
   flex-shrink: 0;
-}
-.hamburger span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: var(--clr-white);
-  border-radius: 2px;
   transition: var(--transition);
 }
+.btn--portfolio .ico { width: 18px; height: 18px; }
+.btn--portfolio:hover { border-color: var(--clr-cyan); color: var(--clr-cyan); box-shadow: var(--shadow-glow); }
+
+/* hamburger */
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 8px; flex-shrink: 0;
+  margin-inline-start: auto;
+}
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--clr-white); border-radius: 2px; transition: var(--transition); }
 .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+/* mobile nav */
 .mobile-nav {
-  position: fixed;
-  top: var(--nav-h);
-  right: 0;
-  left: 0;
-  z-index: 999;
-  background: rgba(2, 4, 21, 0.97);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 16px 24px 24px;
-  border-bottom: 1px solid rgba(185,200,222,0.1);
-  transform: translateY(-110%);
-  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  position: fixed; top: 88px; right: 24px; left: 24px; z-index: 999;
+  background: rgba(8, 11, 30, 0.92);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 14px 16px 18px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  transform: translateY(-130%); opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
   pointer-events: none;
 }
-.mobile-nav.open { transform: translateY(0); pointer-events: auto; }
-.mobile-nav .nav-link { padding: 12px 0; font-size: 16px; border-bottom: 1px solid rgba(185,200,222,0.07); }
+.mobile-nav.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.mobile-nav .nav-link { padding: 12px 14px; font-size: 16px; border-radius: 12px; }
+.mobile-nav .btn--portfolio { margin-top: 6px; justify-content: center; }
 
 /* ============================================================
    HERO
 ============================================================ */
 .hero {
-  position: relative;
-  min-height: 100vh;
+  position: relative; min-height: 100vh;
   background: var(--clr-bg-primary);
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding-top: var(--nav-h);
+  display: flex; align-items: center; overflow: hidden;
+  padding-top: 110px;
 }
-.hero__canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.hero__orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-}
+.hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.hero__orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
 .hero__orb--1 {
   width: 520px; height: 520px;
   background: radial-gradient(circle, rgba(0,167,233,0.18) 0%, transparent 70%);
-  top: -100px; left: -80px;
-  animation: orbFloat 8s ease-in-out infinite;
+  top: -100px; left: -80px; animation: orbFloat 8s ease-in-out infinite;
 }
 .hero__orb--2 {
   width: 400px; height: 400px;
   background: radial-gradient(circle, rgba(106,64,144,0.22) 0%, transparent 70%);
-  bottom: 0; right: 10%;
-  animation: orbFloat 10s ease-in-out infinite reverse;
+  bottom: 0; right: 10%; animation: orbFloat 10s ease-in-out infinite reverse;
 }
-@keyframes orbFloat {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50%       { transform: translateY(-30px) scale(1.06); }
-}
-.hero__content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 80px var(--section-px);
-  width: 100%;
-}
+@keyframes orbFloat { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.06); } }
+.hero__content { position: relative; z-index: 2; text-align: center; padding: 70px var(--section-px); width: 100%; }
 .hero__title {
-  font-size: clamp(28px, 5vw, 40px);
-  font-weight: 600;
-  line-height: 76px;
-  color: var(--clr-white);
-  margin: 20px auto 20px;
-  max-width: 780px;
+  font-size: clamp(30px, 5vw, 46px); font-weight: 800; line-height: 1.5;
+  color: var(--clr-white); margin: 22px auto 22px; max-width: 860px;
 }
-.hero__subtitle {
-  font-size: 16px;
-  color: var(--clr-text);
-  line-height: 32px;
-  max-width: 600px;
-  margin: 0 auto 36px;
-}
-.hero__actions {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 56px;
-}
+.hero__subtitle { font-size: 17px; color: var(--clr-text); line-height: 2; max-width: 680px; margin: 0 auto 38px; }
+.hero__actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 56px; }
 .hero__stats {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  border: 1px solid rgba(185,200,222,0.12);
-  border-radius: 18px;
-  background: rgba(14,16,36,0.5);
-  backdrop-filter: blur(10px);
-  padding: 24px 40px;
-  max-width: 720px;
-  margin: 0 auto;
-  gap: 0;
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  border: 1px solid rgba(185,200,222,0.12); border-radius: 18px;
+  background: rgba(14,16,36,0.5); backdrop-filter: blur(10px);
+  padding: 24px 40px; max-width: 720px; margin: 0 auto; gap: 0;
 }
 .stat { display: flex; flex-direction: column; align-items: center; padding: 0 36px; }
 .stat__number { font-size: 32px; font-weight: 800; color: var(--clr-cyan); line-height: 1.2; }
 .stat__suffix { font-size: 22px; font-weight: 800; color: var(--clr-cyan); }
 .stat__label { font-size: 12px; color: var(--clr-text); margin-top: 4px; white-space: nowrap; }
 .stat__divider { width: 1px; height: 48px; background: rgba(185,200,222,0.15); flex-shrink: 0; }
-
-.hero__scroll-indicator {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-}
-.scroll-dot {
-  width: 24px; height: 38px;
-  border: 2px solid rgba(185,200,222,0.3);
-  border-radius: 12px;
-  position: relative;
-}
+.hero__scroll-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 2; }
+.scroll-dot { width: 24px; height: 38px; border: 2px solid rgba(185,200,222,0.3); border-radius: 12px; position: relative; }
 .scroll-dot::before {
-  content: '';
-  position: absolute;
-  top: 6px; left: 50%;
-  transform: translateX(-50%);
-  width: 4px; height: 8px;
-  background: var(--clr-cyan);
-  border-radius: 2px;
+  content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 8px; background: var(--clr-cyan); border-radius: 2px;
   animation: scrollPulse 1.8s ease-in-out infinite;
 }
-@keyframes scrollPulse {
-  0%   { top: 6px; opacity: 1; }
-  100% { top: 20px; opacity: 0; }
-}
+@keyframes scrollPulse { 0% { top: 6px; opacity: 1; } 100% { top: 20px; opacity: 0; } }
 
 /* ============================================================
    SECTIONS
@@ -362,78 +275,44 @@ ul { list-style: none; }
 .section { background: var(--clr-bg-primary); padding: var(--section-py) 0; }
 .section--alt { background: var(--clr-bg-secondary); }
 .section__header { text-align: center; margin-bottom: 56px; }
-.section__title {
-  font-size: clamp(26px, 4vw, 36px);
-  font-weight: 800;
-  color: var(--clr-white);
-  margin-top: 14px;
-  line-height: 1.3;
-}
-.section__subtitle {
-  font-size: 16px;
-  color: var(--clr-text);
-  max-width: 560px;
-  margin: 12px auto 0;
-  line-height: 30px;
-}
+.section__title { font-size: clamp(26px, 4vw, 36px); font-weight: 800; color: var(--clr-white); margin-top: 14px; line-height: 1.4; }
+.section__subtitle { font-size: 16px; color: var(--clr-text); max-width: 560px; margin: 12px auto 0; line-height: 1.9; }
 
 /* ============================================================
    SERVICES GRID
 ============================================================ */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-}
+.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .service-card {
-  background: var(--clr-card);
-  border: 1px solid rgba(185,200,222,0.1);
-  border-radius: var(--radius-card);
-  padding: 28px 22px;
-  box-shadow: var(--shadow-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--clr-card); border: 1px solid rgba(185,200,222,0.1);
+  border-radius: var(--radius-card); padding: 28px 22px;
+  box-shadow: var(--shadow-card); backdrop-filter: blur(12px);
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  display: flex; flex-direction: column; gap: 14px;
 }
 .service-card:hover { transform: translateY(-6px); border-color: rgba(0,167,233,0.4); box-shadow: var(--shadow-glow); }
-.service-card__icon { font-size: 36px; line-height: 1; }
+.service-card__icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: rgba(0,167,233,0.1); border: 1px solid rgba(0,167,233,0.25);
+  display: flex; align-items: center; justify-content: center; color: var(--clr-cyan);
+}
+.service-card__icon .ico { width: 28px; height: 28px; }
 .service-card__tag {
-  display: inline-block;
-  background: rgba(0,167,233,0.12);
-  color: var(--clr-cyan);
-  border: 1px solid rgba(0,167,233,0.3);
-  border-radius: 6px;
-  padding: 3px 10px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  width: fit-content;
+  display: inline-block; background: rgba(0,167,233,0.12); color: var(--clr-cyan);
+  border: 1px solid rgba(0,167,233,0.3); border-radius: 6px; padding: 3px 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.05em; width: fit-content;
 }
-.service-card__title { font-size: 18px; font-weight: 800; color: var(--clr-white); line-height: 1.3; }
-.service-card__desc { font-size: 14px; color: var(--clr-text); line-height: 26px; }
+.service-card__title { font-size: 18px; font-weight: 800; color: var(--clr-white); line-height: 1.4; }
+.service-card__desc { font-size: 14px; color: var(--clr-text); line-height: 1.8; }
 .service-card__features { display: flex; flex-direction: column; gap: 8px; flex: 1; }
-.service-card__features li {
-  font-size: 13px;
-  color: var(--clr-text-2);
-  padding-inline-start: 18px;
-  position: relative;
-}
+.service-card__features li { font-size: 13px; color: var(--clr-text-2); padding-inline-start: 20px; position: relative; }
 .service-card__features li::before {
-  content: '✓';
-  position: absolute;
-  right: 0;
-  color: var(--clr-cyan);
-  font-weight: 700;
-  font-size: 12px;
+  content: ''; position: absolute; right: 2px; top: 9px;
+  width: 9px; height: 5px; border-inline-start: 2px solid var(--clr-cyan);
+  border-bottom: 2px solid var(--clr-cyan); transform: rotate(-45deg);
 }
 .service-card__link {
-  font-size: 13px; font-weight: 700; color: var(--clr-cyan);
-  margin-top: auto;
-  display: inline-flex; align-items: center; gap: 6px;
-  transition: gap var(--transition);
+  font-size: 13px; font-weight: 700; color: var(--clr-cyan); margin-top: auto;
+  display: inline-flex; align-items: center; gap: 6px; transition: gap var(--transition);
 }
 .service-card__link:hover { gap: 10px; }
 
@@ -441,95 +320,103 @@ ul { list-style: none; }
    ABOUT
 ============================================================ */
 .about__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-.about__para { font-size: 16px; color: var(--clr-text); line-height: 30px; margin-bottom: 16px; }
+.about__para { font-size: 16px; color: var(--clr-text); line-height: 2; margin-bottom: 16px; }
 .about__para strong { font-weight: 700; }
 .about__highlights { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
 .highlight { display: flex; align-items: flex-start; gap: 14px; }
-.highlight__icon { font-size: 26px; line-height: 1; flex-shrink: 0; }
+.highlight__icon {
+  width: 44px; height: 44px; min-width: 44px; border-radius: 12px;
+  background: rgba(0,167,233,0.1); border: 1px solid rgba(0,167,233,0.25);
+  display: flex; align-items: center; justify-content: center; color: var(--clr-cyan);
+}
 .highlight strong { display: block; font-size: 15px; font-weight: 700; color: var(--clr-white); margin-bottom: 2px; }
-.highlight p { font-size: 13px; color: var(--clr-text); line-height: 22px; }
+.highlight p { font-size: 13px; color: var(--clr-text); line-height: 1.7; }
 
-.about__visual { display: flex; justify-content: center; align-items: center; }
-.about__card-stack { position: relative; width: 320px; height: 320px; }
+/* About visual — floating card stack (spacing fixed) */
+.about__visual { display: flex; justify-content: center; align-items: center; padding: 30px 0; }
+.about__card-stack { position: relative; width: 360px; height: 360px; }
 .about__stat-card {
-  position: absolute;
-  background: var(--clr-card);
-  border: 1px solid rgba(185,200,222,0.12);
-  border-radius: 16px;
-  padding: 18px 22px;
-  box-shadow: var(--shadow-card);
+  position: absolute; background: rgba(14, 18, 44, 0.65);
+  border: 1px solid rgba(185,200,222,0.14); border-radius: 16px;
+  padding: 16px 20px; box-shadow: var(--shadow-card);
   backdrop-filter: blur(10px);
   display: flex; flex-direction: column; align-items: center;
-  animation: cardFloat 6s ease-in-out infinite;
+  animation: cardFloat 6s ease-in-out infinite; z-index: 2;
 }
-.about__stat-card--1 { top: 0; right: 0; animation-delay: 0s; }
-.about__stat-card--2 { bottom: 40px; right: 40px; animation-delay: 1s; }
-.about__stat-card--3 { top: 60px; left: 0; animation-delay: 2s; }
-@keyframes cardFloat {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-12px); }
-}
-.stat-card__num { font-size: 28px; font-weight: 800; color: var(--clr-cyan); line-height: 1.2; }
-.stat-card__lbl { font-size: 12px; color: var(--clr-text); margin-top: 4px; }
+.about__stat-card--1 { top: 6px; right: 6px; animation-delay: 0s; }
+.about__stat-card--2 { bottom: 6px; right: 26px; animation-delay: 1.2s; }
+.about__stat-card--3 { top: 84px; left: 6px; animation-delay: 2.1s; }
+@keyframes cardFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+.stat-card__num { font-size: 26px; font-weight: 800; color: var(--clr-cyan); line-height: 1.2; }
+.stat-card__lbl { font-size: 12px; color: var(--clr-text); margin-top: 2px; }
 .about__center-logo {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  background: linear-gradient(135deg, rgba(0,167,233,0.2) 0%, rgba(106,64,144,0.2) 100%);
-  border: 1px solid rgba(0,167,233,0.3);
-  border-radius: 50%;
-  width: 120px; height: 120px;
+  background: radial-gradient(circle at 50% 35%, rgba(0,167,233,0.22) 0%, rgba(106,64,144,0.18) 55%, rgba(8,11,30,0.85) 100%);
+  border: 1px solid rgba(0,167,233,0.3); border-radius: 50%;
+  width: 150px; height: 150px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center;
-  animation: cardFloat 7s ease-in-out infinite;
-  animation-delay: 0.5s;
+  text-align: center; z-index: 1;
+  box-shadow: 0 0 40px rgba(0,167,233,0.18);
+  animation: pulseGlow 4s ease-in-out infinite;
 }
-.about__center-logo span { font-size: 15px; font-weight: 800; color: var(--clr-cyan); display: block; }
-.about__center-logo small { font-size: 10px; color: var(--clr-text); margin-top: 4px; }
+@keyframes pulseGlow { 0%,100% { box-shadow: 0 0 40px rgba(0,167,233,0.18); } 50% { box-shadow: 0 0 60px rgba(0,167,233,0.32); } }
+.about__center-logo span { font-size: 18px; font-weight: 800; color: var(--clr-white); display: block; line-height: 1.3; }
+.about__center-logo span b { color: var(--clr-cyan); }
+.about__center-logo small { font-size: 12px; color: var(--clr-text-2); margin-top: 4px; }
 
 /* ============================================================
    WHY US GRID
 ============================================================ */
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .why-card {
-  background: var(--clr-card);
-  border: 1px solid rgba(185,200,222,0.08);
-  border-radius: var(--radius-card);
-  padding: 28px 24px;
-  box-shadow: var(--shadow-card);
+  background: var(--clr-card); border: 1px solid rgba(185,200,222,0.08);
+  border-radius: var(--radius-card); padding: 28px 24px; box-shadow: var(--shadow-card);
   backdrop-filter: blur(8px);
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 .why-card:hover { transform: translateY(-4px); border-color: rgba(0,167,233,0.3); box-shadow: var(--shadow-glow); }
-.why-card__icon { font-size: 32px; margin-bottom: 14px; }
+.why-card__icon {
+  width: 52px; height: 52px; border-radius: 13px; margin-bottom: 16px;
+  background: rgba(0,167,233,0.1); border: 1px solid rgba(0,167,233,0.22);
+  display: flex; align-items: center; justify-content: center; color: var(--clr-cyan);
+}
+.why-card__icon .ico { width: 26px; height: 26px; }
 .why-card__title { font-size: 16px; font-weight: 800; color: var(--clr-white); margin-bottom: 10px; }
-.why-card__desc { font-size: 14px; color: var(--clr-text); line-height: 26px; }
+.why-card__desc { font-size: 14px; color: var(--clr-text); line-height: 1.8; }
 
 /* ============================================================
    PROCESS
 ============================================================ */
 .process-track { position: relative; display: flex; flex-direction: column; gap: 0; }
-.process-line {
-  position: absolute;
-  right: 31px; top: 40px; bottom: 40px;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--clr-cyan), rgba(0,167,233,0.1));
-  border-radius: 2px;
-}
+.process-line { position: absolute; right: 31px; top: 40px; bottom: 40px; width: 2px; background: linear-gradient(to bottom, var(--clr-cyan), rgba(0,167,233,0.1)); border-radius: 2px; }
 .process-step { display: flex; gap: 28px; align-items: flex-start; padding: 28px 0; padding-inline-start: 24px; }
 .process-step__num {
-  width: 64px; height: 64px; min-width: 64px;
-  border-radius: 50%;
-  background: rgba(0,167,233,0.12);
-  border: 2px solid var(--clr-cyan);
+  width: 64px; height: 64px; min-width: 64px; border-radius: 50%;
+  background: rgba(0,167,233,0.12); border: 2px solid var(--clr-cyan);
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; font-weight: 800; color: var(--clr-cyan);
-  position: relative; z-index: 1;
-  transition: background var(--transition), box-shadow var(--transition);
-  flex-shrink: 0;
-  order: -1;
+  position: relative; z-index: 1; transition: background var(--transition), box-shadow var(--transition);
+  flex-shrink: 0; order: -1;
 }
 .process-step:hover .process-step__num { background: rgba(0,167,233,0.25); box-shadow: 0 0 20px rgba(0,167,233,0.4); }
 .process-step__content h3 { font-size: 18px; font-weight: 800; color: var(--clr-white); margin-bottom: 10px; }
-.process-step__content p { font-size: 15px; color: var(--clr-text); line-height: 28px; max-width: 560px; }
+.process-step__content p { font-size: 15px; color: var(--clr-text); line-height: 1.9; max-width: 560px; }
+
+/* ============================================================
+   PORTFOLIO / WORKS
+============================================================ */
+.works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.work-card {
+  position: relative; border-radius: var(--radius-card); overflow: hidden;
+  border: 1px solid rgba(185,200,222,0.1); min-height: 230px;
+  background: linear-gradient(150deg, rgba(0,167,233,0.14) 0%, rgba(106,64,144,0.14) 100%), var(--clr-bg-secondary);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 24px; transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.work-card:hover { transform: translateY(-6px); border-color: rgba(0,167,233,0.4); box-shadow: var(--shadow-glow); }
+.work-card__tag { font-size: 12px; font-weight: 700; color: var(--clr-cyan); margin-bottom: 8px; }
+.work-card__title { font-size: 18px; font-weight: 800; color: var(--clr-white); margin-bottom: 6px; }
+.work-card__desc { font-size: 13px; color: var(--clr-text); line-height: 1.7; }
 
 /* ============================================================
    CONTACT
@@ -539,98 +426,40 @@ ul { list-style: none; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-group label { font-size: 14px; font-weight: 700; color: var(--clr-text-2); }
-.form-group input,
-.form-group select,
-.form-group textarea {
-  background: var(--clr-bg-secondary);
-  border: 1px solid rgba(185,200,222,0.25);
-  border-radius: 6px;
-  padding: 12px 14px;
-  color: var(--clr-white);
-  font-family: var(--font-stack);
-  font-size: 15px;
-  outline: none;
+.form-group input, .form-group select, .form-group textarea {
+  background: var(--clr-bg-secondary); border: 1px solid rgba(185,200,222,0.25);
+  border-radius: 6px; padding: 12px 14px; color: var(--clr-white);
+  font-family: var(--font-stack); font-size: 15px; outline: none;
   transition: border-color var(--transition), box-shadow var(--transition);
-  width: 100%;
-  text-align: right;
+  width: 100%; text-align: right;
 }
 .form-group select { appearance: none; -webkit-appearance: none; cursor: pointer; }
-.form-group input::placeholder,
-.form-group textarea::placeholder { color: rgba(185,200,222,0.45); }
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--clr-cyan);
-  box-shadow: 0 0 0 3px rgba(0,167,233,0.1);
-}
+.form-group input::placeholder, .form-group textarea::placeholder { color: rgba(185,200,222,0.45); }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--clr-cyan); box-shadow: 0 0 0 3px rgba(0,167,233,0.1); }
 .form-group textarea { resize: vertical; min-height: 130px; }
 .form-error { font-size: 12px; color: #ff6b6b; min-height: 16px; }
-.form-success {
-  display: none;
-  background: rgba(0,167,233,0.1);
-  border: 1px solid rgba(0,167,233,0.35);
-  border-radius: 10px;
-  padding: 14px 18px;
-  font-size: 14px;
-  color: var(--clr-cyan);
-  text-align: center;
-  line-height: 24px;
-}
+.form-success { display: none; background: rgba(0,167,233,0.1); border: 1px solid rgba(0,167,233,0.35); border-radius: 10px; padding: 14px 18px; font-size: 14px; color: var(--clr-cyan); text-align: center; line-height: 1.7; }
 .form-success.show { display: block; }
-
-.contact-info-card {
-  background: var(--clr-card);
-  border: 1px solid rgba(185,200,222,0.1);
-  border-radius: var(--radius-card);
-  padding: 28px 24px;
-  display: flex; flex-direction: column; gap: 24px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-card);
-}
+.contact-info-card { background: var(--clr-card); border: 1px solid rgba(185,200,222,0.1); border-radius: var(--radius-card); padding: 28px 24px; display: flex; flex-direction: column; gap: 24px; margin-bottom: 24px; box-shadow: var(--shadow-card); }
 .contact-info__item { display: flex; align-items: flex-start; gap: 14px; }
-.contact-info__icon-wrap {
-  width: 44px; height: 44px; min-width: 44px;
-  background: rgba(0,167,233,0.1);
-  border: 1px solid rgba(0,167,233,0.25);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--clr-cyan);
-}
+.contact-info__icon-wrap { width: 44px; height: 44px; min-width: 44px; background: rgba(0,167,233,0.1); border: 1px solid rgba(0,167,233,0.25); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--clr-cyan); }
 .contact-info__item strong { display: block; font-size: 13px; font-weight: 700; color: var(--clr-text); margin-bottom: 4px; }
-.contact-info__link,
-.contact-info__text { font-size: 15px; color: var(--clr-white); font-weight: 600; display: block; transition: color var(--transition); }
+.contact-info__link, .contact-info__text { font-size: 15px; color: var(--clr-white); font-weight: 600; display: block; transition: color var(--transition); }
 .contact-info__link:hover { color: var(--clr-cyan); }
-
 .social-links__label { font-size: 14px; font-weight: 700; color: var(--clr-text); margin-bottom: 12px; }
 .social-links__icons { display: flex; gap: 10px; flex-wrap: wrap; }
-.social-link {
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  background: rgba(185,200,222,0.07);
-  border: 1px solid rgba(185,200,222,0.12);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--clr-text);
-  transition: background var(--transition), border-color var(--transition), color var(--transition);
-}
+.social-link { width: 40px; height: 40px; border-radius: 10px; background: rgba(185,200,222,0.07); border: 1px solid rgba(185,200,222,0.12); display: flex; align-items: center; justify-content: center; color: var(--clr-text); transition: background var(--transition), border-color var(--transition), color var(--transition); }
 .social-link:hover { background: rgba(0,167,233,0.12); border-color: var(--clr-cyan); color: var(--clr-cyan); }
 
 /* ============================================================
    FOOTER
 ============================================================ */
 .footer { background: var(--clr-bg-secondary); border-top: 1px solid rgba(185,200,222,0.1); }
-.footer__inner {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr 1fr;
-  gap: 48px;
-  padding-top: 56px;
-  padding-bottom: 40px;
-}
-.footer__logo { font-size: 20px; }
-.footer__tagline { font-size: 14px; color: var(--clr-text); line-height: 26px; margin-top: 10px; max-width: 260px; }
+.footer__inner { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; padding-top: 56px; padding-bottom: 40px; }
+.footer__tagline { font-size: 14px; color: var(--clr-text); line-height: 1.8; margin-top: 14px; max-width: 260px; }
 .footer__heading { font-size: 15px; font-weight: 800; color: var(--clr-white); margin-bottom: 18px; }
 .footer__links { display: flex; flex-direction: column; gap: 10px; }
-.footer__links li a,
-.footer__links li span { font-size: 14px; color: var(--clr-text); transition: color var(--transition); }
+.footer__links li a, .footer__links li span { font-size: 14px; color: var(--clr-text); transition: color var(--transition); }
 .footer__links li a:hover { color: var(--clr-cyan); }
 .footer__bottom { border-top: 1px solid rgba(185,200,222,0.07); padding: 18px 0; }
 .footer__bottom .container { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
@@ -645,10 +474,14 @@ ul { list-style: none; }
 @media (max-width: 1024px) {
   .services-grid { grid-template-columns: repeat(2, 1fr); }
   .why-grid      { grid-template-columns: repeat(2, 1fr); }
+  .works-grid    { grid-template-columns: repeat(2, 1fr); }
   .about__inner  { grid-template-columns: 1fr; gap: 48px; }
-  .about__visual { display: none; }
+  .about__visual { order: -1; }
   .footer__inner { grid-template-columns: 1fr 1fr; gap: 32px; }
   .footer__brand { grid-column: 1 / -1; }
+  .navbar__links { display: none; }
+  .btn--portfolio { display: none; }
+  .hamburger { display: flex; }
 }
 
 /* ============================================================
@@ -657,50 +490,60 @@ ul { list-style: none; }
 @media (max-width: 768px) {
   :root { --section-px: 20px; --section-py: 48px; }
   .hide-mobile { display: none; }
-  .navbar__links { display: none; }
-  .navbar__cta   { display: none; }
-  .hamburger     { display: flex; margin-inline-start: auto; }
-  .hero__title    { font-size: 28px; line-height: 52px; }
-  .hero__subtitle { font-size: 14px; }
-  .hero__content  { padding: 60px 20px; }
-  .hero__stats { padding: 18px 12px; }
-  .stat { padding: 0 16px; }
-  .stat__number { font-size: 22px; }
-  .stat__divider { height: 36px; }
+  .hero__title { font-size: 30px; }
+  .hero__subtitle { font-size: 15px; }
+  .hero__content  { padding: 50px 20px; }
+  .hero__stats { padding: 18px 12px; flex-wrap: wrap; row-gap: 16px; }
+  .stat { padding: 0 18px; }
+  .stat__number { font-size: 24px; }
+  .stat__divider { display: none; }
   .services-grid { grid-template-columns: 1fr; }
   .why-grid { grid-template-columns: 1fr; }
+  .works-grid { grid-template-columns: 1fr; }
   .process-line { display: none; }
   .process-step { flex-direction: column; gap: 14px; padding-inline-start: 0; }
   .contact__inner { grid-template-columns: 1fr; gap: 36px; }
-  .form-row       { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
   .footer__inner { grid-template-columns: 1fr; gap: 28px; }
   .footer__brand { grid-column: auto; }
   .footer__bottom .container { flex-direction: column; text-align: center; }
-  .hero__stats { flex-wrap: wrap; row-gap: 16px; }
-  .stat__divider { display: none; }
 }
 
 @media (max-width: 480px) {
-  .hero__title { font-size: 24px; line-height: 44px; }
+  .navbar__inner { width: calc(100% - 28px); padding-inline: 12px; }
+  .hero__title { font-size: 26px; }
   .hero__actions { flex-direction: column; align-items: center; }
-  .hero__actions .btn { width: 100%; max-width: 260px; }
+  .hero__actions .btn { width: 100%; max-width: 280px; }
 }
 </style>
 </head>
 <body>
 
+  <!-- NAVBAR -->
   <header class="navbar" id="navbar">
-    <div class="container navbar__inner">
-      <a href="#" class="navbar__logo">See AEO</a>
+    <div class="navbar__inner">
+      <a href="#hero" class="brand-logo navbar__logo" aria-label="See AEO">
+        <span class="brand-logo__mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-3.5-3.5"/></svg>
+        </span>
+        <span class="brand-logo__text">See<b>AEO</b></span>
+      </a>
+
       <nav class="navbar__links" id="navLinks">
-        <a href="#hero"     class="nav-link">الرئيسية</a>
+        <a href="#hero"     class="nav-link active">الرئيسية</a>
         <a href="#services" class="nav-link">خدماتنا</a>
+        <a href="#blog"     class="nav-link">المدونة</a>
+        <a href="#works"    class="nav-link">أعمالنا</a>
         <a href="#about"    class="nav-link">من نحن</a>
-        <a href="#why"      class="nav-link">لماذا نحن</a>
         <a href="#contact"  class="nav-link">تواصل معنا</a>
       </nav>
-      <a href="#contact" class="btn btn--primary navbar__cta">ابدأ الآن</a>
-      <button class="hamburger" id="hamburger" aria-label="قائمة التنقل" aria-expanded="false">
+
+      <a href="#works" class="btn--portfolio navbar__cta">
+        <svg class="ico" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2.5 12h19"/></svg>
+        ملف الأعمال
+      </a>
+
+      <button class="hamburger" id="hamburger" aria-label="القائمة" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -709,10 +552,14 @@ ul { list-style: none; }
   <div class="mobile-nav" id="mobileNav" aria-hidden="true">
     <a href="#hero"     class="nav-link" onclick="closeMobileNav()">الرئيسية</a>
     <a href="#services" class="nav-link" onclick="closeMobileNav()">خدماتنا</a>
+    <a href="#blog"     class="nav-link" onclick="closeMobileNav()">المدونة</a>
+    <a href="#works"    class="nav-link" onclick="closeMobileNav()">أعمالنا</a>
     <a href="#about"    class="nav-link" onclick="closeMobileNav()">من نحن</a>
-    <a href="#why"      class="nav-link" onclick="closeMobileNav()">لماذا نحن</a>
     <a href="#contact"  class="nav-link" onclick="closeMobileNav()">تواصل معنا</a>
-    <a href="#contact"  class="btn btn--primary" style="margin-top:8px;" onclick="closeMobileNav()">ابدأ الآن</a>
+    <a href="#works"    class="btn--portfolio" onclick="closeMobileNav()">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2.5 12h19"/></svg>
+      ملف الأعمال
+    </a>
   </div>
 
   <main>
@@ -724,44 +571,30 @@ ul { list-style: none; }
       <div class="hero__orb hero__orb--2"></div>
 
       <div class="container hero__content fade-in">
-        <span class="badge">الرائدون في تحسين محركات البحث</span>
+        <span class="badge">الرائدون في تحسين محركات البحث والذكاء الاصطناعي</span>
         <h1 class="hero__title">
-          نُحوّل وجودك الرقمي<br />
-          إلى قوة <span class="text--cyan">لا تُقهر</span>
+          مع <span class="text--cyan">See AEO</span> تتصدّر نتائج البحث<br class="hide-mobile" />
+          وإجابات الذكاء الاصطناعي
         </h1>
         <p class="hero__subtitle">
-          نقدم خدمات SEO و AEO و GEO وتصميم المواقع بمعايير عالمية<br class="hide-mobile" />
-          لنضمن تفوقك في عالم البحث الرقمي
+          في See AEO، ندمج بين الـ SEO وثورة الـ AEO والـ GEO لابتكار مواقع وتطبيقات ذكية
+          تضع عملك في مقدمة إجابات الجيل الجديد ومحركات البحث.
         </p>
         <div class="hero__actions">
           <a href="#contact" class="btn btn--primary">ابدأ رحلتك</a>
           <a href="#about"   class="btn btn--ghost">تعرف علينا</a>
         </div>
         <div class="hero__stats">
-          <div class="stat">
-            <span class="stat__number" data-target="500">0</span><span class="stat__suffix">+</span>
-            <span class="stat__label">عميل راضٍ</span>
-          </div>
+          <div class="stat"><span class="stat__number" data-target="500">0</span><span class="stat__suffix">+</span><span class="stat__label">عميل راضٍ</span></div>
           <div class="stat__divider"></div>
-          <div class="stat">
-            <span class="stat__number" data-target="98">0</span><span class="stat__suffix">%</span>
-            <span class="stat__label">معدل نجاح</span>
-          </div>
+          <div class="stat"><span class="stat__number" data-target="98">0</span><span class="stat__suffix">%</span><span class="stat__label">معدل نجاح</span></div>
           <div class="stat__divider"></div>
-          <div class="stat">
-            <span class="stat__number" data-target="5">0</span><span class="stat__suffix">+</span>
-            <span class="stat__label">سنوات خبرة</span>
-          </div>
+          <div class="stat"><span class="stat__number" data-target="5">0</span><span class="stat__suffix">+</span><span class="stat__label">سنوات خبرة</span></div>
           <div class="stat__divider"></div>
-          <div class="stat">
-            <span class="stat__number" data-target="1000">0</span><span class="stat__suffix">+</span>
-            <span class="stat__label">مشروع منجز</span>
-          </div>
+          <div class="stat"><span class="stat__number" data-target="1000">0</span><span class="stat__suffix">+</span><span class="stat__label">مشروع منجز</span></div>
         </div>
       </div>
-      <div class="hero__scroll-indicator">
-        <div class="scroll-dot"></div>
-      </div>
+      <div class="hero__scroll-indicator"><div class="scroll-dot"></div></div>
     </section>
 
     <!-- SERVICES -->
@@ -774,55 +607,35 @@ ul { list-style: none; }
         </div>
         <div class="services-grid">
           <article class="service-card fade-in">
-            <div class="service-card__icon">🔍</div>
+            <div class="service-card__icon"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
             <div class="service-card__tag">SEO</div>
             <h3 class="service-card__title">تحسين محركات البحث</h3>
             <p class="service-card__desc">نرفع ترتيب موقعك في نتائج البحث العضوية من خلال استراتيجيات SEO متكاملة ومدروسة</p>
-            <ul class="service-card__features">
-              <li>تحليل الكلمات المفتاحية</li>
-              <li>تحسين المحتوى</li>
-              <li>بناء الروابط</li>
-              <li>التقارير الدورية</li>
-            </ul>
+            <ul class="service-card__features"><li>تحليل الكلمات المفتاحية</li><li>تحسين المحتوى</li><li>بناء الروابط</li><li>التقارير الدورية</li></ul>
             <a href="#contact" class="service-card__link">اعرف المزيد <span aria-hidden="true">←</span></a>
           </article>
           <article class="service-card fade-in">
-            <div class="service-card__icon">🤖</div>
+            <div class="service-card__icon"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
             <div class="service-card__tag">AEO</div>
             <h3 class="service-card__title">تحسين محركات الإجابة</h3>
             <p class="service-card__desc">نجعل موقعك المصدر الأول للإجابات في الذكاء الاصطناعي وصناديق الإجابات المباشرة</p>
-            <ul class="service-card__features">
-              <li>تحسين البيانات المنظمة</li>
-              <li>Featured Snippets</li>
-              <li>محتوى موجه للذكاء الاصطناعي</li>
-              <li>تحليل نية البحث</li>
-            </ul>
+            <ul class="service-card__features"><li>تحسين البيانات المنظمة</li><li>Featured Snippets</li><li>محتوى موجه للذكاء الاصطناعي</li><li>تحليل نية البحث</li></ul>
             <a href="#contact" class="service-card__link">اعرف المزيد <span aria-hidden="true">←</span></a>
           </article>
           <article class="service-card fade-in">
-            <div class="service-card__icon">📍</div>
+            <div class="service-card__icon"><svg class="ico" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
             <div class="service-card__tag">GEO</div>
             <h3 class="service-card__title">التحسين الجغرافي</h3>
             <p class="service-card__desc">نعزز ظهورك في نتائج البحث المحلية والجغرافية لاستهداف عملائك في موقعهم الصحيح</p>
-            <ul class="service-card__features">
-              <li>Google My Business</li>
-              <li>الكلمات المحلية</li>
-              <li>الخرائط والنتائج المحلية</li>
-              <li>مراجعات العملاء</li>
-            </ul>
+            <ul class="service-card__features"><li>Google My Business</li><li>الكلمات المحلية</li><li>الخرائط والنتائج المحلية</li><li>مراجعات العملاء</li></ul>
             <a href="#contact" class="service-card__link">اعرف المزيد <span aria-hidden="true">←</span></a>
           </article>
           <article class="service-card fade-in">
-            <div class="service-card__icon">💻</div>
+            <div class="service-card__icon"><svg class="ico" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m9.5 8-2 2 2 2M14.5 8l2 2-2 2"/></svg></div>
             <div class="service-card__tag">Web Design</div>
             <h3 class="service-card__title">تصميم المواقع</h3>
             <p class="service-card__desc">نصمم مواقع ويب احترافية سريعة وجميلة تعكس هوية علامتك التجارية وتحول الزوار لعملاء</p>
-            <ul class="service-card__features">
-              <li>تصميم متجاوب</li>
-              <li>سرعة عالية</li>
-              <li>تجربة مستخدم مثالية</li>
-              <li>تحسين معدل التحويل</li>
-            </ul>
+            <ul class="service-card__features"><li>تصميم متجاوب</li><li>سرعة عالية</li><li>تجربة مستخدم مثالية</li><li>تحسين معدل التحويل</li></ul>
             <a href="#contact" class="service-card__link">اعرف المزيد <span aria-hidden="true">←</span></a>
           </article>
         </div>
@@ -835,46 +648,26 @@ ul { list-style: none; }
         <div class="about__inner">
           <div class="about__text fade-in">
             <span class="badge">من نحن</span>
-            <h2 class="section__title" style="margin-top:16px;">
-              شركاؤك في<br /><span class="text--cyan">النجاح الرقمي</span>
-            </h2>
+            <h2 class="section__title" style="margin-top:16px;">شركاؤك في<br /><span class="text--cyan">النجاح الرقمي</span></h2>
             <p class="about__para">نحن فريق من الخبراء المتخصصين في تحسين محركات البحث والتسويق الرقمي. نؤمن بأن كل عمل تجاري يستحق حضوراً رقمياً قوياً يعكس قيمته الحقيقية ويصل إلى جمهوره المستهدف.</p>
             <p class="about__para">منذ تأسيسنا، نجحنا في خدمة أكثر من <strong class="text--cyan">500 عميل</strong> من مختلف القطاعات، محققين نتائج قابلة للقياس ونمواً مستداماً في الحضور الرقمي.</p>
             <div class="about__highlights">
               <div class="highlight">
-                <span class="highlight__icon">🏅</span>
-                <div>
-                  <strong>جودة عالمية</strong>
-                  <p>نلتزم بأعلى المعايير الدولية في كل مشروع</p>
-                </div>
+                <span class="highlight__icon"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M8.5 13 7 22l5-3 5 3-1.5-9"/></svg></span>
+                <div><strong>جودة عالمية</strong><p>نلتزم بأعلى المعايير الدولية في كل مشروع</p></div>
               </div>
               <div class="highlight">
-                <span class="highlight__icon">🔐</span>
-                <div>
-                  <strong>خصوصية تامة</strong>
-                  <p>بيانات عملائنا في أمان تام ومحمية</p>
-                </div>
+                <span class="highlight__icon"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                <div><strong>خصوصية تامة</strong><p>بيانات عملائنا في أمان تام ومحمية</p></div>
               </div>
             </div>
           </div>
           <div class="about__visual fade-in">
             <div class="about__card-stack">
-              <div class="about__stat-card about__stat-card--1">
-                <span class="stat-card__num">500+</span>
-                <span class="stat-card__lbl">عميل سعيد</span>
-              </div>
-              <div class="about__stat-card about__stat-card--2">
-                <span class="stat-card__num">98%</span>
-                <span class="stat-card__lbl">معدل رضا</span>
-              </div>
-              <div class="about__stat-card about__stat-card--3">
-                <span class="stat-card__num">#1</span>
-                <span class="stat-card__lbl">نتائج بحث</span>
-              </div>
-              <div class="about__center-logo">
-                <span>See AEO</span>
-                <small>شريكك الرقمي</small>
-              </div>
+              <div class="about__stat-card about__stat-card--1"><span class="stat-card__num">500+</span><span class="stat-card__lbl">عميل سعيد</span></div>
+              <div class="about__stat-card about__stat-card--2"><span class="stat-card__num">98%</span><span class="stat-card__lbl">معدل رضا</span></div>
+              <div class="about__stat-card about__stat-card--3"><span class="stat-card__num">#1</span><span class="stat-card__lbl">نتائج بحث</span></div>
+              <div class="about__center-logo"><span>See<b>AEO</b></span><small>شريكك الرقمي</small></div>
             </div>
           </div>
         </div>
@@ -891,32 +684,32 @@ ul { list-style: none; }
         </div>
         <div class="why-grid">
           <div class="why-card fade-in">
-            <div class="why-card__icon">⚡</div>
+            <div class="why-card__icon"><svg class="ico" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg></div>
             <h3 class="why-card__title">نتائج قابلة للقياس</h3>
             <p class="why-card__desc">نقدم تقارير شاملة وتحليلات دقيقة لكل حملة حتى تعرف بالضبط أين يذهب استثمارك</p>
           </div>
           <div class="why-card fade-in">
-            <div class="why-card__icon">🎯</div>
+            <div class="why-card__icon"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></div>
             <h3 class="why-card__title">استراتيجية مخصصة</h3>
             <p class="why-card__desc">كل عميل يحصل على خطة عمل مصممة خصيصاً لأهدافه وطبيعة سوقه وميزانيته</p>
           </div>
           <div class="why-card fade-in">
-            <div class="why-card__icon">🔬</div>
+            <div class="why-card__icon"><svg class="ico" viewBox="0 0 24 24"><path d="M10 2v6.5L5 17a2.5 2.5 0 0 0 2.2 3.7h9.6A2.5 2.5 0 0 0 19 17l-5-8.5V2"/><path d="M8.5 2h7"/></svg></div>
             <h3 class="why-card__title">تقنيات متقدمة</h3>
             <p class="why-card__desc">نستخدم أحدث أدوات وتقنيات الذكاء الاصطناعي في تحليل البيانات وتطوير الاستراتيجيات</p>
           </div>
           <div class="why-card fade-in">
-            <div class="why-card__icon">🤝</div>
+            <div class="why-card__icon"><svg class="ico" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2.5" y="14" width="4" height="6" rx="1.5"/><rect x="17.5" y="14" width="4" height="6" rx="1.5"/></svg></div>
             <h3 class="why-card__title">دعم مستمر</h3>
             <p class="why-card__desc">فريقنا متاح على مدار الساعة للإجابة على استفساراتك وحل أي مشكلة بأسرع وقت</p>
           </div>
           <div class="why-card fade-in">
-            <div class="why-card__icon">📈</div>
+            <div class="why-card__icon"><svg class="ico" viewBox="0 0 24 24"><path d="M3 17 9 11l4 4 8-8"/><path d="M17 7h4v4"/></svg></div>
             <h3 class="why-card__title">نمو مستدام</h3>
             <p class="why-card__desc">نبني حضوراً رقمياً طويل الأمد لا يتأثر بتغييرات الخوارزميات أو تقلبات السوق</p>
           </div>
           <div class="why-card fade-in">
-            <div class="why-card__icon">🏆</div>
+            <div class="why-card__icon"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg></div>
             <h3 class="why-card__title">خبرة مثبتة</h3>
             <p class="why-card__desc">سنوات من النجاح مع عملاء من مختلف القطاعات تجعلنا الخيار الأمثل لنمو أعمالك</p>
           </div>
@@ -934,40 +727,32 @@ ul { list-style: none; }
         </div>
         <div class="process-track">
           <div class="process-line"></div>
-          <div class="process-step fade-in">
-            <div class="process-step__num">01</div>
-            <div class="process-step__content">
-              <h3>التحليل والتشخيص</h3>
-              <p>نحلل وضعك الرقمي الحالي بدقة، ندرس منافسيك، ونفهم أهدافك وجمهورك المستهدف لبناء أساس قوي</p>
-            </div>
-          </div>
-          <div class="process-step fade-in">
-            <div class="process-step__num">02</div>
-            <div class="process-step__content">
-              <h3>وضع الاستراتيجية</h3>
-              <p>نضع خطة عمل مخصصة ومفصلة تحدد الأولويات والخطوات والجداول الزمنية لتحقيق أهدافك</p>
-            </div>
-          </div>
-          <div class="process-step fade-in">
-            <div class="process-step__num">03</div>
-            <div class="process-step__content">
-              <h3>التنفيذ والتطوير</h3>
-              <p>ننفذ الاستراتيجية بكفاءة واحترافية عالية مع متابعة مستمرة للتأكد من سير الأمور وفق الخطة</p>
-            </div>
-          </div>
-          <div class="process-step fade-in">
-            <div class="process-step__num">04</div>
-            <div class="process-step__content">
-              <h3>القياس والتحسين</h3>
-              <p>نراقب النتائج بدقة ونحسن باستمرار بناءً على البيانات الفعلية لضمان أفضل أداء ممكن</p>
-            </div>
-          </div>
+          <div class="process-step fade-in"><div class="process-step__num">01</div><div class="process-step__content"><h3>التحليل والتشخيص</h3><p>نحلل وضعك الرقمي الحالي بدقة، ندرس منافسيك، ونفهم أهدافك وجمهورك المستهدف لبناء أساس قوي</p></div></div>
+          <div class="process-step fade-in"><div class="process-step__num">02</div><div class="process-step__content"><h3>وضع الاستراتيجية</h3><p>نضع خطة عمل مخصصة ومفصلة تحدد الأولويات والخطوات والجداول الزمنية لتحقيق أهدافك</p></div></div>
+          <div class="process-step fade-in"><div class="process-step__num">03</div><div class="process-step__content"><h3>التنفيذ والتطوير</h3><p>ننفذ الاستراتيجية بكفاءة واحترافية عالية مع متابعة مستمرة للتأكد من سير الأمور وفق الخطة</p></div></div>
+          <div class="process-step fade-in"><div class="process-step__num">04</div><div class="process-step__content"><h3>القياس والتحسين</h3><p>نراقب النتائج بدقة ونحسن باستمرار بناءً على البيانات الفعلية لضمان أفضل أداء ممكن</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKS / PORTFOLIO -->
+    <section class="section section--alt" id="works">
+      <div class="container">
+        <div class="section__header fade-in">
+          <span class="badge">أعمالنا</span>
+          <h2 class="section__title">نماذج من مشاريعنا الناجحة</h2>
+          <p class="section__subtitle">قصص نجاح حقيقية تعكس أثر عملنا على نمو عملائنا</p>
+        </div>
+        <div class="works-grid">
+          <article class="work-card fade-in"><span class="work-card__tag">SEO · متجر إلكتروني</span><h3 class="work-card__title">+320% زيارات عضوية</h3><p class="work-card__desc">تصدّر الكلمات التنافسية خلال 6 أشهر لمتجر تجزئة رائد</p></article>
+          <article class="work-card fade-in"><span class="work-card__tag">AEO · منصة تقنية</span><h3 class="work-card__title">المصدر #1 في إجابات AI</h3><p class="work-card__desc">ظهور دائم في إجابات الذكاء الاصطناعي وصناديق الإجابات</p></article>
+          <article class="work-card fade-in"><span class="work-card__tag">Web Design · شركة خدمات</span><h3 class="work-card__title">موقع متكامل سريع</h3><p class="work-card__desc">تصميم وتطوير موقع رفع معدل التحويل بنسبة 45%</p></article>
         </div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section class="section section--alt" id="contact">
+    <section class="section" id="contact">
       <div class="container">
         <div class="section__header fade-in">
           <span class="badge">تواصل معنا</span>
@@ -978,102 +763,40 @@ ul { list-style: none; }
           <div class="contact__form-wrap fade-in">
             <form class="contact-form" id="contactForm" novalidate>
               <div class="form-row">
-                <div class="form-group">
-                  <label for="name">الاسم الكامل</label>
-                  <input type="text" id="name" name="name" placeholder="أدخل اسمك الكامل" required />
-                  <span class="form-error" id="nameError"></span>
-                </div>
-                <div class="form-group">
-                  <label for="email">البريد الإلكتروني</label>
-                  <input type="email" id="email" name="email" placeholder="example@domain.com" required />
-                  <span class="form-error" id="emailError"></span>
-                </div>
+                <div class="form-group"><label for="name">الاسم الكامل</label><input type="text" id="name" name="name" placeholder="أدخل اسمك الكامل" required /><span class="form-error" id="nameError"></span></div>
+                <div class="form-group"><label for="email">البريد الإلكتروني</label><input type="email" id="email" name="email" placeholder="example@domain.com" required /><span class="form-error" id="emailError"></span></div>
               </div>
               <div class="form-row">
-                <div class="form-group">
-                  <label for="phone">رقم الهاتف</label>
-                  <input type="tel" id="phone" name="phone" placeholder="+966 5x xxx xxxx" />
-                  <span class="form-error" id="phoneError"></span>
-                </div>
-                <div class="form-group">
-                  <label for="service">الخدمة المطلوبة</label>
-                  <select id="service" name="service">
-                    <option value="" disabled selected>اختر الخدمة</option>
-                    <option value="seo">SEO - تحسين محركات البحث</option>
-                    <option value="aeo">AEO - تحسين محركات الإجابة</option>
-                    <option value="geo">GEO - التحسين الجغرافي</option>
-                    <option value="web">Web Design - تصميم المواقع</option>
-                    <option value="all">جميع الخدمات</option>
-                  </select>
-                </div>
+                <div class="form-group"><label for="phone">رقم الهاتف</label><input type="tel" id="phone" name="phone" placeholder="+966 5x xxx xxxx" /><span class="form-error" id="phoneError"></span></div>
+                <div class="form-group"><label for="service">الخدمة المطلوبة</label><select id="service" name="service"><option value="" disabled selected>اختر الخدمة</option><option value="seo">SEO - تحسين محركات البحث</option><option value="aeo">AEO - تحسين محركات الإجابة</option><option value="geo">GEO - التحسين الجغرافي</option><option value="web">Web Design - تصميم المواقع</option><option value="all">جميع الخدمات</option></select></div>
               </div>
-              <div class="form-group">
-                <label for="message">رسالتك</label>
-                <textarea id="message" name="message" rows="5" placeholder="أخبرنا عن مشروعك وأهدافك..." required></textarea>
-                <span class="form-error" id="messageError"></span>
-              </div>
-              <button type="submit" class="btn btn--primary btn--full">
-                <span class="btn-text">أرسل رسالتك</span>
-                <span class="btn-icon">✉</span>
-              </button>
-              <div class="form-success" id="formSuccess" aria-live="polite">
-                تم إرسال رسالتك بنجاح! سنتواصل معك في أقرب وقت ممكن 🎉
-              </div>
+              <div class="form-group"><label for="message">رسالتك</label><textarea id="message" name="message" rows="5" placeholder="أخبرنا عن مشروعك وأهدافك..." required></textarea><span class="form-error" id="messageError"></span></div>
+              <button type="submit" class="btn btn--primary btn--full"><span class="btn-text">أرسل رسالتك</span><span class="btn-icon">✉</span></button>
+              <div class="form-success" id="formSuccess" aria-live="polite">تم إرسال رسالتك بنجاح! سنتواصل معك في أقرب وقت ممكن 🎉</div>
             </form>
           </div>
           <div class="contact__info fade-in">
             <div class="contact-info-card">
               <div class="contact-info__item">
-                <div class="contact-info__icon-wrap">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
-                  </svg>
-                </div>
-                <div>
-                  <strong>البريد الإلكتروني</strong>
-                  <a href="mailto:hello@seeaeo.com" class="contact-info__link">hello@seeaeo.com</a>
-                </div>
+                <div class="contact-info__icon-wrap"><svg class="ico" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 6 9-6"/></svg></div>
+                <div><strong>البريد الإلكتروني</strong><a href="mailto:hello@seeaeo.com" class="contact-info__link">hello@seeaeo.com</a></div>
               </div>
               <div class="contact-info__item">
-                <div class="contact-info__icon-wrap">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-                  </svg>
-                </div>
-                <div>
-                  <strong>رقم الهاتف</strong>
-                  <a href="tel:+966500000000" class="contact-info__link" dir="ltr">+966 50 000 0000</a>
-                </div>
+                <div class="contact-info__icon-wrap"><svg class="ico" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.8 2Z"/></svg></div>
+                <div><strong>رقم الهاتف</strong><a href="tel:+966500000000" class="contact-info__link" dir="ltr">+966 50 000 0000</a></div>
               </div>
               <div class="contact-info__item">
-                <div class="contact-info__icon-wrap">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1118 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                </div>
-                <div>
-                  <strong>الموقع</strong>
-                  <span class="contact-info__text">الرياض، المملكة العربية السعودية</span>
-                </div>
+                <div class="contact-info__icon-wrap"><svg class="ico" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div><strong>الموقع</strong><span class="contact-info__text">الرياض، المملكة العربية السعودية</span></div>
               </div>
             </div>
             <div class="social-links">
               <p class="social-links__label">تابعنا على</p>
               <div class="social-links__icons">
-                <a href="#" class="social-link" aria-label="تويتر">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </a>
-                <a href="#" class="social-link" aria-label="لينكدإن">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                </a>
-                <a href="#" class="social-link" aria-label="انستغرام">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                </a>
-                <a href="#" class="social-link" aria-label="يوتيوب">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                </a>
+                <a href="#" class="social-link" aria-label="X"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="#" class="social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                <a href="#" class="social-link" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
               </div>
             </div>
           </div>
@@ -1083,219 +806,99 @@ ul { list-style: none; }
 
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__brand">
-        <a href="#" class="navbar__logo footer__logo">See AEO</a>
-        <p class="footer__tagline">نُحوّل وجودك الرقمي إلى قوة لا تُقهر</p>
-        <div class="social-links__icons" style="margin-top:16px;">
-          <a href="#" class="social-link" aria-label="تويتر">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a href="#" class="social-link" aria-label="لينكدإن">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <a href="#" class="social-link" aria-label="انستغرام">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-          </a>
+        <a href="#hero" class="brand-logo footer__logo" aria-label="See AEO">
+          <span class="brand-logo__mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-3.5-3.5"/></svg></span>
+          <span class="brand-logo__text">See<b>AEO</b></span>
+        </a>
+        <p class="footer__tagline">نُحوّل وجودك الرقمي إلى قوة لا تُقهر في نتائج البحث وإجابات الذكاء الاصطناعي.</p>
+        <div class="social-links__icons" style="margin-top:18px;">
+          <a href="#" class="social-link" aria-label="X"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="#" class="social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
         </div>
       </div>
-      <div class="footer__links-group">
-        <h4 class="footer__heading">روابط سريعة</h4>
-        <ul class="footer__links">
-          <li><a href="#hero">الرئيسية</a></li>
-          <li><a href="#services">خدماتنا</a></li>
-          <li><a href="#about">من نحن</a></li>
-          <li><a href="#why">لماذا نحن</a></li>
-          <li><a href="#contact">تواصل معنا</a></li>
-        </ul>
-      </div>
-      <div class="footer__links-group">
-        <h4 class="footer__heading">خدماتنا</h4>
-        <ul class="footer__links">
-          <li><a href="#services">SEO - تحسين محركات البحث</a></li>
-          <li><a href="#services">AEO - تحسين محركات الإجابة</a></li>
-          <li><a href="#services">GEO - التحسين الجغرافي</a></li>
-          <li><a href="#services">تصميم المواقع الاحترافية</a></li>
-        </ul>
-      </div>
-      <div class="footer__links-group">
-        <h4 class="footer__heading">تواصل معنا</h4>
-        <ul class="footer__links">
-          <li><a href="mailto:hello@seeaeo.com">hello@seeaeo.com</a></li>
-          <li><a href="tel:+966500000000" dir="ltr">+966 50 000 0000</a></li>
-          <li><span>الرياض، المملكة العربية السعودية</span></li>
-        </ul>
-      </div>
+      <div class="footer__links-group"><h4 class="footer__heading">روابط سريعة</h4><ul class="footer__links"><li><a href="#hero">الرئيسية</a></li><li><a href="#services">خدماتنا</a></li><li><a href="#works">أعمالنا</a></li><li><a href="#about">من نحن</a></li><li><a href="#contact">تواصل معنا</a></li></ul></div>
+      <div class="footer__links-group"><h4 class="footer__heading">خدماتنا</h4><ul class="footer__links"><li><a href="#services">SEO - تحسين محركات البحث</a></li><li><a href="#services">AEO - تحسين محركات الإجابة</a></li><li><a href="#services">GEO - التحسين الجغرافي</a></li><li><a href="#services">تصميم المواقع الاحترافية</a></li></ul></div>
+      <div class="footer__links-group"><h4 class="footer__heading">تواصل معنا</h4><ul class="footer__links"><li><a href="mailto:hello@seeaeo.com">hello@seeaeo.com</a></li><li><a href="tel:+966500000000" dir="ltr">+966 50 000 0000</a></li><li><span>الرياض، المملكة العربية السعودية</span></li></ul></div>
     </div>
-    <div class="footer__bottom">
-      <div class="container">
-        <p>© 2025 See AEO. جميع الحقوق محفوظة</p>
-        <div class="footer__bottom-links">
-          <a href="#">سياسة الخصوصية</a>
-          <a href="#">الشروط والأحكام</a>
-        </div>
-      </div>
-    </div>
+    <div class="footer__bottom"><div class="container"><p>© 2025 See AEO. جميع الحقوق محفوظة</p><div class="footer__bottom-links"><a href="#">سياسة الخصوصية</a><a href="#">الشروط والأحكام</a></div></div></div>
   </footer>
 
 <script>
 'use strict';
-
-// 1. STICKY NAVBAR
 const navbar = document.getElementById('navbar');
-function handleNavbarScroll() {
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
-}
-window.addEventListener('scroll', handleNavbarScroll, { passive: true });
-handleNavbarScroll();
+function handleNavbarScroll(){ navbar.classList.toggle('scrolled', window.scrollY > 30); }
+window.addEventListener('scroll', handleNavbarScroll, { passive:true }); handleNavbarScroll();
 
-// 2. MOBILE HAMBURGER
 const hamburger = document.getElementById('hamburger');
 const mobileNav = document.getElementById('mobileNav');
-function openMobileNav() {
-  hamburger.classList.add('open');
-  mobileNav.classList.add('open');
-  mobileNav.setAttribute('aria-hidden', 'false');
-  hamburger.setAttribute('aria-expanded', 'true');
-  document.body.style.overflow = 'hidden';
-}
-function closeMobileNav() {
-  hamburger.classList.remove('open');
-  mobileNav.classList.remove('open');
-  mobileNav.setAttribute('aria-hidden', 'true');
-  hamburger.setAttribute('aria-expanded', 'false');
-  document.body.style.overflow = '';
-}
-hamburger.addEventListener('click', () => {
-  mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav();
-});
-document.addEventListener('click', (e) => {
-  if (mobileNav.classList.contains('open') && !mobileNav.contains(e.target) && !hamburger.contains(e.target)) closeMobileNav();
-});
-window.addEventListener('resize', () => { if (window.innerWidth > 768) closeMobileNav(); });
+function openMobileNav(){ hamburger.classList.add('open'); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden','false'); hamburger.setAttribute('aria-expanded','true'); }
+function closeMobileNav(){ hamburger.classList.remove('open'); mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden','true'); hamburger.setAttribute('aria-expanded','false'); }
+hamburger.addEventListener('click', () => { mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav(); });
+document.addEventListener('click', (e) => { if (mobileNav.classList.contains('open') && !mobileNav.contains(e.target) && !hamburger.contains(e.target)) closeMobileNav(); });
+window.addEventListener('resize', () => { if (window.innerWidth > 1024) closeMobileNav(); });
 
-// 3. PARTICLE CANVAS
-(function initParticles() {
-  const canvas = document.getElementById('particleCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W, H, particles;
-  const CYAN = 'rgba(0,167,233,';
-  const PURPLE = 'rgba(106,64,144,';
-
-  function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
-  function rand(a, b) { return a + Math.random() * (b - a); }
-  function mkP() {
-    return { x: rand(0,W), y: rand(0,H), r: rand(0.8,2.2), vx: rand(-0.25,0.25), vy: rand(-0.3,0.1), a: rand(0.2,0.7), color: Math.random() > 0.55 ? CYAN : PURPLE };
-  }
-  function build() { particles = Array.from({length: 90}, mkP); }
-  function draw() {
+(function initParticles(){
+  const canvas = document.getElementById('particleCanvas'); if(!canvas) return;
+  const ctx = canvas.getContext('2d'); let W,H,particles;
+  const CYAN='rgba(0,167,233,', PURPLE='rgba(106,64,144,';
+  function resize(){ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; }
+  function rand(a,b){ return a+Math.random()*(b-a); }
+  function mkP(){ return {x:rand(0,W),y:rand(0,H),r:rand(0.8,2.2),vx:rand(-0.25,0.25),vy:rand(-0.3,0.1),a:rand(0.2,0.7),color:Math.random()>0.55?CYAN:PURPLE}; }
+  function build(){ particles=Array.from({length:80},mkP); }
+  function draw(){
     ctx.clearRect(0,0,W,H);
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i+1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
-        const d = Math.sqrt(dx*dx + dy*dy);
-        if (d < 100) {
-          ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = CYAN + (1 - d/100)*0.12 + ')'; ctx.lineWidth = 0.5; ctx.stroke();
-        }
-      }
-    }
-    particles.forEach(p => {
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-      ctx.fillStyle = p.color + p.a + ')'; ctx.fill();
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < -5) p.x = W+5; if (p.x > W+5) p.x = -5;
-      if (p.y < -5) p.y = H+5; if (p.y > H+5) p.y = -5;
-    });
+    for(let i=0;i<particles.length;i++){ for(let j=i+1;j<particles.length;j++){ const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy); if(d<100){ ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=CYAN+(1-d/100)*0.12+')';ctx.lineWidth=0.5;ctx.stroke(); } } }
+    particles.forEach(p=>{ ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color+p.a+')';ctx.fill(); p.x+=p.vx;p.y+=p.vy; if(p.x<-5)p.x=W+5; if(p.x>W+5)p.x=-5; if(p.y<-5)p.y=H+5; if(p.y>H+5)p.y=-5; });
     requestAnimationFrame(draw);
   }
   resize(); build(); draw();
   window.addEventListener('resize', () => { resize(); build(); });
 })();
 
-// 4. FADE-IN on scroll
-(function() {
-  const els = document.querySelectorAll('.fade-in');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  els.forEach(el => obs.observe(el));
+(function(){
+  const els=document.querySelectorAll('.fade-in');
+  const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target);} }); },{threshold:0.12});
+  els.forEach(el=>obs.observe(el));
 })();
 
-// 5. COUNTER ANIMATION
-(function() {
-  const counters = document.querySelectorAll('.stat__number');
-  let started = false;
-  function animate(el) {
-    const target = parseInt(el.dataset.target, 10);
-    const steps = Math.ceil(1800/16);
-    let count = 0;
-    const t = setInterval(() => {
-      count++;
-      const eased = 1 - Math.pow(1 - count/steps, 3);
-      el.textContent = Math.round(eased * target).toLocaleString('ar');
-      if (count >= steps) { el.textContent = target.toLocaleString('ar'); clearInterval(t); }
-    }, 16);
-  }
-  const hero = document.getElementById('hero');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting && !started) { started = true; counters.forEach(animate); obs.disconnect(); } });
-  }, { threshold: 0.3 });
-  if (hero) obs.observe(hero);
+(function(){
+  const counters=document.querySelectorAll('.stat__number'); let started=false;
+  function animate(el){ const target=parseInt(el.dataset.target,10),steps=Math.ceil(1800/16); let c=0; const t=setInterval(()=>{ c++; const eased=1-Math.pow(1-c/steps,3); el.textContent=Math.round(eased*target).toLocaleString('ar'); if(c>=steps){ el.textContent=target.toLocaleString('ar'); clearInterval(t);} },16); }
+  const hero=document.getElementById('hero');
+  const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting&&!started){ started=true; counters.forEach(animate); obs.disconnect();} }); },{threshold:0.3});
+  if(hero) obs.observe(hero);
 })();
 
-// 6. ACTIVE NAV
-(function() {
-  const sections = document.querySelectorAll('section[id]');
-  const links = document.querySelectorAll('.navbar__links .nav-link, .mobile-nav .nav-link');
-  function setActive() {
-    let cur = '';
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - window.innerHeight * 0.4) cur = s.id; });
-    links.forEach(l => { l.style.color = l.getAttribute('href') === '#' + cur ? 'var(--clr-cyan)' : ''; });
-  }
-  window.addEventListener('scroll', setActive, { passive: true });
-  setActive();
+(function(){
+  const sections=document.querySelectorAll('section[id]');
+  const links=document.querySelectorAll('.navbar__links .nav-link');
+  function setActive(){ let cur=''; sections.forEach(s=>{ if(window.scrollY>=s.offsetTop-window.innerHeight*0.4) cur=s.id; }); links.forEach(l=>{ l.classList.toggle('active', l.getAttribute('href')==='#'+cur); }); }
+  window.addEventListener('scroll', setActive, {passive:true}); setActive();
 })();
 
-// 7. FORM VALIDATION
-(function() {
-  const form = document.getElementById('contactForm');
-  if (!form) return;
-  const nameEl = document.getElementById('name'), emailEl = document.getElementById('email'), msgEl = document.getElementById('message');
-  const nameErr = document.getElementById('nameError'), emailErr = document.getElementById('emailError'), msgErr = document.getElementById('messageError');
-  const successBox = document.getElementById('formSuccess');
-  const err = (el, eEl, msg) => { el.style.borderColor = '#ff6b6b'; eEl.textContent = msg; };
-  const clr = (el, eEl) => { el.style.borderColor = ''; eEl.textContent = ''; };
-  const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
-  function validate() {
-    let ok = true;
-    if (!nameEl.value.trim() || nameEl.value.trim().length < 2) { err(nameEl, nameErr, 'الرجاء إدخال اسمك الكامل'); ok = false; } else clr(nameEl, nameErr);
-    if (!validEmail(emailEl.value)) { err(emailEl, emailErr, 'صيغة البريد الإلكتروني غير صحيحة'); ok = false; } else clr(emailEl, emailErr);
-    if (!msgEl.value.trim() || msgEl.value.trim().length < 10) { err(msgEl, msgErr, 'الرجاء كتابة رسالتك'); ok = false; } else clr(msgEl, msgErr);
-    return ok;
-  }
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    if (!validate()) return;
-    const btn = form.querySelector('button[type="submit"]');
-    btn.disabled = true;
-    btn.querySelector('.btn-text').textContent = 'جاري الإرسال...';
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.querySelector('.btn-text').textContent = 'أرسل رسالتك';
-      successBox.classList.add('show');
-      form.reset();
-      setTimeout(() => successBox.classList.remove('show'), 5000);
-    }, 1400);
+(function(){
+  const form=document.getElementById('contactForm'); if(!form) return;
+  const nameEl=document.getElementById('name'),emailEl=document.getElementById('email'),msgEl=document.getElementById('message');
+  const nameErr=document.getElementById('nameError'),emailErr=document.getElementById('emailError'),msgErr=document.getElementById('messageError'),successBox=document.getElementById('formSuccess');
+  const err=(el,e,m)=>{el.style.borderColor='#ff6b6b';e.textContent=m;}, clr=(el,e)=>{el.style.borderColor='';e.textContent='';};
+  const validEmail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  function validate(){ let ok=true;
+    if(!nameEl.value.trim()||nameEl.value.trim().length<2){err(nameEl,nameErr,'الرجاء إدخال اسمك الكامل');ok=false;}else clr(nameEl,nameErr);
+    if(!validEmail(emailEl.value)){err(emailEl,emailErr,'صيغة البريد الإلكتروني غير صحيحة');ok=false;}else clr(emailEl,emailErr);
+    if(!msgEl.value.trim()||msgEl.value.trim().length<10){err(msgEl,msgErr,'الرجاء كتابة رسالتك');ok=false;}else clr(msgEl,msgErr);
+    return ok; }
+  form.addEventListener('submit', e=>{ e.preventDefault(); if(!validate()) return;
+    const btn=form.querySelector('button[type="submit"]'); btn.disabled=true; btn.querySelector('.btn-text').textContent='جاري الإرسال...';
+    setTimeout(()=>{ btn.disabled=false; btn.querySelector('.btn-text').textContent='أرسل رسالتك'; successBox.classList.add('show'); form.reset(); setTimeout(()=>successBox.classList.remove('show'),5000); },1400);
   });
 })();
 
-// 8. SCROLL TO TOP
-document.querySelectorAll('.navbar__logo, .footer__logo').forEach(el => {
-  el.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-});
+document.querySelectorAll('.navbar__logo, .footer__logo').forEach(el=>{ el.addEventListener('click', e=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); }); });
 </script>
 </body>
 </html>
