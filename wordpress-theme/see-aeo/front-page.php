@@ -172,12 +172,18 @@ get_header();
           <h2 class="section__title">كيف نعمل؟</h2>
           <p class="section__subtitle">أربع خطوات واضحة توصلك من نقطة الانطلاق إلى القمة</p>
         </div>
-        <div class="process-track">
-          <div class="process-line"></div>
-          <div class="process-step fade-in"><div class="process-step__num">01</div><div class="process-step__content"><h3>التحليل والتشخيص</h3><p>نحلل وضعك الرقمي الحالي بدقة، ندرس منافسيك، ونفهم أهدافك وجمهورك المستهدف لبناء أساس قوي</p></div></div>
-          <div class="process-step fade-in"><div class="process-step__num">02</div><div class="process-step__content"><h3>وضع الاستراتيجية</h3><p>نضع خطة عمل مخصصة ومفصلة تحدد الأولويات والخطوات والجداول الزمنية لتحقيق أهدافك</p></div></div>
-          <div class="process-step fade-in"><div class="process-step__num">03</div><div class="process-step__content"><h3>التنفيذ والتطوير</h3><p>ننفذ الاستراتيجية بكفاءة واحترافية عالية مع متابعة مستمرة للتأكد من سير الأمور وفق الخطة</p></div></div>
-          <div class="process-step fade-in"><div class="process-step__num">04</div><div class="process-step__content"><h3>القياس والتحسين</h3><p>نراقب النتائج بدقة ونحسن باستمرار بناءً على البيانات الفعلية لضمان أفضل أداء ممكن</p></div></div>
+        <div class="process-inner">
+          <div class="process-track">
+            <div class="process-line"></div>
+            <div class="process-step fade-in"><div class="process-step__num">01</div><div class="process-step__content"><h3>التحليل والتشخيص</h3><p>نحلل وضعك الرقمي الحالي بدقة، ندرس منافسيك، ونفهم أهدافك وجمهورك المستهدف لبناء أساس قوي</p></div></div>
+            <div class="process-step fade-in"><div class="process-step__num">02</div><div class="process-step__content"><h3>وضع الاستراتيجية</h3><p>نضع خطة عمل مخصصة ومفصلة تحدد الأولويات والخطوات والجداول الزمنية لتحقيق أهدافك</p></div></div>
+            <div class="process-step fade-in"><div class="process-step__num">03</div><div class="process-step__content"><h3>التنفيذ والتطوير</h3><p>ننفذ الاستراتيجية بكفاءة واحترافية عالية مع متابعة مستمرة للتأكد من سير الأمور وفق الخطة</p></div></div>
+            <div class="process-step fade-in"><div class="process-step__num">04</div><div class="process-step__content"><h3>القياس والتحسين</h3><p>نراقب النتائج بدقة ونحسن باستمرار بناءً على البيانات الفعلية لضمان أفضل أداء ممكن</p></div></div>
+          </div>
+
+          <div class="process-visual fade-in">
+            <div class="process-image" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/img/lanx-dashboard.png' ); ?>');"></div>
+          </div>
         </div>
       </div>
     </section>

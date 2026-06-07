@@ -441,7 +441,38 @@ ul { list-style: none; }
 /* ============================================================
    PROCESS
 ============================================================ */
+.process-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
 .process-track { position: relative; display: flex; flex-direction: column; gap: 0; }
+/* Dashboard image panel */
+.process-visual { position: relative; }
+.process-image {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  display: block;
+  overflow: visible;
+  background-image: url("assets/img/lanx-dashboard.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid rgba(0,167,233,0.18);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 40px rgba(0,167,233,0.12);
+  /* أنيق احتياطياً إن لم تتوفر الصورة بعد */
+  background-color: var(--clr-bg-secondary);
+}
+.process-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(0,167,233,0.16) 0%, transparent 45%),
+    radial-gradient(circle at 75% 80%, rgba(106,64,144,0.18) 0%, transparent 45%);
+  pointer-events: none;
+}
 .process-line { position: absolute; right: 31px; top: 40px; bottom: 40px; width: 2px; background: linear-gradient(to bottom, var(--clr-cyan), rgba(0,167,233,0.1)); border-radius: 2px; }
 .process-step { display: flex; gap: 28px; align-items: flex-start; padding: 28px 0; padding-inline-start: 24px; }
 .process-step__num {
@@ -529,6 +560,7 @@ ul { list-style: none; }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
   .why-grid      { grid-template-columns: repeat(2, 1fr); }
   .works-grid    { grid-template-columns: repeat(2, 1fr); }
+  .process-inner { grid-template-columns: 1fr; gap: 44px; }
   .about__inner  { grid-template-columns: 1fr; gap: 48px; }
   .about__visual { order: -1; }
   .footer__inner { grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -554,6 +586,9 @@ ul { list-style: none; }
   .services-grid { grid-template-columns: 1fr; }
   .why-grid { grid-template-columns: 1fr; }
   .works-grid { grid-template-columns: 1fr; }
+  .process-inner { grid-template-columns: 1fr; gap: 36px; }
+  .process-visual { order: -1; }
+  .process-image { min-height: 240px; }
   .process-line { display: none; }
   .process-step { flex-direction: column; gap: 14px; padding-inline-start: 0; }
   .contact__inner { grid-template-columns: 1fr; gap: 36px; }
@@ -800,12 +835,18 @@ ul { list-style: none; }
           <h2 class="section__title">كيف نعمل؟</h2>
           <p class="section__subtitle">أربع خطوات واضحة توصلك من نقطة الانطلاق إلى القمة</p>
         </div>
-        <div class="process-track">
-          <div class="process-line"></div>
-          <div class="process-step fade-in"><div class="process-step__num">01</div><div class="process-step__content"><h3>التحليل والتشخيص</h3><p>نحلل وضعك الرقمي الحالي بدقة، ندرس منافسيك، ونفهم أهدافك وجمهورك المستهدف لبناء أساس قوي</p></div></div>
-          <div class="process-step fade-in"><div class="process-step__num">02</div><div class="process-step__content"><h3>وضع الاستراتيجية</h3><p>نضع خطة عمل مخصصة ومفصلة تحدد الأولويات والخطوات والجداول الزمنية لتحقيق أهدافك</p></div></div>
-          <div class="process-step fade-in"><div class="process-step__num">03</div><div class="process-step__content"><h3>التنفيذ والتطوير</h3><p>ننفذ الاستراتيجية بكفاءة واحترافية عالية مع متابعة مستمرة للتأكد من سير الأمور وفق الخطة</p></div></div>
-          <div class="process-step fade-in"><div class="process-step__num">04</div><div class="process-step__content"><h3>القياس والتحسين</h3><p>نراقب النتائج بدقة ونحسن باستمرار بناءً على البيانات الفعلية لضمان أفضل أداء ممكن</p></div></div>
+        <div class="process-inner">
+          <div class="process-track">
+            <div class="process-line"></div>
+            <div class="process-step fade-in"><div class="process-step__num">01</div><div class="process-step__content"><h3>التحليل والتشخيص</h3><p>نحلل وضعك الرقمي الحالي بدقة، ندرس منافسيك، ونفهم أهدافك وجمهورك المستهدف لبناء أساس قوي</p></div></div>
+            <div class="process-step fade-in"><div class="process-step__num">02</div><div class="process-step__content"><h3>وضع الاستراتيجية</h3><p>نضع خطة عمل مخصصة ومفصلة تحدد الأولويات والخطوات والجداول الزمنية لتحقيق أهدافك</p></div></div>
+            <div class="process-step fade-in"><div class="process-step__num">03</div><div class="process-step__content"><h3>التنفيذ والتطوير</h3><p>ننفذ الاستراتيجية بكفاءة واحترافية عالية مع متابعة مستمرة للتأكد من سير الأمور وفق الخطة</p></div></div>
+            <div class="process-step fade-in"><div class="process-step__num">04</div><div class="process-step__content"><h3>القياس والتحسين</h3><p>نراقب النتائج بدقة ونحسن باستمرار بناءً على البيانات الفعلية لضمان أفضل أداء ممكن</p></div></div>
+          </div>
+
+          <div class="process-visual fade-in">
+            <div class="process-image"></div>
+          </div>
         </div>
       </div>
     </section>
