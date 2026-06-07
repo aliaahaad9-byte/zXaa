@@ -89,6 +89,50 @@ get_header();
       </div>
     </section>
 
+    <!-- CLIENTS -->
+    <section class="section section--alt" id="clients">
+      <div class="container">
+        <div class="section__header fade-in">
+          <span class="badge">عملاءنا</span>
+          <h2 class="section__title">ثقة أكثر من 500 عميل</h2>
+          <p class="section__subtitle">شركات وأعمال تجارية تثق في See AEO لتحقيق نجاحها الرقمي</p>
+        </div>
+        <div class="clients-wrapper fade-in">
+          <div class="clients-track">
+            <div class="clients-marquee">
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,167,233,0.15);color:#00A7E9;">ر</div><span class="client-logo__name">الرياض التقنية</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(106,64,144,0.2);color:#9B6ED0;">ب</div><span class="client-logo__name">البناء الرقمي</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,167,233,0.15);color:#00A7E9;">T</div><span class="client-logo__name">TechSolutions</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(255,160,0,0.15);color:#FFA000;">م</div><span class="client-logo__name">ميديا برو</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,200,100,0.15);color:#00C864;">أ</div><span class="client-logo__name">الأفق الإبداعي</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,167,233,0.15);color:#00A7E9;">S</div><span class="client-logo__name">Smart Digital</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(255,80,80,0.15);color:#FF5050;">و</div><span class="client-logo__name">وان كريتف</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(106,64,144,0.2);color:#9B6ED0;">E</div><span class="client-logo__name">Elite Market</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,167,233,0.15);color:#00A7E9;">ن</div><span class="client-logo__name">نوفا للتسويق</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(255,160,0,0.15);color:#FFA000;">G</div><span class="client-logo__name">GlobalBrands</span></div>
+              <!-- Duplicate for seamless loop -->
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,167,233,0.15);color:#00A7E9;">ر</div><span class="client-logo__name">الرياض التقنية</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(106,64,144,0.2);color:#9B6ED0;">ب</div><span class="client-logo__name">البناء الرقمي</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,167,233,0.15);color:#00A7E9;">T</div><span class="client-logo__name">TechSolutions</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(255,160,0,0.15);color:#FFA000;">م</div><span class="client-logo__name">ميديا برو</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,200,100,0.15);color:#00C864;">أ</div><span class="client-logo__name">الأفق الإبداعي</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,167,233,0.15);color:#00A7E9;">S</div><span class="client-logo__name">Smart Digital</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(255,80,80,0.15);color:#FF5050;">و</div><span class="client-logo__name">وان كريتف</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(106,64,144,0.2);color:#9B6ED0;">E</div><span class="client-logo__name">Elite Market</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(0,167,233,0.15);color:#00A7E9;">ن</div><span class="client-logo__name">نوفا للتسويق</span></div>
+              <div class="client-logo"><div class="client-logo__icon" style="background:rgba(255,160,0,0.15);color:#FFA000;">G</div><span class="client-logo__name">GlobalBrands</span></div>
+            </div>
+          </div>
+          <div class="clients-stats fade-in">
+            <div class="clients-stat"><span class="clients-stat__num">500+</span><span class="clients-stat__lbl">عميل نشط</span></div>
+            <div class="clients-stat"><span class="clients-stat__num">98%</span><span class="clients-stat__lbl">معدل الرضا</span></div>
+            <div class="clients-stat"><span class="clients-stat__num">12+</span><span class="clients-stat__lbl">قطاع مختلف</span></div>
+            <div class="clients-stat"><span class="clients-stat__num">5★</span><span class="clients-stat__lbl">متوسط التقييم</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ABOUT -->
     <section class="section" id="about">
       <div class="container">
