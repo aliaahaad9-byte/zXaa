@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WPFC_Database {
 
     private static string $table      = 'wpfc_click_logs';
-    private static string $db_version = '1.0.1';
+    private static string $db_version = '1.0.2';
 
     // ─── Schema ───────────────────────────────────────────────────────────────
 
@@ -29,6 +29,7 @@ class WPFC_Database {
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
             id         BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             click_type VARCHAR(20)         NOT NULL,
+            page_title VARCHAR(255)        NOT NULL DEFAULT '',
             page_url   TEXT                NOT NULL,
             clicked_at DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
@@ -78,7 +79,7 @@ class WPFC_Database {
      * @param string $page_url    The frontend URL where the click occurred.
      * @return int|false          Rows inserted (1) or false on failure.
      */
-    public static function insert_log( string $click_type, string $page_url ) {
+    public static function insert_log( string $click_type, string $page_url, string $page_title = '' ) {
         global $wpdb;
 
         // Safety: if URL is empty after sanitisation, store the site home URL
@@ -93,14 +94,20 @@ class WPFC_Database {
             $clean_url = substr( $clean_url, 0, 2000 );
         }
 
+        $clean_title = sanitize_text_field( $page_title );
+        if ( strlen( $clean_title ) > 255 ) {
+            $clean_title = substr( $clean_title, 0, 255 );
+        }
+
         $result = $wpdb->insert(
             self::get_table_name(),
             array(
                 'click_type' => sanitize_text_field( $click_type ),
+                'page_title' => $clean_title,
                 'page_url'   => $clean_url,
                 'clicked_at' => current_time( 'mysql' ),
             ),
-            array( '%s', '%s', '%s' )
+            array( '%s', '%s', '%s', '%s' )
         );
 
         // Log a DB error to the WP debug log so it is visible during diagnosis.

@@ -72,8 +72,13 @@ class WPFC_Tracker {
             $page_url = substr( $page_url, 0, 2000 );
         }
 
+        // ── 2b. Sanitise page title ───────────────────────────────────────────
+        $page_title = isset( $_POST['page_title'] )
+            ? sanitize_text_field( wp_unslash( $_POST['page_title'] ) )
+            : '';
+
         // ── 3. Persist ────────────────────────────────────────────────────────
-        $result = WPFC_Database::insert_log( $click_type, $page_url );
+        $result = WPFC_Database::insert_log( $click_type, $page_url, $page_title );
 
         if ( false !== $result ) {
             wp_send_json_success( array( 'ok' => true ) );
