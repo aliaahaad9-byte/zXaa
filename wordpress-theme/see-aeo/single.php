@@ -5,6 +5,10 @@
  * @package See_AEO
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 get_header();
 ?>
 
@@ -17,7 +21,7 @@ get_header();
         ?>
         <div class="section__header">
           <span class="badge"><?php echo esc_html( get_the_date() ); ?></span>
-          <h1 class="section__title"><?php the_title(); ?></h1>
+          <h1 class="section__title"><?php echo esc_html( get_the_title() ); ?></h1>
         </div>
         <div class="about__para" style="max-width:820px;margin:0 auto;">
           <?php the_content(); ?>

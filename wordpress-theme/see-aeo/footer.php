@@ -4,6 +4,10 @@
  *
  * @package See_AEO
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 
   <!-- FOOTER -->

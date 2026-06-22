@@ -4,6 +4,10 @@
  *
  * @package See_AEO
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> dir="rtl">

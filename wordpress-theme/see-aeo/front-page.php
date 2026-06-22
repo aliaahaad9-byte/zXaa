@@ -5,6 +5,10 @@
  * @package See_AEO
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 get_header();
 ?>
 
