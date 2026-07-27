@@ -1,4 +1,4 @@
-<?
+<?php
 ob_start();
 class ThemeTree {
   private $args;

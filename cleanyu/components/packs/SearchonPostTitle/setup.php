@@ -1,4 +1,4 @@
-<?
+<?php
 function search_by_title( $search, $wp_query ) {
     if ( ! empty( $search ) && ! empty( $wp_query->query_vars['search_terms'] ) ) {
         global $wpdb;

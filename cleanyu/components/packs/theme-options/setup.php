@@ -1,4 +1,4 @@
-<?
+<?php
 define('YTS_Path', trailingslashit( dirname( __FILE__ ) ));
 $YTSURL = explode(get_template_directory(), trailingslashit( dirname( __FILE__ ) ))[1];
 $YTSURL = get_template_directory_uri().$YTSURL;
@@ -192,7 +192,7 @@ class YTS {
 					echo '</ul>';
 				echo '</div>';
 			echo '</div>';
-			echo '<script type="text/javascript">'; ?>var NavBarSlider = ["<a class='SliderOwl-prev'><i class='fa fa-angle-right'></i></a>", "<a class='SliderOwl-next'><i class='fa fa-angle-left'></i></a>"];<?
+			echo '<script type="text/javascript">'; ?>var NavBarSlider = ["<a class='SliderOwl-prev'><i class='fa fa-angle-right'></i></a>", "<a class='SliderOwl-next'><i class='fa fa-angle-left'></i></a>"];<?php
 				echo '$(".YTSTabList").owlCarousel({
 			        responsiveClass:true,
 			        stopOnHover: true,

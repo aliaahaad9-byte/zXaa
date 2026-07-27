@@ -1,4 +1,4 @@
-<?
+<?php
 $this->Part('header');
 global $wp, $wp_rewrite, $wp_query, $post;
 $paged = $this->Paged();

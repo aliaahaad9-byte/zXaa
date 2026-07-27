@@ -1,4 +1,4 @@
-<?global $ThemeStatic;
+<?php global $ThemeStatic;
 $VideosDB = new VideosDB;
 if(isset(($_GET['post']))){
 	$postID = $_GET['post'];

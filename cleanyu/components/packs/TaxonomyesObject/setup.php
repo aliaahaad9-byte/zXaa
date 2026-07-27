@@ -1,4 +1,4 @@
-<? function ExtractValues($data){
+<?php function ExtractValues($data){
   $TaxonomyesObject = array();
   foreach (TaxonomyesObject() as $tkey => $tmeky) {
     $TaxonomyesObject[$tkey] = $tmeky->label;

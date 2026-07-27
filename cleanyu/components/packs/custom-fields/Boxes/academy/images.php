@@ -1,4 +1,4 @@
-<? $Termo = get_term_by('id',$_GET['tag_ID'],'courses');
+<?php $Termo = get_term_by('id',$_GET['tag_ID'],'courses');
 $Certificate = (is_array(get_term_meta($Termo->term_id,'Certificate',true))) ? get_term_meta($Termo->term_id,'Certificate',true) : array();
 $Fonst = array(
 	'Readex_Pro'=>array(

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Theme__WidgetModel__intro extends WP_Widget {
     function __construct() {

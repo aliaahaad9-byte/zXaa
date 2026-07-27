@@ -1,4 +1,4 @@
-<?
+<?php
 class Format {
 	private $input = '';
 	private $output = '';

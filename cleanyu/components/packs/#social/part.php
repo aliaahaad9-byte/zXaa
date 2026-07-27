@@ -1,4 +1,4 @@
-<?
+<?php
 
 echo '<div class="social--footer">';
 	if (!empty(get_option('facebook'))){

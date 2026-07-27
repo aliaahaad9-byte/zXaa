@@ -1,4 +1,4 @@
-<?
+<?php
 if(isset(($_GET['post']))){
 	$postID = $_GET['post'];
 	$faq = (is_array(get_post_meta($postID,'faq',true))) ? get_post_meta($postID,'faq',true) : array();

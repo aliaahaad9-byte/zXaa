@@ -1,4 +1,4 @@
-<?
+<?php
 function get_brightness($hex) { 
 	$hex = str_replace('#', '', $hex); 
 	$c_r = hexdec(substr($hex, 0, 2)); 

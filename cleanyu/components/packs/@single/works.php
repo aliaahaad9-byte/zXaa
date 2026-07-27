@@ -1,4 +1,4 @@
-<?
+<?php
 $url = get_the_permalink($post->ID);
 $img = get_the_post_thumbnail_url($post->ID, 'medium-large');
 $category = get_the_terms($post->ID, 'category', '');

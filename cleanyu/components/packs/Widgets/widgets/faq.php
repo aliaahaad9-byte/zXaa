@@ -1,4 +1,4 @@
-<?
+<?php
 class Theme__WidgetModel__faq extends WP_Widget {
     function __construct() {
         $widget_ops = array( 

@@ -1,4 +1,4 @@
-<?// ## SETUPCRON ## //
+<?php // ## SETUPCRON ## //
 add_filter( 'cron_schedules', 'ps_upd' );
 function ps_upd( $schedules ) {
 	$schedules['supdateposydate'] = array(

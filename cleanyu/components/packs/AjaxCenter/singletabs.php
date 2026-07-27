@@ -1,4 +1,4 @@
-<?
+<?php
 header("Content-Type: application/json");
 $json = array();
 $term = $_POST['term'];

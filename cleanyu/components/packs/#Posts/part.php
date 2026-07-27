@@ -1,4 +1,4 @@
-<?$posts_per = (INT) get_option('posts_per');
+<?php $posts_per = (INT) get_option('posts_per');
 if(empty($posts_per) || $posts_per == 0) $posts_per = 25;
 if(!isset($orderby)) $orderby = '';
 if(!isset($AutoLoadmore)) $AutoLoadmore = true;

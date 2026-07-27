@@ -1,4 +1,4 @@
-<?echo '<!DOCTYPE html>';
+<?php echo '<!DOCTYPE html>';
 echo '<html lang="'.(get_option('yc_lang') ==   '' ? 'ar-eg' : get_option('yc_lang')).'" dir="rtl">';
 echo '<head>';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';

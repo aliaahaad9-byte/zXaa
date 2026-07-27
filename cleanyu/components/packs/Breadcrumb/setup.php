@@ -1,4 +1,4 @@
-<?
+<?php
 wp_reset_query();
 wp_reset_postdata();
 function Breadcrumb() {

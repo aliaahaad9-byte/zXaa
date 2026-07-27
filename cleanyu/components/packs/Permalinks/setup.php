@@ -1,4 +1,4 @@
-<?
+<?php
 
 add_action( 'load-options-permalink.php', 'wpse30021_load_permalinks' );
 

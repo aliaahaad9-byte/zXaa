@@ -1,4 +1,4 @@
-<?
+<?php
 function detectColors($image, $num, $level = 5) {
   $level = (int)$level;
   $palette = array();

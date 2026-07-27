@@ -1,4 +1,4 @@
-<?
+<?php
 function SetupMenus() {
 	register_nav_menus( array(
 		'home-menu'      => __( 'القائمة الثابتة', 'YourColor' ),

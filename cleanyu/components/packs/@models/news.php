@@ -1,4 +1,4 @@
-<?
+<?php
 global $post;
 wp_reset_query();
 

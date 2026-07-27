@@ -1,4 +1,4 @@
-<?
+<?php
 $class = ''; $status = 'زائر';
 $user = get_userdata((($comment->user_id > 0) ? $comment->user_id : $comment->comment_author));
 if( $comment->user_id > 0 ) {
