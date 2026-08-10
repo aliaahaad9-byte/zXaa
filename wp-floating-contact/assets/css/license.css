@@ -1,0 +1,364 @@
+/* ==========================================================================
+   WP Floating Contact — License Activation Page
+   ========================================================================== */
+
+.wpfc-license-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 40px 20px;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────────── */
+
+.wpfc-license-card {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 10px;
+    padding: 48px 52px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+    text-align: center;
+}
+
+/* ── Icon ─────────────────────────────────────────────────────────────────── */
+
+.wpfc-license-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e88e5, #1251a2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    box-shadow: 0 6px 20px rgba(30, 136, 229, 0.35);
+}
+
+.wpfc-license-icon .dashicons {
+    font-size: 34px;
+    width: 34px;
+    height: 34px;
+    color: #fff;
+    line-height: 1;
+}
+
+/* ── Typography ───────────────────────────────────────────────────────────── */
+
+.wpfc-license-card h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1d2327;
+    margin: 0 0 8px;
+    padding: 0;
+    border: none;
+}
+
+.wpfc-license-card .wpfc-license-subtitle {
+    font-size: 14px;
+    color: #646970;
+    margin: 0 0 32px;
+    line-height: 1.6;
+}
+
+/* ── Form ─────────────────────────────────────────────────────────────────── */
+
+.wpfc-license-form {
+    text-align: left;
+}
+
+.wpfc-license-form label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d2327;
+    margin-bottom: 8px;
+    letter-spacing: .3px;
+}
+
+.wpfc-serial-input-wrap {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.wpfc-serial-input {
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 2px solid #c3c4c7;
+    border-radius: 7px;
+    color: #1d2327;
+    background: #f6f7f7;
+    box-sizing: border-box;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+    outline: none;
+}
+
+.wpfc-serial-input:focus {
+    border-color: #2271b1;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(34, 113, 177, .15);
+}
+
+.wpfc-serial-input.wpfc-input-error {
+    border-color: #dc3232;
+    background: #fff8f8;
+    box-shadow: 0 0 0 3px rgba(220, 50, 50, .12);
+    animation: wpfc-shake .35s ease;
+}
+
+.wpfc-serial-input.wpfc-input-success {
+    border-color: #46b450;
+    background: #f0fff0;
+}
+
+@keyframes wpfc-shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-6px); }
+    40%       { transform: translateX(6px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+}
+
+/* ── Activate button ──────────────────────────────────────────────────────── */
+
+.wpfc-activate-btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #1e88e5 0%, #1251a2 100%);
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 14px rgba(30, 136, 229, .4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: .3px;
+}
+
+.wpfc-activate-btn:hover:not(:disabled) {
+    opacity: .93;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(30, 136, 229, .45);
+}
+
+.wpfc-activate-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.wpfc-activate-btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+.wpfc-activate-btn .wpfc-spinner {
+    border-color: rgba(255,255,255,.3);
+    border-top-color: #fff;
+}
+
+/* ── Status messages ──────────────────────────────────────────────────────── */
+
+.wpfc-license-msg {
+    margin-top: 14px;
+    padding: 11px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    display: none;
+    text-align: left;
+    line-height: 1.5;
+}
+
+.wpfc-license-msg.wpfc-msg-error {
+    background: #fbeaea;
+    border: 1px solid #f5c6c6;
+    color: #8a1a1a;
+    display: block;
+}
+
+.wpfc-license-msg.wpfc-msg-success {
+    background: #edfaee;
+    border: 1px solid #b3e6b5;
+    color: #1a5c1c;
+    display: block;
+}
+
+/* ── Active state card (shown after activation) ───────────────────────────── */
+
+.wpfc-license-active-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #edfaee;
+    border: 1px solid #b3e6b5;
+    color: #1a5c1c;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.wpfc-license-active-badge .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #46b450;
+}
+
+.wpfc-license-serial-display {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1d2327;
+    background: #f6f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin: 0 0 24px;
+    letter-spacing: 2px;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.wpfc-deactivate-btn {
+    background: none;
+    border: 1px solid #dc3232;
+    color: #dc3232;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+
+.wpfc-deactivate-btn:hover {
+    background: #dc3232;
+    color: #fff;
+}
+
+/* ── Trial countdown badge ────────────────────────────────────────────────── */
+
+.wpfc-trial-countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin: 0 0 24px;
+}
+
+.wpfc-trial-countdown.wpfc-trial-urgent {
+    background: #fbeaea;
+    border-color: #f5c6c6;
+}
+
+.wpfc-trial-days {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    color: #f9a825;
+}
+
+.wpfc-trial-countdown.wpfc-trial-urgent .wpfc-trial-days {
+    color: #dc3232;
+}
+
+.wpfc-trial-label {
+    font-size: 13px;
+    color: #646970;
+    font-weight: 500;
+    text-align: left;
+    line-height: 1.3;
+}
+
+/* ── Buy license button (license page) ───────────────────────────────────── */
+
+.wpfc-buy-btn,
+.wpfc-buy-btn-large {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, .4);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    transition: opacity .2s, transform .15s, box-shadow .2s;
+}
+
+.wpfc-buy-btn:hover,
+.wpfc-buy-btn-large:hover {
+    opacity: .92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, .5);
+    color: #fff;
+}
+
+/* ── "Or enter a serial number" divider ──────────────────────────────────── */
+
+.wpfc-license-divider {
+    position: relative;
+    text-align: center;
+    margin: 4px 0 20px;
+}
+
+.wpfc-license-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.wpfc-license-divider span {
+    position: relative;
+    background: #fff;
+    padding: 0 12px;
+    font-size: 12px;
+    color: #a0a5aa;
+}
+
+/* ── Expired icon variant ─────────────────────────────────────────────────── */
+
+.wpfc-icon-expired {
+    background: linear-gradient(135deg, #dc3232, #8a1a1a) !important;
+    box-shadow: 0 6px 20px rgba(220, 50, 50, .35) !important;
+}
+
+/* ── Footer note ──────────────────────────────────────────────────────────── */
+
+.wpfc-license-footer {
+    margin-top: 24px;
+    font-size: 12px;
+    color: #a0a5aa;
+    line-height: 1.6;
+    border-top: 1px solid #f0f0f1;
+    padding-top: 18px;
+}
