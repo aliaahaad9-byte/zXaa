@@ -3,7 +3,7 @@ Contributors: wpfloatingcontact
 Tags: floating buttons, whatsapp, phone, contact, click tracking
 Requires at least: 5.8
 Tested up to: 6.7
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -102,6 +102,15 @@ All plugin data (settings, click logs, and database table) is removed cleanly on
 
 == Changelog ==
 
+= 1.0.3 =
+* New button design: rounded-rectangle buttons with the brand icon in a white circular badge.
+* New monthly PDF report — pick a month and save a client-ready report from your browser.
+* Report includes a summary, a daily activity chart, top pages, and the full click log.
+* Analytics now resolves each logged URL to its real page title via url_to_postid().
+* Click timestamps are stored in UTC and displayed in Riyadh time (UTC+3), 12-hour AM/PM.
+* Added per-post phone and WhatsApp number overrides via a post editor meta box.
+* Added customisable button labels for both the phone and WhatsApp buttons.
+
 = 1.0.2 =
 * Added 3-day free trial period on first activation.
 * Added serial number license activation system.
@@ -123,6 +132,9 @@ All plugin data (settings, click logs, and database table) is removed cleanly on
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.3 =
+Redesigned floating buttons plus a downloadable monthly PDF report. Timestamps now display in Riyadh time.
 
 = 1.0.2 =
 Adds a 3-day free trial and optional serial-number activation. Existing installs continue to work normally after upgrading.

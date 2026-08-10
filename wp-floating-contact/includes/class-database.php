@@ -144,6 +144,42 @@ class WPFC_Database {
         ) ?: array();
     }
 
+    /**
+     * Returns every log whose clicked_at falls inside a UTC datetime range.
+     *
+     * Both bounds are UTC 'Y-m-d H:i:s' strings because clicked_at is stored in
+     * UTC. The caller is responsible for converting a Riyadh-local month
+     * boundary into UTC before calling this.
+     *
+     * @param string $start_utc Inclusive lower bound.
+     * @param string $end_utc   Exclusive upper bound.
+     */
+    public static function get_logs_for_range( string $start_utc, string $end_utc ): array {
+        global $wpdb;
+        $table_name = self::get_table_name();
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM {$table_name} WHERE clicked_at >= %s AND clicked_at < %s ORDER BY clicked_at ASC",
+                $start_utc,
+                $end_utc
+            )
+        ) ?: array();
+    }
+
+    /**
+     * Returns the UTC datetime of the oldest log, or null when the table is empty.
+     * Used to bound the month picker in the report UI.
+     */
+    public static function get_earliest_click(): ?string {
+        global $wpdb;
+        $table_name = self::get_table_name();
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $value = $wpdb->get_var( "SELECT MIN(clicked_at) FROM {$table_name}" );
+        return $value ?: null;
+    }
+
     public static function get_total_count(): int {
         global $wpdb;
         $table_name = self::get_table_name();
