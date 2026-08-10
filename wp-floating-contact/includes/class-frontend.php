@@ -32,7 +32,7 @@ class WPFC_Frontend {
         add_action( 'wp_footer',          array( $this, 'render_buttons' ), 99 );
     }
 
-    // ─── Helpers ───────────────────────────────────────────────────────────────
+    // ─── Helpers ──────────────────────────────────────────────────────────────
 
     private function get_settings(): array {
         return wp_parse_args( get_option( 'wpfc_settings', array() ), $this->defaults );
@@ -81,7 +81,7 @@ class WPFC_Frontend {
         return sprintf( '#%02x%02x%02x', $r, $g, $b );
     }
 
-    // ─── Assets ────────────────────────────────────────────────────────────────
+    // ─── Assets ───────────────────────────────────────────────────────────────
 
     public function enqueue_assets(): void {
         if ( ! $this->is_enabled() ) {
@@ -127,7 +127,7 @@ class WPFC_Frontend {
         );
     }
 
-    // ─── Render ────────────────────────────────────────────────────────────────
+    // ─── Render ───────────────────────────────────────────────────────────────
 
     public function render_buttons(): void {
         $settings = $this->get_settings();
