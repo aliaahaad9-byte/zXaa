@@ -57,7 +57,7 @@ class WPFC_Admin {
             return;
         }
 
-        // ── Licensed: full menu ────────────────────────────────────────────────
+        // ── Licensed: full menu ───────────────────────────────────────────────
         add_menu_page(
             __( 'Floating Contact', 'wp-floating-contact' ),
             __( 'Floating Contact', 'wp-floating-contact' ),
@@ -941,7 +941,7 @@ class WPFC_Admin {
         <?php
     }
 
-    // ─── Helpers ──────────────────────────────────────────────────────────
+    // ─── Helpers ─────────────────────────────────────────────────────────────
 
     /**
      * Builds the month options for the report picker, newest first.
@@ -1010,7 +1010,7 @@ class WPFC_Admin {
         );
     }
 
-    // ─── Meta Box: Per-post contact overrides ────────────────────────────────────
+    // ─── Meta Box: Per-post contact overrides ───────────────────────────────
 
     public function add_contact_meta_box(): void {
         add_meta_box(
