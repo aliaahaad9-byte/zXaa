@@ -27,6 +27,40 @@
 ( function () {
     'use strict';
 
+    // ── Keep the widget floating ──────────────────────────────────────────────
+
+    /**
+     * Moves the button container to be a direct child of <body>.
+     *
+     * position:fixed resolves against the nearest ancestor that has a
+     * transform, filter, perspective, backdrop-filter or will-change — not the
+     * viewport. Plenty of themes and page builders wrap the whole page in such
+     * an element, which pins the buttons inside the footer instead of floating
+     * them. Re-parenting to <body> removes that possibility entirely.
+     *
+     * Also re-appends the node so it is the last child, keeping it above
+     * late-injected overlays in the paint order.
+     */
+    function keepFloating() {
+        var containers = document.querySelectorAll( '.wpfc-buttons-container' );
+        for ( var i = 0; i < containers.length; i++ ) {
+            var c = containers[ i ];
+            if ( c.parentNode !== document.body || c.nextElementSibling ) {
+                document.body.appendChild( c );
+            }
+        }
+    }
+
+    if ( document.readyState === 'loading' ) {
+        document.addEventListener( 'DOMContentLoaded', keepFloating );
+    } else {
+        keepFloating();
+    }
+    // Run again after load in case the theme reshuffles the DOM during boot.
+    window.addEventListener( 'load', keepFloating );
+
+    // ── Tracking ──────────────────────────────────────────────────────────────
+
     /* wpfc_vars is printed by wp_localize_script in class-frontend.php */
     if ( typeof wpfc_vars === 'undefined' ) { return; }
 

@@ -1,116 +1,162 @@
 /* ==========================================================================
    WP Floating Contact Buttons — Frontend Styles
+
+   HARDENING NOTE
+   These buttons are injected into an unknown theme, so every layout-critical
+   declaration carries !important and the selectors are prefixed with `body`
+   for extra specificity. Without this, common theme rules silently break the
+   widget — e.g. `a { display:block }`, `svg { max-width:100%; height:auto }`,
+   global line-height, or a footer grid forcing children into a row (which is
+   exactly what makes the buttons render flat and inline instead of floating).
+
+   The companion JS also re-parents the container to <body>, because a fixed
+   element resolves against the nearest ancestor with transform/filter/
+   will-change rather than the viewport.
    ========================================================================== */
 
 /* ── Container ──────────────────────────────────────────────────────────── */
 
-.wpfc-buttons-container {
-    position: fixed;
-    z-index: 99999;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 24px;
-    pointer-events: none; /* clicks pass through the gap between buttons */
+body .wpfc-buttons-container {
+    position: fixed !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 14px !important;
+    margin: 0 !important;
+    padding: 24px !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    inset: auto !important;          /* reset any theme top/left offsets */
+    float: none !important;
+    transform: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    list-style: none !important;
+    pointer-events: none;            /* clicks pass through the gap between buttons */
 }
 
-/* Position variants */
-.wpfc-position-bottom-right {
-    right: 0;
-    bottom: 0;
-    align-items: flex-end;
+/* Position variants — declared after `inset:auto` so they win. */
+body .wpfc-buttons-container.wpfc-position-bottom-right {
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    align-items: flex-end !important;
 }
 
-.wpfc-position-bottom-left {
-    left: 0;
-    bottom: 0;
-    align-items: flex-start;
+body .wpfc-buttons-container.wpfc-position-bottom-left {
+    left: 0 !important;
+    bottom: 0 !important;
+    right: auto !important;
+    top: auto !important;
+    align-items: flex-start !important;
 }
 
 /* ── Button base ────────────────────────────────────────────────────────── */
 
-.wpfc-btn {
-    pointer-events: auto;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
+body .wpfc-buttons-container .wpfc-btn {
+    pointer-events: auto !important;
+    position: relative !important;
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex: 0 0 auto !important;
+    gap: 12px !important;
     /* Tight on the icon side, roomy on the text side. */
-    padding: 7px 24px 7px 7px;
-    border-radius: 14px;
+    padding: 7px 24px 7px 7px !important;
+    margin: 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    border-radius: 14px !important;
     /* Icon always renders on the left, even on RTL sites. */
-    direction: ltr;
+    direction: ltr !important;
     text-decoration: none !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1;
+    text-transform: none !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Tahoma, Arial, sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
     color: #fff !important;
-    border: 2px solid rgba(0, 0, 0, 0.10);
-    outline: none;
-    cursor: pointer;
-    overflow: hidden;
-    white-space: nowrap;
+    border: 2px solid rgba(0, 0, 0, 0.10) !important;
+    outline: none !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    float: none !important;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    box-sizing: border-box !important;
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
                 box-shadow 0.25s ease,
                 background 0.3s ease;
 }
 
 /* Ripple effect on click */
-.wpfc-btn::after {
+body .wpfc-buttons-container .wpfc-btn::after {
     content: '';
     position: absolute;
     inset: 0;
     background: rgba(255, 255, 255, 0);
     transition: background 0.2s ease;
     border-radius: inherit;
+    pointer-events: none;
 }
 
-.wpfc-btn:active::after {
+body .wpfc-buttons-container .wpfc-btn:active::after {
     background: rgba(255, 255, 255, 0.18);
 }
 
-.wpfc-btn:hover {
+body .wpfc-buttons-container .wpfc-btn:hover {
     transform: translateY(-4px) scale(1.03);
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
     color: #fff !important;
     text-decoration: none !important;
 }
 
-.wpfc-btn:active {
+body .wpfc-buttons-container .wpfc-btn:active {
     transform: translateY(0) scale(0.97);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* ── Phone button ───────────────────────────────────────────────────────── */
+body .wpfc-buttons-container .wpfc-btn:focus,
+body .wpfc-buttons-container .wpfc-btn:visited {
+    color: #fff !important;
+    text-decoration: none !important;
+}
 
 /* Phone sits above WhatsApp. Done with order (not markup) so the tracking
    hooks and entry-animation rules stay untouched. */
-.wpfc-btn-phone    { order: 1; }
-.wpfc-btn-whatsapp { order: 2; }
+body .wpfc-buttons-container .wpfc-btn-phone    { order: 1 !important; }
+body .wpfc-buttons-container .wpfc-btn-whatsapp { order: 2 !important; }
 
-.wpfc-btn-phone {
-    background: #1362bc;
+/* ── Phone button ───────────────────────────────────────────────────────── */
+
+body .wpfc-buttons-container .wpfc-btn-phone {
+    background: #1362bc !important;
 }
 
-.wpfc-btn-phone .wpfc-btn-icon svg {
-    color: #1362bc;
+body .wpfc-buttons-container .wpfc-btn-phone .wpfc-btn-icon svg {
+    color: #1362bc !important;
 }
 
 /* ── WhatsApp button ────────────────────────────────────────────────────── */
 
-.wpfc-btn-whatsapp {
-    background: #2ecc5f;
+body .wpfc-buttons-container .wpfc-btn-whatsapp {
+    background: #2ecc5f !important;
     /* Subtle pulse to draw attention */
     animation: wpfc-pulse 2.8s ease-in-out infinite;
 }
 
-.wpfc-btn-whatsapp .wpfc-btn-icon svg {
-    color: #2ecc5f;
+body .wpfc-buttons-container .wpfc-btn-whatsapp .wpfc-btn-icon svg {
+    color: #2ecc5f !important;
 }
 
-.wpfc-btn-whatsapp:hover {
+body .wpfc-buttons-container .wpfc-btn-whatsapp:hover {
     animation: none;
 }
 
@@ -123,26 +169,50 @@
 /* ── Icon badge & label ─────────────────────────────────────────────────── */
 
 /* White circular badge holding the brand icon. */
-.wpfc-btn-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: #fff;
+body .wpfc-buttons-container .wpfc-btn .wpfc-btn-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    max-width: 44px !important;
+    max-height: 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    background: #fff !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+    box-sizing: border-box !important;
+    overflow: visible !important;
 }
 
-.wpfc-btn-icon svg {
-    display: block;
-    width: 26px;
-    height: 26px;
+/* Themes frequently force `svg { width:100%; height:auto }` — pin ours. */
+body .wpfc-buttons-container .wpfc-btn .wpfc-btn-icon svg {
+    display: block !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    fill: currentColor !important;
+    vertical-align: middle !important;
 }
 
-.wpfc-btn-label {
-    letter-spacing: 0.3px;
+body .wpfc-buttons-container .wpfc-btn .wpfc-btn-label {
+    display: inline-block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #fff !important;
+    font: inherit !important;
+    letter-spacing: 0.3px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
     /* Auto-detect the label's own direction so Arabic and Latin both shape correctly. */
     unicode-bidi: plaintext;
 }
@@ -159,53 +229,75 @@
     to   { opacity: 1; transform: translateX(0); }
 }
 
-.wpfc-position-bottom-right .wpfc-btn {
+body .wpfc-position-bottom-right .wpfc-btn {
     animation: wpfc-enter-right 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.wpfc-position-bottom-right .wpfc-btn:nth-child(2) {
+body .wpfc-position-bottom-right .wpfc-btn:nth-child(2) {
     animation-delay: 0.1s;
 }
 
-.wpfc-position-bottom-left .wpfc-btn {
+body .wpfc-position-bottom-left .wpfc-btn {
     animation: wpfc-enter-left 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.wpfc-position-bottom-left .wpfc-btn:nth-child(2) {
+body .wpfc-position-bottom-left .wpfc-btn:nth-child(2) {
     animation-delay: 0.1s;
 }
 
-/* ── Mobile: same pill design, slightly tighter padding ─────────────────── */
+/* The WhatsApp pulse must survive the entry animation finishing. */
+body .wpfc-position-bottom-right .wpfc-btn-whatsapp,
+body .wpfc-position-bottom-left  .wpfc-btn-whatsapp {
+    animation: wpfc-pulse 2.8s ease-in-out infinite;
+}
+
+/* ── Mobile: same design, slightly tighter ──────────────────────────────── */
 
 @media (max-width: 600px) {
-    .wpfc-buttons-container {
-        padding: 14px;
-        gap: 12px;
+    body .wpfc-buttons-container {
+        padding: 14px !important;
+        gap: 12px !important;
     }
 
-    .wpfc-btn {
-        padding: 6px 20px 6px 6px;
-        font-size: 16px;
-        gap: 10px;
-        border-radius: 12px;
+    body .wpfc-buttons-container .wpfc-btn {
+        padding: 6px 20px 6px 6px !important;
+        font-size: 16px !important;
+        gap: 10px !important;
+        border-radius: 12px !important;
     }
 
-    .wpfc-btn-icon {
-        width: 38px;
-        height: 38px;
+    body .wpfc-buttons-container .wpfc-btn .wpfc-btn-icon {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
+        max-width: 38px !important;
+        max-height: 38px !important;
     }
 
-    .wpfc-btn-icon svg {
-        width: 22px;
-        height: 22px;
+    body .wpfc-buttons-container .wpfc-btn .wpfc-btn-icon svg {
+        width: 22px !important;
+        height: 22px !important;
+        min-width: 22px !important;
+        min-height: 22px !important;
+        max-width: 22px !important;
+        max-height: 22px !important;
     }
+}
+
+/* ── Print: never show the floating buttons on paper ────────────────────── */
+
+@media print {
+    body .wpfc-buttons-container { display: none !important; }
 }
 
 /* ── Reduced-motion: honour user preference ─────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-    .wpfc-btn,
-    .wpfc-btn-whatsapp {
+    body .wpfc-buttons-container .wpfc-btn,
+    body .wpfc-buttons-container .wpfc-btn-whatsapp,
+    body .wpfc-position-bottom-right .wpfc-btn,
+    body .wpfc-position-bottom-left .wpfc-btn {
         animation: none !important;
         transition: none !important;
     }

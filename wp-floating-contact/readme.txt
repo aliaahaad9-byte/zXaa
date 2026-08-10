@@ -3,7 +3,7 @@ Contributors: wpfloatingcontact
 Tags: floating buttons, whatsapp, phone, contact, click tracking
 Requires at least: 5.8
 Tested up to: 6.7
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -102,6 +102,13 @@ All plugin data (settings, click logs, and database table) is removed cleanly on
 
 == Changelog ==
 
+= 1.0.4 =
+* Fixed floating buttons rendering flat inside the footer instead of floating on themes with aggressive CSS.
+* Hardened all frontend styles so theme rules such as `a { display: block }` and `svg { width: 100% }` can no longer break the widget.
+* The button container is now re-parented to `<body>` on load, so a theme wrapper using `transform` or `will-change` can no longer trap the fixed-position buttons.
+* Raised the specificity of the injected phone colour so the admin's chosen colour always wins.
+* Buttons are hidden when printing a page.
+
 = 1.0.3 =
 * New button design: rounded-rectangle buttons with the brand icon in a white circular badge.
 * New monthly PDF report — pick a month and save a client-ready report from your browser.
@@ -132,6 +139,9 @@ All plugin data (settings, click logs, and database table) is removed cleanly on
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+Important fix: the floating buttons could render flat inside the footer on some themes. Update recommended for all users.
 
 = 1.0.3 =
 Redesigned floating buttons plus a downloadable monthly PDF report. Timestamps now display in Riyadh time.
