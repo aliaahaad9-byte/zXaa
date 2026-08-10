@@ -57,7 +57,7 @@ class WPFC_Admin {
             return;
         }
 
-        // ── Licensed: full menu ──────────────────────────────────────────────
+        // ── Licensed: full menu ────────────────────────────────────────────────
         add_menu_page(
             __( 'Floating Contact', 'wp-floating-contact' ),
             __( 'Floating Contact', 'wp-floating-contact' ),
@@ -303,7 +303,7 @@ class WPFC_Admin {
         wp_send_json_success( array( 'message' => __( 'License deactivated.', 'wp-floating-contact' ) ) );
     }
 
-    // ─── Page: License ───────────────────────────────────────────────────────
+    // ─── Page: License ────────────────────────────────────────────────────────
 
     public function render_license_page(): void {
         $is_active      = WPFC_License::is_active();
@@ -416,7 +416,7 @@ class WPFC_Admin {
         <?php
     }
 
-    // ─── Page: Dashboard ─────────────────────────────────────────────────────
+    // ─── Page: Dashboard ───────────────────────────────────────────────────────
 
     public function render_dashboard_page(): void {
         $settings     = $this->get_settings();
@@ -616,7 +616,7 @@ class WPFC_Admin {
         <?php
     }
 
-    // ─── Page: Settings ──────────────────────────────────────────────────────
+    // ─── Page: Settings ───────────────────────────────────────────────────────
 
     public function render_settings_page(): void {
         $settings = $this->get_settings();
@@ -785,7 +785,7 @@ class WPFC_Admin {
         <?php
     }
 
-    // ─── Page: Analytics ─────────────────────────────────────────────────────
+    // ─── Page: Analytics ──────────────────────────────────────────────────────
 
     public function render_analytics_page(): void {
         // Sanitize the paged param; default to 1.
@@ -941,7 +941,7 @@ class WPFC_Admin {
         <?php
     }
 
-    // ─── Helpers ────────────────────────────────────────────────────────────
+    // ─── Helpers ──────────────────────────────────────────────────────────
 
     /**
      * Builds the month options for the report picker, newest first.
