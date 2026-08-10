@@ -32,7 +32,7 @@ class WPFC_Frontend {
         add_action( 'wp_footer',          array( $this, 'render_buttons' ), 99 );
     }
 
-    // ─── Helpers ──────────────────────────────────────────────────────────────
+    // ─── Helpers ───────────────────────────────────────────────────────────
 
     private function get_settings(): array {
         return wp_parse_args( get_option( 'wpfc_settings', array() ), $this->defaults );
@@ -81,7 +81,7 @@ class WPFC_Frontend {
         return sprintf( '#%02x%02x%02x', $r, $g, $b );
     }
 
-    // ─── Assets ───────────────────────────────────────────────────────────────
+    // ─── Assets ────────────────────────────────────────────────────────────
 
     public function enqueue_assets(): void {
         if ( ! $this->is_enabled() ) {
@@ -127,7 +127,7 @@ class WPFC_Frontend {
         );
     }
 
-    // ─── Render ───────────────────────────────────────────────────────────────
+    // ─── Render ────────────────────────────────────────────────────────────
 
     public function render_buttons(): void {
         $settings = $this->get_settings();
@@ -161,10 +161,18 @@ class WPFC_Frontend {
 
         // Paint the phone button with the admin-chosen colour: solid background,
         // darker border, and the same colour on the icon inside the white badge.
+        //
+        // The `html body .wpfc-buttons-container` prefix is deliberate: frontend.css
+        // hardens its own rules with `body .wpfc-buttons-container ... !important`,
+        // so a bare `.wpfc-btn-phone` selector here would lose on specificity and
+        // the admin's chosen colour would be silently ignored.
+        $phone_border = $this->darken_hex( $phone_color, 30 );
         echo '<style>'
-            . '.wpfc-btn-phone{background:' . esc_attr( $phone_color ) . '!important;'
-            . 'border-color:' . esc_attr( $this->darken_hex( $phone_color, 30 ) ) . '!important}'
-            . '.wpfc-btn-phone .wpfc-btn-icon svg{color:' . esc_attr( $phone_color ) . '!important}'
+            . 'html body .wpfc-buttons-container .wpfc-btn-phone{'
+            . 'background:' . esc_attr( $phone_color ) . '!important;'
+            . 'border-color:' . esc_attr( $phone_border ) . '!important}'
+            . 'html body .wpfc-buttons-container .wpfc-btn-phone .wpfc-btn-icon svg{'
+            . 'color:' . esc_attr( $phone_color ) . '!important}'
             . '</style>';
         ?>
 
