@@ -22,7 +22,7 @@ class WPFC_Frontend {
         'whatsapp_message' => 'Hello! I would like to get in touch.',
         'button_position'  => 'bottom-right',
         'enable_plugin'    => '1',
-        'phone_color'      => '#1e88e5',
+        'phone_color'      => '#1362bc',
         'phone_label'      => 'اتصل بنا',
         'whatsapp_label'   => 'واتساب',
     );
@@ -151,7 +151,7 @@ class WPFC_Frontend {
 
         $position       = sanitize_html_class( $settings['button_position'] );
         $phone_num      = esc_attr( $settings['phone_number'] );
-        $phone_color    = sanitize_hex_color( $settings['phone_color'] ) ?: '#1e88e5';
+        $phone_color    = sanitize_hex_color( $settings['phone_color'] ) ?: '#1362bc';
         $phone_label    = esc_html( $settings['phone_label'] ?: 'اتصل بنا' );
         $whatsapp_label = esc_html( $settings['whatsapp_label'] ?: 'واتساب' );
         // Strip everything except digits for the wa.me URL.
@@ -159,8 +159,13 @@ class WPFC_Frontend {
         $wa_message  = rawurlencode( $settings['whatsapp_message'] );
         $wa_href     = esc_url( "https://wa.me/{$wa_digits}?text={$wa_message}" );
 
-        // Inject the custom phone color as a CSS variable so CSS can consume it.
-        echo '<style>.wpfc-btn-phone{background:linear-gradient(135deg,' . esc_attr( $phone_color ) . ' 0%,' . esc_attr( $this->darken_hex( $phone_color, 30 ) ) . ' 100%)!important}</style>';
+        // Paint the phone button with the admin-chosen colour: solid background,
+        // darker border, and the same colour on the icon inside the white badge.
+        echo '<style>'
+            . '.wpfc-btn-phone{background:' . esc_attr( $phone_color ) . '!important;'
+            . 'border-color:' . esc_attr( $this->darken_hex( $phone_color, 30 ) ) . '!important}'
+            . '.wpfc-btn-phone .wpfc-btn-icon svg{color:' . esc_attr( $phone_color ) . '!important}'
+            . '</style>';
         ?>
 
         <div class="wpfc-buttons-container wpfc-position-<?php echo esc_attr( $position ); ?>"
