@@ -21,7 +21,7 @@ class WPFC_Admin {
         'whatsapp_message' => 'Hello! I would like to get in touch.',
         'button_position'  => 'bottom-right',
         'enable_plugin'    => '1',
-        'phone_color'      => '#1e88e5',
+        'phone_color'      => '#1362bc',
         'phone_label'      => 'اتصل بنا',
         'whatsapp_label'   => 'واتساب',
     );
@@ -57,7 +57,7 @@ class WPFC_Admin {
             return;
         }
 
-        // ── Licensed: full menu ───────────────────────────────────────────────
+        // ── Licensed: full menu ──────────────────────────────────────────────
         add_menu_page(
             __( 'Floating Contact', 'wp-floating-contact' ),
             __( 'Floating Contact', 'wp-floating-contact' ),
@@ -130,7 +130,7 @@ class WPFC_Admin {
         $clean['whatsapp_number']  = sanitize_text_field( $input['whatsapp_number'] ?? '' );
         $clean['whatsapp_message'] = sanitize_textarea_field( $input['whatsapp_message'] ?? '' );
         $clean['enable_plugin']    = isset( $input['enable_plugin'] ) ? '1' : '0';
-        $clean['phone_color']      = sanitize_hex_color( $input['phone_color'] ?? '#1e88e5' ) ?: '#1e88e5';
+        $clean['phone_color']      = sanitize_hex_color( $input['phone_color'] ?? '#1362bc' ) ?: '#1362bc';
 
         // Whitelist the position value so nothing unexpected is stored.
         $allowed_positions         = array( 'bottom-right', 'bottom-left' );
@@ -303,7 +303,7 @@ class WPFC_Admin {
         wp_send_json_success( array( 'message' => __( 'License deactivated.', 'wp-floating-contact' ) ) );
     }
 
-    // ─── Page: License ────────────────────────────────────────────────────────
+    // ─── Page: License ───────────────────────────────────────────────────────
 
     public function render_license_page(): void {
         $is_active      = WPFC_License::is_active();
@@ -416,7 +416,7 @@ class WPFC_Admin {
         <?php
     }
 
-    // ─── Page: Dashboard ──────────────────────────────────────────────────────
+    // ─── Page: Dashboard ─────────────────────────────────────────────────────
 
     public function render_dashboard_page(): void {
         $settings     = $this->get_settings();
@@ -616,7 +616,7 @@ class WPFC_Admin {
         <?php
     }
 
-    // ─── Page: Settings ───────────────────────────────────────────────────────
+    // ─── Page: Settings ──────────────────────────────────────────────────────
 
     public function render_settings_page(): void {
         $settings = $this->get_settings();
@@ -707,7 +707,7 @@ class WPFC_Admin {
                                            name="wpfc_settings[phone_color]"
                                            value="<?php echo esc_attr( $settings['phone_color'] ); ?>"
                                            class="wpfc-color-picker"
-                                           data-default-color="#1e88e5">
+                                           data-default-color="#1362bc">
                                     <p class="description"><?php esc_html_e( 'Choose the phone button background color. WhatsApp color is fixed green.', 'wp-floating-contact' ); ?></p>
                                 </td>
                             </tr>
@@ -785,7 +785,7 @@ class WPFC_Admin {
         <?php
     }
 
-    // ─── Page: Analytics ──────────────────────────────────────────────────────
+    // ─── Page: Analytics ─────────────────────────────────────────────────────
 
     public function render_analytics_page(): void {
         // Sanitize the paged param; default to 1.
@@ -818,6 +818,30 @@ class WPFC_Admin {
                     <strong id="wpfc-wa-count"><?php echo esc_html( number_format( $wa_clicks ) ); ?></strong>
                     <span><?php esc_html_e( 'WhatsApp Clicks', 'wp-floating-contact' ); ?></span>
                 </div>
+            </div>
+
+            <!-- ── Monthly PDF report ── -->
+            <div class="wpfc-report-card">
+                <div class="wpfc-report-info">
+                    <span class="dashicons dashicons-media-document"></span>
+                    <div>
+                        <strong><?php esc_html_e( 'Monthly Client Report', 'wp-floating-contact' ); ?></strong>
+                        <span><?php esc_html_e( 'Generate a printable report and save it as a PDF to send to your client.', 'wp-floating-contact' ); ?></span>
+                    </div>
+                </div>
+                <form method="get" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" target="_blank" class="wpfc-report-form">
+                    <input type="hidden" name="action" value="wpfc_pdf_report">
+                    <?php wp_nonce_field( 'wpfc_pdf_report' ); ?>
+                    <select name="month" class="wpfc-select">
+                        <?php foreach ( $this->get_report_months() as $value => $label ) : ?>
+                        <option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_html( $label ); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="submit" class="button button-primary wpfc-report-btn">
+                        <span class="dashicons dashicons-pdf"></span>
+                        <?php esc_html_e( 'Download PDF Report', 'wp-floating-contact' ); ?>
+                    </button>
+                </form>
             </div>
 
             <!-- ── Action bar ── -->
@@ -917,7 +941,44 @@ class WPFC_Admin {
         <?php
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────────────────
+    // ─── Helpers ────────────────────────────────────────────────────────────
+
+    /**
+     * Builds the month options for the report picker, newest first.
+     *
+     * Runs from the current Riyadh month back to the month of the earliest
+     * recorded click (capped at 24 entries so the dropdown stays usable).
+     *
+     * @return array<string,string> Map of 'YYYY-MM' => localized label.
+     */
+    private function get_report_months(): array {
+        $tz     = new DateTimeZone( 'Asia/Riyadh' );
+        $cursor = new DateTime( 'now', $tz );
+        $cursor->modify( 'first day of this month' )->setTime( 0, 0, 0 );
+
+        // Stop at the month containing the oldest click, when there is one.
+        // Times are zeroed so the loop's comparison comes out to a clean
+        // month-vs-month test rather than an hours-apart one.
+        $earliest = WPFC_Database::get_earliest_click();
+        $floor    = null;
+        if ( $earliest ) {
+            $floor = new DateTime( $earliest, new DateTimeZone( 'UTC' ) );
+            $floor->setTimezone( $tz );
+            $floor->modify( 'first day of this month' )->setTime( 0, 0, 0 );
+        }
+
+        $months = array();
+        for ( $i = 0; $i < 24; $i++ ) {
+            $months[ $cursor->format( 'Y-m' ) ] = wp_date( 'F Y', $cursor->getTimestamp(), $tz );
+
+            if ( $floor && $cursor <= $floor ) {
+                break;
+            }
+            $cursor->modify( '-1 month' );
+        }
+
+        return $months;
+    }
 
     /**
      * Resolves a stored page URL to its title for display in analytics tables.
@@ -949,7 +1010,7 @@ class WPFC_Admin {
         );
     }
 
-    // ─── Meta Box: Per-post contact overrides ─────────────────────────────────
+    // ─── Meta Box: Per-post contact overrides ────────────────────────────────────
 
     public function add_contact_meta_box(): void {
         add_meta_box(
