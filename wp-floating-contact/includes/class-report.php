@@ -96,7 +96,7 @@ class WPFC_Report {
             wp_die( esc_html__( 'Your license is not active.', 'wp-floating-contact' ), 403 );
         }
 
-        // ── Resolve the requested month, defaulting to the current one ────
+        // ── Resolve the requested month, defaulting to the current one ────────
         $requested = isset( $_GET['month'] ) ? sanitize_text_field( wp_unslash( $_GET['month'] ) ) : '';
         if ( ! preg_match( '/^(\d{4})-(\d{2})$/', $requested, $m ) ) {
             $now       = new DateTime( 'now', new DateTimeZone( self::TIMEZONE ) );
