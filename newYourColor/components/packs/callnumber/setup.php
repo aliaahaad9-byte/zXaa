@@ -203,15 +203,25 @@ class YC_Calls_Dashboard {
         );
     }
 
-    /** الأشهر المتوفرة في السجلات لقائمة اختيار الشهر. */
+    /** الأشهر المتوفرة في السجلات لقائمة اختيار الشهر (بدون دوال SQL خاصة بمحرك معين). */
     private static function available_months() {
         global $wpdb;
-        $months = $wpdb->get_col(
-            "SELECT DISTINCT DATE_FORMAT(DATE_ADD(post_date_gmt, INTERVAL 3 HOUR), '%Y-%m')
-             FROM {$wpdb->posts}
-             WHERE post_type = 'callwebsite' AND post_status = 'publish'
-             ORDER BY 1 DESC"
+        $dates  = $wpdb->get_col(
+            "SELECT post_date_gmt FROM {$wpdb->posts}
+             WHERE post_type = 'callwebsite' AND post_status = 'publish'"
         );
+        $months = array();
+        $utc    = new DateTimeZone( 'UTC' );
+        foreach ( (array) $dates as $gmt ) {
+            try {
+                $dt = new DateTimeImmutable( $gmt, $utc );
+            } catch ( Exception $e ) {
+                continue;
+            }
+            $months[ $dt->setTimezone( self::tz() )->format( 'Y-m' ) ] = true;
+        }
+        $months  = array_keys( $months );
+        rsort( $months );
         $current = ( new DateTimeImmutable( 'now', self::tz() ) )->format( 'Y-m' );
         if ( ! in_array( $current, $months, true ) ) {
             array_unshift( $months, $current );

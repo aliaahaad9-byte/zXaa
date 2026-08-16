@@ -1,4 +1,4 @@
-<?phpglobal $ThemeStatic;
+<?php global $ThemeStatic;
 $QuestionExams = new QuestionExams;
 if(isset(($_GET['post']))){
 	$postID = $_GET['post'];

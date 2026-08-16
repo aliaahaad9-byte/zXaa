@@ -183,7 +183,7 @@ if(IsSpeed() == false){
                             $image_url = $src;
                             $image_id = attachment_url_to_postid($image_url);
                             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-                            if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false) {
+                            if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false) {
                                 echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
                             }
                             echo '</div>';
@@ -198,7 +198,7 @@ if(IsSpeed() == false){
                                 $image_url = $src;
                                 $image_id = attachment_url_to_postid($image_url);
                                 $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-                                if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false) {
+                                if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false) {
                                     echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
                                 }
                                 echo '</div>';

@@ -9,8 +9,8 @@
 */
 function IsSpeed() {
     $IsSpeed = false;
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'moto g') !== false) {
+    $user_agent = (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
+    if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') !== false || strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'moto g') !== false) {
         $IsSpeed =  true;
     }
     return $IsSpeed;

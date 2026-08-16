@@ -1,5 +1,37 @@
 <?php
 ob_start();
+
+/*
+ * طبقة أمان عامة: بدائل لدوال mbstring إن كانت الإضافة غير مفعلة على الاستضافة
+ * حتى لا يتسبب غيابها في خطأ فادح (Critical Error).
+ */
+if ( ! function_exists( 'mb_substr' ) ) {
+    function mb_substr( $str, $start, $length = null, $encoding = null ) {
+        return ( null === $length ) ? substr( (string) $str, $start ) : substr( (string) $str, $start, $length );
+    }
+}
+if ( ! function_exists( 'mb_strlen' ) ) {
+    function mb_strlen( $str, $encoding = null ) {
+        return strlen( (string) $str );
+    }
+}
+if ( ! function_exists( 'mb_strtolower' ) ) {
+    function mb_strtolower( $str, $encoding = null ) {
+        return strtolower( (string) $str );
+    }
+}
+
+/* تنبيه إداري بأي حزمة تعطلت بدل انهيار الموقع بالكامل */
+$GLOBALS['yc_broken_packs'] = array();
+add_action( 'admin_notices', function () {
+    if ( empty( $GLOBALS['yc_broken_packs'] ) || ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+    foreach ( $GLOBALS['yc_broken_packs'] as $pack => $error ) {
+        echo '<div class="notice notice-error"><p><strong>قالب YourColor:</strong> تم تعطيل مكوّن "' . esc_html( $pack ) . '" لوجود خطأ به: <code>' . esc_html( $error ) . '</code></p></div>';
+    }
+} );
+
 class ThemeTree {
    private $args;
     private $_GET;
@@ -26,7 +58,7 @@ class ThemeTree {
     $this->folderpath = $this->TempPath.'/components/packs/*/';
     $this->packsPath = $this->TempPath.'/components/packs/';
     $this->Packages = array_filter(glob($this->folderpath), 'is_dir');
-    if( !class_exists('ThemeStatic') ) {
+    if( !class_exists('ThemeStatic') && file_exists($this->TempPath.'/syntax.php') ) {
       require($this->TempPath.'/syntax.php');
     }
   }
@@ -87,21 +119,28 @@ class ThemeTree {
             $pageURL .= "s";
         }
         $pageURL .= "://";
-        $pageURL .= $_SERVER["SERVER_NAME"];
+        $pageURL .= isset($_SERVER["SERVER_NAME"]) ? $_SERVER["SERVER_NAME"] : '';
 
         do_action('Initialize');
 
 
   }
 }
-$ThemeTree = new ThemeTree();
+// التسجيل في $GLOBALS صراحةً يضمن توفر الكائنات حتى لو حُمّل ووردبريس داخل دالة
+// (كما يحدث مع WP-CLI وبعض أدوات الاستضافة) بدل خطأ "Call to a member function on null"
+$GLOBALS['ThemeTree'] = $ThemeTree = new ThemeTree();
 add_action('init', array($ThemeTree, 'Initialize'));
-$ThemeStatic = new ThemeStatic();
+$GLOBALS['ThemeStatic'] = $ThemeStatic = class_exists('ThemeStatic') ? new ThemeStatic() : null;
 $packs = $ThemeTree->Packages;
 foreach ($packs as $pack) {
   if( substr(basename($pack), 0, 1) != '@' and substr(basename($pack), 0, 1) != '#' ) {
     $path = $pack.'setup.php';
-    $ThemeTree->Require($path, array('CurrentDir'=>$pack));
+    // أي خطأ داخل حزمة يعطّل الحزمة وحدها بدل إسقاط الموقع بخطأ فادح
+    try {
+      $ThemeTree->Require($path, array('CurrentDir'=>$pack));
+    } catch ( \Throwable $e ) {
+      $GLOBALS['yc_broken_packs'][ basename($pack) ] = $e->getMessage();
+    }
   }
 }
 wp_reset_query();
@@ -187,7 +226,7 @@ function wpdocs_add_custom_shortcode() {
                     $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
                     
                                   
-                    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false) {
+                    if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false) {
                         echo '<img src="'.$f['image'].'" width="100%" height="100%" alt="'.$image_alt.'">';
                     }
                   echo '<div class="box-title">';
@@ -222,7 +261,7 @@ function wpdocs_add_custom_shortcode() {
             $image_url = $src;
             $image_id = get_attachment_id_from_url($image_url);
             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-            if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
+            if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false ) {
             echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
             }
           echo '</div>';
@@ -237,7 +276,7 @@ function wpdocs_add_custom_shortcode() {
                 $image_url = $src;
                 $image_id = get_attachment_id_from_url($image_url);
                 $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-                if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
+                if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false ) {
                 echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
                 }
               echo '</div>';
@@ -306,7 +345,7 @@ function wpdocs_add_custom_shortcode() {
                          $image_url = $st['image'];
                          $image_id = get_attachment_id_from_url($image_url);
                             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-                         if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
+                         if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false ) {
                          echo '<img data-loader-src="'.$st['image'].'"  width="100%" height="100%" alt="'.$image_alt.'"/>';
                          }
                       echo '</div>';
@@ -381,10 +420,6 @@ function orderHeader($test) {
 }
 function orderFooter($test) {
     $html = ob_get_clean();
-    $dom = new DOMDocument();
-    libxml_use_internal_errors(true);
-    $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html);
-    $xpath = new DOMXpath($dom);
     $html = update_protocol_links($html);
     $html = str_replace('target="_blank"', 'target="_blank" rel="nofollow noopener noreferrer"', $html);
 

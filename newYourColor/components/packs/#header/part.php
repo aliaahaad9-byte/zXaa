@@ -1,4 +1,4 @@
-<?phpecho '<!DOCTYPE html>';
+<?php echo '<!DOCTYPE html>';
 echo '<html lang="'.(get_option('yc_lang') ==   '' ? 'ar-eg' : get_option('yc_lang')).'" dir="rtl">';
 echo '<head>';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
@@ -11,7 +11,7 @@ do_action('BeforeWPHead');
  wp_head(); 
 
 do_action('AfterWPHead');
-if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
+if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false ) {
     if(!empty(get_option('favicon')['url'])){
         echo '<link rel="shortcut icon" type="image/png" href="'.get_option('favicon')['url'].'">';
     }
@@ -36,7 +36,7 @@ echo '<meta name="msapplication-TileColor" content="#a03576">';
 //echo '<link rel="stylesheet" media="all" href="'.$this->StylesURL.'main.css?'.rand().'" />';
 //echo '<link rel="stylesheet" media="all" href="'.$this->StylesURL.'responsive.css?'.rand().'" />';
  	echo '<style>';
- 	 	if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
+ 	 	if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false ) {
 			echo '@font-face {';
 		  echo 'font-family: "Alexandria";';
 		  echo 'font-style: normal;';
