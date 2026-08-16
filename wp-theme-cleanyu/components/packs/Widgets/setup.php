@@ -1,4 +1,4 @@
-<?
+<?php
 $CurrentURL = explode(get_template_directory(), trailingslashit( dirname( __FILE__ ) ))[1];
 $CurrentURL = get_template_directory_uri().$CurrentURL;
 define("WidgetURL", $CurrentURL);

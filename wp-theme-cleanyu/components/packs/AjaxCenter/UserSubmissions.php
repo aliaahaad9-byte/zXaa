@@ -1,4 +1,4 @@
-<?
+<?php
 ob_start();
 header("Content-Type: application/json");
 if( is_user_logged_in() ) {

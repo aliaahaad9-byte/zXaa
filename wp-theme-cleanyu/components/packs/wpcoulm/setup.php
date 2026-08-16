@@ -1,4 +1,4 @@
-<?
+<?php
 add_filter('manage_post_posts_columns', function($columns) {
 	return array_merge($columns, ['pin' => __('مثبت ', 'textdomain')]);
 });

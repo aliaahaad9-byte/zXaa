@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 function AppendToContent($content) {
 	global $post;

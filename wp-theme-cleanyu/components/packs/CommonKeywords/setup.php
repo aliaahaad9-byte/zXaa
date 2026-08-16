@@ -1,4 +1,4 @@
-<?
+<?php
 function CommonKeywords($title, $content) {
 	$words_leader = array();
 	$triplewords = array();

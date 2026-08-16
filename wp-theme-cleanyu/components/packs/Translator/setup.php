@@ -1,4 +1,4 @@
-<?
+<?php
 function TranslateStrings($string, $target, $from='auto') {
     $string = urlencode($string);
 

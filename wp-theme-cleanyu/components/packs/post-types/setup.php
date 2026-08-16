@@ -1,4 +1,4 @@
-<?
+<?php
 function PostTypes() {
     global $ThemeTree;
     $ThemeTree->AddPType('الأسئله', 'سؤال', 'ة', 'faq', true, false, array('title', "editor"), 8);

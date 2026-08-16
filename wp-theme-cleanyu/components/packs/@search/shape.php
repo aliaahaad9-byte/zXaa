@@ -1,4 +1,4 @@
-<?
+<?php
 global $wpdb;
 $search_term = $_GET['s'];
 $results = $wpdb->get_results(

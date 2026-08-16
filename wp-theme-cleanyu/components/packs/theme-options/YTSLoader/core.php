@@ -1,4 +1,4 @@
-<?
+<?php
 class YTSFields extends YTS {
     public  $args = [];
     public  $boxes = [];

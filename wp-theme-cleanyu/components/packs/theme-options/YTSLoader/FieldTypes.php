@@ -1,4 +1,4 @@
-<?
+<?php
 class YTSFieldsTypes extends YTSFields {
 	private $field;
 	private $id;

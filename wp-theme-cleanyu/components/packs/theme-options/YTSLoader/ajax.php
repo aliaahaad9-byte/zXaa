@@ -1,4 +1,4 @@
-<?
+<?php
 add_action( 'wp_ajax_YTSLayoutsBuilder', 'YTSLayoutsBuilder' );
 
 function YTSLayoutsBuilder() {

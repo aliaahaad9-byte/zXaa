@@ -1,4 +1,4 @@
-<?
+<?php
 
 $comment_num = get_comments_number($post->ID);
 

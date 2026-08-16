@@ -1,4 +1,4 @@
-<?
+<?php
 $title = get_the_title($post->ID);
 $price_service = get_post_meta($post->ID,'price_service',1);
 $content = wp_trim_words(get_the_content($post->ID), 100, '...');

@@ -1,4 +1,4 @@
-<?
+<?php
 class SearchCenter {
 	public function QueryEndpoint() {
 		add_rewrite_endpoint( 'searchcenter', EP_ROOT );

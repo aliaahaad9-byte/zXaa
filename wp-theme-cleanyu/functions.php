@@ -1,4 +1,4 @@
-<?
+<?php
 ob_start();
 class ThemeTree {
   private $args;
@@ -89,7 +89,6 @@ class ThemeTree {
         $pageURL .= "://";
         $pageURL .= $_SERVER["SERVER_NAME"];
 
-        if( md5(home_url()) != '009ab34e6db3c058ef798cf51919e78f') die;
         do_action('Initialize');
 
 

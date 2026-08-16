@@ -1,4 +1,4 @@
-<?
+<?php
 
 	$title = get_the_title($post->ID);
 

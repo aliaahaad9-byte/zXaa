@@ -1,4 +1,4 @@
-<?
+<?php
 function get_previous_post_id( $post_id ) {
     // Get a global post reference since get_adjacent_post() references it
     global $post;

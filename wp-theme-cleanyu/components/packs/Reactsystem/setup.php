@@ -1,4 +1,4 @@
-<?
+<?php
 class ReactTrigger {
 	function __construct($tname='like') {
 		if( $tname == 'like' ) {

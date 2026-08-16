@@ -1,4 +1,4 @@
-<?
+<?php
 $title = get_the_title($post->ID);
 $content = wp_trim_words(get_the_content($post->ID), 100, '...');
 $city = get_terms(array( 'taxonomy' => 'country', 'hide_empty' => false, ) );

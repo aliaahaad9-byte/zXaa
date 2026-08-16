@@ -1,4 +1,4 @@
-<?
+<?php
 class Theme__WidgetModel__benfits extends WP_Widget {
     function __construct() {
         $widget_ops = array( 

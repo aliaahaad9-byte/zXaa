@@ -1,4 +1,4 @@
-<?
+<?php
  function my_custom_status_creation(){
         register_post_status( 'readypublish', array(
             'label'                     => _x( 'جاهز للنشر ', 'post' ),

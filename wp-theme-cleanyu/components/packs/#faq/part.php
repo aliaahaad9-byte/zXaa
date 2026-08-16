@@ -1,4 +1,4 @@
-<?
+<?php
 // Project
   $posts = get_posts($args);
    $q=0; 

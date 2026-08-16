@@ -1,4 +1,4 @@
-<?
+<?php
 ob_start();
 the_content();
 $Content = ob_get_clean();

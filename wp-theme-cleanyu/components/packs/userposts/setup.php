@@ -1,4 +1,4 @@
-<?
+<?php
 
 function UserPosts(){
 	if(isset($_COOKIE['userPosts'])){

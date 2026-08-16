@@ -1,4 +1,4 @@
-<?
+<?php
 function WidgetInput($args=array()) {
 	if( isset($args['name']) ) {
 		$title = isset($args['title']) ? $args['title'] : '';

@@ -1,4 +1,4 @@
-<?
+<?php
 $obj = get_queried_object();
 $paged = $this->Paged();
 $user_id = wp_get_current_user()->ID;

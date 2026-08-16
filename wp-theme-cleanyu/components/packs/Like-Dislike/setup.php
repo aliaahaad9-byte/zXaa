@@ -1,4 +1,4 @@
-<?
+<?php
 function ReviewArticle($type, $id) {
 	global $current_user;
 	$post = $id;

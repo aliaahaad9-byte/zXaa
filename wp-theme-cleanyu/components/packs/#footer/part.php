@@ -1,4 +1,4 @@
-<?
+<?php
 $logo_footer = get_option('logo_footer');
 if( isset($logo_footer['url']) ) {
 	$logo_footer = $logo_footer['url'];

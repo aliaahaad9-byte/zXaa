@@ -1,4 +1,4 @@
-<?
+<?php
 class AjaxCenter {
      private $ThemeStatic;
 	function __construct() {
