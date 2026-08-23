@@ -16,16 +16,21 @@
 .footer-payments{border-top:1px solid #ffffff1f;padding:22px 0}
 .footer-payments__inner{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:18px}
 .footer-payments__title{color:#fff;font-size:16px;font-weight:600}
-.footer-payments__list{list-style:none;margin:0;padding:0;display:flex;align-items:center;flex-wrap:wrap;gap:10px}
-.footer-payments__list .pay{background:#fff;border-radius:8px;padding:7px 10px;display:flex;align-items:center;justify-content:center;min-width:74px;height:42px;box-shadow:0 2px 6px #00000024;transition:transform var(--transition)}
-.footer-payments__list .pay:hover{transform:translateY(-2px)}
-.footer-payments__list .pay__icon{width:66px;height:26px;display:block}
+.footer-payments__list{list-style:none;margin:0;padding:0;display:flex;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-payments__list .pay{background:none;border:0;padding:0 4px;display:flex;align-items:center;justify-content:center;color:#fff;opacity:.85;transition:opacity var(--transition)}
+.footer-payments__list .pay:hover{opacity:1}
+.footer-payments__list .pay__icon{width:52px;height:20px;display:block}
 .footer-payments__list .pay__label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .footer-legal{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 26px;padding:0 0 12px;margin-bottom:10px;border-bottom:1px solid #ffffff1a}
 .footer-legal__item{display:inline-flex;align-items:center;gap:7px;font-size:14px;line-height:1.6;color:#ffffffd9;font-weight:400}
 .footer-legal__icon{width:15px;height:15px;flex-shrink:0;opacity:.75}
 .footer-legal__label{font-weight:500;color:#fff}
 .footer-legal__value{font-weight:600;color:#fff;direction:ltr;unicode-bidi:embed;letter-spacing:.4px}
+.copyright-company{margin-inline-start:6px}
+.copyright-company a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.company p a{color:#fff;margin-inline-start:8px;font-weight:600}
+.company p a:hover,allrights-seo a:hover{opacity:.8}
+.copyright-company a:hover{opacity:.8}
 .social--footer>a .icon-x{width:19px;height:19px;display:block;margin:auto}
 .social--footer>a.x-twitter{color:#0f1419}
 .social--footer>a.x-twitter:hover{background:#0f1419;color:#fff}

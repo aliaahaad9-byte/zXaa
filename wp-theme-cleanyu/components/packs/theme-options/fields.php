@@ -227,6 +227,86 @@ $metaboxes['Footer'] = array(
 			'id'    => 'hide_payments',
 		),
 
+		# شريط الحقوق السفلي
+		array(
+			'name' => 'شريط الحقوق السفلي',
+			'nameEN' => 'Copyright bar',
+			'type' => 'title',
+			'id' => '',
+		),
+		array(
+			'name'  => 'نص الحقوق (اتركه فارغًا للنص الافتراضي — استخدم {year} للسنة و {sitename} لاسم الموقع)',
+			'nameEN'=> 'Copyright text',
+			'type'  => 'text',
+			'id'    => 'copyright_text',
+		),
+		array(
+			'name'  => 'اسم شركة التنفيذ (يظهر بعد "لموقع")',
+			'nameEN'=> 'Company name',
+			'type'  => 'text',
+			'id'    => 'copyright_company',
+		),
+		array(
+			'name'  => 'رابط شركة التنفيذ',
+			'nameEN'=> 'Company link',
+			'type'  => 'text',
+			'id'    => 'copyright_company_url',
+		),
+		array(
+			'name'  => 'كلمة الأرشفة (افتراضي: ارشفه)',
+			'nameEN'=> 'SEO label',
+			'type'  => 'text',
+			'id'    => 'seo_label',
+		),
+		array(
+			'name'  => 'اسم جهة الأرشفة (افتراضي: Teko)',
+			'nameEN'=> 'SEO provider name',
+			'type'  => 'text',
+			'id'    => 'seo_name',
+		),
+		array(
+			'name'  => 'رابط جهة الأرشفة',
+			'nameEN'=> 'SEO provider link',
+			'type'  => 'text',
+			'id'    => 'seo_url',
+		),
+		array(
+			'name'  => 'كلمة البرمجة (افتراضي: برمجه)',
+			'nameEN'=> 'Developer label',
+			'type'  => 'text',
+			'id'    => 'dev_label',
+		),
+		array(
+			'name'  => 'اسم جهة البرمجة (اتركه فارغًا لعرض الشعار)',
+			'nameEN'=> 'Developer name',
+			'type'  => 'text',
+			'id'    => 'dev_name',
+		),
+		array(
+			'name'  => 'رابط جهة البرمجة',
+			'nameEN'=> 'Developer link',
+			'type'  => 'text',
+			'id'    => 'dev_url',
+		),
+		array(
+			'name'  => 'شعار جهة البرمجة (بديل الاسم)',
+			'nameEN'=> 'Developer logo',
+			'type'  => 'file',
+			'id'    => 'dev_logo',
+		),
+		array(
+			'name'  => 'إخفاء سطر الأرشفة',
+			'nameEN'=> 'Hide SEO credit',
+			'type'  => 'checkbox',
+			'id'    => 'hide_seo_credit',
+		),
+		array(
+			'name'  => 'إخفاء سطر البرمجة',
+			'nameEN'=> 'Hide developer credit',
+			'type'  => 'checkbox',
+			'id'    => 'hide_dev_credit',
+		),
+
 
 	)
 );

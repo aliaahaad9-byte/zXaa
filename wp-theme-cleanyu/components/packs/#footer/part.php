@@ -265,18 +265,77 @@ elseif( is_tax('country') ) {
 				}
 
 				echo'<div class="foot-footer">';
+					// ===== سطر الحقوق (قابل للتحكم من إعدادات القالب) =====
+					$copyright_text = trim( (string) get_option('copyright_text') );
+					$copy_company   = trim( (string) get_option('copyright_company') );
+					$copy_comp_url  = trim( (string) get_option('copyright_company_url') );
+
 					echo '<allrights-reserved>';
-						echo 'جميع الحقوق محفوظة &copy; ' .date('Y');
-						if( !empty($sitename__copyrights) ) {
-						    echo ' لموقع  <a href="'.home_url().'">'.$sitename__copyrights.'</a>';
+						if( $copyright_text !== '' ) {
+							// يدعم {year} و {sitename} داخل النص
+							$copyright_text = str_replace(
+								array('{year}', '{sitename}'),
+								array( date('Y'), $sitename__copyrights ),
+								$copyright_text
+							);
+							echo esc_html( $copyright_text );
+						}else {
+							echo 'جميع الحقوق محفوظة &copy; ' .date('Y');
+							if( !empty($sitename__copyrights) ) {
+								echo ' لموقع  <a href="'.esc_url(home_url()).'">'.esc_html($sitename__copyrights).'</a>';
+							}
+						}
+						// اسم شركة التنفيذ
+						if( $copy_company !== '' ) {
+							echo ' <span class="copyright-company">';
+								if( $copy_comp_url !== '' ) {
+									echo '<a target="_blank" rel="nofollow" href="'.esc_url($copy_comp_url).'">'.esc_html($copy_company).'</a>';
+								}else {
+									echo esc_html($copy_company);
+								}
+							echo '</span>';
 						}
 					echo '</allrights-reserved>';
-					echo'<div class="company">';
-						echo '<allrights-SEO>';
-							echo '<span>ارشفه <a target="_blank" rel="nofollow" href="https://www.facebook.com/alsyd.hossam"> Teko</a></span>';
-						echo '</allrights-SEO>';
-						echo '<p>برمجه <a target="_blank" rel="nofollow" href="https://yourcolor.net"><img width="96" height="19" data-loader-src="'.$CurrentURL.'yourcolor.png" alt="Yourcolor Workshop"/></a></p>';
-					echo'</div>';
+
+					// ===== سطرا الأرشفة والبرمجة =====
+					$seo_label = trim( (string) get_option('seo_label') );
+					$seo_name  = trim( (string) get_option('seo_name') );
+					$seo_url   = trim( (string) get_option('seo_url') );
+					$dev_label = trim( (string) get_option('dev_label') );
+					$dev_name  = trim( (string) get_option('dev_name') );
+					$dev_url   = trim( (string) get_option('dev_url') );
+					$dev_logo  = get_option('dev_logo');
+					if( is_array($dev_logo) && isset($dev_logo['url']) ) {
+						$dev_logo = $dev_logo['url'];
+					}
+					if( $seo_label === '' ) $seo_label = 'ارشفه';
+					if( $seo_name  === '' ) $seo_name  = 'Teko';
+					if( $seo_url   === '' ) $seo_url   = 'https://www.facebook.com/alsyd.hossam';
+					if( $dev_label === '' ) $dev_label = 'برمجه';
+					if( $dev_url   === '' ) $dev_url   = 'https://yourcolor.net';
+					if( empty($dev_logo) )  $dev_logo  = $CurrentURL.'yourcolor.png';
+
+					$show_seo = ( get_option('hide_seo_credit') != 'on' );
+					$show_dev = ( get_option('hide_dev_credit') != 'on' );
+
+					if( $show_seo || $show_dev ) {
+						echo'<div class="company">';
+							if( $show_seo ) {
+								echo '<allrights-SEO>';
+									echo '<span>'.esc_html($seo_label).' <a target="_blank" rel="nofollow" href="'.esc_url($seo_url).'">'.esc_html($seo_name).'</a></span>';
+								echo '</allrights-SEO>';
+							}
+							if( $show_dev ) {
+								echo '<p>'.esc_html($dev_label).' <a target="_blank" rel="nofollow" href="'.esc_url($dev_url).'">';
+									if( $dev_name !== '' ) {
+										echo esc_html($dev_name);
+									}else {
+										echo '<img width="96" height="19" data-loader-src="'.esc_url($dev_logo).'" alt="'.esc_attr($dev_label).'"/>';
+									}
+								echo '</a></p>';
+							}
+						echo'</div>';
+					}
 				echo'</div>';
 			echo'</div>';
 		echo'</div>';
