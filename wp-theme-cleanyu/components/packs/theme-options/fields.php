@@ -166,8 +166,68 @@ $metaboxes['Footer'] = array(
 			'type'  => 'file',
 			'id'    => 'logoFooter',
 		),
-		
-			
+		array(
+			'name'  => 'نبذة عن الشركة (تظهر أسفل اللوجو)',
+			'nameEN'=> 'About company',
+			'type'  => 'textarea',
+			'id'    => 'footer_about',
+		),
+
+		# بيانات التوثيق
+		array(
+			'name' => 'بيانات التوثيق',
+			'nameEN' => 'Legal info',
+			'type' => 'title',
+			'id' => '',
+		),
+		array(
+			'name'  => 'رقم السجل التجاري',
+			'nameEN'=> 'Commercial Registration No.',
+			'type'  => 'text',
+			'id'    => 'cr_number',
+		),
+		array(
+			'name'  => 'الرقم الضريبي',
+			'nameEN'=> 'VAT Number',
+			'type'  => 'text',
+			'id'    => 'vat_number',
+		),
+
+		# مواعيد العمل
+		array(
+			'name' => 'مواعيد العمل',
+			'nameEN' => 'Working hours',
+			'type' => 'title',
+			'id' => '',
+		),
+		array(
+			'name'  => 'جدول المواعيد (كل سطر: اليوم = الوقت)',
+			'nameEN'=> 'Working hours table',
+			'type'  => 'textarea',
+			'id'    => 'work_hours',
+		),
+		array(
+			'name'  => 'ملاحظة أسفل الجدول (اختياري)',
+			'nameEN'=> 'Working hours note',
+			'type'  => 'text',
+			'id'    => 'work_hours_note',
+		),
+
+		# طرق الدفع
+		array(
+			'name' => 'طرق الدفع',
+			'nameEN' => 'Payment methods',
+			'type' => 'title',
+			'id' => '',
+		),
+		array(
+			'name'  => 'إخفاء قسم طرق الدفع',
+			'nameEN'=> 'Hide payment methods',
+			'type'  => 'checkbox',
+			'id'    => 'hide_payments',
+		),
+
+
 	)
 );
 $metaboxes['coverposts'] = array(

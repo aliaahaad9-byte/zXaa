@@ -238,6 +238,45 @@ class ThemeStatic extends ThemeTree {
 		$times++;
 		return $this->file_get_contents($url, $find, $times);
 	}
+	/**
+	 * أيقونة SVG لطريقة الدفع (مضمّنة، لا تحتاج أي ملفات خارجية)
+	 */
+	public function PaymentIcon($key) {
+		$icons = array(
+
+			// مدى
+			'mada' => '<svg class="pay__icon" viewBox="0 0 120 40" role="img" aria-hidden="true" focusable="false">'
+				.'<text x="60" y="24" text-anchor="middle" font-family="Tahoma,Arial,sans-serif" font-size="23" font-weight="700" fill="#1a1a1a">مدى</text>'
+				.'<rect x="26" y="30" width="32" height="4" rx="2" fill="#1BA7A0"/>'
+				.'<rect x="62" y="30" width="32" height="4" rx="2" fill="#2B3990"/>'
+				.'</svg>',
+
+			// Visa
+			'visa' => '<svg class="pay__icon" viewBox="0 0 120 40" role="img" aria-hidden="true" focusable="false">'
+				.'<text x="60" y="28" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700" font-style="italic" fill="#1A1F71" letter-spacing="1">VISA</text>'
+				.'</svg>',
+
+			// Mastercard
+			'mastercard' => '<svg class="pay__icon" viewBox="0 0 120 40" role="img" aria-hidden="true" focusable="false">'
+				.'<circle cx="49" cy="20" r="13" fill="#EB001B"/>'
+				.'<circle cx="71" cy="20" r="13" fill="#F79E1B"/>'
+				.'<path d="M60 10.2a13 13 0 0 0 0 19.6 13 13 0 0 0 0-19.6z" fill="#FF5F00"/>'
+				.'</svg>',
+
+			// Apple Pay
+			'applepay' => '<svg class="pay__icon" viewBox="0 0 120 40" role="img" aria-hidden="true" focusable="false">'
+				.'<path d="M31.3 13.6c-.9 1.1-2.4 1.9-3.6 1.8-.2-1.4.5-2.9 1.3-3.8.9-1.1 2.5-1.9 3.7-1.9.2 1.5-.4 2.9-1.4 3.9zm1.4 2.1c-2.1-.1-3.8 1.1-4.8 1.1-1 0-2.5-1.1-4.1-1-2.1 0-4.1 1.2-5.1 3.1-2.2 3.8-.6 9.4 1.5 12.5 1.1 1.5 2.3 3.2 3.9 3.1 1.6-.1 2.2-1 4.1-1 1.9 0 2.4 1 4.1 1 1.7 0 2.7-1.5 3.8-3 1.2-1.7 1.7-3.4 1.7-3.5 0 0-3.3-1.3-3.3-5 0-3.1 2.6-4.6 2.7-4.7-1.5-2.2-3.7-2.4-4.5-2.5z" fill="#000"/>'
+				.'<text x="74" y="28" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="600" fill="#000">Pay</text>'
+				.'</svg>',
+
+			// STC Pay
+			'stcpay' => '<svg class="pay__icon" viewBox="0 0 120 40" role="img" aria-hidden="true" focusable="false">'
+				.'<text x="40" y="28" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#4F008C">stc</text>'
+				.'<text x="87" y="28" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="600" fill="#E9427E">pay</text>'
+				.'</svg>',
+		);
+		return isset($icons[$key]) ? $icons[$key] : '';
+	}
 	public function GetCurrentURL() {
 		$pageURL = 'http';
 		if (isset($_SERVER["HTTPS"]) and $_SERVER["HTTPS"] == "on") {

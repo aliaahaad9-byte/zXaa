@@ -1,13 +1,46 @@
 <?php
 $logo_footer = get_option('logo_footer');
-if( isset($logo_footer['url']) ) {
+if( empty($logo_footer) ) {
+	$logo_footer = get_option('logoFooter');
+}
+if( is_array($logo_footer) && isset($logo_footer['url']) ) {
 	$logo_footer = $logo_footer['url'];
+}
+if( empty($logo_footer) ) {
+	$logo_main = get_option('logo');
+	$logo_footer = ( is_array($logo_main) && isset($logo_main['url']) ) ? $logo_main['url'] : $logo_main;
+}
+
+// بيانات الفوتر الإضافية
+$footer_about    = get_option('footer_about');
+$cr_number       = trim( (string) get_option('cr_number') );
+$vat_number      = trim( (string) get_option('vat_number') );
+$work_hours_raw  = trim( (string) get_option('work_hours') );
+$work_hours_note = trim( (string) get_option('work_hours_note') );
+$hide_payments   = get_option('hide_payments');
+
+// مواعيد العمل: كل سطر بصيغة "اليوم = الوقت"، مع مواعيد افتراضية عند عدم التعبئة
+if( $work_hours_raw === '' ) {
+	$work_hours_raw = "السبت - الخميس = 9:00 ص - 11:00 م\nالجمعة = 2:00 م - 11:00 م";
+}
+$work_hours = array();
+foreach( preg_split('/\r\n|\r|\n/', $work_hours_raw) as $line ) {
+	$line = trim($line);
+	if( $line === '' ) continue;
+	$parts = preg_split('/\s*[=|:\x{061B}]\s*/u', $line, 2);
+	$work_hours[] = array(
+		'day'  => trim($parts[0]),
+		'time' => isset($parts[1]) ? trim($parts[1]) : '',
+	);
 }
 $Whatsapp = get_option('Whatsapp');
 $Phone = get_option('Phone');
 $Adress = get_option('Adress');
 $map = get_option('map');
 $email = get_option('email');
+if( empty($email) ) {
+	$email = get_option('Email');
+}
 $hide_phone = 'off';
 if( is_single() ) {
 	wp_reset_query();
@@ -112,6 +145,23 @@ elseif( is_tax('country') ) {
 		echo '<div class="container">';
 
 			echo'<div class="blocks-footer">';
+
+				// عمود الشركة: اللوجو + نبذة مختصرة
+				if( !empty($logo_footer) || !empty($footer_about) ) {
+				echo '<div class="footer-brand">';
+					if( !empty($logo_footer) ) {
+						echo '<div class="footer-brand__logo">';
+							echo '<a href="'.esc_url(home_url('/')).'" aria-label="'.esc_attr(get_bloginfo('name')).'">';
+								echo '<img data-loader-src="'.esc_url($logo_footer).'" src="'.esc_url($logo_footer).'" width="180" height="60" alt="'.esc_attr(get_bloginfo('name')).'" />';
+							echo '</a>';
+						echo '</div>';
+					}
+					if( !empty($footer_about) ) {
+						echo '<p class="footer-brand__about">'.esc_html( wp_strip_all_tags($footer_about) ).'</p>';
+					}
+				echo '</div>';
+				}
+
 				echo '<div class ="footer_menu">';
 					echo '<span class ="text-footer-menu">روابط هامة</span>';
 					wp_nav_menu(
@@ -135,6 +185,25 @@ elseif( is_tax('country') ) {
 						)
 					);
 				echo'</div>';
+				// جدول مواعيد العمل المختصر
+				if( !empty($work_hours) ) {
+					echo '<div class="footer-hours">';
+						echo '<span class="text-footer-menu">مواعيد العمل</span>';
+						echo '<ul class="footer-hours__list">';
+							foreach( $work_hours as $row ) {
+								echo '<li>';
+									echo '<span class="footer-hours__day">'.esc_html($row['day']).'</span>';
+									echo '<span class="footer-hours__dots"></span>';
+									echo '<span class="footer-hours__time">'.esc_html($row['time']).'</span>';
+								echo '</li>';
+							}
+						echo '</ul>';
+						if( $work_hours_note !== '' ) {
+							echo '<p class="footer-hours__note">'.esc_html($work_hours_note).'</p>';
+						}
+					echo '</div>';
+				}
+
 				echo'<div class="blocks-yc-">';				
 					echo'<div class="contact-info-right">';
 		                echo '<span class ="text-footer-menu">التواصل الإجتماعي</span>';
@@ -146,9 +215,55 @@ elseif( is_tax('country') ) {
 			echo'</div>';
 			
 		echo '</div>';
+		// طرق الدفع المتاحة
+		if( $hide_payments != 'on' ) {
+			$payments = array(
+				'mada'       => 'مدى',
+				'visa'       => 'Visa',
+				'mastercard' => 'Mastercard',
+				'applepay'   => 'Apple Pay',
+				'stcpay'     => 'STC Pay',
+			);
+			echo '<div class="footer-payments">';
+				echo '<div class="container">';
+					echo '<div class="footer-payments__inner">';
+						echo '<span class="footer-payments__title">طرق الدفع المتاحة</span>';
+						echo '<ul class="footer-payments__list">';
+							foreach( $payments as $key => $label ) {
+								echo '<li class="pay pay--'.esc_attr($key).'" title="'.esc_attr($label).'">';
+									echo (new ThemeStatic)->PaymentIcon($key);
+									echo '<span class="pay__label">'.esc_html($label).'</span>';
+								echo '</li>';
+							}
+						echo '</ul>';
+					echo '</div>';
+				echo '</div>';
+			echo '</div>';
+		}
+
 		$sitename__copyrights = get_option('sitename');
 		echo'<div class="foot">';
 			echo '<div class="container">';
+				// رقم السجل التجاري والرقم الضريبي
+				if( $cr_number !== '' || $vat_number !== '' ) {
+					echo '<div class="footer-legal">';
+						if( $cr_number !== '' ) {
+							echo '<span class="footer-legal__item">';
+								echo '<svg class="footer-legal__icon" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>';
+								echo '<span class="footer-legal__label">السجل التجاري:</span>';
+								echo '<bdi class="footer-legal__value">'.esc_html($cr_number).'</bdi>';
+							echo '</span>';
+						}
+						if( $vat_number !== '' ) {
+							echo '<span class="footer-legal__item">';
+								echo '<svg class="footer-legal__icon" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM128 128a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM96 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM108.7 299.3c-6.2-6.2-6.2-16.4 0-22.6l160-160c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6l-160 160c-6.2 6.2-16.4 6.2-22.6 0z"/></svg>';
+								echo '<span class="footer-legal__label">الرقم الضريبي:</span>';
+								echo '<bdi class="footer-legal__value">'.esc_html($vat_number).'</bdi>';
+							echo '</span>';
+						}
+					echo '</div>';
+				}
+
 				echo'<div class="foot-footer">';
 					echo '<allrights-reserved>';
 						echo 'جميع الحقوق محفوظة &copy; ' .date('Y');
