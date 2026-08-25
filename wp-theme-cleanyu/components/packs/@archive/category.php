@@ -1,5 +1,13 @@
 <?php
 $obj = get_queried_object();
+
+# صفحة هبوط الخدمة — تعمل فقط على التصنيفات المفعَّل فيها الخيار.
+# بقية التصنيفات تكمل على قالب الأرشيف الحالي بلا أي تغيير.
+if ( function_exists('svc_is_landing') && svc_is_landing($obj->term_id) ) {
+	svc_render_landing($obj, $this);
+	return;
+}
+
 $paged = $this->Paged();
 $user_id = wp_get_current_user()->ID;
 $taxonomy = $obj->taxonomy;
