@@ -1,5 +1,12 @@
 <?php
 $obj = get_queried_object();
+
+// صفحة هبوط الخدمة — تعمل فقط على التصنيفات المفعّل فيها الخيار، وما عداها يكمل على الأرشيف كما هو
+if ( class_exists( 'ServiceLanding' ) && ServiceLanding::is_enabled( $obj ) ) {
+	ServiceLanding::render( $obj, $this );
+	return;
+}
+
 $paged = $this->Paged();
 $user_id = wp_get_current_user()->ID;
 $taxonomy = $obj->taxonomy;
