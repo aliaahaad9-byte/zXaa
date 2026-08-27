@@ -45,7 +45,7 @@ class YC_Calls_Dashboard {
 			return;
 		}
 		$base = get_template_directory_uri() . '/components/packs/callnumber/assets/';
-		$ver  = '2.0.0';
+		$ver  = '3.0.0';
 		wp_enqueue_style( 'yc-calls-admin', $base . 'admin.css', array(), $ver );
 		wp_enqueue_script( 'yc-calls-admin', $base . 'admin.js', array( 'jquery' ), $ver, true );
 		wp_localize_script( 'yc-calls-admin', 'YCCalls', array(

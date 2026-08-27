@@ -178,6 +178,7 @@ elseif( is_tax('country') ) {
                         echo'<div class="contact-info-right">';
                         echo '<div class ="text-footer-menu">' . (!empty($title_mune_3) ? $title_mune_3 : 'معلومات الاتصال'  ). '</div>';
                         echo'<div class="contact-info">';
+                            $map_link = get_option('map_link');
                             echo '<div class="Address">';
 
                                 echo'<i class="fa-light fa-location-crosshairs"></i>';
@@ -186,7 +187,11 @@ elseif( is_tax('country') ) {
 
                                     echo '<span class="first_info">العنوان :</span>';
 
-                                    echo'<span>'.$Adress.'</span>';
+                                    if( !empty($map_link) ) {
+                                        echo '<span><a class="address-map-link" href="'.esc_url($map_link).'" target="_blank" rel="nofollow noopener noreferrer">'.$Adress.'</a></span>';
+                                    }else {
+                                        echo'<span>'.$Adress.'</span>';
+                                    }
 
                                 echo'</div>';
 
@@ -218,7 +223,27 @@ elseif( is_tax('country') ) {
                                 echo'</div>';
 
                             echo'</div>';
-                            
+
+                            $cr_number  = get_option('cr_number');
+                            $vat_number = get_option('vat_number');
+                            if( !empty($cr_number) ) {
+                                echo '<div class="Address business-number">';
+                                    echo '<i class="fa-solid fa-file-lines"></i>';
+                                    echo '<div class="info-footer">';
+                                        echo '<span class="first_info">السجل التجاري :</span>';
+                                        echo '<span class="num-ltr">'.esc_html($cr_number).'</span>';
+                                    echo '</div>';
+                                echo '</div>';
+                            }
+                            if( !empty($vat_number) ) {
+                                echo '<div class="Address business-number">';
+                                    echo '<i class="fa-solid fa-receipt"></i>';
+                                    echo '<div class="info-footer">';
+                                        echo '<span class="first_info">الرقم الضريبي :</span>';
+                                        echo '<span class="num-ltr">'.esc_html($vat_number).'</span>';
+                                    echo '</div>';
+                                echo '</div>';
+                            }
 
                         echo'</div>';
                     echo'</div>';
@@ -240,38 +265,51 @@ elseif( is_tax('country') ) {
 
         echo '</div>';
     echo '</footer>';
+    /* سطر الحقوق وجهة البرمجة — كل جزء منه يُتحكم به من إعدادات القالب */
+    /* القيم الافتراضية تُستخدم فقط قبل أول حفظ. بعده: الحقل الفارغ يعني الإخفاء. */
     $sitename__copyrights = get_option('sitename');
+    $copyright_text  = get_option('copyright_text',  'جميع الحقوق محفوظة');
+    $copyright_for   = get_option('copyright_for',   'لموقع');
+    $copyright_owner = get_option('copyright_owner', '');
+    $copyright_year  = get_option('copyright_year',  '');
+    $dev_label       = get_option('dev_label',       'برمجه');
+    $dev_name        = get_option('dev_name',        'YOURCOLOR');
+    $dev_url         = get_option('dev_url',         'https://yourcolor.net');
+    $dev_spaced      = get_option('dev_spaced',      '');
+
+    if( $copyright_owner === '' || $copyright_owner === false ) $copyright_owner = $sitename__copyrights;
+
     echo'<div class="foot">';
         echo '<div class="container">';
             echo'<div class="foot-footer">';
                 echo '<allrights-reserved>';
                     if(IsSpeed() == false){
-                    echo 'جميع الحقوق محفوظة &copy; ' .date('Y');
-                    if( !empty($sitename__copyrights) ) {
-                        echo ' لموقع  <a href="'.home_url().'">'.$sitename__copyrights.'</a>';
-                    }
+                        echo esc_html($copyright_text);
+                        if( strtolower(trim((string)$copyright_year)) !== 'no' ) {
+                            echo ' &copy; '.date('Y');
+                        }
+                        if( !empty($copyright_owner) ) {
+                            echo ' '.esc_html($copyright_for).' <a href="'.home_url().'">'.esc_html($copyright_owner).'</a>';
+                        }
                     }
                 echo '</allrights-reserved>';
                 echo'<div class="company">';
-                    /*echo '<allrights-SEO>';
-                        echo '<span>ارشفه <a target="_blank" rel="nofollow" href="https://www.facebook.com/alsyd.hossam"> Teko</a></span>';
-                    echo '</allrights-SEO>';*/
-                    if(IsSpeed() == false){
-                        
-                
-                    echo '<p>برمجه <a target="_blank" rel="nofollow" href="https://yourcolor.net">
-                        <strong>Y</strong>
-
-                        <strong>O</strong>
-                        <strong>U</strong>
-                        <strong>R</strong>
-                        <strong>C</strong>
-                        <strong>O</strong>
-                        <strong>L</strong>
-                        <strong>O</strong>
-                        <strong>R</strong>
-
-                    </a></p>';
+                    if(IsSpeed() == false && !empty($dev_name)){
+                        $dev_open  = !empty($dev_url) ? '<a target="_blank" rel="nofollow noopener noreferrer" href="'.esc_url($dev_url).'">' : '<span>';
+                        $dev_close = !empty($dev_url) ? '</a>' : '</span>';
+                        echo '<p>';
+                            if( !empty($dev_label) ) echo esc_html($dev_label).' ';
+                            echo $dev_open;
+                            if( strtolower(trim((string)$dev_spaced)) === 'no' ) {
+                                echo esc_html($dev_name);
+                            }else {
+                                foreach( preg_split('//u', $dev_name, -1, PREG_SPLIT_NO_EMPTY) as $dev_char ) {
+                                    if( trim($dev_char) === '' ) continue;
+                                    echo '<strong>'.esc_html($dev_char).'</strong>';
+                                }
+                            }
+                            echo $dev_close;
+                        echo '</p>';
                     }
                 echo'</div>';
             echo'</div>';

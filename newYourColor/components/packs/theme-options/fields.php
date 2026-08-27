@@ -96,6 +96,12 @@ $metaboxes['contactus'] = array(
 			'id'    => 'Adress',
 		),
 		array(
+			'name'  => 'رابط العنوان على خرائط جوجل',
+			'nameEN'=> 'Map link',
+			'type'  => 'text',
+			'id'    => 'map_link',
+		),
+		array(
 			'name'  => 'الأميل',
 			'nameEN'=> 'Email',
 			'type'  => 'text',
@@ -126,6 +132,26 @@ $metaboxes['contactus'] = array(
 			'id'    => 'Whatsapp',
 		),
 		
+		# أرقام المنشأة
+		array(
+			'name' => 'أرقام المنشأة',
+			'nameEN' => 'Business numbers',
+			'type' => 'title',
+			'id' => '',
+		),
+		array(
+			'name' => 'الرقم التجاري',
+			'nameEN' => 'Commercial register',
+			'type' => 'text',
+			'id' => 'cr_number',
+		),
+		array(
+			'name' => 'الرقم الضريبي',
+			'nameEN' => 'VAT number',
+			'type' => 'text',
+			'id' => 'vat_number',
+		),
+
 		# Social
 		array(
 			'name' => 'الروابط الإجتماعية',
@@ -134,8 +160,8 @@ $metaboxes['contactus'] = array(
 			'id' => '',
 		),
 		array(
-			'name' => 'رابط تويتر',
-			'nameEN' => 'Twitter',
+			'name' => 'رابط منصة X (تويتر)',
+			'nameEN' => 'X (Twitter)',
 			'type' => 'text',
 			'id' => 'twitter',
 		),
@@ -211,8 +237,70 @@ $metaboxes['Footer'] = array(
 			'type'  => 'text',
 			'id'    => 'title_mune_3',
 		),
-		
-			
+
+		# سطر الحقوق
+		array(
+			'name' => 'سطر الحقوق',
+			'nameEN' => 'Copyright line',
+			'type' => 'title',
+			'id' => '',
+		),
+		array(
+			'name'  => 'نص الحقوق',
+			'nameEN'=> 'Copyright text',
+			'type'  => 'text',
+			'id'    => 'copyright_text',
+		),
+		array(
+			'name'  => 'إظهار السنة تلقائيًا (اكتب no للإخفاء)',
+			'nameEN'=> 'Show year',
+			'type'  => 'text',
+			'id'    => 'copyright_year',
+		),
+		array(
+			'name'  => 'كلمة الربط قبل اسم الموقع',
+			'nameEN'=> 'Copyright joiner',
+			'type'  => 'text',
+			'id'    => 'copyright_for',
+		),
+		array(
+			'name'  => 'اسم الجهة في سطر الحقوق (فارغ = اسم الموقع)',
+			'nameEN'=> 'Copyright owner',
+			'type'  => 'text',
+			'id'    => 'copyright_owner',
+		),
+
+		# جهة البرمجة
+		array(
+			'name' => 'جهة البرمجة',
+			'nameEN' => 'Developer credit',
+			'type' => 'title',
+			'id' => '',
+		),
+		array(
+			'name'  => 'كلمة قبل اسم المبرمج',
+			'nameEN'=> 'Developer label',
+			'type'  => 'text',
+			'id'    => 'dev_label',
+		),
+		array(
+			'name'  => 'اسم المبرمج (فارغ = إخفاء السطر كاملًا)',
+			'nameEN'=> 'Developer name',
+			'type'  => 'text',
+			'id'    => 'dev_name',
+		),
+		array(
+			'name'  => 'رابط المبرمج',
+			'nameEN'=> 'Developer URL',
+			'type'  => 'text',
+			'id'    => 'dev_url',
+		),
+		array(
+			'name'  => 'تباعد حروف اسم المبرمج (اكتب no لإلغائه)',
+			'nameEN'=> 'Developer letter spacing',
+			'type'  => 'text',
+			'id'    => 'dev_spaced',
+		),
 	)
 );
 $metaboxes['coverposts'] = array(

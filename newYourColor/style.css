@@ -1,9 +1,15 @@
 /*
-Theme Name: YourColor 2022
+Theme Name: YourColor 2026
+Theme URI: https://yourcolor.net/
 Author: YourColor Maroon Framework
-Author URI: http://yourcolor.net/
-Version: 1.0
-Requires PHP: >=5.6
-License: YourColor Licence
+Author URI: https://yourcolor.net/
+Description: قالب خدمات عربي متعدد الاستخدامات مع لوحة تتبع مكالمات، وصفحات هبوط للخدمات، وتحكم كامل في الفوتر. يعمل على أي دومين وأي استضافة بلا قيود ترخيص.
+Version: 3.0.0
+Requires at least: 6.0
+Tested up to: 6.8
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: clean1
+Tags: rtl-language-support, custom-menu, custom-logo, featured-images, threaded-comments
 */

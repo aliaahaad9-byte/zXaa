@@ -1,19 +1,25 @@
-<?php 
+<?php
+/**
+ * روابط التواصل الاجتماعي — تُعرض فقط الروابط المعبّأة في إعدادات القالب.
+ */
+
+$sl_socials = array(
+	'twitter'   => array( 'icon' => 'fa-brands fa-x-twitter', 'label' => 'X' ),
+	'instagram' => array( 'icon' => 'fa-brands fa-instagram', 'label' => 'instagram' ),
+	'facebook'  => array( 'icon' => 'fa-brands fa-facebook',  'label' => 'facebook' ),
+	'youtube'   => array( 'icon' => 'fa-brands fa-youtube',   'label' => 'youtube' ),
+	'linkedin'  => array( 'icon' => 'fa-brands fa-linkedin',  'label' => 'linkedin' ),
+	'telegram'  => array( 'icon' => 'fa-brands fa-telegram',  'label' => 'telegram' ),
+);
 
 echo '<div class="social--footer">';
-	if (!empty(get_option('facebook'))){
-		echo '<a aria-label="facebook" target="_blank" rel="noreferrer noopener" href="'.get_option('facebook').'" class="facebook"><i class="fab fa-facebook"></i></a>';
+foreach ( $sl_socials as $sl_key => $sl_data ) {
+	$sl_url = get_option( $sl_key );
+	if ( empty( $sl_url ) ) {
+		continue;
 	}
-	if (!empty(get_option('twitter'))){
-		echo '<a aria-label="twitter" target="_blank" rel="noreferrer noopener" href="'.get_option('twitter').'" class="twitter"><i class="fab fa-twitter"></i></a>';
-	}
-	if (!empty(get_option('youtube'))){
-		echo '<a aria-label="youtube" target="_blank" rel="noreferrer noopener"  href="'.get_option('youtube').'" class="youtube"><i class="fab fa-youtube"></i></a>';
-	}
-	if (!empty(get_option('linkedin'))){
-		echo '<a aria-label="linkedin" target="_blank" rel="noreferrer noopener"  href="'.get_option('linkedin').'" class="linkedin"><i class="fab fa-linkedin"></i></a>';
-	}
-	if (!empty(get_option('telegram'))){
-		echo '<a aria-label="telegram" target="_blank" rel="noreferrer noopener" href="'.get_option('telegram').'" class="telegram"><i class="fab fa-telegram"></i></a>';
-	}
+	echo '<a aria-label="' . esc_attr( $sl_data['label'] ) . '" target="_blank" rel="noreferrer noopener" href="' . esc_url( $sl_url ) . '" class="' . esc_attr( $sl_key ) . '">';
+	echo '<i class="' . esc_attr( $sl_data['icon'] ) . '" aria-hidden="true"></i>';
+	echo '</a>';
+}
 echo '</div>';

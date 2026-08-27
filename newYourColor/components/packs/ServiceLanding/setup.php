@@ -16,7 +16,7 @@ class ServiceLanding {
 	const TAXONOMY   = 'category';
 	const CITY_TAX   = 'country';
 	const FAQ_TYPE   = 'faq';
-	const VERSION    = '1.0.0';
+	const VERSION    = '3.0.0';
 
 	/** مفاتيح الحقول النصية المفردة */
 	public static function text_fields() {
