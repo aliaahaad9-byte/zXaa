@@ -1,0 +1,41 @@
+/* ServiceLanding — أنماط شاشة تحرير التصنيف وصفحة الأدوات فقط */
+.sl-panel{ max-width:940px; }
+.sl-panel .sl-block{
+	background:#fff; border:1px solid #dcdcde; border-radius:10px;
+	padding:16px 18px; margin:0 0 14px;
+}
+.sl-panel legend{ font-weight:700; font-size:14px; padding:0 6px; color:#1d2327; }
+.sl-block--switch{ background:#fdecec; border-color:#f2b8bb; }
+.sl-switch{ display:flex; align-items:center; gap:9px; font-weight:600; font-size:14px; }
+.sl-switch input{ width:18px; height:18px; margin:0; }
+.sl-f{ display:flex; flex-direction:column; gap:5px; margin:0 0 12px; }
+.sl-f label{ font-weight:600; font-size:13px; color:#1d2327; }
+.sl-f input[type=text], .sl-f textarea, .sl-f select{
+	width:100%; max-width:620px; padding:7px 10px; border:1px solid #8c8f94; border-radius:6px;
+}
+.sl-desc{ color:#646970; font-size:12px; font-style:normal; }
+
+.sl-rep{ margin:0 0 14px; }
+.sl-rep-label{ display:block; font-weight:600; font-size:13px; margin-bottom:7px; color:#1d2327; }
+.sl-rep-row{ display:flex; align-items:center; gap:7px; margin-bottom:7px; flex-wrap:wrap; }
+.sl-rep-handle{
+	width:26px; height:26px; border-radius:6px; background:#290713; color:#fff; flex:none;
+	display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;
+}
+.sl-rep-row input{ flex:1; min-width:130px; padding:6px 9px; border:1px solid #8c8f94; border-radius:6px; }
+.sl-rep-del{
+	border:1px solid #f2b8bb; background:#fdecec; color:#c0141c; border-radius:6px;
+	width:28px; height:28px; cursor:pointer; font-size:16px; line-height:1; flex:none;
+}
+.sl-rep-del:hover{ background:#c0141c; color:#fff; }
+
+.sl-checks{
+	display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center;
+	max-height:170px; overflow:auto; padding:12px; border:1px solid #dcdcde;
+	border-radius:8px; background:#fbfbfc; margin-bottom:12px;
+}
+.sl-checks--tall{ max-height:260px; }
+.sl-checks label{ display:inline-flex; align-items:center; gap:6px; font-size:13px; }
+.sl-checkall{ margin-inline-start:auto; }
+.sl-on{ background:#e3f7e9; color:#1c6b33; border-radius:999px; padding:1px 8px; font-size:11px; font-weight:700; }
+.sl-tools .sl-checks{ max-width:940px; }
