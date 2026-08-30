@@ -4,9 +4,8 @@ echo '<head>';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
 echo '<meta charset="utf-8">';
 //
-echo '<title>';
-wp_title();
-echo'</title>';
+/* لا يُطبع <title> يدويًا هنا: ووردبريس يطبعه مرة واحدة داخل wp_head()
+   عبر دعم title-tag، فتتولاه إضافة السيو بعنوانها المحسّن بلا تكرار. */
 do_action('BeforeWPHead');
  wp_head(); 
 
@@ -16,13 +15,17 @@ if (strpos(($_SERVER['HTTP_USER_AGENT'] ?? ''), 'Lighthouse') === false ) {
         echo '<link rel="shortcut icon" type="image/png" href="'.get_option('favicon')['url'].'">';
     }
 }
+/* وسم الوصف: يُطبع فقط إن لم تكن هناك إضافة سيو تطبع وصفها الخاص،
+   منعًا لتكرار meta description في نفس الصفحة. */
+$seo__plugin_active = (
+    defined('RANK_MATH_VERSION') || defined('WPSEO_VERSION') ||
+    defined('SEOPRESS_VERSION')  || defined('AIOSEO_VERSION') ||
+    class_exists('RankMath')     || class_exists('WPSEO_Frontend')
+);
 $disable__theme_description = get_option('disable_description');
-if( empty( $disable__theme_description ) ){
-    echo'<meta name="description" content="'.get_bloginfo("name").'">';
+if( empty( $disable__theme_description ) && !$seo__plugin_active ){
+    echo'<meta name="description" content="'.esc_attr(get_bloginfo("name")).'">';
 }
-    echo '<title>';
-        wp_title();
-    echo'</title>';    
 
 
 if(IsSpeed() == false){

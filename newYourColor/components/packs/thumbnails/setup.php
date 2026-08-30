@@ -19,3 +19,12 @@ function SetupThumbnails() {
 	add_image_size( 'gallery_image', 290, 270, false );
 }
 add_action('Initialize', 'SetupThumbnails');
+
+/**
+ * دعم title-tag: يجعل ووردبريس يطبع وسم <title> مرة واحدة داخل wp_head،
+ * فتتولاه إضافة السيو بعنوانها المحسّن بدل طباعته يدويًا في الهيدر.
+ * يُسجَّل على after_setup_theme كما يوصي توثيق ووردبريس (قبل wp_loaded).
+ */
+add_action( 'after_setup_theme', function () {
+	add_theme_support( 'title-tag' );
+} );
