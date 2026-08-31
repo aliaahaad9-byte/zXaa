@@ -36,7 +36,9 @@ $fontawesomeURL = $this->StylesURL.'fontawesome/css/';
 
 echo '<link rel="stylesheet" href="'.$fontawesomeURL.'fontawesome.css">';
 foreach ( $fontawesomeCss as $file ) {
-    echo '<link rel="stylesheet" href="'.$fontawesomeURL.basename($file).'">';				
+    // fontawesome.css مُحمَّل بالأعلى، فلا يُكرَّر هنا
+    if ( basename($file) === 'fontawesome.css' ) { continue; }
+    echo '<link rel="stylesheet" href="'.$fontawesomeURL.basename($file).'">';
 }
 }
 
@@ -445,7 +447,7 @@ echo'<header>';
 		echo'</div>';
 		echo '<div class="menu-barbox">';
 			echo '<div class ="menu_bar">';
-	    		echo'<i class="fa-duotone fa-bars"></i>';
+	    		echo'<i class="fa-solid fa-bars"></i>';
 	    		echo '<i class="fa-thin fa-xmark"></i>';
 	    	echo'</div>';
 	    	echo '<div class ="search_header">';
