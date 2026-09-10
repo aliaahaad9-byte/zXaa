@@ -931,27 +931,33 @@ $("body").on("click", "[data-hometab]", (function() {
     })), $("body").on("click", ".CommentsList>.CommentsList__Title", (function() {
         $(this).toggleClass("clickcomment"), $("ul.CommentsListInner").toggleClass("openComment")
     }));
-// Conversion tracking: records every click on a phone (tel:) or WhatsApp (wa.me) link,
-// with the click type and the page it happened on.
+// تتبّع نقرات الاتصال — يرسل النوع والصفحة ورابطها.
+// نستخدم sendBeacon لأن الضغط على tel: أو واتساب ينقل المتصفح فورًا
+// وقد يُلغي أي طلب AJAX عادي قبل وصوله للخادم.
 var lastCallTrackTime = 0;
 
-$("body").on("click", "a[href^='tel:'], a[href*='wa.me/'], a[href*='api.whatsapp.com']", function() {
+function YCTrackCall(callType) {
     var now = Date.now();
-    if (now - lastCallTrackTime < 1500) {
-        return; // throttle duplicate double-clicks
-    }
+    if (now - lastCallTrackTime < 1500) { return; }
     lastCallTrackTime = now;
 
-    var href = $(this).attr("href") || "";
-    var callType = href.indexOf("tel:") === 0 ? "call" : "whatsapp";
+    var url = HomeURL + "/AjaxCenter/callupdate";
+    var fd = new FormData();
+    fd.append("page", document.title);
+    fd.append("page_url", window.location.href);
+    fd.append("call_type", callType);
 
-    $.ajax({
-        url: HomeURL + "/AjaxCenter/callupdate",
-        type: "POST",
-        data: {
-            page: document.title,
-            page_url: window.location.href,
-            call_type: callType
-        }
-    });
+    if (navigator.sendBeacon && navigator.sendBeacon(url, fd)) { return; }
+
+    // بديل للمتصفحات القديمة
+    try {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.send(fd);
+    } catch (e) {}
+}
+
+$("body").on("click", "a[href^='tel:'], a[href*='wa.me/'], a[href*='api.whatsapp.com'], a[href^='whatsapp:']", function() {
+    var href = $(this).attr("href") || "";
+    YCTrackCall(href.indexOf("tel:") === 0 ? "call" : "whatsapp");
 });

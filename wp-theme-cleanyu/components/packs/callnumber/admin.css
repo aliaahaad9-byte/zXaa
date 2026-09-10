@@ -388,3 +388,10 @@
     .cn-filter { flex: 1; white-space: nowrap; }
     .cn-page-name { max-width: 150px; }
 }
+
+/* ---------- تنبيه السجلات المهملة ---------- */
+.cn-junk{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  background:#fffbeb;border:1px solid #fcd34d;border-radius:14px;padding:14px 18px;margin-bottom:18px}
+.cn-junk__txt{display:flex;flex-direction:column;gap:3px}
+.cn-junk__txt strong{font-size:15px;color:#92400e}
+.cn-junk__txt span{font-size:12.5px;color:#a16207;line-height:1.65}

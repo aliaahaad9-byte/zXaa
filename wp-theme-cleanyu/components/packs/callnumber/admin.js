@@ -197,6 +197,31 @@
         }
     });
 
+    /* ---------------- تنظيف السجلات المهملة ---------------- */
+
+    $dash.on('click', '#cn-clean-junk', function () {
+        openModal('سيتم حذف كل السجلات التي لا تحمل اسم صفحة ولا نوع اتصال نهائيًا. هل أنت متأكد؟', function () {
+            $dash.addClass('is-loading');
+            ajaxPost({ action: 'callnumber_clean_junk' }).done(function (res) {
+                if (res && res.success) {
+                    toast('تم حذف ' + res.data.deleted + ' سجل مهمل.');
+                    if (res.data.remaining > 0) {
+                        toast('تبقّى ' + res.data.remaining + ' سجل — اضغط الزر مرة أخرى لإكمال التنظيف.');
+                    } else {
+                        $('#cn-junk-note').remove();
+                    }
+                    refresh();
+                } else {
+                    toast((res && res.data && res.data.message) || 'تعذر التنظيف.', true);
+                }
+            }).fail(function () {
+                toast('تعذر الاتصال بالخادم.', true);
+            }).always(function () {
+                $dash.removeClass('is-loading');
+            });
+        });
+    });
+
     /* ---------------- PDF export ---------------- */
 
     $dash.on('click', '#cn-export-pdf', function (e) {

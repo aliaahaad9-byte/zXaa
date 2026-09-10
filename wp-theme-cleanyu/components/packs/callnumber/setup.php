@@ -196,6 +196,41 @@ function callnumber_get_months() {
     );
 }
 
+
+/** عدد السجلات المهملة: بلا اسم صفحة وبلا نوع اتصال (طلبات آلية أو مباشرة). */
+function callnumber_junk_count() {
+    global $wpdb;
+    $where = callnumber_where_sql( '' );
+    return (int) $wpdb->get_var(
+        "SELECT COUNT(*)
+         FROM {$wpdb->posts} p
+         LEFT JOIN {$wpdb->postmeta} pg ON pg.post_id = p.ID AND pg.meta_key = 'page'
+         LEFT JOIN {$wpdb->postmeta} pt ON pt.post_id = p.ID AND pt.meta_key = 'call_type'
+         WHERE {$where}
+           AND COALESCE(NULLIF(TRIM(pg.meta_value), ''), '') = ''
+           AND COALESCE(NULLIF(TRIM(pt.meta_value), ''), '') = ''"
+    );
+}
+
+/** معرّفات السجلات المهملة. */
+function callnumber_junk_ids( $limit = 2000 ) {
+    global $wpdb;
+    $where = callnumber_where_sql( '' );
+    return $wpdb->get_col(
+        $wpdb->prepare(
+            "SELECT p.ID
+             FROM {$wpdb->posts} p
+             LEFT JOIN {$wpdb->postmeta} pg ON pg.post_id = p.ID AND pg.meta_key = 'page'
+             LEFT JOIN {$wpdb->postmeta} pt ON pt.post_id = p.ID AND pt.meta_key = 'call_type'
+             WHERE {$where}
+               AND COALESCE(NULLIF(TRIM(pg.meta_value), ''), '') = ''
+               AND COALESCE(NULLIF(TRIM(pt.meta_value), ''), '') = ''
+             LIMIT %d",
+            $limit
+        )
+    );
+}
+
 /** One page of log records, newest first. */
 function callnumber_get_records( $start_utc, $paged, $per_page, &$found = 0, $end_utc = '' ) {
     global $wpdb;
@@ -429,6 +464,16 @@ function add_callnumber_fields() {
     echo '</div>';
     echo '</div>';
 
+    // تنبيه السجلات المهملة
+    $junk = callnumber_junk_count();
+    if ( $junk > 0 ) {
+        echo '<div class="cn-junk" id="cn-junk-note">';
+        echo '<div class="cn-junk__txt"><strong>' . number_format_i18n( $junk ) . ' سجل مهمل</strong>';
+        echo '<span>سجلات بلا اسم صفحة وبلا نوع اتصال — نتجت عن طلبات آلية وصلت لنقطة التتبع، وهي تضخّم الإجمالي بلا فائدة.</span></div>';
+        echo '<button type="button" id="cn-clean-junk" class="cn-btn cn-btn--danger">' . callnumber_svg( 'trash' ) . '<span>تنظيف السجلات المهملة</span></button>';
+        echo '</div>';
+    }
+
     /* Quick filters */
     echo '<div class="cn-filters" role="tablist" aria-label="فلترة الفترة الزمنية">';
     foreach ( $filters as $key => $label ) {
@@ -570,6 +615,29 @@ add_action( 'wp_ajax_callnumber_delete_month', function () {
     }
 
     wp_send_json_success( array( 'deleted' => $deleted ) );
+} );
+
+
+/* -------------------------------------------------------------------------
+ * AJAX: تنظيف السجلات المهملة
+ * ---------------------------------------------------------------------- */
+add_action( 'wp_ajax_callnumber_clean_junk', function () {
+    check_ajax_referer( 'callnumber_admin', 'nonce' );
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message' => 'غير مصرح.' ), 403 );
+    }
+
+    $deleted = 0;
+    foreach ( callnumber_junk_ids( 2000 ) as $id ) {
+        if ( wp_delete_post( (int) $id, true ) ) {
+            $deleted++;
+        }
+    }
+
+    wp_send_json_success( array(
+        'deleted'   => $deleted,
+        'remaining' => callnumber_junk_count(),
+    ) );
 } );
 
 /* -------------------------------------------------------------------------
