@@ -13,6 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// منطق تسجيل النقرات (مشترك بين admin-ajax والمسار القديم)
+require_once __DIR__ . '/tracker.php';
+
 /* -------------------------------------------------------------------------
  * Post type (hidden, storage only)
  * ---------------------------------------------------------------------- */
@@ -461,8 +464,10 @@ function add_callnumber_fields() {
     $export_base = wp_nonce_url( admin_url( 'admin-post.php?action=callnumber_export_pdf' ), 'callnumber_export' );
     echo '<a id="cn-export-pdf" class="cn-btn cn-btn--primary" href="#" data-base="' . esc_url( $export_base ) . '" target="_blank" rel="noopener">' . callnumber_svg( 'pdf' ) . '<span>تصدير تقرير PDF</span></a>';
     echo '<button type="button" id="cn-delete-month" class="cn-btn cn-btn--danger">' . callnumber_svg( 'trash' ) . '<span>حذف سجلات الشهر</span></button>';
+    echo '<button type="button" id="cn-diag" class="cn-btn">فحص التتبع</button>';
     echo '</div>';
     echo '</div>';
+    echo '<div id="cn-diag-box" class="cn-diag" hidden></div>';
 
     // تنبيه السجلات المهملة
     $junk = callnumber_junk_count();

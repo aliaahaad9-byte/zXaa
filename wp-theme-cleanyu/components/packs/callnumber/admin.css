@@ -395,3 +395,16 @@
 .cn-junk__txt{display:flex;flex-direction:column;gap:3px}
 .cn-junk__txt strong{font-size:15px;color:#92400e}
 .cn-junk__txt span{font-size:12.5px;color:#a16207;line-height:1.65}
+
+/* ---------- صندوق الفحص ---------- */
+.cn-diag{background:#fff;border:1px solid var(--cn-border);border-radius:14px;padding:18px 20px;margin-bottom:18px;box-shadow:var(--cn-shadow)}
+.cn-diag[hidden]{display:none!important}
+.cn-diag h3{margin:0 0 14px;font-size:15px;font-weight:800;color:var(--cn-text)}
+.cn-diag__wait{margin:0;font-size:13px;color:var(--cn-muted)}
+.cn-diag__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cn-diag__list li{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.7}
+.cn-diag__mark{width:22px;height:22px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;color:#fff}
+.cn-diag__list li.is-ok .cn-diag__mark{background:#16a34a}
+.cn-diag__list li.is-bad .cn-diag__mark{background:var(--cn-danger)}
+.cn-diag__list strong{display:block;color:var(--cn-text)}
+.cn-diag__list em{font-style:normal;color:var(--cn-muted);font-size:12.5px}

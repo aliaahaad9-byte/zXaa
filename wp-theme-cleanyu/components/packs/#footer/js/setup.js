@@ -931,25 +931,29 @@ $("body").on("click", "[data-hometab]", (function() {
     })), $("body").on("click", ".CommentsList>.CommentsList__Title", (function() {
         $(this).toggleClass("clickcomment"), $("ul.CommentsListInner").toggleClass("openComment")
     }));
-// تتبّع نقرات الاتصال — يرسل النوع والصفحة ورابطها.
-// نستخدم sendBeacon لأن الضغط على tel: أو واتساب ينقل المتصفح فورًا
-// وقد يُلغي أي طلب AJAX عادي قبل وصوله للخادم.
+// تتبّع نقرات الاتصال — نرسل عبر admin-ajax لأنه يعمل على أي تركيب ووردبريس
+// بلا اعتماد على الروابط الدائمة. sendBeacon يضمن وصول الطلب رغم انتقال
+// المتصفح فورًا عند الضغط على tel: أو واتساب.
 var lastCallTrackTime = 0;
 
 function YCTrackCall(callType) {
     var now = Date.now();
-    if (now - lastCallTrackTime < 1500) { return; }
+    if (now - lastCallTrackTime < 1200) { return; }
     lastCallTrackTime = now;
 
-    var url = HomeURL + "/AjaxCenter/callupdate";
+    var url = (typeof YCTrackURL !== "undefined" && YCTrackURL)
+            ? YCTrackURL
+            : (HomeURL + "/wp-admin/admin-ajax.php");
+
     var fd = new FormData();
+    fd.append("action", "yc_call_track");
     fd.append("page", document.title);
     fd.append("page_url", window.location.href);
     fd.append("call_type", callType);
 
-    if (navigator.sendBeacon && navigator.sendBeacon(url, fd)) { return; }
-
-    // بديل للمتصفحات القديمة
+    if (navigator.sendBeacon) {
+        try { if (navigator.sendBeacon(url, fd)) { return; } } catch (e) {}
+    }
     try {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -957,7 +961,8 @@ function YCTrackCall(callType) {
     } catch (e) {}
 }
 
-$("body").on("click", "a[href^='tel:'], a[href*='wa.me/'], a[href*='api.whatsapp.com'], a[href^='whatsapp:']", function() {
-    var href = $(this).attr("href") || "";
-    YCTrackCall(href.indexOf("tel:") === 0 ? "call" : "whatsapp");
+$("body").on("click", "a[href^='tel:'], a[href*='wa.me/'], a[href*='api.whatsapp.com'], a[href^='whatsapp:'], .btn-phone a, .btn-whatsapp a", function() {
+    var href = ($(this).attr("href") || "").toLowerCase();
+    var isCall = href.indexOf("tel:") === 0 || $(this).closest(".btn-phone").length > 0;
+    YCTrackCall(isCall ? "call" : "whatsapp");
 });

@@ -222,6 +222,29 @@
         });
     });
 
+    /* ---------------- فحص التتبع ---------------- */
+
+    $dash.on('click', '#cn-diag', function () {
+        var $box = $('#cn-diag-box');
+        $box.prop('hidden', false).html('<p class="cn-diag__wait">جارٍ فحص مسار التتبع…</p>');
+        ajaxPost({ action: 'yc_track_diag' }).done(function (res) {
+            if (!res || !res.success) {
+                $box.html('<p class="cn-diag__wait">تعذر إجراء الفحص.</p>');
+                return;
+            }
+            var html = '<h3>نتيجة فحص التتبع</h3><ul class="cn-diag__list">';
+            res.data.checks.forEach(function (c) {
+                html += '<li class="' + (c.ok ? 'is-ok' : 'is-bad') + '">'
+                     +  '<span class="cn-diag__mark">' + (c.ok ? '✓' : '✕') + '</span>'
+                     +  '<span><strong>' + c.label + '</strong><em>' + c.note + '</em></span></li>';
+            });
+            html += '</ul>';
+            $box.html(html);
+        }).fail(function () {
+            $box.html('<p class="cn-diag__wait">تعذر الاتصال بالخادم.</p>');
+        });
+    });
+
     /* ---------------- PDF export ---------------- */
 
     $dash.on('click', '#cn-export-pdf', function (e) {
