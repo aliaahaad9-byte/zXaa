@@ -156,26 +156,70 @@ function yc_track_record( $throttle = true ) {
         set_transient( $key, 1, 8 );
     }
 
-    // 7) الكتابة
-    $calldate = gmdate( 'Y-m-d H:i:s' ); // UTC — اللوحة تحوّله لتوقيت الرياض
+    // 7) الكتابة — مباشرة في قاعدة البيانات بلا أي خطافات.
+    //
+    // لماذا لا نستخدم wp_insert_post؟ لأنها تُطلق خطافات ووردبريس
+    // (save_post وغيرها)، وإضافة تتعلّق بها وتسقط بخطأ فادح تقتل الطلب
+    // بعد كتابة صف السجل وقبل كتابة بياناته — فينتج سجل بلا اسم صفحة
+    // وبلا نوع. الكتابة المباشرة تعزل التتبع عن أي إضافة تمامًا.
+    global $wpdb;
 
-    $post_id = wp_insert_post( array(
-        'post_title'  => '--',
-        'post_type'   => 'callwebsite',
-        'post_status' => 'publish',
-    ) );
+    $calldate = gmdate( 'Y-m-d H:i:s' );      // UTC — اللوحة تحوّله لتوقيت الرياض
+    $local    = current_time( 'mysql' );
+    $local_g  = current_time( 'mysql', 1 );
 
-    if ( ! $post_id || is_wp_error( $post_id ) ) {
+    $ok = $wpdb->insert(
+        $wpdb->posts,
+        array(
+            'post_author'           => 0,
+            'post_date'             => $local,
+            'post_date_gmt'         => $local_g,
+            'post_content'          => '',
+            'post_title'            => '--',
+            'post_excerpt'          => '',
+            'post_status'           => 'publish',
+            'comment_status'        => 'closed',
+            'ping_status'           => 'closed',
+            'post_password'         => '',
+            'post_name'             => 'call-' . time() . '-' . wp_rand( 1000, 9999 ),
+            'to_ping'               => '',
+            'pinged'                => '',
+            'post_modified'         => $local,
+            'post_modified_gmt'     => $local_g,
+            'post_content_filtered' => '',
+            'post_parent'           => 0,
+            'guid'                  => '',
+            'menu_order'            => 0,
+            'post_type'             => 'callwebsite',
+            'post_mime_type'        => '',
+            'comment_count'         => 0,
+        )
+    );
+
+    if ( ! $ok ) {
         return array( 'saved' => false, 'reason' => 'insert' );
     }
 
-    update_post_meta( $post_id, 'calldate', $calldate );
-    update_post_meta( $post_id, 'page', $page_name );
-    update_post_meta( $post_id, 'page_url', $page_url );
-    update_post_meta( $post_id, 'call_type', $call_type );
-    // بصمة تُثبت أن هذا السجل من متتبّع القالب — أي سجل بلا هذه البصمة
-    // أنشأه كود آخر (إضافة أو سكربت مكرّر)
-    update_post_meta( $post_id, 'src', $legacy ? 'yc-legacy' : 'yc' );
+    $post_id = (int) $wpdb->insert_id;
+
+    $meta = array(
+        'calldate'  => $calldate,
+        'page'      => $page_name,
+        'page_url'  => $page_url,
+        'call_type' => $call_type,
+        // بصمة تُثبت أن هذا السجل من متتبّع القالب
+        'src'       => $legacy ? 'yc-legacy' : 'yc',
+    );
+    foreach ( $meta as $k => $v ) {
+        $wpdb->insert( $wpdb->postmeta, array(
+            'post_id'    => $post_id,
+            'meta_key'   => $k,
+            'meta_value' => $v,
+        ) );
+    }
+
+    // إبطال عدّاد ووردبريس المخزَّن حتى تظهر الأرقام صحيحة في اللوحة
+    wp_cache_delete( 'posts-callwebsite', 'counts' );
 
     return array(
         'saved'     => true,
