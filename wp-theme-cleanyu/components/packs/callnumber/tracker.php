@@ -37,6 +37,25 @@ function yc_track_is_bot( $ua ) {
     return false;
 }
 
+
+/**
+ * يقرأ الحقل من جسم الطلب أو من الرابط.
+ *
+ * سبب القراءة من الرابط: أي تحويل 301/302 — مثل الذي تفعله إضافات
+ * السيو مع الروابط غير المعروفة — يُسقط محتوى POST بالكامل ويحوّل
+ * الطلب إلى GET. أما معاملات الرابط فتبقى كما هي، فنرسل البيانات
+ * في الاثنين معًا حتى لا تضيع النقرة.
+ */
+function yc_track_param( $key ) {
+    if ( isset( $_POST[ $key ] ) && '' !== trim( (string) $_POST[ $key ] ) ) {
+        return wp_unslash( $_POST[ $key ] );
+    }
+    if ( isset( $_GET[ $key ] ) && '' !== trim( (string) $_GET[ $key ] ) ) {
+        return wp_unslash( $_GET[ $key ] );
+    }
+    return '';
+}
+
 /**
  * يسجّل النقرة. يعيد مصفوفة: saved + reason.
  *
@@ -44,21 +63,22 @@ function yc_track_is_bot( $ua ) {
  */
 function yc_track_record( $throttle = true ) {
 
-    // 1) الطريقة
+    // 1) الطريقة: POST أو GET — لأن التحويل يحوّل POST إلى GET،
+    //    والحماية الحقيقية تأتي من فحص النوع والمصدر والوكيل أدناه.
     $method = isset( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( $_SERVER['REQUEST_METHOD'] ) : '';
-    if ( 'POST' !== $method ) {
+    if ( ! in_array( $method, array( 'POST', 'GET' ), true ) ) {
         return array( 'saved' => false, 'reason' => 'method' );
     }
 
     // 2) نوع النقرة
-    $call_type = isset( $_POST['call_type'] ) ? sanitize_key( wp_unslash( $_POST['call_type'] ) ) : '';
+    $call_type = sanitize_key( yc_track_param( 'call_type' ) );
 
     // توافق مع السكربت القديم المخزَّن في الكاش: كان يرسل نوعًا مختلفًا أو لا يرسل شيئًا.
     // نستنتج النوع من الحقول التي كان يرسلها بدل رفض نقرة حقيقية.
     if ( ! in_array( $call_type, array( 'call', 'whatsapp' ), true ) ) {
         $guess = '';
         foreach ( array( 'call_type', 'type', 'kind', 'action_type' ) as $k ) {
-            $v = isset( $_POST[ $k ] ) ? strtolower( trim( (string) wp_unslash( $_POST[ $k ] ) ) ) : '';
+            $v = strtolower( trim( (string) yc_track_param( $k ) ) );
             if ( '' === $v ) {
                 continue;
             }
@@ -78,7 +98,7 @@ function yc_track_record( $throttle = true ) {
     // ونعلّمه legacy حتى يظهر في اللوحة بدل أن يضيع أو يلوّث الإحصائيات.
     $legacy = false;
     if ( ! in_array( $call_type, array( 'call', 'whatsapp' ), true ) ) {
-        $has_page = isset( $_POST['page'] ) && '' !== trim( (string) wp_unslash( $_POST['page'] ) );
+        $has_page = '' !== trim( (string) yc_track_param( 'page' ) );
         if ( ! $has_page ) {
             return array( 'saved' => false, 'reason' => 'type' );
         }
@@ -95,11 +115,16 @@ function yc_track_record( $throttle = true ) {
     // 4) المصدر: يكفي أن يطابق الرابط المرسل أو الـ referer نطاق الموقع
     $site_host = yc_track_host( home_url() );
     $referer   = isset( $_SERVER['HTTP_REFERER'] ) ? wp_unslash( $_SERVER['HTTP_REFERER'] ) : '';
-    $page_url  = isset( $_POST['page_url'] ) ? esc_url_raw( wp_unslash( $_POST['page_url'] ) ) : '';
+    $page_url  = esc_url_raw( yc_track_param( 'page_url' ) );
 
     $url_ok = ( $page_url && yc_track_host( $page_url ) === $site_host );
     $ref_ok = ( $referer  && yc_track_host( $referer )  === $site_host );
 
+    // مصدر خارجي صريح يُرفض دائمًا، حتى لو كان الرابط المُرسل داخليًا
+    if ( $referer && ! $ref_ok ) {
+        return array( 'saved' => false, 'reason' => 'origin' );
+    }
+    // بلا مصدر (سياسة خصوصية): يكفي أن يكون الرابط المُرسل من الموقع
     if ( ! $url_ok && ! $ref_ok ) {
         return array( 'saved' => false, 'reason' => 'origin' );
     }
@@ -108,7 +133,7 @@ function yc_track_record( $throttle = true ) {
     }
 
     // 5) اسم الصفحة: العنوان، وإلا يُشتق من الرابط
-    $page_name = isset( $_POST['page'] ) ? sanitize_text_field( wp_unslash( $_POST['page'] ) ) : '';
+    $page_name = sanitize_text_field( yc_track_param( 'page' ) );
     $page_name = trim( $page_name );
     if ( '' === $page_name && $page_url ) {
         $path = trim( (string) wp_parse_url( $page_url, PHP_URL_PATH ), '/' );
@@ -368,6 +393,28 @@ add_action( 'wp_ajax_yc_track_diag', function () {
         'label' => 'نوع المحتوى callwebsite',
         'note'  => post_type_exists( 'callwebsite' ) ? 'مسجَّل.' : 'غير مسجَّل — القالب غير مفعَّل بالكامل.',
     );
+
+    // 4.5) هل يُحوَّل مسار التتبع؟ (إضافات السيو تفعل ذلك وتُسقط بيانات POST)
+    $probe = wp_remote_post( $ajax_url . '?action=yc_call_track', array(
+        'timeout'     => 15,
+        'sslverify'   => false,
+        'redirection' => 0, // لا نتبع التحويل حتى نكشفه
+        'headers'     => array( 'Referer' => home_url( '/' ) ),
+        'body'        => array( 'action' => 'yc_call_track', 'call_type' => 'x' ),
+    ) );
+    if ( ! is_wp_error( $probe ) ) {
+        $pcode = (int) wp_remote_retrieve_response_code( $probe );
+        $loc   = wp_remote_retrieve_header( $probe, 'location' );
+        $redir = ( $pcode >= 300 && $pcode < 400 );
+        $checks[] = array(
+            'ok'    => ! $redir,
+            'label' => 'تحويل على مسار التتبع',
+            'note'  => $redir
+                ? 'الطلب يُحوَّل (' . $pcode . ') إلى: ' . ( $loc ? $loc : 'غير معروف' )
+                  . ' — التحويل يُسقط بيانات POST. استثنِ admin-ajax.php من قواعد التحويل في إضافة السيو.'
+                : 'لا يوجد تحويل — المسار مباشر.',
+        );
+    }
 
     // 5) القالب المفعَّل ومكان المتتبّع
     $tpl_dir = wp_normalize_path( get_template_directory() );

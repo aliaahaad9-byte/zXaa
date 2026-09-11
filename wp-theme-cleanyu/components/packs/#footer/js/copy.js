@@ -1526,9 +1526,10 @@ function ReplyComment(e) {
         $('ul.CommentsListInner').toggleClass('openComment');
     });
 
-// تتبّع نقرات الاتصال — نرسل عبر admin-ajax لأنه يعمل على أي تركيب ووردبريس
-// بلا اعتماد على الروابط الدائمة. sendBeacon يضمن وصول الطلب رغم انتقال
-// المتصفح فورًا عند الضغط على tel: أو واتساب.
+// تتبّع نقرات الاتصال.
+// نرسل البيانات في الرابط وفي الجسم معًا: أي تحويل 301/302 (مثل الذي
+// تفعله إضافات السيو) يُسقط محتوى POST لكنه يُبقي معاملات الرابط،
+// فلا تضيع النقرة. وsendBeacon يضمن الوصول رغم انتقال المتصفح فورًا.
 var lastCallTrackTime = 0;
 
 function YCTrackCall(callType) {
@@ -1536,14 +1537,23 @@ function YCTrackCall(callType) {
     if (now - lastCallTrackTime < 1200) { return; }
     lastCallTrackTime = now;
 
-    var url = (typeof YCTrackURL !== "undefined" && YCTrackURL)
-            ? YCTrackURL
-            : (HomeURL + "/wp-admin/admin-ajax.php");
+    var base = (typeof YCTrackURL !== "undefined" && YCTrackURL)
+             ? YCTrackURL
+             : (HomeURL + "/wp-admin/admin-ajax.php");
+
+    var title = document.title || "";
+    var href  = window.location.href;
+
+    var qs = "action=yc_call_track"
+           + "&call_type=" + encodeURIComponent(callType)
+           + "&page="      + encodeURIComponent(title.substring(0, 180))
+           + "&page_url="  + encodeURIComponent(href);
+    var url = base + (base.indexOf("?") === -1 ? "?" : "&") + qs;
 
     var fd = new FormData();
     fd.append("action", "yc_call_track");
-    fd.append("page", document.title);
-    fd.append("page_url", window.location.href);
+    fd.append("page", title);
+    fd.append("page_url", href);
     fd.append("call_type", callType);
 
     if (navigator.sendBeacon) {
