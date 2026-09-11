@@ -932,10 +932,24 @@ $("body").on("click", "[data-hometab]", (function() {
         $(this).toggleClass("clickcomment"), $("ul.CommentsListInner").toggleClass("openComment")
     }));
 // تتبّع نقرات الاتصال.
-// نرسل البيانات في الرابط وفي الجسم معًا: أي تحويل 301/302 (مثل الذي
-// تفعله إضافات السيو) يُسقط محتوى POST لكنه يُبقي معاملات الرابط،
-// فلا تضيع النقرة. وsendBeacon يضمن الوصول رغم انتقال المتصفح فورًا.
+// اسم الصفحة يُؤخذ من عنوان H1 الظاهر في الصفحة نفسها، لا من عنوان
+// المتصفح، لأن إضافات السيو قد تتعارض مع تخزين مخرجات القالب فينتج
+// <title> فارغًا. وH1 هو ما يراه العميل فعلًا فهو الأدق لتقارير التحويل.
+// ونرسل البيانات في الرابط وفي جسم الطلب معًا لتنجو من أي تحويل 301/302.
 var lastCallTrackTime = 0;
+
+function YCPageName() {
+    var el = document.querySelector(
+        "article h1, main h1, .single- h1, .CategoryBox h1, .titles-faq h1, h1"
+    );
+    var t = el ? (el.textContent || "") : "";
+    // استبعاد محارف أيقونات الخطوط وتوحيد المسافات
+    t = t.replace(/[\uE000-\uF8FF]/g, " ").replace(/\s+/g, " ").trim();
+    if (!t) {
+        t = (document.title || "").replace(/\s+/g, " ").trim();
+    }
+    return t.substring(0, 180);
+}
 
 function YCTrackCall(callType) {
     var now = Date.now();
@@ -946,18 +960,18 @@ function YCTrackCall(callType) {
              ? YCTrackURL
              : (HomeURL + "/wp-admin/admin-ajax.php");
 
-    var title = document.title || "";
-    var href  = window.location.href;
+    var name = YCPageName();
+    var href = window.location.href;
 
     var qs = "action=yc_call_track"
            + "&call_type=" + encodeURIComponent(callType)
-           + "&page="      + encodeURIComponent(title.substring(0, 180))
+           + "&page="      + encodeURIComponent(name)
            + "&page_url="  + encodeURIComponent(href);
     var url = base + (base.indexOf("?") === -1 ? "?" : "&") + qs;
 
     var fd = new FormData();
     fd.append("action", "yc_call_track");
-    fd.append("page", title);
+    fd.append("page", name);
     fd.append("page_url", href);
     fd.append("call_type", callType);
 
