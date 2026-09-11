@@ -52,8 +52,38 @@ function yc_track_record( $throttle = true ) {
 
     // 2) نوع النقرة
     $call_type = isset( $_POST['call_type'] ) ? sanitize_key( wp_unslash( $_POST['call_type'] ) ) : '';
+
+    // توافق مع السكربت القديم المخزَّن في الكاش: كان يرسل نوعًا مختلفًا أو لا يرسل شيئًا.
+    // نستنتج النوع من الحقول التي كان يرسلها بدل رفض نقرة حقيقية.
     if ( ! in_array( $call_type, array( 'call', 'whatsapp' ), true ) ) {
-        return array( 'saved' => false, 'reason' => 'type' );
+        $guess = '';
+        foreach ( array( 'call_type', 'type', 'kind', 'action_type' ) as $k ) {
+            $v = isset( $_POST[ $k ] ) ? strtolower( trim( (string) wp_unslash( $_POST[ $k ] ) ) ) : '';
+            if ( '' === $v ) {
+                continue;
+            }
+            if ( false !== strpos( $v, 'whats' ) || false !== strpos( $v, 'wa' ) ) {
+                $guess = 'whatsapp';
+                break;
+            }
+            if ( false !== strpos( $v, 'call' ) || false !== strpos( $v, 'phone' ) || false !== strpos( $v, 'tel' ) ) {
+                $guess = 'call';
+                break;
+            }
+        }
+        $call_type = $guess;
+    }
+
+    // ما زال بلا نوع: نقبله فقط إن كان طلبًا بشريًا صريحًا من صفحة حقيقية،
+    // ونعلّمه legacy حتى يظهر في اللوحة بدل أن يضيع أو يلوّث الإحصائيات.
+    $legacy = false;
+    if ( ! in_array( $call_type, array( 'call', 'whatsapp' ), true ) ) {
+        $has_page = isset( $_POST['page'] ) && '' !== trim( (string) wp_unslash( $_POST['page'] ) );
+        if ( ! $has_page ) {
+            return array( 'saved' => false, 'reason' => 'type' );
+        }
+        $call_type = 'call';
+        $legacy    = true;
     }
 
     // 3) الزواحف
@@ -118,6 +148,9 @@ function yc_track_record( $throttle = true ) {
     update_post_meta( $post_id, 'page', $page_name );
     update_post_meta( $post_id, 'page_url', $page_url );
     update_post_meta( $post_id, 'call_type', $call_type );
+    // بصمة تُثبت أن هذا السجل من متتبّع القالب — أي سجل بلا هذه البصمة
+    // أنشأه كود آخر (إضافة أو سكربت مكرّر)
+    update_post_meta( $post_id, 'src', $legacy ? 'yc-legacy' : 'yc' );
 
     return array(
         'saved'     => true,
@@ -156,11 +189,109 @@ add_action( 'wp_loaded', function () {
     }
 }, 99 );
 
+
+/* -------------------------------------------------------------------------
+ * البحث عن أي كود آخر يُنشئ سجلات مكالمات (المصدر الحقيقي للسجلات المعطوبة)
+ * ---------------------------------------------------------------------- */
+function yc_track_find_rogue() {
+    global $wpdb;
+    $hits = array();
+
+    $needles = array( 'callwebsite', 'AjaxCenter/callupdate' );
+    $theme   = wp_normalize_path( get_template_directory() );
+
+    // 1) ملفات داخل wp-content خارج القالب المفعَّل
+    $roots = array( WP_CONTENT_DIR . '/plugins', WP_CONTENT_DIR . '/mu-plugins', WP_CONTENT_DIR . '/themes' );
+    $scanned = 0;
+    foreach ( $roots as $root ) {
+        if ( ! is_dir( $root ) ) {
+            continue;
+        }
+        try {
+            $it = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator( $root, FilesystemIterator::SKIP_DOTS ),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+        } catch ( Exception $e ) {
+            continue;
+        }
+        foreach ( $it as $f ) {
+            if ( $scanned > 12000 ) {
+                break 2;
+            }
+            if ( ! $f->isFile() || 'php' !== strtolower( $f->getExtension() ) ) {
+                continue;
+            }
+            $path = wp_normalize_path( $f->getPathname() );
+            if ( 0 === strpos( $path, $theme ) ) {
+                continue; // القالب المفعَّل نفسه
+            }
+            if ( $f->getSize() > 2097152 ) {
+                continue;
+            }
+            $scanned++;
+            $code = @file_get_contents( $path );
+            if ( ! $code ) {
+                continue;
+            }
+            foreach ( $needles as $n ) {
+                if ( false !== strpos( $code, $n ) ) {
+                    $hits[] = str_replace( wp_normalize_path( WP_CONTENT_DIR ), 'wp-content', $path );
+                    break;
+                }
+            }
+        }
+    }
+
+    // 2) مقتطفات إضافة WPCode (نوع محتوى wpcode)
+    $wpcode = $wpdb->get_col( $wpdb->prepare(
+        "SELECT ID FROM {$wpdb->posts} WHERE post_type IN ('wpcode','wpcode_snippet')
+         AND (post_content LIKE %s OR post_content LIKE %s)",
+        '%callwebsite%', '%callupdate%'
+    ) );
+    foreach ( (array) $wpcode as $id ) {
+        $hits[] = 'مقتطف WPCode رقم ' . (int) $id . ' — ' . get_the_title( $id );
+    }
+
+    // 3) إضافة Code Snippets (جدول مستقل)
+    $tbl = $wpdb->prefix . 'snippets';
+    if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tbl ) ) === $tbl ) {
+        $snips = $wpdb->get_results( "SELECT id, name FROM {$tbl} WHERE code LIKE '%callwebsite%' OR code LIKE '%callupdate%'" );
+        foreach ( (array) $snips as $sn ) {
+            $hits[] = 'مقتطف Code Snippets رقم ' . (int) $sn->id . ' — ' . $sn->name;
+        }
+    }
+
+    return $hits;
+}
+
+/** آخر السجلات مع بصمة المصدر. */
+function yc_track_recent( $limit = 8 ) {
+    global $wpdb;
+    $ids = $wpdb->get_col( $wpdb->prepare(
+        "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'callwebsite' AND post_status = 'publish'
+         ORDER BY post_date_gmt DESC, ID DESC LIMIT %d", $limit
+    ) );
+    $out = array();
+    foreach ( $ids as $id ) {
+        $out[] = array(
+            'id'   => (int) $id,
+            'page' => get_post_meta( $id, 'page', true ),
+            'type' => get_post_meta( $id, 'call_type', true ),
+            'src'  => get_post_meta( $id, 'src', true ),
+        );
+    }
+    return $out;
+}
+
 /* -------------------------------------------------------------------------
  * فحص تشخيصي: يختبر مسار التتبع فعليًا ويقول أين الخلل بالضبط
  * ---------------------------------------------------------------------- */
 add_action( 'wp_ajax_yc_track_diag', function () {
     check_ajax_referer( 'callnumber_admin', 'nonce' );
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_send_json_error( array( 'message' => 'غير مصرح.' ), 403 );
     }
@@ -238,7 +369,81 @@ add_action( 'wp_ajax_yc_track_diag', function () {
         'note'  => post_type_exists( 'callwebsite' ) ? 'مسجَّل.' : 'غير مسجَّل — القالب غير مفعَّل بالكامل.',
     );
 
-    // 5) إجمالي السجلات
+    // 5) القالب المفعَّل ومكان المتتبّع
+    $tpl_dir = wp_normalize_path( get_template_directory() );
+    $has_trk = file_exists( $tpl_dir . '/components/packs/callnumber/tracker.php' );
+    $checks[] = array(
+        'ok'    => $has_trk,
+        'label' => 'مكان ملف التتبع',
+        'note'  => 'القالب المفعَّل: ' . basename( $tpl_dir )
+                 . ( $has_trk ? ' — الملف موجود في مكانه.' : ' — ملف tracker.php غير موجود هنا! رفعت التصحيح لمجلد قالب غير مفعَّل.' ),
+    );
+
+    // 6) كود آخر يُنشئ سجلات
+    $rogue = yc_track_find_rogue();
+    $checks[] = array(
+        'ok'    => empty( $rogue ),
+        'label' => 'كود تتبع مكرّر خارج القالب',
+        'note'  => empty( $rogue )
+            ? 'لا يوجد — القالب هو المصدر الوحيد.'
+            : 'وُجد ' . count( $rogue ) . ' مصدرًا آخر ينشئ سجلات مكالمات، وهو سبب السجلات بلا نوع: '
+              . implode( ' · ', array_slice( $rogue, 0, 6 ) )
+              . ' — عطّله ثم أعد الفحص.',
+    );
+
+    // 7) آخر السجلات ومصدرها
+    $recent = yc_track_recent( 8 );
+    $tagged = 0;
+    $lines  = array();
+    foreach ( $recent as $r ) {
+        if ( 'yc' === $r['src'] ) {
+            $tagged++;
+        }
+        $lines[] = '#' . $r['id'] . ' [' . ( $r['type'] ? $r['type'] : 'بلا نوع' ) . '] '
+                 . ( $r['page'] ? mb_substr( $r['page'], 0, 28 ) : 'بلا صفحة' )
+                 . ( 'yc' === $r['src'] ? ' ✓القالب' : ' ✕مصدر آخر' );
+    }
+    $checks[] = array(
+        'ok'    => ( $recent && $tagged === count( $recent ) ),
+        'label' => 'مصدر آخر ' . count( $recent ) . ' سجلات',
+        'note'  => $recent
+            ? ( $tagged . ' من ' . count( $recent ) . ' من القالب. ' . implode( ' | ', $lines ) )
+            : 'لا توجد سجلات بعد.',
+    );
+
+    // 8) ذاكرة OPcache
+    if ( function_exists( 'opcache_get_status' ) ) {
+        $st = @opcache_get_status( false );
+        $on = ( is_array( $st ) && ! empty( $st['opcache_enabled'] ) );
+        $checks[] = array(
+            'ok'    => true,
+            'label' => 'ذاكرة OPcache',
+            'note'  => $on
+                ? 'مفعّلة — إن بقي سلوك قديم بعد رفع الملفات، أعد تشغيل PHP من cPanel أو غيّر إصدار PHP ثم أعده.'
+                : 'غير مفعّلة.',
+        );
+    }
+
+    // 9) إضافات التخزين المؤقت
+    $cache_plugins = array();
+    foreach ( array( 'litespeed-cache/litespeed-cache.php' => 'LiteSpeed Cache',
+                     'wp-rocket/wp-rocket.php'             => 'WP Rocket',
+                     'w3-total-cache/w3-total-cache.php'   => 'W3 Total Cache',
+                     'wp-super-cache/wp-cache.php'         => 'WP Super Cache',
+                     'autoptimize/autoptimize.php'         => 'Autoptimize' ) as $file => $name ) {
+        if ( is_plugin_active( $file ) ) {
+            $cache_plugins[] = $name;
+        }
+    }
+    $checks[] = array(
+        'ok'    => empty( $cache_plugins ),
+        'label' => 'إضافات التخزين المؤقت',
+        'note'  => $cache_plugins
+            ? implode( ' · ', $cache_plugins ) . ' — سكربت التتبع مضمَّن داخل صفحات الموقع، فامسح الكاش بالكامل بعد التحديث.'
+            : 'لا توجد إضافة كاش مفعّلة.',
+    );
+
+    // 10) إجمالي السجلات
     $after = (int) wp_count_posts( 'callwebsite' )->publish;
     $checks[] = array(
         'ok'    => true,
