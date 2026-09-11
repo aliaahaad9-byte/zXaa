@@ -159,25 +159,38 @@
         }
         openModal('سيتم حذف جميع سجلات شهر ' + month + ' نهائيًا لتفريغ قاعدة البيانات. هل أنت متأكد؟', function () {
             $dash.addClass('is-loading');
-            ajaxPost({
-                action: 'callnumber_delete_month',
-                month: month
-            }).done(function (res) {
-                if (res && res.success) {
-                    toast('تم حذف ' + res.data.deleted + ' سجل من شهر ' + month + '.');
+            var total = 0;
+
+            // الحذف يتم على دفعات: نكرّر حتى لا يتبقى شيء
+            (function batch() {
+                ajaxPost({
+                    action: 'callnumber_delete_month',
+                    month: month
+                }).done(function (res) {
+                    if (!res || !res.success) {
+                        $dash.removeClass('is-loading');
+                        toast((res && res.data && res.data.message) || 'تعذر الحذف.', true);
+                        return;
+                    }
+                    total += res.data.deleted;
+                    if (res.data.remaining > 0 && res.data.deleted > 0) {
+                        toast('تم حذف ' + total + ' سجل… متبقٍ ' + res.data.remaining);
+                        batch();
+                        return;
+                    }
+                    $dash.removeClass('is-loading');
+                    toast('تم حذف ' + total + ' سجل من شهر ' + month + '.');
                     var $opt = $('#cn-month-select option[value="' + month + '"]');
                     if ($opt.length && $('#cn-month-select option').length > 1) {
                         $opt.remove();
                     }
                     refresh();
-                } else {
-                    toast((res && res.data && res.data.message) || 'تعذر الحذف.', true);
-                }
-            }).fail(function () {
-                toast('تعذر الاتصال بالخادم.', true);
-            }).always(function () {
-                $dash.removeClass('is-loading');
-            });
+                }).fail(function () {
+                    $dash.removeClass('is-loading');
+                    toast('انقطع الاتصال بعد حذف ' + total + ' سجل — اضغط الزر مرة أخرى لإكمال الحذف.', true);
+                    refresh();
+                });
+            })();
         });
     });
 
@@ -202,23 +215,30 @@
     $dash.on('click', '#cn-clean-junk', function () {
         openModal('سيتم حذف كل السجلات التي لا تحمل اسم صفحة ولا نوع اتصال نهائيًا. هل أنت متأكد؟', function () {
             $dash.addClass('is-loading');
-            ajaxPost({ action: 'callnumber_clean_junk' }).done(function (res) {
-                if (res && res.success) {
-                    toast('تم حذف ' + res.data.deleted + ' سجل مهمل.');
-                    if (res.data.remaining > 0) {
-                        toast('تبقّى ' + res.data.remaining + ' سجل — اضغط الزر مرة أخرى لإكمال التنظيف.');
-                    } else {
-                        $('#cn-junk-note').remove();
+            var cleaned = 0;
+            (function batch() {
+                ajaxPost({ action: 'callnumber_clean_junk' }).done(function (res) {
+                    if (!res || !res.success) {
+                        $dash.removeClass('is-loading');
+                        toast((res && res.data && res.data.message) || 'تعذر التنظيف.', true);
+                        return;
                     }
+                    cleaned += res.data.deleted;
+                    if (res.data.remaining > 0 && res.data.deleted > 0) {
+                        toast('تم تنظيف ' + cleaned + ' سجل… متبقٍ ' + res.data.remaining);
+                        batch();
+                        return;
+                    }
+                    $dash.removeClass('is-loading');
+                    toast('تم حذف ' + cleaned + ' سجل مهمل.');
+                    $('#cn-junk-note').remove();
                     refresh();
-                } else {
-                    toast((res && res.data && res.data.message) || 'تعذر التنظيف.', true);
-                }
-            }).fail(function () {
-                toast('تعذر الاتصال بالخادم.', true);
-            }).always(function () {
-                $dash.removeClass('is-loading');
-            });
+                }).fail(function () {
+                    $dash.removeClass('is-loading');
+                    toast('انقطع الاتصال بعد تنظيف ' + cleaned + ' سجل — اضغط الزر مرة أخرى.', true);
+                    refresh();
+                });
+            })();
         });
     });
 

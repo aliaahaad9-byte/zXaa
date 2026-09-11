@@ -234,6 +234,51 @@ function callnumber_junk_ids( $limit = 2000 ) {
     );
 }
 
+
+/**
+ * حذف سريع بالجملة: استعلامان لكل دفعة بدل wp_delete_post لكل سجل.
+ * آمن هنا لأن callwebsite نوع تخزين فقط: بلا مرفقات ولا تصنيفات ولا مراجعات.
+ */
+function callnumber_delete_ids( $ids ) {
+    global $wpdb;
+    $ids = array_values( array_filter( array_map( 'absint', (array) $ids ) ) );
+    if ( ! $ids ) {
+        return 0;
+    }
+
+    $deleted = 0;
+    foreach ( array_chunk( $ids, 500 ) as $chunk ) {
+        $ph = implode( ',', array_fill( 0, count( $chunk ), '%d' ) );
+
+        // نتأكد أن المعرّفات من هذا النوع فقط قبل أي حذف
+        $safe = $wpdb->get_col( $wpdb->prepare(
+            "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'callwebsite' AND ID IN ($ph)",
+            $chunk
+        ) );
+        if ( ! $safe ) {
+            continue;
+        }
+
+        $ph2 = implode( ',', array_fill( 0, count( $safe ), '%d' ) );
+        $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($ph2)", $safe ) );
+        $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE ID IN ($ph2)", $safe ) );
+        $deleted += count( $safe );
+    }
+
+    if ( $deleted ) {
+        // wp_count_posts يخزّن العدد مؤقتًا — نُبطله حتى تظهر الأرقام الصحيحة فورًا
+        wp_cache_delete( 'posts-callwebsite', 'counts' );
+    }
+    return $deleted;
+}
+
+/** عدد سجلات شهر معيّن. */
+function callnumber_month_count( $bounds ) {
+    global $wpdb;
+    $where = callnumber_where_sql( $bounds[0], $bounds[1] );
+    return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts} p WHERE {$where}" );
+}
+
 /** One page of log records, newest first. */
 function callnumber_get_records( $start_utc, $paged, $per_page, &$found = 0, $end_utc = '' ) {
     global $wpdb;
@@ -580,17 +625,7 @@ add_action( 'wp_ajax_callnumber_delete_records', function () {
     $ids = isset( $_POST['ids'] ) ? array_map( 'absint', (array) $_POST['ids'] ) : array();
     $ids = array_filter( array_unique( $ids ) );
 
-    $deleted = 0;
-    foreach ( $ids as $id ) {
-        $post = get_post( $id );
-        if ( $post && 'callwebsite' === $post->post_type ) {
-            if ( wp_delete_post( $id, true ) ) {
-                $deleted++;
-            }
-        }
-    }
-
-    wp_send_json_success( array( 'deleted' => $deleted ) );
+    wp_send_json_success( array( 'deleted' => callnumber_delete_ids( $ids ) ) );
 } );
 
 /* -------------------------------------------------------------------------
@@ -610,16 +645,14 @@ add_action( 'wp_ajax_callnumber_delete_month', function () {
 
     global $wpdb;
     $where = callnumber_where_sql( $bounds[0], $bounds[1] );
-    $ids   = $wpdb->get_col( "SELECT p.ID FROM {$wpdb->posts} p WHERE {$where}" );
 
-    $deleted = 0;
-    foreach ( $ids as $id ) {
-        if ( wp_delete_post( (int) $id, true ) ) {
-            $deleted++;
-        }
-    }
+    // دفعة واحدة لكل طلب حتى لا تتجاوز مهلة التنفيذ مهما كان عدد السجلات
+    $ids = $wpdb->get_col( "SELECT p.ID FROM {$wpdb->posts} p WHERE {$where} LIMIT 1000" );
 
-    wp_send_json_success( array( 'deleted' => $deleted ) );
+    $deleted   = callnumber_delete_ids( $ids );
+    $remaining = callnumber_month_count( $bounds );
+
+    wp_send_json_success( array( 'deleted' => $deleted, 'remaining' => $remaining ) );
 } );
 
 
@@ -632,12 +665,7 @@ add_action( 'wp_ajax_callnumber_clean_junk', function () {
         wp_send_json_error( array( 'message' => 'غير مصرح.' ), 403 );
     }
 
-    $deleted = 0;
-    foreach ( callnumber_junk_ids( 2000 ) as $id ) {
-        if ( wp_delete_post( (int) $id, true ) ) {
-            $deleted++;
-        }
-    }
+    $deleted = callnumber_delete_ids( callnumber_junk_ids( 1000 ) );
 
     wp_send_json_success( array(
         'deleted'   => $deleted,
