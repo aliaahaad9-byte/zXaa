@@ -5,7 +5,9 @@ $Whatsapp = get_option('Whatsapp');
 $Phone = get_option('Phone');
 $Adress = get_option('Adress');
 $map = get_option('map');
-$email = get_option('email');
+$email = get_option('Email') ? get_option('Email') : get_option('email');
+$working_hours = array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) get_option('working_hours') ) ) );
+$footer_opt = function( $key, $default ) { $v = trim( (string) get_option( $key ) ); return ( '' !== $v ) ? $v : $default; };
 $hide_phone = 'off';
 if( is_single() ) {
 	wp_reset_query();
@@ -97,7 +99,7 @@ elseif( is_tax('country') ) {
 						echo'</div>';
 					echo'</div>';
 					echo'<div class="contact-info-right">';
-		                echo '<h3 class ="text-footer-menu">معلومات الاتصال</h3>';
+		                echo '<h3 class ="text-footer-menu">'.esc_html( $footer_opt( 'footer_contact_title', 'معلومات الاتصال' ) ).'</h3>';
 		                echo'<div class="contact-box">';
 			                echo'<div class="contact-info">';
 			                	if(!empty($Phone)){
@@ -106,14 +108,36 @@ elseif( is_tax('country') ) {
 		                            echo'<p>'.$Phone.'</p>';
 		                        echo'</a>';
 		                    	}
-		                        if(!empty($email)){
-		                        echo'<a class="contact" href="mailto:'.$email.'">';
-		                            echo'<h3>الاميل :</h3>';
-		                            echo'<p>'.$email.'</p>';
+		                        if(!empty($Whatsapp)){
+		                        echo'<a class="contact" href="https://wa.me/'.esc_attr( preg_replace( '/[^0-9]/', '', $Whatsapp ) ).'" target="_blank" rel="nofollow noopener">';
+		                            echo'<h3>واتساب :</h3>';
+		                            echo'<p dir="ltr">'.esc_html( $Whatsapp ).'</p>';
 		                        echo'</a>';
 		                    	}
+		                        if(!empty($email)){
+		                        echo'<a class="contact" href="mailto:'.esc_attr( $email ).'">';
+		                            echo'<h3>البريد الإلكتروني :</h3>';
+		                            echo'<p>'.esc_html( $email ).'</p>';
+		                        echo'</a>';
+		                    	}
+		                        if(!empty($Adress)){
+		                        echo'<div class="contact contact-address">';
+		                            echo'<h3>عنوان الشركة :</h3>';
+		                            echo'<p>'.esc_html( $Adress ).'</p>';
+		                        echo'</div>';
+		                    	}
+		                        if(!empty($working_hours)){
+		                        echo'<div class="contact contact-hours">';
+		                            echo'<h3>مواعيد العمل :</h3>';
+		                            echo'<div class="contact-hours__lines">';
+		                            foreach( $working_hours as $wh_line ) {
+		                                echo'<p>'.esc_html( $wh_line ).'</p>';
+		                            }
+		                            echo'</div>';
+		                        echo'</div>';
+		                    	}
 			                echo'</div>';
-			                if(!empty($map)){
+			                if(!empty($map) && get_option('footer_hide_map') != 'on'){
 			                echo'<div class="contact-map">';
 			                	echo '<div>'.$map.'</div>';
 			                echo'</div>';
@@ -121,8 +145,9 @@ elseif( is_tax('country') ) {
 		                echo'</div>';
 		            echo'</div>';
 				echo'</div>';
+				if( get_option('footer_hide_links') != 'on' ) {
 				echo '<div class ="footer_menu">';
-					echo '<h3 class ="text-footer-menu">روابط هامة</h3>';
+					echo '<h3 class ="text-footer-menu">'.esc_html( $footer_opt( 'footer_links_title', 'روابط هامة' ) ).'</h3>';
 					wp_nav_menu(
 				       array(
 			               'theme_location' => 'footer-menu',
@@ -144,6 +169,7 @@ elseif( is_tax('country') ) {
 						)
 					);
 				echo'</div>';
+				}
 			echo'</div>';
             
         	echo'</div>';
@@ -154,33 +180,32 @@ elseif( is_tax('country') ) {
 			echo '<div class="container">';
 				echo'<div class="foot-footer">';
 					echo '<allrights-reserved>';
-					    if(IsSpeed() == false){
-						echo 'جميع الحقوق محفوظة &copy; ' .date('Y');
-						if( !empty($sitename__copyrights) ) {
-						    echo ' لموقع  <a href="'.home_url().'">'.$sitename__copyrights.'</a>';
+					    if(IsSpeed() == false && get_option('footer_hide_copyright') != 'on'){
+						$copyright_site = !empty($sitename__copyrights) ? '<a href="'.esc_url( home_url() ).'">'.esc_html( $sitename__copyrights ).'</a>' : esc_html( get_bloginfo('name') );
+						$copyright_text = trim( (string) get_option('footer_copyright') );
+						if( '' === $copyright_text ) {
+							$copyright_text = 'جميع الحقوق محفوظة &copy; {year}'.( !empty($sitename__copyrights) ? ' لموقع {site}' : '' );
+						} else {
+							$copyright_text = esc_html( $copyright_text );
 						}
+						echo str_replace( array( '{year}', '{site}' ), array( date('Y'), $copyright_site ), $copyright_text );
 					    }
 					echo '</allrights-reserved>';
 					echo'<div class="company">';
+						if( get_option('footer_hide_seo') != 'on' ) {
 						echo '<allrights-SEO>';
-							echo '<span>ارشفه <a target="_blank" rel="nofollow" href="https://www.facebook.com/alsyd.hossam"> Teko</a></span>';
+							echo '<span>'.esc_html( $footer_opt( 'footer_seo_label', 'ارشفه' ) ).' <a target="_blank" rel="nofollow" href="'.esc_url( $footer_opt( 'footer_seo_url', 'https://www.facebook.com/alsyd.hossam' ) ).'"> '.esc_html( $footer_opt( 'footer_seo_name', 'Teko' ) ).'</a></span>';
 						echo '</allrights-SEO>';
-						if(IsSpeed() == false){
-						    
-					
-						echo '<p>برمجه <a target="_blank" rel="nofollow" href="https://yourcolor.net">
-							<strong>Y</strong>
-
-							<strong>O</strong>
-							<strong>U</strong>
-							<strong>R</strong>
-							<strong>C</strong>
-							<strong>O</strong>
-							<strong>L</strong>
-							<strong>O</strong>
-							<strong>R</strong>
-
-						</a></p>';
+						}
+						if(IsSpeed() == false && get_option('footer_hide_dev') != 'on'){
+						// كل حرف في وسم strong للحفاظ على تنسيق الاسم الحالي
+						$dev_name = $footer_opt( 'footer_dev_name', 'YOURCOLOR' );
+						$dev_chars = function_exists('mb_str_split') ? mb_str_split( $dev_name ) : str_split( $dev_name );
+						echo '<p>'.esc_html( $footer_opt( 'footer_dev_label', 'برمجه' ) ).' <a target="_blank" rel="nofollow" href="'.esc_url( $footer_opt( 'footer_dev_url', 'https://yourcolor.net' ) ).'">';
+							foreach( $dev_chars as $dev_char ) {
+								echo ( ' ' === $dev_char ) ? ' ' : '<strong>'.esc_html( $dev_char ).'</strong>';
+							}
+						echo '</a></p>';
 						}
 					echo'</div>';
 				echo'</div>';

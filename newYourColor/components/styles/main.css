@@ -7063,3 +7063,33 @@ figure.wp-block-table {
 	min-width: 100% !important;
 	margin-inline: 0 !important
 }
+/* عناصر الاتصال غير القابلة للنقر في الفوتر (العنوان ومواعيد العمل) — نفس قيم a.contact */
+.contact-info>div.contact {
+	padding-left: 30px;
+	display: flex;
+	align-items: center
+}
+div.contact h3 {
+	font-size: 15px;
+	font-weight: 300;
+	display: flex;
+	align-items: center;
+	white-space: nowrap
+}
+div.contact p {
+	margin-inline-start: 8px
+}
+.contact-info>div.contact-hours {
+	align-items: flex-start
+}
+.contact-hours h3 {
+	padding-top: 6px
+}
+.contact-hours__lines {
+	display: flex;
+	flex-direction: column
+}
+.contact-hours__lines p {
+	font-size: 17px;
+	line-height: 1.8
+}

@@ -107,6 +107,12 @@ $metaboxes['contactus'] = array(
 			'type'  => 'text',
 			'id'    => 'Whatsapp',
 		),
+		array(
+			'name'  => 'مواعيد العمل (سطر لكل فترة، مثال: السبت - الخميس: 8 صباحًا - 10 مساءً)',
+			'nameEN'=> 'Working hours',
+			'type'  => 'textarea',
+			'id'    => 'working_hours',
+		),
 		
 		# Social
 		array(
@@ -116,7 +122,7 @@ $metaboxes['contactus'] = array(
 			'id' => '',
 		),
 		array(
-			'name' => 'رابط تويتر',
+			'name' => 'رابط X (تويتر)',
 			'nameEN' => 'Twitter',
 			'type' => 'text',
 			'id' => 'twitter',
@@ -151,6 +157,18 @@ $metaboxes['contactus'] = array(
 			'type' => 'text',
 			'id' => 'youtube',
 		),
+		array(
+			'name' => 'رابط تيك توك',
+			'nameEN' => 'TikTok',
+			'type' => 'text',
+			'id' => 'tiktok',
+		),
+		array(
+			'name' => 'رابط سناب شات',
+			'nameEN' => 'Snapchat',
+			'type' => 'text',
+			'id' => 'snapchat',
+		),
 				
 	)
 );
@@ -177,6 +195,114 @@ $metaboxes['Footer'] = array(
 			'nameEN'=> 'contentFooter',
 			'type'  => 'textarea',
 			'id'    => 'contentFooter',
+		),
+		array(
+			'name'  => 'عناوين أعمدة الفوتر',
+			'nameEN'=> 'عناوين أعمدة الفوتر',
+			'type'  => 'title',
+			'id'    => '',
+		),
+		array(
+			'name'  => 'عنوان عمود معلومات الاتصال (الافتراضي: معلومات الاتصال)',
+			'nameEN'=> 'footer_contact_title',
+			'type'  => 'text',
+			'id'    => 'footer_contact_title',
+		),
+		array(
+			'name'  => 'عنوان عمود الروابط (الافتراضي: روابط هامة) — الروابط نفسها من المظهر ← القوائم ← قائمة الفوتر',
+			'nameEN'=> 'footer_links_title',
+			'type'  => 'text',
+			'id'    => 'footer_links_title',
+		),
+		array(
+			'name'  => 'إخفاء عمود الروابط',
+			'nameEN'=> 'footer_hide_links',
+			'type'  => 'checkbox',
+			'id'    => 'footer_hide_links',
+		),
+		array(
+			'name'  => 'إخفاء الخريطة',
+			'nameEN'=> 'footer_hide_map',
+			'type'  => 'checkbox',
+			'id'    => 'footer_hide_map',
+		),
+		array(
+			'name'  => 'صف الحقوق المحفوظة',
+			'nameEN'=> 'صف الحقوق المحفوظة',
+			'type'  => 'title',
+			'id'    => '',
+		),
+		array(
+			'name'  => 'نص الحقوق — استخدم {year} للسنة و {site} لاسم الموقع (الافتراضي: جميع الحقوق محفوظة © {year} لموقع {site})',
+			'nameEN'=> 'footer_copyright',
+			'type'  => 'text',
+			'id'    => 'footer_copyright',
+		),
+		array(
+			'name'  => 'إخفاء نص الحقوق',
+			'nameEN'=> 'footer_hide_copyright',
+			'type'  => 'checkbox',
+			'id'    => 'footer_hide_copyright',
+		),
+		array(
+			'name'  => 'الأرشفة',
+			'nameEN'=> 'الأرشفة',
+			'type'  => 'title',
+			'id'    => '',
+		),
+		array(
+			'name'  => 'كلمة الأرشفة (الافتراضي: ارشفه)',
+			'nameEN'=> 'footer_seo_label',
+			'type'  => 'text',
+			'id'    => 'footer_seo_label',
+		),
+		array(
+			'name'  => 'اسم جهة الأرشفة (الافتراضي: Teko)',
+			'nameEN'=> 'footer_seo_name',
+			'type'  => 'text',
+			'id'    => 'footer_seo_name',
+		),
+		array(
+			'name'  => 'رابط جهة الأرشفة',
+			'nameEN'=> 'footer_seo_url',
+			'type'  => 'text',
+			'id'    => 'footer_seo_url',
+		),
+		array(
+			'name'  => 'إخفاء سطر الأرشفة',
+			'nameEN'=> 'footer_hide_seo',
+			'type'  => 'checkbox',
+			'id'    => 'footer_hide_seo',
+		),
+		array(
+			'name'  => 'البرمجة',
+			'nameEN'=> 'البرمجة',
+			'type'  => 'title',
+			'id'    => '',
+		),
+		array(
+			'name'  => 'كلمة البرمجة (الافتراضي: برمجه)',
+			'nameEN'=> 'footer_dev_label',
+			'type'  => 'text',
+			'id'    => 'footer_dev_label',
+		),
+		array(
+			'name'  => 'اسم جهة البرمجة (الافتراضي: YOURCOLOR)',
+			'nameEN'=> 'footer_dev_name',
+			'type'  => 'text',
+			'id'    => 'footer_dev_name',
+		),
+		array(
+			'name'  => 'رابط جهة البرمجة',
+			'nameEN'=> 'footer_dev_url',
+			'type'  => 'text',
+			'id'    => 'footer_dev_url',
+		),
+		array(
+			'name'  => 'إخفاء سطر البرمجة',
+			'nameEN'=> 'footer_hide_dev',
+			'type'  => 'checkbox',
+			'id'    => 'footer_hide_dev',
 		),
 			
 	)

@@ -1,19 +1,21 @@
 <?php
-
+// روابط التواصل الاجتماعي — كلها من إعدادات القالب ← معلومات الاتصال
+$social_networks = array(
+	'facebook'  => array( 'Facebook',  'fab fa-facebook' ),
+	'instagram' => array( 'Instagram', 'fab fa-instagram' ),
+	'twitter'   => array( 'X',         'fa-brands fa-x-twitter' ),
+	'youtube'   => array( 'YouTube',   'fab fa-youtube' ),
+	'tiktok'    => array( 'TikTok',    'fa-brands fa-tiktok' ),
+	'snapchat'  => array( 'Snapchat',  'fa-brands fa-snapchat' ),
+	'linkedin'  => array( 'LinkedIn',  'fab fa-linkedin' ),
+	'telegram'  => array( 'Telegram',  'fab fa-telegram' ),
+);
 echo '<div class="social--footer">';
-	if (!empty(get_option('facebook'))){
-		echo '<a aria-label="facebook" target="_blank" rel="noreferrer noopener" href="'.get_option('facebook').'" class="facebook"><i class="fab fa-facebook"></i></a>';
-	}
-	if (!empty(get_option('twitter'))){
-		echo '<a aria-label="twitter" target="_blank" rel="noreferrer noopener" href="'.get_option('twitter').'" class="twitter"><i class="fab fa-twitter"></i></a>';
-	}
-	if (!empty(get_option('youtube'))){
-		echo '<a aria-label="youtube" target="_blank" rel="noreferrer noopener"  href="'.get_option('youtube').'" class="youtube"><i class="fab fa-youtube"></i></a>';
-	}
-	if (!empty(get_option('linkedin'))){
-		echo '<a aria-label="linkedin" target="_blank" rel="noreferrer noopener"  href="'.get_option('linkedin').'" class="linkedin"><i class="fab fa-linkedin"></i></a>';
-	}
-	if (!empty(get_option('telegram'))){
-		echo '<a aria-label="telegram" target="_blank" rel="noreferrer noopener" href="'.get_option('telegram').'" class="telegram"><i class="fab fa-telegram"></i></a>';
+	foreach ( $social_networks as $social_key => $social_net ) {
+		$social_url = trim( (string) get_option( $social_key ) );
+		if ( '' === $social_url ) {
+			continue;
+		}
+		echo '<a aria-label="'.esc_attr( $social_net[0] ).'" target="_blank" rel="noreferrer noopener" href="'.esc_url( $social_url ).'" class="'.esc_attr( $social_key ).'"><i class="'.esc_attr( $social_net[1] ).'" aria-hidden="true"></i></a>';
 	}
 echo '</div>';

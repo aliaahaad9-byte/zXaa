@@ -296,6 +296,10 @@ echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' data-loader-style="-
                                     echo '<li><i class="fa-regular fa-comment"></i> '. $CommentsNumber.'</li>';
                                 echo '</ul>';
                                 }
+                                // صندوق «عن الكاتب» — خبرته في قسم هذا المقال تحديدًا
+                                if ( class_exists( 'AuthorEEAT' ) ) {
+                                    AuthorEEAT::article_box( $post );
+                                }
                             echo '</div>';
                         echo '</div>';
                         echo '<div class="-single-social">';
