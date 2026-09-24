@@ -46,7 +46,7 @@ echo '<div class="container">';
   echo '</breadcrumb></div>';
 
   /* ---------- 1) الهوية ---------- */
-  echo '<header class="yc-auth__hero">';
+  echo '<div class="yc-auth__hero">';
 
     echo '<div class="yc-auth__photo">';
       echo '<img src="' . esc_url( $a['photo'] ) . '" width="190" height="190" alt="' . esc_attr( $a['name'] ) . '" />';
@@ -85,7 +85,7 @@ echo '<div class="container">';
       }
     echo '</div>';
 
-  echo '</header>';
+  echo '</div>';
 
   /* ---------- 2) الأرقام ---------- */
   $stats = array();
