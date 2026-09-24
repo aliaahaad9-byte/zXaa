@@ -376,6 +376,60 @@ echo '<div class="single-post">';
                                 echo '</p>';
                             echo '</div>';
                         }
+
+                        # نبذة عن كاتب المقال
+                        if( !empty($author_id) ) {
+                            // الأنماط مضمَّنة هنا حتى لا نلمس main.css إطلاقًا،
+                            // ولأن القالب يلغي كل الملفات المسجَّلة في الواجهة.
+                            $bio_css = get_template_directory() . '/components/packs/AuthorBio/author-bio.css';
+                            if( file_exists($bio_css) ) {
+                                echo '<style>'.file_get_contents($bio_css).'</style>';
+                            }
+                            $yc_a          = function_exists('yc_author_profile') ? yc_author_profile( $author_id ) : array();
+                            $author_posts  = (int) count_user_posts( $author_id, 'post' );
+                            $author_avatar = !empty($yc_a['photo']) ? $yc_a['photo'] : get_avatar_url( $author_id, array('size'=>160) );
+                            $author_title  = !empty($yc_a['title']) ? $yc_a['title'] : '';
+                            if( !empty($yc_a['name']) )  { $author_name = $yc_a['name']; }
+                            if( !empty($yc_a['short']) ) { $author_desc = $yc_a['short']; }
+
+                            echo '<div class="author-bio">';
+
+                                echo '<div class="author-bio__avatar">';
+                                    if( !empty($author_avatar) ) {
+                                        echo '<img src="'.esc_url($author_avatar).'" width="86" height="86" loading="lazy" alt="'.esc_attr($author_name).'" />';
+                                    }else {
+                                        $fallback = GetAvatar( $author_id );
+                                        echo '<span class="author-bio__letter" style="background:'.esc_attr($fallback['color']).';color:'.esc_attr($fallback['textcolor']).'">'.esc_html($fallback['letter']).'</span>';
+                                    }
+                                echo '</div>';
+
+                                echo '<div class="author-bio__body">';
+
+                                    echo '<span class="author-bio__label">كاتب المقال</span>';
+                                    if( !empty($yc_a['verified']) ) {
+                                        echo '<span class="author-bio__verified">'.yc_author_svg('check').'خبير موثّق</span>';
+                                    }
+                                    echo '<h2 class="author-bio__name"><a href="'.esc_url($author_link).'">'.esc_html($author_name).'</a></h2>';
+
+                                    if( $author_title !== '' ) {
+                                        echo '<span class="author-bio__role">'.esc_html($author_title).'</span>';
+                                    }
+
+                                    if( !empty($author_desc) ) {
+                                        echo '<p class="author-bio__text">'.esc_html( wp_strip_all_tags($author_desc) ).'</p>';
+                                    }
+
+                                    echo '<div class="author-bio__foot">';
+                                        if( $author_posts > 0 ) {
+                                            echo '<span class="author-bio__count">'.number_format_i18n($author_posts).' مقالًا منشورًا</span>';
+                                        }
+                                        echo '<a class="author-bio__more" href="'.esc_url($author_link).'">كل مقالات الكاتب</a>';
+                                    echo '</div>';
+
+                                echo '</div>';
+
+                            echo '</div>';
+                        }
                     echo '</div>';
                 echo '</div>';
                 //

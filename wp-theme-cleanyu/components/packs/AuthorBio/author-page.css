@@ -1,0 +1,114 @@
+/* صفحة الكاتب — ملف خبير (E-E-A-T). كل القيم من متغيّرات القالب في main.css */
+.yc-auth{--a-brand:var(--uicolor);--a-brand-d:#1d4b92;--a-soft:#2764c314;--a-ok:#0f7a3b;--a-ok-soft:#0f7a3b14;
+  --a-title:var(--titlecolor);--a-text:var(--contentcolor);--a-line:var(--border);
+  --a-r:var(--largeradius);--a-rs:var(--miniradius);
+  font-family:var(--ffamily);color:var(--a-text);display:block;padding:18px 0 40px}
+.yc-auth *{box-sizing:border-box}
+.yc-auth svg{fill:currentColor;display:block}
+.yc-auth__crumb{margin-bottom:18px;font-size:13.5px}
+
+/* بطاقة عامة */
+.yc-auth__card,.yc-auth__hero,.yc-auth__stat{background:#fff;border:1px solid var(--a-line);border-radius:var(--a-r);
+  box-shadow:0 2px 10px #0c0c0c0d}
+.yc-auth__card{padding:26px 28px;margin-bottom:18px}
+.yc-auth__h{display:flex;align-items:center;gap:10px;margin:0 0 18px;font-size:20px;font-weight:700;color:var(--a-title);line-height:1.4}
+.yc-auth__h i{flex-shrink:0;width:30px;height:30px;border-radius:9px;background:var(--a-brand);color:#fff;
+  display:grid;place-items:center}
+.yc-auth__h i svg{width:15px;height:15px}
+
+/* الهوية */
+.yc-auth__hero{display:flex;gap:28px;align-items:center;padding:30px 32px;margin-bottom:18px;
+  background:linear-gradient(135deg,#eaf1fb 0%,#fff 38%);position:relative;overflow:hidden}
+.yc-auth__photo{flex-shrink:0;width:190px;height:190px;border-radius:22px;overflow:hidden;background:var(--bkground);
+  border:5px solid #fff;box-shadow:0 8px 26px #1d4b9226}
+.yc-auth__photo img{width:100%;height:100%;object-fit:cover;display:block}
+.yc-auth__id{flex:1;min-width:0}
+.yc-auth__badge{display:inline-flex;align-items:center;gap:6px;background:var(--a-ok-soft);color:var(--a-ok);
+  border:1px solid #0f7a3b33;border-radius:99px;padding:5px 13px;font-size:13px;font-weight:700;margin-bottom:10px}
+.yc-auth__badge svg{width:13px;height:13px}
+.yc-auth__id h1{margin:0 0 4px;font-size:32px;font-weight:800;color:var(--a-title);line-height:1.35}
+.yc-auth__role{margin:0 0 12px;font-size:16.5px;font-weight:700;color:var(--a-brand)}
+.yc-auth__bio{margin:0 0 16px;font-size:15.5px;line-height:1.95;color:var(--a-text);max-width:75ch}
+.yc-auth__chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.yc-auth__chips li{display:inline-flex;align-items:center;gap:7px;background:var(--bkground);border:1px solid var(--a-line);
+  border-radius:99px;padding:6px 14px;font-size:13.5px;font-weight:600;color:var(--a-title)}
+.yc-auth__chips svg{width:13px;height:13px;color:var(--a-brand)}
+.yc-auth__social{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.yc-auth__social a{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--a-soft);
+  color:var(--a-brand-d);transition:var(--transition)}
+.yc-auth__social a:hover{background:var(--a-brand);color:#fff}
+.yc-auth__social svg{width:15px;height:15px}
+
+/* الأرقام */
+.yc-auth__stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.yc-auth__stats--3{grid-template-columns:repeat(3,1fr)}
+.yc-auth__stats--2{grid-template-columns:repeat(2,1fr)}
+.yc-auth__stats--1{grid-template-columns:1fr}
+.yc-auth__stat{padding:20px 14px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+.yc-auth__stat i{width:30px;height:30px;border-radius:9px;background:var(--a-soft);color:var(--a-brand);
+  display:grid;place-items:center;margin-bottom:6px}
+.yc-auth__stat i svg{width:14px;height:14px}
+.yc-auth__stat b{font-size:26px;font-weight:800;color:var(--a-title);line-height:1.2;direction:ltr}
+.yc-auth__stat span{font-size:14px;color:var(--a-text)}
+
+/* النبذة */
+.yc-auth__text p{margin:0 0 12px;font-size:15.5px;line-height:2;color:var(--a-text)}
+.yc-auth__text p:last-child{margin-bottom:0}
+
+/* الخبرة حسب القسم */
+.yc-auth__exp{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.yc-auth__field{background:#f4f6fb;border:1px solid #e3e8f2;border-radius:var(--a-rs);padding:18px 20px}
+.yc-auth__field-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.yc-auth__field-top i{flex-shrink:0;width:32px;height:32px;border-radius:9px;background:#fff;color:var(--a-brand);
+  display:grid;place-items:center;box-shadow:0 1px 4px #0c0c0c14}
+.yc-auth__field-top i svg{width:16px;height:16px}
+.yc-auth__field h3{flex:1;min-width:0;margin:0;font-size:16.5px;font-weight:700;color:var(--a-title);line-height:1.5}
+.yc-auth__yrs{flex-shrink:0;background:#fff;color:var(--a-brand);border:1px solid #2764c333;border-radius:99px;
+  padding:3px 11px;font-size:12.5px;font-weight:700}
+.yc-auth__field p{margin:0 0 10px;font-size:14.5px;line-height:1.95;color:var(--a-text)}
+.yc-auth__more{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--a-brand);
+  text-decoration:none;transition:var(--transition)}
+.yc-auth__more svg{width:12px;height:12px}
+.yc-auth__more:hover{color:var(--a-brand-d);gap:9px}
+
+/* الشهادات والعضويات */
+.yc-auth__two{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:18px;align-items:start}
+.yc-auth__two--one{grid-template-columns:1fr}
+.yc-auth__two .yc-auth__card{margin-bottom:0}
+.yc-auth__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.yc-auth__list li{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--a-line);border-radius:12px;padding:12px 14px}
+.yc-auth__list i{flex-shrink:0;width:30px;height:30px;border-radius:8px;background:var(--a-ok-soft);color:var(--a-ok);
+  display:grid;place-items:center}
+.yc-auth__list i svg{width:14px;height:14px}
+.yc-auth__list div{min-width:0}
+.yc-auth__list b{display:block;font-size:15px;font-weight:700;color:var(--a-title);line-height:1.6}
+.yc-auth__list span{display:block;font-size:13.5px;color:var(--a-text);margin-top:2px}
+.yc-auth__list a{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--a-brand);
+  text-decoration:none;margin-top:4px}
+.yc-auth__list a svg{width:10px;height:10px}
+.yc-auth__list a:hover{text-decoration:underline}
+
+/* الإنجازات */
+.yc-auth__done{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px 28px}
+.yc-auth__done li{display:flex;gap:9px;align-items:flex-start;font-size:15px;line-height:1.85;color:var(--a-title)}
+.yc-auth__done svg{flex-shrink:0;width:16px;height:16px;margin-top:6px;color:var(--a-ok)}
+
+/* المقالات */
+.yc-auth__posts{margin-top:28px}
+
+@media only screen and (max-width:1000px){
+  .yc-auth__stats,.yc-auth__stats--3{grid-template-columns:repeat(2,1fr)}
+}
+@media only screen and (max-width:780px){
+  .yc-auth__hero{flex-direction:column;text-align:center;padding:24px 18px;gap:16px;
+    background:linear-gradient(180deg,#eaf1fb 0%,#fff 45%)}
+  .yc-auth__photo{width:150px;height:150px}
+  .yc-auth__id h1{font-size:25px}
+  .yc-auth__role{font-size:15.5px}
+  .yc-auth__bio{font-size:15px}
+  .yc-auth__chips,.yc-auth__social{justify-content:center}
+  .yc-auth__card{padding:20px 16px}
+  .yc-auth__h{font-size:18px}
+  .yc-auth__exp,.yc-auth__two,.yc-auth__done{grid-template-columns:1fr}
+  .yc-auth__stat b{font-size:22px}
+}
