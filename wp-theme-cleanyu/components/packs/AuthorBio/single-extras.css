@@ -1,0 +1,15 @@
+/* إضافات صفحة المقال — مضمّنة من @single/post.php حتى لا نلمس main.css */
+
+/* أسئلة المقال صارت H3: نفس مظهر H2 القديم */
+.-faqs-singlebox>ul>li>h3{border-radius:var(--largeradius);display:flex;font-size:18px;background:var(--bkground);
+  cursor:pointer;color:var(--secondarytext);transition:180ms;font-weight:500;padding:15px;margin:0!important;
+  align-items:center;line-height:1.6}
+.-faqs-singlebox>ul>li>h3>span{flex:1 1 0%;color:var(--secondarytext);transition:150ms}
+.-faqs-singlebox>ul>li>h3>i{font-size:22px;color:#5b6466;transition:150ms;font-weight:500}
+.-faqs-singlebox>ul li.active h3 span,.-faqs-singlebox>ul>li>h3:hover i,.-faqs-singlebox>ul>li>h3>span:hover{color:var(--uicolor2)}
+
+/* تاريخ النشر وآخر تحديث */
+ul.single-bar li.single-dates{gap:4px;flex-wrap:wrap}
+ul.single-bar li.single-dates time{color:var(--uicolor);font-size:16px}
+ul.single-bar li.single-dates em{font-style:normal;color:var(--secondarytext);margin:0 4px}
+@media only screen and (max-width:780px){ul.single-bar li.single-dates time{font-size:14px}}

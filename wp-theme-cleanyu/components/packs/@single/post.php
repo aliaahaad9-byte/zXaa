@@ -257,16 +257,30 @@ echo '<div class="single-post">';
                                     echo $content;
                                 echo '</div>';
                             echo '</div>';
+                            // أنماط التواريخ وأسئلة H3 — مضمّنة حتى لا نلمس main.css
+                            $extras_css = get_template_directory() . '/components/packs/AuthorBio/single-extras.css';
+                            if( file_exists($extras_css) ) {
+                                echo '<style>'.file_get_contents($extras_css).'</style>';
+                            }
                             echo '<ul class="single-bar">';
                                 echo '<li>';
                                     echo  '<span>بواسطة</span>';
                                     echo '<a href="'.$author_link.'" class="unline">'.$author_name.'</a></span>';
                                 echo '</li>';
                                 
-                                echo '<li>
-                                    <span>نشر في  :</span>
-                                    <p>'.DisplayDate( strtotime($post->post_date) ).'</p>
-                                </li>';
+                                # تاريخ النشر وآخر تحديث — «نُشر: 25 ديسمبر 2022 · آخر تحديث: 20 سبتمبر 2026»
+                                $published_ts = get_post_time( 'U', false, $post );
+                                $modified_ts  = get_post_modified_time( 'U', false, $post );
+                                echo '<li class="single-dates">';
+                                    echo '<span>نُشر:</span>';
+                                    echo '<time datetime="'.esc_attr( get_post_time( 'c', true, $post ) ).'">'.esc_html( date_i18n( 'j F Y', $published_ts ) ).'</time>';
+                                    // يظهر آخر تحديث فقط إن عُدّل المقال في يوم لاحق ليوم نشره
+                                    if( $modified_ts && date( 'Y-m-d', $modified_ts ) > date( 'Y-m-d', $published_ts ) ) {
+                                        echo '<em aria-hidden="true">·</em>';
+                                        echo '<span>آخر تحديث:</span>';
+                                        echo '<time datetime="'.esc_attr( get_post_modified_time( 'c', true, $post ) ).'">'.esc_html( date_i18n( 'j F Y', $modified_ts ) ).'</time>';
+                                    }
+                                echo '</li>';
                                 if(!empty($category)){
                                     foreach( $category as $cat ) {
                                         echo '<li>';
@@ -275,11 +289,19 @@ echo '<div class="single-post">';
                                         echo '</li>';
                                     }
                                 }
-                                if(!empty($cityTitle)){
-                                    echo '<li>
-                                        <span> في مدينة :</span>
-                                        <p>'.$cityTitle.'</p>
-                                    </li>';
+                                if(!empty($cityTerm)){
+                                    // رابط داخلي لأرشيف كل مدينة
+                                    $city_links = array();
+                                    foreach( $cityTerm as $ct ) {
+                                        $ct_link = get_term_link( $ct );
+                                        $city_links[] = is_wp_error( $ct_link )
+                                            ? esc_html( $ct->name )
+                                            : '<a href="'.esc_url( $ct_link ).'" class="unline">'.esc_html( $ct->name ).'</a>';
+                                    }
+                                    echo '<li>';
+                                        echo '<span> في مدينة :</span>';
+                                        echo implode( '<span>،</span>', $city_links );
+                                    echo '</li>';
                                 }
                                 echo '<li><i class="fa-regular fa-comment"></i> '. $CommentsNumber.'</li>';
                             echo '</ul>';
@@ -349,13 +371,14 @@ echo '<div class="single-post">';
                             echo'</div>';
                         }
                         if(!empty($questions)){
+                            $faq_about = rtrim( trim( wp_strip_all_tags( get_the_title( $post ) ) ), '؟?' );
                             echo '<div class="-faqs-singlebox">';
-                                echo '<h2 class="-TitleContent-section"><i class="fa-solid fa-question"></i>الاسئلة الشائعة </h2>';
+                                echo '<h2 class="-TitleContent-section"><i class="fa-solid fa-question"></i>الأسئلة الشائعة حول '.esc_html( $faq_about ).'؟</h2>';
                                 echo '<ul>';
                                     $q=0;
                                     foreach ($questions as $v) {$q++;
                                         echo '<li '.(($q == 1) ? 'class="active"' : '').'>';
-                                            echo '<h2 class="FaqQuestion"><span>'.$v['question'].'</span><i class="fa-solid fa-plus"></i></h2>';
+                                            echo '<h3 class="FaqQuestion"><span>'.$v['question'].'</span><i class="fa-solid fa-plus"></i></h3>';
                                             echo '<div class="FaqsAnswers"><div class="AnswerContext">'.$v['answer'].'</div></div>';
                                         echo '</li>';
                                     }
