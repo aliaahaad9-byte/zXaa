@@ -750,9 +750,9 @@ ul.-Tabs-intro-List li {
 .-GridItem-2:hover .GridItem-2-title-model a h3,
 .-GridItem-3:hover .GridItem-3-title-model h2,
 .-GridItem-5:hover .GridItem-5-title-model h2,
-.-faqs-singlebox>ul li.active h2 span,
-.-faqs-singlebox>ul>li>h2:hover i,
-.-faqs-singlebox>ul>li>h2>span:hover,
+.-faqs-singlebox>ul li.active h3 span,
+.-faqs-singlebox>ul>li>h3:hover i,
+.-faqs-singlebox>ul>li>h3>span:hover,
 .city-block_bh:hover a h2,
 ul.ChildComments>li>a:hover,
 ul.CommentsListInner>li>a:hover {
@@ -2355,7 +2355,7 @@ ul.ez-toc-list.open {
 }
 
 .-faqs-singlebox,
-.-faqs-singlebox>ul>li>h2 {
+.-faqs-singlebox>ul>li>h3 {
 	border-radius: var(--largeradius);
 	display: flex;
 	background: #f9f9ff
@@ -2381,20 +2381,20 @@ h2.-TitleContent-section {
 	margin-bottom: 14px !important
 }
 
-.-faqs-singlebox>ul>li>h2>span {
+.-faqs-singlebox>ul>li>h3>span {
 	flex: 1 1 0%;
 	color: var(--secondarytext);
 	transition: 150ms
 }
 
-.-faqs-singlebox>ul>li>h2>i {
+.-faqs-singlebox>ul>li>h3>i {
 	font-size: 22px;
 	color: #5b6466;
 	transition: 150ms;
 	font-weight: 500
 }
 
-.-faqs-singlebox>ul>li>h2 {
+.-faqs-singlebox>ul>li>h3 {
 	font-size: 18px;
 	background: var(--bkground);
 	cursor: pointer;
@@ -7092,4 +7092,36 @@ div.contact p {
 .contact-hours__lines p {
 	font-size: 17px;
 	line-height: 1.8
+}
+
+/* تاريخ النشر وآخر تحديث في المقالات */
+.post-dates {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 10px;
+	margin-top: 10px;
+	font-size: 14px;
+	color: var(--contentcolor);
+	line-height: 1.8
+}
+.post-dates__item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px
+}
+.post-dates__item i {
+	color: var(--uicolor);
+	font-size: 13px
+}
+.post-dates__item time {
+	font-weight: 600;
+	color: var(--textcolor)
+}
+.post-dates__sep {
+	color: var(--border);
+	font-weight: 700
+}
+.post-dates--inline {
+	margin-top: 0
 }

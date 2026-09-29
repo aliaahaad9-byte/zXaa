@@ -95,29 +95,22 @@ $post_tag = ((is_array(get_the_terms($post->ID,'post_tag',true)))) ? get_the_ter
         }
     }
     if( !empty($questions)  && $questions[0]['question'] != '' ){
-        echo '<script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                "mainEntity": [ ';
-                    foreach( $questions as $i => $faq ){
-                        $i++;
-                        echo '{
-                        "@type": "Question",
-                        "name": "'.$faq['question'].'",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "'.$faq['answer'].'"
-                            }
-                        }';
-                        if( $i < count($questions) ){
-                            echo ',';
-                        }
-                    }
-                 
-                echo ']
-            }
-        </script>';
+        $faqEntities = array();
+        foreach( $questions as $faq ){
+            $faqEntities[] = array(
+                '@type'          => 'Question',
+                'name'           => wp_strip_all_tags( $faq['question'] ),
+                'acceptedAnswer' => array(
+                    '@type' => 'Answer',
+                    'text'  => wp_strip_all_tags( isset( $faq['answer'] ) ? $faq['answer'] : '' ),
+                ),
+            );
+        }
+        echo '<script type="application/ld+json">'.wp_json_encode( array(
+            '@context'   => 'https://schema.org',
+            '@type'      => 'FAQPage',
+            'mainEntity' => $faqEntities,
+        ), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ).'</script>';
     }
         
     $item_list_element = [];
@@ -236,6 +229,7 @@ echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' data-loader-style="-
                                 echo '<Breadcrumb>';
                                     Breadcrumb($post);
                                 echo '</Breadcrumb>';
+                                echo YC_PostDates( $post );
                             echo '</div>';
                             $hidethumb = get_option('hidethumb');
                             if(!empty($hidethumb) && $hidethumb != 'on' || empty($hidethumb)){
@@ -275,10 +269,7 @@ echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' data-loader-style="-
                                         echo '<a href="'.$author_link.'" class="unline">'.$author_name.'</a></span>';
                                     echo '</li>';
                                     
-                                    echo '<li>
-                                        <span>نشر في  :</span>
-                                        <p>'.DisplayDate( strtotime($post->post_date) ).'</p>
-                                    </li>';
+                                    echo '<li>'.YC_PostDates( $post, 'post-dates post-dates--inline' ).'</li>';
                                     if(!empty($category)){
                                         foreach( $category as $cat ) {
                                             echo '<li>';
@@ -287,10 +278,15 @@ echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' data-loader-style="-
                                             echo '</li>';
                                         }
                                     }
-                                    if(!empty($cityTitle)){
+                                    if(!empty($cityTerm)){
+                                        $cityLinks = array();
+                                        foreach( $cityTerm as $cityItem ) {
+                                            $cityLink = get_term_link( $cityItem );
+                                            $cityLinks[] = is_wp_error( $cityLink ) ? esc_html( $cityItem->name ) : '<a href="'.esc_url( $cityLink ).'" class="unline">'.esc_html( $cityItem->name ).'</a>';
+                                        }
                                         echo '<li>
                                             <span> في مدينة :</span>
-                                            <p>'.$cityTitle.'</p>
+                                            '.implode( '،&nbsp;', $cityLinks ).'
                                         </li>';
                                     }
                                     echo '<li><i class="fa-regular fa-comment"></i> '. $CommentsNumber.'</li>';
@@ -364,12 +360,12 @@ echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' data-loader-style="-
                             }
                             if(!empty($questions)){
                                 echo '<div class="-faqs-singlebox">';
-                                    echo '<h2 class="-TitleContent-section"><i class="fa-solid fa-question"></i>الاسئلة الشائعة </h2>';
+                                    echo '<h2 class="-TitleContent-section"><i class="fa-solid fa-question"></i>الأسئلة الشائعة حول '.esc_html( rtrim( trim( $post->post_title ), " ؟?.!" ) ).'؟</h2>';
                                     echo '<ul>';
                                         $q=0;
                                         foreach ($questions as $v) {$q++;
                                             echo '<li '.(($q == 1) ? 'class="active"' : '').'>';
-                                                echo '<h2 class="FaqQuestion"><span>'.$v['question'].'</span><i class="fa-solid fa-plus"></i></h2>';
+                                                echo '<h3 class="FaqQuestion"><span>'.$v['question'].'</span><i class="fa-solid fa-plus"></i></h3>';
                                                 echo '<div class="FaqsAnswers"><div class="AnswerContext">'.$v['answer'].'</div></div>';
                                             echo '</li>';
                                         }
