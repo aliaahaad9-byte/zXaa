@@ -23,6 +23,7 @@ if( $hometab == 'trendingcat' ) {
     $arguments['meta_key'] = 'trending';
     $arguments['orderby'] = 'meta_value_num';
 }else if( $hometab == 'last_update' ) {
+    $arguments['orderby'] = 'modified';
     $arguments['order'] = 'DESC';
 }else if( $hometab == 'rand' ) {
     $arguments['orderby'] = 'rand';

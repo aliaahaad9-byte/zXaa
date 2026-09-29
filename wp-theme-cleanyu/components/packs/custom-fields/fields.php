@@ -284,6 +284,18 @@ $metaboxes['countryOptions'] = array(
 			'type'  => 'text',
 			'id'    => 'whatsapp_number',
 		),
+		array(
+			'name'  => 'عنوان فرع المدينة (يظهر في الفوتر)',
+			'nameEN'=> 'Branch address',
+			'type'  => 'text',
+			'id'    => 'branch_address',
+		),
+		array(
+			'name'  => 'رابط موقع الفرع على خرائط جوجل (اختياري)',
+			'nameEN'=> 'Branch map link',
+			'type'  => 'text',
+			'id'    => 'branch_map',
+		),
 		
 	),
 );

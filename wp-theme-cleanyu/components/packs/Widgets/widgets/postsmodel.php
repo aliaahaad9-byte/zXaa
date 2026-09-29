@@ -48,6 +48,13 @@ class Theme__WidgetModel__postsmodel extends WP_Widget {
             $arguments['orderby'] = 'rand';
         }else if( $orderby == 'old' ) {
             $arguments['order'] = 'ASC';
+        }else if( $orderby == 'published' ) {
+            $arguments['orderby'] = 'date';
+            $arguments['order']   = 'DESC';
+        }else {
+            // «احدث الاخبار» (الافتراضي): المقالات الأحدث تحديثًا أولًا، لا الأحدث نشرًا فقط
+            $arguments['orderby'] = 'modified';
+            $arguments['order']   = 'DESC';
         }
 
         if( $custom_category != false and $custom_category != 'all' ) {
@@ -183,7 +190,8 @@ class Theme__WidgetModel__postsmodel extends WP_Widget {
                         "name"    => $this->get_field_name("orderby"),
                         "options"   => array(
                             "trending"  => "اخبار ترند",
-                            "date"  => "احدث الاخبار",
+                            "date"  => "احدث الاخبار (حسب آخر تحديث)",
+                            "published"  => "حسب تاريخ النشر فقط",
                             "rand"  => "مقالات عشوائية",
                             "old"  => "اقدم الاخبار",
                         )

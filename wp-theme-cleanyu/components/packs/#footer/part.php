@@ -36,6 +36,15 @@ foreach( preg_split('/\r\n|\r|\n/', $work_hours_raw) as $line ) {
 $Whatsapp = get_option('Whatsapp');
 $Phone = get_option('Phone');
 $Adress = get_option('Adress');
+$AdressMap = '';
+// عنوان فرع المدينة الحالية إن وُجد، وإلا العنوان العام
+if( function_exists('yc_city_branch_address') ) {
+	$yc_branch = yc_city_branch_address();
+	if( $yc_branch['address'] !== '' ) {
+		$Adress    = esc_html( $yc_branch['address'] );
+		$AdressMap = $yc_branch['map'];
+	}
+}
 $map = get_option('map');
 $email = get_option('email');
 if( empty($email) ) {
@@ -135,7 +144,11 @@ elseif( is_tax('country') ) {
 	                    echo'<svg-phone><svg class="address" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#fff" role="img" focusable="false" aria-hidden="true" viewBox="0 0 512 512"> <title id="icon-address">address</title><path d="m256 53c-80 0-144 65-144 145c0 32 10 62 28 86l93 161c0 1 1 2 2 3l0 0l0 0c5 6 12 11 21 11c8 0 15-4 20-10l0 1l1-2c1-2 2-4 3-6l91-157c18-24 29-55 29-87c0-80-64-145-144-145z m-1 218c-40 0-72-32-72-71c0-40 32-71 72-71c39 0 71 31 71 71c0 39-32 71-71 71z"></path></svg></svg-phone>';
 	                    echo '<div class="info-footer">';
 	                    	echo '<span>العنوان :</span>';
-	                    	echo'<span>'.$Adress.'</span>';
+	                    	if( $AdressMap !== '' ) {
+	                    		echo'<span><a href="'.esc_url($AdressMap).'" target="_blank" rel="noopener" style="color:inherit">'.$Adress.'</a></span>';
+	                    	}else {
+	                    		echo'<span>'.$Adress.'</span>';
+	                    	}
 	                	echo'</div>';
 	                echo'</div>';
 	            echo'</div>';

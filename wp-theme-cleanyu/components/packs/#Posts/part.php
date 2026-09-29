@@ -28,6 +28,9 @@ if(!isset($arguments)){
 	    $arguments['orderby'] = 'rand';
 	}else if( $orderby == 'old' ) {
 	    $arguments['order'] = 'ASC';
+	}else if( $orderby == 'modified' ) {
+	    $arguments['orderby'] = 'modified';
+	    $arguments['order'] = 'DESC';
 	}
 	//
 	if(isset($term)){

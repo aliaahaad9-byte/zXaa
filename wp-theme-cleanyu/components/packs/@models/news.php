@@ -26,7 +26,7 @@ echo '<div class="-single-blog-box">';
          echo '<div class="postgrid-boxed">';
             echo '<h2>احدث المقالات</h2>';
 
-            $this->Part('Posts',array('AutoLoadmore'=>false,'UniqId'=>$UniqId,'AutoLoadmore'=>true));
+            $this->Part('Posts',array('AutoLoadmore'=>true,'UniqId'=>$UniqId,'orderby'=>'modified'));
          echo '</div>';
       echo '</div>';
       echo '<div class="-single-parent-post--sidebar">';
