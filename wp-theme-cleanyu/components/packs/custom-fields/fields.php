@@ -11,6 +11,11 @@ foreach( glob($ModelsPath.'/*.php') as $model ) {
 	$modelname = str_replace(array('-', '_'), ' ', $modelname);
 	$models[$model_ID] = ucfirst($modelname);
 }
+// أسماء عربية للنماذج الجديدة
+$yc_model_labels = array( 'calculator' => 'حاسبة الأسعار', 'offers' => 'صفحة العروض' );
+foreach( $yc_model_labels as $yc_k => $yc_l ) {
+	if( isset($models[$yc_k]) ) { $models[$yc_k] = $yc_l; }
+}
 $metaboxes['PageOptions'] = array(
 	'context' => 'normal', // normal - side
 	'priority'=> 'high', // high - low - default

@@ -1,0 +1,126 @@
+/* حاسبة الأسعار + العروض — كل القيم من متغيّرات القالب في main.css */
+.yc-pt-page{--p-brand:var(--uicolor);--p-brand-d:#1d4b92;--p-soft:#2764c314;--p-wa:#0b6e57;--p-ok:#0f7a3b;
+  --p-title:var(--titlecolor);--p-text:var(--contentcolor);--p-line:var(--border);
+  font-family:var(--ffamily);color:var(--p-text);display:block;padding:18px 0 48px}
+.yc-pt-page *{box-sizing:border-box}
+.yc-pt-page svg{fill:currentColor;display:block}
+.yc-pt-crumb{margin-bottom:16px;font-size:13.5px}
+.yc-pt-head{text-align:center;max-width:780px;margin:0 auto 26px}
+.yc-pt-head h1{margin:0 0 10px;font-size:32px;font-weight:800;color:var(--p-title);line-height:1.4}
+.yc-pt-intro,.yc-pt-intro p{font-size:16px;line-height:1.9;color:var(--p-text);margin:0}
+.yc-pt-empty{text-align:center;padding:30px;background:#fff;border:1px dashed var(--p-line);border-radius:var(--largeradius)}
+
+/* الأزرار */
+.yc-pt-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 18px;border-radius:var(--miniradius);
+  font-size:15.5px;font-weight:700;text-decoration:none;transition:var(--transition);border:0;cursor:pointer;width:100%}
+.yc-pt-btn svg{width:18px;height:18px}
+.yc-pt-btn--wa{background:var(--p-wa);color:#fff}
+.yc-pt-btn--wa:hover{background:#085a47;color:#fff}
+.yc-pt-btn--wa[aria-disabled=true]{background:#9aa5ad;cursor:not-allowed}
+.yc-pt-btn--call{background:var(--p-soft);color:var(--p-brand-d)}
+.yc-pt-btn--call:hover{background:var(--p-brand);color:#fff}
+.yc-pt-btn:focus-visible,.yc-calc button:focus-visible,.yc-calc input:focus-visible,.yc-calc select:focus-visible{outline:3px solid #2764c380;outline-offset:2px}
+
+/* ============ الحاسبة ============ */
+.yc-calc__tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+.yc-calc__tabs button{display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:9px 18px;border-radius:99px;
+  border:1px solid var(--p-line);background:#fff;color:var(--p-title);font:inherit;font-size:15px;font-weight:700;cursor:pointer;
+  transition:var(--transition);box-shadow:0 1px 4px #0c0c0c0d}
+.yc-calc__tabs button i{width:28px;height:28px;border-radius:50%;background:var(--p-soft);color:var(--p-brand);display:grid;place-items:center}
+.yc-calc__tabs button i svg{width:14px;height:14px}
+.yc-calc__tabs button:hover{border-color:var(--p-brand)}
+.yc-calc__tabs button[aria-selected=true]{background:var(--p-brand);border-color:var(--p-brand);color:#fff}
+.yc-calc__tabs button[aria-selected=true] i{background:#ffffff2e;color:#fff}
+.yc-calc__tabcount{min-width:22px;height:22px;border-radius:99px;background:var(--p-ok);color:#fff;font-size:12px;display:grid;place-items:center;padding:0 6px}
+
+.yc-calc__body{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:22px;align-items:start}
+.yc-calc__panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.yc-calc__panel[hidden]{display:none}
+.yc-calc__item{display:flex;flex-direction:column;justify-content:space-between;gap:14px;background:#fff;border:1px solid var(--p-line);
+  border-radius:var(--largeradius);padding:18px 20px;transition:var(--transition)}
+.yc-calc__item.is-on{border-color:var(--p-brand);box-shadow:0 0 0 3px #2764c31f}
+.yc-calc__info h3{margin:0 0 6px;font-size:17px;font-weight:700;color:var(--p-title);line-height:1.5}
+.yc-calc__info p{margin:0 0 10px;font-size:14px;line-height:1.8;color:var(--p-text)}
+.yc-calc__price{display:inline-block;background:var(--p-soft);color:var(--p-brand-d);border-radius:99px;padding:4px 12px;font-size:13.5px;font-weight:600}
+.yc-calc__price b{font-size:16px;direction:ltr;display:inline-block}
+.yc-calc__minq{display:block;margin-top:6px;font-size:12.5px;color:var(--p-text)}
+.yc-calc__qty{display:flex;align-items:center;border:1px solid var(--p-line);border-radius:var(--miniradius);overflow:hidden;align-self:flex-start}
+.yc-calc__qty button{width:46px;height:46px;border:0;background:var(--bkground);color:var(--p-title);font-size:22px;cursor:pointer;transition:var(--transition)}
+.yc-calc__qty button:hover{background:var(--p-brand);color:#fff}
+.yc-calc__qty input{width:74px;height:46px;border:0;text-align:center;font:inherit;font-size:17px;font-weight:700;color:var(--p-title);background:#fff;-moz-appearance:textfield}
+.yc-calc__qty input::-webkit-outer-spin-button,.yc-calc__qty input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+.yc-calc__sum{position:sticky;top:96px;background:#fff;border:1px solid var(--p-line);border-radius:var(--largeradius);padding:22px;
+  box-shadow:0 6px 24px #0c0c0c12;display:flex;flex-direction:column;gap:12px}
+.yc-calc__sum h2{margin:0;font-size:19px;font-weight:800;color:var(--p-title)}
+.yc-calc__none{margin:0;font-size:14px;line-height:1.8;color:var(--p-text)}
+.yc-calc__lines{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;max-height:280px;overflow:auto}
+.yc-calc__lines li{display:grid;grid-template-columns:1fr auto 28px;gap:8px;align-items:center;font-size:14px;border-bottom:1px dashed var(--p-line);padding-bottom:8px}
+.yc-calc__lines b{color:var(--p-title);white-space:nowrap}
+.yc-calc__rm{width:28px;height:28px;border-radius:50%;border:0;background:#fdecec;color:#b32d2e;cursor:pointer;font-size:12px}
+.yc-calc__totals{margin:0;display:flex;flex-direction:column;gap:6px}
+.yc-calc__totals[hidden]{display:none}
+.yc-calc__totals div{display:flex;justify-content:space-between;gap:10px;font-size:14.5px}
+.yc-calc__totals dt{margin:0}.yc-calc__totals dd{margin:0;font-weight:700;color:var(--p-title);white-space:nowrap}
+.yc-calc__grand{border-top:1px solid var(--p-line);padding-top:10px;margin-top:4px}
+.yc-calc__grand dt{font-weight:800;color:var(--p-title)}
+.yc-calc__grand dd{font-size:22px;font-weight:800;color:var(--p-brand)!important}
+.yc-calc__minmsg{margin:0;background:#fff4e5;color:#8a4b00;border-radius:10px;padding:8px 12px;font-size:13.5px}
+.yc-calc__city{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:600;color:var(--p-title)}
+.yc-calc__city select{height:44px;border:1px solid var(--p-line);border-radius:var(--miniradius);padding:0 10px;font:inherit;background:#fff}
+.yc-calc__reset{background:none;border:0;color:#b32d2e;font:inherit;font-size:13px;cursor:pointer;align-self:center;text-decoration:underline}
+.yc-calc__note{margin:0;font-size:12.5px;line-height:1.8;color:var(--p-text);text-align:center}
+
+/* ============ العروض ============ */
+.yc-offers__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.yc-offer{background:#fff;border:1px solid var(--p-line);border-radius:var(--largeradius);overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 2px 10px #0c0c0c0d;transition:var(--transition)}
+.yc-offer:hover{transform:translateY(-3px);box-shadow:0 10px 28px #0c0c0c1a}
+.yc-offer.is-featured{border:2px solid var(--p-brand)}
+.yc-offer__media{position:relative;height:180px;background:linear-gradient(135deg,#eaf1fb,#dbe7f8);display:grid;place-items:center}
+.yc-offer__media img{width:100%;height:100%;object-fit:cover;display:block}
+.yc-offer__icon{width:78px;height:78px;border-radius:22px;background:#fff;color:var(--p-brand);display:grid;place-items:center;box-shadow:0 6px 18px #1d4b9222}
+.yc-offer__icon svg{width:36px;height:36px}
+.yc-offer__save{position:absolute;top:14px;inset-inline-start:14px;background:#c62828;color:#fff;font-weight:800;font-size:14px;border-radius:99px;padding:5px 13px}
+.yc-offer__badge{position:absolute;top:14px;inset-inline-end:14px;background:var(--p-brand);color:#fff;font-weight:700;font-size:13px;border-radius:99px;padding:5px 13px}
+.yc-offer__body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.yc-offer__cat{font-size:13px;font-weight:700;color:var(--p-brand)}
+.yc-offer__body h2{margin:0;font-size:19px;font-weight:800;color:var(--p-title);line-height:1.5}
+.yc-offer__price{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.yc-offer__price b{font-size:30px;font-weight:800;color:var(--p-brand);line-height:1;direction:ltr}
+.yc-offer__price span{font-size:15px;font-weight:700;color:var(--p-title)}
+.yc-offer__price del{font-size:15px;color:#8a949b;margin-inline-start:6px}
+.yc-offer__feats{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.yc-offer__feats li{display:flex;gap:8px;align-items:flex-start;font-size:14.5px;line-height:1.7;color:var(--p-title)}
+.yc-offer__feats svg{flex-shrink:0;width:15px;height:15px;margin-top:5px;color:var(--p-ok)}
+.yc-offer__exp{margin:auto 0 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;color:var(--p-text);
+  background:var(--bkground);border-radius:10px;padding:8px 10px}
+.yc-offer__exp svg{width:13px;height:13px;color:var(--p-brand)}
+.yc-offer__exp b{color:#c62828}
+.yc-offer__exp.is-over{color:#b32d2e}
+.yc-offer__cta{display:grid;grid-template-columns:1fr auto;gap:8px}
+.yc-offer__cta .yc-pt-btn--call{width:auto;padding:10px 16px}
+
+@media only screen and (max-width:1100px){
+  .yc-calc__body{grid-template-columns:1fr}
+  .yc-calc__sum{position:static}
+}
+@media only screen and (max-width:780px){
+  .yc-pt-head h1{font-size:24px}
+  .yc-pt-intro,.yc-pt-intro p{font-size:15px}
+  .yc-calc__tabs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:6px;margin-inline:-16px;padding-inline:16px;scrollbar-width:thin}
+  .yc-calc__tabs button{flex-shrink:0}
+  .yc-calc__panel{grid-template-columns:1fr}
+  .yc-calc__item{padding:16px}
+  .yc-calc__sum{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){.yc-offer,.yc-offer:hover{transition:none;transform:none}}
+/* إجمالي مختصر للجوال والتابلت — يقود إلى الملخص أسفل القائمة */
+.yc-calc__mini{display:none}
+@media only screen and (max-width:1100px){
+  .yc-calc__mini:not([hidden]){display:flex;justify-content:space-between;align-items:center;gap:10px;margin:-8px 0 16px;
+    background:#fff;border:1px solid var(--p-brand);border-radius:var(--miniradius);padding:10px 14px;text-decoration:none;color:var(--p-title);font-size:14.5px}
+  .yc-calc__mini b{color:var(--p-brand);font-size:17px}
+  .yc-calc__mini em{font-style:normal;font-weight:700;color:var(--p-brand);font-size:13.5px}
+  .yc-calc__sum{scroll-margin-top:90px}
+}
