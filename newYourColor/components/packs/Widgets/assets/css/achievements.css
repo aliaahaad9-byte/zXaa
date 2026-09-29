@@ -1,12 +1,12 @@
 /* ==========================================================================
    [Widget] إنجازاتنا بالأرقام
-   القيم من متغيّرات القالب (main.css). الأبيض على #1682d7 = 4.03:1 فقط،
-   فالشريط الأزرق الذي عليه نص أبيض يستخدم #1068ae (5.81:1) وما أغمق.
+   لون الويدجيت برتقالي. الأبيض على البرتقالي المعتاد #f97316 = 2.8:1 فقط،
+   فهو للّمسات الفاتحة؛ والنص الأبيض يقع على #c2410c (5.18:1) وما أغمق.
    ========================================================================== */
 .ach {
-	--ach-brand: var(--uicolor, #1682d7);
-	--ach-ink: #1068ae;
-	--ach-ink-deep: #0d5a97;
+	--ach-brand: #f97316;
+	--ach-ink: #c2410c;
+	--ach-ink-deep: #9a3412;
 	--ach-green: #25863c;
 	--ach-title: var(--titlecolor, #011e12);
 	--ach-muted: var(--contentcolor, #455b6c);
@@ -18,8 +18,8 @@
 	position: relative;
 	padding-block: 72px;
 	background:
-		radial-gradient(900px 380px at 50% 0%, rgba(22, 130, 215, .09), transparent 70%),
-		var(--bkground, #f2f4fa);
+		radial-gradient(900px 380px at 50% 0%, rgba(249, 115, 22, .10), transparent 70%),
+		#fff8f3;
 	font-family: var(--ffamily, Alexandria), system-ui, sans-serif;
 	direction: rtl;
 	text-align: center;
@@ -33,7 +33,7 @@
 	display: inline-flex; align-items: center; gap: 8px;
 	padding: 8px 18px;
 	border-radius: 999px;
-	background: rgba(22, 130, 215, .1);
+	background: rgba(249, 115, 22, .1);
 	color: var(--ach-ink);
 	font-size: 14px; font-weight: 700;
 	margin-bottom: 16px;
@@ -81,7 +81,7 @@
 	transform: scaleX(0);
 	transition: transform .25s ease;
 }
-.ach__item:hover { transform: translateY(-4px); border-color: rgba(22, 130, 215, .35); }
+.ach__item:hover { transform: translateY(-4px); border-color: rgba(249, 115, 22, .35); }
 .ach__item:hover::before { transform: scaleX(1); }
 /* القالب يطبّق على كل i.fa-solid.fa-star وزنًا خفيفًا وحجمًا صغيرًا (لنجوم التقييم) — نعيد ضبطه هنا فقط */
 .ach .ach__icon i[class*="fa-"] { font-size: inherit; margin: 0; font-weight: 900; }
@@ -89,7 +89,7 @@
 	width: 52px; height: 52px;
 	display: inline-flex; align-items: center; justify-content: center;
 	border-radius: 15px;
-	background: rgba(22, 130, 215, .1);
+	background: rgba(249, 115, 22, .1);
 	color: var(--ach-ink);
 	font-size: 21px;
 	margin-bottom: 8px;
@@ -116,7 +116,7 @@
 	padding: 32px 38px;
 	border-radius: var(--ach-r-lg);
 	background: linear-gradient(135deg, var(--ach-ink) 0%, var(--ach-ink-deep) 100%);
-	box-shadow: 0 18px 40px rgba(13, 90, 151, .25);
+	box-shadow: 0 18px 40px rgba(154, 52, 18, .25);
 	text-align: start;
 	overflow: hidden;
 	isolation: isolate;
