@@ -17,14 +17,11 @@ if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '
     }
 }
 if(IsSpeed() == false){
-    $fontawesomePath = $this->StylesPath."fontawesome/css/*.css";
-$fontawesomeCss = glob($fontawesomePath);
-
+// تحميل أنماط Font Awesome المستخدمة فعلًا فقط بدل كل ملفات المجلد (كانت 34 ملفًا مع تكرار fontawesome.css)
+// solid يغطي أيضًا الأيقونات المحفوظة بصيغة "fa fa-…" من منتقي الأيقونات
 $fontawesomeURL = $this->StylesURL.'fontawesome/css/';
-
-echo '<link rel="stylesheet" href="'.$fontawesomeURL.'fontawesome.css">';
-foreach ( $fontawesomeCss as $file ) {
-    echo '<link rel="stylesheet" href="'.$fontawesomeURL.basename($file).'">';				
+foreach ( array( 'fontawesome', 'solid', 'regular', 'light', 'thin', 'duotone', 'brands' ) as $fa_style ) {
+    echo '<link rel="stylesheet" href="'.$fontawesomeURL.$fa_style.'.css">';
 }
 }
 

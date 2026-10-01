@@ -161,6 +161,8 @@ $post_tag = ((is_array(get_the_terms($post->ID,'post_tag',true)))) ? get_the_ter
     }
     }
 $show_coverimage = get_option('show_coverimage');
+// أول صورة ظاهرة أعلى المقال تُحمَّل مباشرة بأولوية عالية؛ صورة واحدة فقط تأخذ fetchpriority
+$yc_lcp_claimed = false;
  $postcovers = get_post_meta($post->ID, 'imagescovers', true);
 if(IsSpeed() == false){
     if(wp_is_mobile()){
@@ -177,7 +179,12 @@ if(IsSpeed() == false){
                             $image_id = attachment_url_to_postid($image_url);
                             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
                             if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false) {
-                                echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
+                                if( !$yc_lcp_claimed ) {
+                                    echo '<img src="'.$src.'" fetchpriority="high" width="100%" height="100%" alt="'.$image_alt.'" />';
+                                    $yc_lcp_claimed = true;
+                                } else {
+                                    echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
+                                }
                             }
                             echo '</div>';
                         }
@@ -192,7 +199,12 @@ if(IsSpeed() == false){
                                 $image_id = attachment_url_to_postid($image_url);
                                 $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
                                 if (strpos((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'Lighthouse') === false) {
-                                    echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
+                                    if( !$yc_lcp_claimed ) {
+                                        echo '<img src="'.$src.'" fetchpriority="high" width="100%" height="100%" alt="'.$image_alt.'" />';
+                                        $yc_lcp_claimed = true;
+                                    } else {
+                                        echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
+                                    }
                                 }
                                 echo '</div>';
                             echo '</div>';
@@ -214,8 +226,11 @@ $author_name = get_the_author_meta( 'display_name' , $author_id );
         'id' => $img_id,
         'size' => $Image__size__value ,
         'alt' =>  $post->post_title,
+        'lazyload' => false,
+        'fetchpriority' => $yc_lcp_claimed ? '' : 'high',
     ]);
-echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' data-loader-style="--bg-post:url('.get_template_directory_uri().'/components/styles/img/shape_bkground.jpg'.')"': '' ).'>';
+// الخلفية مباشرة في style بدل data-loader-style — كانت تظهر متأخرة فتُحسب أكبر عنصر (LCP)
+echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' style="--bg-post:url('.get_template_directory_uri().'/components/styles/img/shape_bkground.jpg'.')"': '' ).'>';
     echo '<div class="single-post">';
         echo '<div class="container">';
             echo '<div class="-single-parent-box">';

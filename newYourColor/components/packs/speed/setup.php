@@ -56,6 +56,10 @@ function IsSpeed() {
         $imageAttributes['src'] =$src ;
     }
     $imageAttributes['alt'] = isset($alt) ? $alt : (isset($attch_data['image_meta']['alt']) ? $attch_data['image_meta']['alt'] : '');
+    // أولوية تحميل عالية لأكبر صورة في أعلى الصفحة (LCP)
+    if( !empty($fetchpriority) ){
+        $imageAttributes['fetchpriority'] = $fetchpriority;
+    }
 
 
     if( $return_output == false ) return $imageAttributes;
