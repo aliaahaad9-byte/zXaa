@@ -1,0 +1,174 @@
+/* ==========================================================================
+   [Widget] إنجازاتنا بالأرقام
+   لون الويدجيت برتقالي. الأبيض على البرتقالي المعتاد #f97316 = 2.8:1 فقط،
+   فهو للّمسات الفاتحة؛ والنص الأبيض يقع على #c2410c (5.18:1) وما أغمق.
+   ========================================================================== */
+.ach {
+	--ach-brand: #f97316;
+	--ach-ink: #c2410c;
+	--ach-ink-deep: #9a3412;
+	--ach-green: #25863c;
+	--ach-title: var(--titlecolor, #011e12);
+	--ach-muted: var(--contentcolor, #455b6c);
+	--ach-line: var(--border, #d7d9df);
+	--ach-shadow: var(--box-shadow, 0 20px 60px 0px rgba(59, 42, 130, .06));
+	--ach-r: var(--miniradius, 20px);
+	--ach-r-lg: var(--largeradius, 30px);
+	--ach-t: var(--transition, all 0.2s ease);
+	position: relative;
+	padding-block: 72px;
+	background:
+		radial-gradient(900px 380px at 50% 0%, rgba(249, 115, 22, .10), transparent 70%),
+		#fff8f3;
+	font-family: var(--ffamily, Alexandria), system-ui, sans-serif;
+	direction: rtl;
+	text-align: center;
+}
+.ach *, .ach *::before, .ach *::after { box-sizing: border-box; }
+.ach h2, .ach h3, .ach p { margin: 0; }
+
+/* الرأس */
+.ach__head { max-width: 720px; margin: 0 auto 40px; }
+.ach__eyebrow {
+	display: inline-flex; align-items: center; gap: 8px;
+	padding: 8px 18px;
+	border-radius: 999px;
+	background: rgba(249, 115, 22, .1);
+	color: var(--ach-ink);
+	font-size: 14px; font-weight: 700;
+	margin-bottom: 16px;
+}
+.ach__eyebrow i { font-size: 14px; }
+.ach__title {
+	font-size: 32px; font-weight: 800; line-height: 1.4;
+	color: var(--ach-title);
+	letter-spacing: -0.3px;
+}
+.ach__lead {
+	margin-top: 14px !important;
+	font-size: 16px; line-height: 2;
+	color: var(--ach-muted);
+}
+
+/* شبكة الأرقام — أعمدة متساوية وارتفاع موحّد */
+.ach__grid {
+	list-style: none; margin: 0; padding: 0;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 18px;
+}
+.ach__grid--3 { grid-template-columns: repeat(3, 1fr); }
+.ach__grid--2 { grid-template-columns: repeat(2, 1fr); }
+.ach__grid--1 { grid-template-columns: 1fr; }
+.ach__item {
+	position: relative;
+	display: flex; flex-direction: column; align-items: center; justify-content: center;
+	gap: 6px;
+	min-height: 184px;
+	padding: 26px 16px 22px;
+	background: #fff;
+	border: 1px solid var(--ach-line);
+	border-radius: var(--ach-r);
+	box-shadow: var(--ach-shadow);
+	overflow: hidden;
+	transition: var(--ach-t);
+}
+.ach__item::before {
+	content: "";
+	position: absolute; top: 0; inset-inline: 0;
+	height: 4px;
+	background: var(--ach-brand);
+	transform: scaleX(0);
+	transition: transform .25s ease;
+}
+.ach__item:hover { transform: translateY(-4px); border-color: rgba(249, 115, 22, .35); }
+.ach__item:hover::before { transform: scaleX(1); }
+/* القالب يطبّق على كل i.fa-solid.fa-star وزنًا خفيفًا وحجمًا صغيرًا (لنجوم التقييم) — نعيد ضبطه هنا فقط */
+.ach .ach__icon i[class*="fa-"] { font-size: inherit; margin: 0; font-weight: 900; }
+.ach__icon {
+	width: 52px; height: 52px;
+	display: inline-flex; align-items: center; justify-content: center;
+	border-radius: 15px;
+	background: rgba(249, 115, 22, .1);
+	color: var(--ach-ink);
+	font-size: 21px;
+	margin-bottom: 8px;
+}
+.ach__value {
+	display: block;
+	font-size: 34px; font-weight: 800; line-height: 1.15;
+	color: var(--ach-title);
+	font-variant-numeric: tabular-nums;
+	unicode-bidi: isolate;
+	white-space: nowrap;
+}
+.ach__label {
+	font-size: 14.5px; font-weight: 600; line-height: 1.6;
+	color: var(--ach-muted);
+}
+
+/* شريط الدعوة */
+.ach__cta {
+	position: relative;
+	display: flex; align-items: center; justify-content: space-between;
+	gap: 24px;
+	margin-top: 26px;
+	padding: 32px 38px;
+	border-radius: var(--ach-r-lg);
+	background: linear-gradient(135deg, var(--ach-ink) 0%, var(--ach-ink-deep) 100%);
+	box-shadow: 0 18px 40px rgba(154, 52, 18, .25);
+	text-align: start;
+	overflow: hidden;
+	isolation: isolate;
+}
+.ach__cta::before,
+.ach__cta::after {
+	content: "";
+	position: absolute; z-index: -1;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .07);
+}
+.ach__cta::before { width: 260px; height: 260px; inset-inline-end: -80px; top: -130px; }
+.ach__cta::after  { width: 180px; height: 180px; inset-inline-start: 18%; bottom: -120px; }
+.ach__cta h3 { font-size: 23px; font-weight: 800; line-height: 1.5; color: #fff; }
+.ach__cta p { margin-top: 4px !important; font-size: 15.5px; line-height: 1.9; color: rgba(255, 255, 255, .92); }
+.ach__btn {
+	flex: none;
+	display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+	min-height: 54px;
+	padding: 0 28px;
+	border-radius: 12px;
+	background: #fff;
+	color: var(--ach-green);
+	font-size: 16px; font-weight: 800;
+	text-decoration: none;
+	box-shadow: 0 10px 24px rgba(0, 0, 0, .15);
+	transition: var(--ach-t);
+}
+.ach__btn i { font-size: 22px; }
+.ach__btn:hover { transform: translateY(-2px); color: var(--ach-green); box-shadow: 0 14px 28px rgba(0, 0, 0, .2); }
+.ach__btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* الاستجابة */
+@media (max-width: 1024px) {
+	.ach__grid, .ach__grid--3 { grid-template-columns: repeat(2, 1fr); }
+	.ach__title { font-size: 27px; }
+}
+@media (max-width: 680px) {
+	.ach { padding-block: 48px; }
+	.ach__head { margin-bottom: 28px; }
+	.ach__title { font-size: 23px; }
+	.ach__lead { font-size: 15px; }
+	.ach__grid { gap: 12px; }
+	.ach__item { min-height: 158px; padding: 20px 10px 18px; }
+	.ach__icon { width: 44px; height: 44px; font-size: 18px; border-radius: 13px; }
+	.ach__value { font-size: 26px; }
+	.ach__label { font-size: 13px; }
+	.ach__cta { flex-direction: column; align-items: stretch; text-align: center; padding: 26px 20px; }
+	.ach__cta h3 { font-size: 19px; }
+	.ach__btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.ach *, .ach *::before { transition-duration: .01ms !important; }
+	.ach__item:hover, .ach__btn:hover { transform: none; }
+}
