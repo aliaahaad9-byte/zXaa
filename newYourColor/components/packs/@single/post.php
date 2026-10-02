@@ -244,7 +244,6 @@ echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' style="--bg-post:url
                                 echo '<Breadcrumb>';
                                     Breadcrumb($post);
                                 echo '</Breadcrumb>';
-                                echo YC_PostDates( $post );
                             echo '</div>';
                             $hidethumb = get_option('hidethumb');
                             if(!empty($hidethumb) && $hidethumb != 'on' || empty($hidethumb)){

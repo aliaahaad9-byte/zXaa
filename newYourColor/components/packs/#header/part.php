@@ -1,5 +1,10 @@
 <?php echo '<!DOCTYPE html>';
-echo '<html lang="'.(get_option('yc_lang') ==   '' ? 'ar-eg' : get_option('yc_lang')).'" dir="rtl">';
+// لغة الصفحة: ar-SA افتراضيًا، وأي قيمة ar-eg محفوظة في الإعدادات تتحول إلى ar-SA
+$yc_lang = trim( (string) get_option('yc_lang') );
+if ( '' === $yc_lang || 'ar-eg' === strtolower( $yc_lang ) ) {
+	$yc_lang = 'ar-SA';
+}
+echo '<html lang="'.esc_attr( $yc_lang ).'" dir="rtl">';
 echo '<head>';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
 echo '<meta charset="utf-8">';
