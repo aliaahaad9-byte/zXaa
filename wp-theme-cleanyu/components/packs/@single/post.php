@@ -373,7 +373,7 @@ echo '<div class="single-post">';
                         if(!empty($questions)){
                             $faq_about = rtrim( trim( wp_strip_all_tags( get_the_title( $post ) ) ), '؟?' );
                             echo '<div class="-faqs-singlebox">';
-                                echo '<h2 class="-TitleContent-section"><i class="fa-solid fa-question"></i>الأسئلة الشائعة حول '.esc_html( $faq_about ).'؟</h2>';
+                                echo '<h2 class="-TitleContent-section"><i class="fa-solid fa-question"></i>الأسئلة الشائعة حول '.esc_html( $faq_about ).'</h2>';
                                 echo '<ul>';
                                     $q=0;
                                     foreach ($questions as $v) {$q++;
