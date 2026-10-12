@@ -112,3 +112,9 @@
   .yc-auth__exp,.yc-auth__two,.yc-auth__done{grid-template-columns:1fr}
   .yc-auth__stat b{font-size:22px}
 }
+
+/* روابط خارجية + الظهور الإعلامي */
+.yc-auth__ext i,.yc-auth__media i{background:var(--a-soft);color:var(--a-brand)}
+.yc-auth__ext a,.yc-auth__media a{display:block;font-size:inherit;margin:0;color:var(--a-title);text-decoration:none}
+.yc-auth__ext a:hover b,.yc-auth__media a:hover b{color:var(--a-brand);text-decoration:underline}
+.yc-auth__ext span[dir=ltr]{text-align:start;unicode-bidi:plaintext}

@@ -216,6 +216,50 @@ echo '<div class="container">';
     echo '</div>';
   }
 
+  /* ---------- 6.5) الحضور الخارجي والإعلامي ---------- */
+  $ids_links = array();
+  if ( $a['wikipedia'] ) { $ids_links[] = array( 'wikipedia', 'ويكيبيديا', $a['wikipedia'] ); }
+  if ( $a['wikidata'] )  { $ids_links[] = array( 'wikidata', 'ويكي بيانات (Wikidata)', $a['wikidata'] ); }
+  if ( $a['kg'] )        { $ids_links[] = array( 'google', 'لوحة المعرفة في جوجل', $a['kg'] ); }
+  foreach ( $a['links'] as $l ) {
+    $host = (string) wp_parse_url( $l['url'], PHP_URL_HOST );
+    $ids_links[] = array( 'link', '' !== $l['label'] ? $l['label'] : preg_replace( '/^www\./', '', $host ), $l['url'] );
+  }
+  if ( $ids_links || $a['media'] ) {
+    echo '<div class="yc-auth__two' . ( $ids_links && $a['media'] ? '' : ' yc-auth__two--one' ) . '">';
+    if ( $ids_links ) {
+      echo '<div class="yc-auth__card">';
+        echo $yc_head( 'site', 'روابط وتعريفات خارجية' );
+        echo '<ul class="yc-auth__list yc-auth__ext">';
+        foreach ( $ids_links as $l ) {
+          $host = preg_replace( '/^www\./', '', (string) wp_parse_url( $l[2], PHP_URL_HOST ) );
+          echo '<li><i>' . yc_author_svg( $l[0] ) . '</i><div><a href="' . esc_url( $l[2] ) . '" target="_blank" rel="me noopener"><b>' . esc_html( $l[1] ) . '</b></a><span dir="ltr">' . esc_html( $host ) . '</span></div></li>';
+        }
+        echo '</ul>';
+      echo '</div>';
+    }
+    if ( $a['media'] ) {
+      $mtypes = yc_author_media_types();
+      echo '<div class="yc-auth__card">';
+        echo $yc_head( 'mic', 'في وسائل الإعلام' );
+        echo '<ul class="yc-auth__list yc-auth__media">';
+        foreach ( $a['media'] as $md ) {
+          $t   = isset( $mtypes[ $md['type'] ] ) ? $mtypes[ $md['type'] ] : $mtypes['news'];
+          $sub = array_filter( array( $md['outlet'], $t[0], $md['date'] ? date_i18n( 'j F Y', strtotime( $md['date'] ) ) : '' ) );
+          $ttl = '' !== $md['title'] ? $md['title'] : $md['outlet'];
+          echo '<li><i>' . yc_author_svg( $t[1] ) . '</i><div>';
+            echo $md['url'] ? '<a href="' . esc_url( $md['url'] ) . '" target="_blank" rel="noopener"><b>' . esc_html( $ttl ) . '</b></a>' : '<b>' . esc_html( $ttl ) . '</b>';
+            if ( $sub ) {
+              echo '<span>' . esc_html( implode( ' · ', $sub ) ) . '</span>';
+            }
+          echo '</div></li>';
+        }
+        echo '</ul>';
+      echo '</div>';
+    }
+    echo '</div>';
+  }
+
   /* ---------- 7) المقالات ---------- */
   echo '<div class="yc-auth__posts">';
     echo $yc_head( 'news', 'مقالات ' . $a['name'] );
@@ -229,28 +273,56 @@ echo '<div class="container">';
 echo '</div>';
 echo '</section>';
 
-/* ---------- البيانات المنظّمة: Person ---------- */
+/* ---------- البيانات المنظّمة: ProfilePage ← Person ---------- */
+$site_name = get_option( 'sitename' ) ? get_option( 'sitename' ) : get_bloginfo( 'name' );
 $person = array(
-    '@context' => 'https://schema.org',
-    '@type'    => 'Person',
-    '@id'      => $a['url'] . '#person',
-    'name'     => $a['name'],
-    'url'      => $a['url'],
-    'image'    => $a['photo'],
+    '@type' => 'Person',
+    '@id'   => $a['url'] . '#person',
+    'name'  => $a['name'],
+    'url'   => $a['url'],
+    'image' => array( '@type' => 'ImageObject', 'url' => $a['photo'], 'caption' => $a['name'] ),
 );
-if ( '' !== $a['title'] ) { $person['jobTitle']    = $a['title']; }
-if ( '' !== $a['short'] ) { $person['description'] = $a['short']; }
-if ( $a['socials'] )      { $person['sameAs']      = array_values( $a['socials'] ); }
+if ( '' !== $a['alt_name'] ) { $person['alternateName'] = $a['alt_name']; }
+if ( '' !== $a['title'] )    { $person['jobTitle']      = $a['title']; }
+if ( '' !== $a['short'] )    { $person['description']   = $a['short']; }
+
+// sameAs: الحسابات المهنية + قواعد المعرفة + الروابط الشخصية
+$same = array_values( $a['socials'] );
+foreach ( array( $a['wikidata'], $a['wikipedia'], $a['kg'] ) as $u ) {
+    if ( $u ) { $same[] = $u; }
+}
+foreach ( $a['links'] as $l ) {
+    $same[] = $l['url'];
+}
+$same = array_values( array_unique( array_filter( $same ) ) );
+if ( $same ) { $person['sameAs'] = $same; }
+
+// معرّفات قابلة للتحقق
+$identifiers = array();
+if ( $a['wikidata'] ) {
+    $identifiers[] = array( '@type' => 'PropertyValue', 'propertyID' => 'Wikidata', 'value' => basename( $a['wikidata'] ), 'url' => $a['wikidata'] );
+}
+if ( $a['kg'] ) {
+    $identifiers[] = array( '@type' => 'PropertyValue', 'propertyID' => 'Google Knowledge Graph', 'value' => rawurldecode( substr( $a['kg'], strpos( $a['kg'], '=' ) + 1 ) ) );
+}
+if ( $identifiers ) { $person['identifier'] = $identifiers; }
 
 if ( $a['exp'] ) {
     $person['knowsAbout'] = wp_list_pluck( $a['exp'], 'title' );
 }
+$person['knowsLanguage'] = array( '@type' => 'Language', 'name' => 'Arabic', 'alternateName' => 'ar' );
 if ( '' !== $a['title'] ) {
     $occ = array( '@type' => 'Occupation', 'name' => $a['title'] );
     if ( '' !== $a['regions'] ) {
         $occ['occupationLocation'] = array( '@type' => 'AdministrativeArea', 'name' => $a['regions'] );
     }
+    if ( $a['exp'] ) {
+        $occ['skills'] = implode( '، ', wp_list_pluck( $a['exp'], 'title' ) );
+    }
     $person['hasOccupation'] = $occ;
+}
+if ( '' !== $a['regions'] ) {
+    $person['workLocation'] = array( '@type' => 'Place', 'name' => $a['regions'] );
 }
 if ( $a['certs'] ) {
     $creds = array();
@@ -268,21 +340,80 @@ if ( $a['certs'] ) {
     $person['hasCredential'] = $creds;
 }
 if ( $a['members'] ) {
-    $orgs = array();
+    $roles = array();
     foreach ( $a['members'] as $m ) {
         $org = array( '@type' => 'Organization', 'name' => $m['name'] );
         if ( ! empty( $m['url'] ) ) { $org['url'] = $m['url']; }
-        $orgs[] = $org;
+        // نوع العضوية يُمثَّل كـ Role حول المنظمة
+        $roles[] = '' !== $m['type']
+            ? array( '@type' => 'OrganizationRole', 'roleName' => $m['type'], 'memberOf' => $org )
+            : $org;
     }
-    $person['memberOf'] = $orgs;
+    $person['memberOf'] = $roles;
 }
 if ( $a['achievements'] ) {
     $person['award'] = $a['achievements'];
 }
+// الظهور الإعلامي ← subjectOf
+if ( $a['media'] ) {
+    $mtypes = yc_author_media_types();
+    $works  = array();
+    foreach ( $a['media'] as $md ) {
+        $type = isset( $mtypes[ $md['type'] ] ) ? $mtypes[ $md['type'] ][2] : 'Article';
+        $w    = array( '@type' => $type );
+        $ttl  = '' !== $md['title'] ? $md['title'] : $md['outlet'];
+        if ( in_array( $type, array( 'NewsArticle', 'Article' ), true ) ) {
+            $w['headline'] = $ttl;
+        } else {
+            $w['name'] = $ttl;
+        }
+        if ( $md['url'] )  { $w['url'] = $md['url']; }
+        if ( $md['date'] ) { $w['datePublished'] = $md['date']; }
+        if ( '' !== $md['outlet'] ) {
+            if ( 'PodcastEpisode' === $type ) {
+                $w['partOfSeries'] = array( '@type' => 'PodcastSeries', 'name' => $md['outlet'] );
+            } else {
+                $w['publisher'] = array( '@type' => 'Organization', 'name' => $md['outlet'] );
+            }
+        }
+        if ( 'CreativeWork' === $type ) { $w['genre'] = 'video'; }
+        if ( 'interview' === $md['type'] ) { $w['genre'] = 'interview'; }
+        $w['about'] = array( '@id' => $a['url'] . '#person' );
+        $works[]    = $w;
+    }
+    $person['subjectOf'] = $works;
+}
 $person['worksFor'] = array(
     '@type' => 'Organization',
-    'name'  => get_option( 'sitename' ) ? get_option( 'sitename' ) : get_bloginfo( 'name' ),
+    '@id'   => home_url( '/' ) . '#organization',
+    'name'  => $site_name,
     'url'   => home_url( '/' ),
 );
+if ( $a['posts'] > 0 ) {
+    $person['agentInteractionStatistic'] = array(
+        '@type'                => 'InteractionCounter',
+        'interactionType'      => 'https://schema.org/WriteAction',
+        'userInteractionCount' => (int) $a['posts'],
+    );
+}
 
-echo "\n" . '<script type="application/ld+json">' . wp_json_encode( $person, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG ) . '</script>' . "\n";
+// آخر تعديل = أحدث مقال للكاتب
+$last = get_posts( array( 'author' => $a['id'], 'posts_per_page' => 1, 'orderby' => 'modified', 'order' => 'DESC', 'post_type' => 'post', 'no_found_rows' => true ) );
+$profile = array(
+    '@context'   => 'https://schema.org',
+    '@type'      => 'ProfilePage',
+    '@id'        => $a['url'] . '#profilepage',
+    'url'        => $a['url'],
+    'name'       => $a['name'] . ( '' !== $a['title'] ? ' — ' . $a['title'] : '' ),
+    'inLanguage' => 'ar',
+    'isPartOf'   => array( '@type' => 'WebSite', 'url' => home_url( '/' ), 'name' => $site_name ),
+    'mainEntity' => $person,
+);
+if ( ! empty( $a['registered'] ) && '0000' !== substr( $a['registered'], 0, 4 ) ) {
+    $profile['dateCreated'] = gmdate( 'c', strtotime( $a['registered'] . ' UTC' ) );
+}
+if ( $last ) {
+    $profile['dateModified'] = get_post_modified_time( 'c', true, $last[0] );
+}
+
+echo "\n" . '<script type="application/ld+json">' . wp_json_encode( $profile, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG ) . '</script>' . "\n";

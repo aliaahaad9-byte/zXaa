@@ -51,6 +51,11 @@ function yc_author_ui_icons() {
         'facebook'  => array( '0 0 320 512', '<path d="M279.1 288l14.2-92.7h-88.9v-60.1c0-25.4 12.4-50.1 52.2-50.1h40.4V6.3S260.4 0 225.4 0c-73.2 0-121.1 44.4-121.1 124.7v70.6H22.9V288h81.4v224h100.2V288z"/>' ),
         'instagram' => array( '0 0 448 512', '<path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>' ),
         'youtube'   => array( '0 0 576 512', '<path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/>' ),
+        'wikipedia' => array( '0 0 640 512', '<path d="M640 51.2l-.3 12.2c-28.1 .8-45 15.8-55.8 40.3-25 57.8-103.3 240-155.3 358.6H415l-81.9-193.1c-32.5 63.6-68.3 130-99.2 193.1-.3 .3-15 0-15-.3C172 352.3 122.8 243.4 75.8 133.4 64.4 106.7 26.4 63.4 .2 63.7c0-3.1-.3-10-.3-14.2h161.9v13.9c-19.2 1.1-52.8 13.3-43.3 34.2 21.9 49.7 103.6 240.3 125.6 288.6 15-29.7 57.8-109.2 75.3-142.8-13.9-28.3-58.6-133.9-72.8-160-9.7-17.8-36.1-19.4-55.8-19.7V49.8l142.5 .3v13.1c-19.4 .6-38.1 7.8-29.4 26.1 18.9 40 30.6 68.1 48.1 104.7 5.6-10.8 34.7-69.4 48.1-100.8 8.9-20.6-3.9-28.6-38.6-29.4 .3-3.6 0-10.3 .3-13.6 44.4-.3 111.1-.3 123.1-.6v13.6c-22.5 .8-45.8 12.8-58.1 31.7l-59.2 122.8c6.4 16.1 63.3 142.8 69.2 156.7L559.2 91.8c-8.6-23.1-36.4-28.1-47.2-28.3V49.6l127.8 1.1 .2 .5z"/>' ),
+        'wikidata'  => array( '0 0 24 24', '<path d="M1 4h1.5v16H1zm2.5 0H6v16H3.5zm4 0H11v16H7.5zm5 0H14v16h-1.5zm2.5 0h1v16h-1zm2 0h1.5v16H17zm2.5 0H21v16h-1.5zm2.5 0h1v16h-1z"/>' ),
+        'google'    => array( '0 0 488 512', '<path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/>' ),
+        'mic'       => array( '0 0 384 512', '<path d="M192 0C139 0 96 43 96 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H120c-13.3 0-24 10.7-24 24s10.7 24 24 24h72 72c13.3 0 24-10.7 24-24s-10.7-24-24-24H216V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z"/>' ),
+        'play'      => array( '0 0 512 512', '<path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z"/>' ),
         'site'      => array( '0 0 512 512', '<path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z"/>' ),
     );
 }
@@ -173,6 +178,38 @@ function yc_author_social_fields() {
     );
 }
 
+/** أنواع الظهور الإعلامي: المفتاح => [التسمية، الأيقونة، نوع schema]. */
+function yc_author_media_types() {
+    return array(
+        'news'      => array( 'مقال صحفي', 'news', 'NewsArticle' ),
+        'interview' => array( 'مقابلة', 'mic', 'NewsArticle' ),
+        'podcast'   => array( 'بودكاست', 'mic', 'PodcastEpisode' ),
+        'video'     => array( 'فيديو / تلفزيون', 'play', 'CreativeWork' ),
+        'mention'   => array( 'ذكر / اقتباس', 'link', 'Article' ),
+    );
+}
+
+/** رابط Wikidata من رابط كامل أو رقم Q فقط. */
+function yc_author_wikidata_url( $raw ) {
+    $raw = trim( (string) $raw );
+    if ( preg_match( '/\b(Q\d+)\b/i', $raw, $m ) ) {
+        return 'https://www.wikidata.org/wiki/' . strtoupper( $m[1] );
+    }
+    return '';
+}
+
+/** رابط لوحة المعرفة في جوجل من معرّف kgmid (/g/... أو /m/...) أو رابط يحتويه. */
+function yc_author_kg_url( $raw ) {
+    $raw = trim( (string) $raw );
+    if ( preg_match( '#kgmid=([^&\s]+)#', $raw, $m ) ) {
+        $raw = rawurldecode( $m[1] );
+    }
+    if ( preg_match( '#^/[gm]/[A-Za-z0-9_]+$#', $raw ) ) {
+        return 'https://www.google.com/search?kgmid=' . rawurlencode( $raw );
+    }
+    return '';
+}
+
 /** كل بيانات الكاتب في مصفوفة واحدة جاهزة للعرض. */
 function yc_author_profile( $user_id ) {
     $user = get_userdata( $user_id );
@@ -217,6 +254,13 @@ function yc_author_profile( $user_id ) {
         'members'      => yc_author_list( $user_id, 'members' ),
         'achievements' => yc_author_lines( yc_author_get( $user_id, 'yc_author_achievements' ) ),
         'socials'      => $socials,
+        'alt_name'     => yc_author_get( $user_id, 'yc_author_alt_name' ),
+        'wikidata'     => yc_author_wikidata_url( yc_author_get( $user_id, 'yc_author_wikidata' ) ),
+        'wikipedia'    => yc_author_get( $user_id, 'yc_author_wikipedia' ),
+        'kg'           => yc_author_kg_url( yc_author_get( $user_id, 'yc_author_kgmid' ) ),
+        'links'        => (array) ( is_array( get_user_meta( $user_id, 'yc_author_ext_links', true ) ) ? get_user_meta( $user_id, 'yc_author_ext_links', true ) : array() ),
+        'media'        => (array) ( is_array( get_user_meta( $user_id, 'yc_author_media', true ) ) ? get_user_meta( $user_id, 'yc_author_media', true ) : array() ),
+        'registered'   => $user->user_registered,
         'posts'        => (int) count_user_posts( $user_id, 'post' ),
         'url'          => get_author_posts_url( $user_id ),
     );
@@ -315,6 +359,43 @@ function yc_author_member_row( $i, $r ) {
     return ob_get_clean();
 }
 
+/** صف رابط شخصي خارجي. */
+function yc_author_link_row( $i, $r ) {
+    $r = wp_parse_args( $r, array( 'label' => '', 'url' => '' ) );
+    $n = 'yc_link[' . $i . ']';
+    ob_start();
+    ?>
+    <div class="yc-rep__row">
+        <div class="yc-grid yc-grid--2">
+            <p><label>اسم الموقع / المنصة</label><input type="text" name="<?php echo esc_attr( $n ); ?>[label]" value="<?php echo esc_attr( $r['label'] ); ?>" placeholder="مثل: ملفي في هيئة المهندسين · مدونتي · Muckrack"></p>
+            <p><label>الرابط</label><input type="url" dir="ltr" name="<?php echo esc_attr( $n ); ?>[url]" value="<?php echo esc_attr( $r['url'] ); ?>" placeholder="https://"></p>
+        </div>
+        <a href="#" class="yc-rep__del">حذف</a>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+/** صف ظهور إعلامي. */
+function yc_author_media_row( $i, $r ) {
+    $r = wp_parse_args( $r, array( 'title' => '', 'outlet' => '', 'type' => 'news', 'date' => '', 'url' => '' ) );
+    $n = 'yc_media[' . $i . ']';
+    ob_start();
+    ?>
+    <div class="yc-rep__row">
+        <div class="yc-grid yc-grid--3">
+            <p><label>عنوان المادة</label><input type="text" name="<?php echo esc_attr( $n ); ?>[title]" value="<?php echo esc_attr( $r['title'] ); ?>" placeholder="مثل: كيف تحمي منزلك من النمل الأبيض"></p>
+            <p><label>الوسيلة الإعلامية</label><input type="text" name="<?php echo esc_attr( $n ); ?>[outlet]" value="<?php echo esc_attr( $r['outlet'] ); ?>" placeholder="مثل: صحيفة الرياض · قناة السعودية"></p>
+            <p><label>النوع</label><select name="<?php echo esc_attr( $n ); ?>[type]"><?php foreach ( yc_author_media_types() as $k => $t ) { echo '<option value="' . esc_attr( $k ) . '"' . selected( $r['type'], $k, false ) . '>' . esc_html( $t[0] ) . '</option>'; } ?></select></p>
+            <p><label>تاريخ النشر</label><input type="date" name="<?php echo esc_attr( $n ); ?>[date]" value="<?php echo esc_attr( $r['date'] ); ?>"></p>
+            <p style="grid-column:span 2"><label>الرابط</label><input type="url" dir="ltr" name="<?php echo esc_attr( $n ); ?>[url]" value="<?php echo esc_attr( $r['url'] ); ?>" placeholder="https://"></p>
+        </div>
+        <a href="#" class="yc-rep__del">حذف</a>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 /** صفحة الملف الشخصي. */
 function yc_author_profile_fields( $user ) {
     if ( ! is_object( $user ) ) {
@@ -328,6 +409,10 @@ function yc_author_profile_fields( $user ) {
     $certs   = yc_author_list( $uid, 'certs' );
     $members = yc_author_list( $uid, 'members' );
     $photo   = $v( 'yc_author_photo' );
+    $links   = get_user_meta( $uid, 'yc_author_ext_links', true );
+    $links   = is_array( $links ) ? array_values( $links ) : array();
+    $media   = get_user_meta( $uid, 'yc_author_media', true );
+    $media   = is_array( $media ) ? array_values( $media ) : array();
     ?>
     <div class="yc-eeat" id="yc-eeat">
         <?php wp_nonce_field( 'yc_author_save', 'yc_author_nonce' ); ?>
@@ -414,6 +499,40 @@ function yc_author_profile_fields( $user ) {
             </div>
         </div>
 
+        <!-- 8) الهوية الرقمية -->
+        <div class="yc-eeat__sec">
+            <h3><span>8</span> الهوية الرقمية وقواعد المعرفة</h3>
+            <p class="description">روابط تثبت هوية الكاتب لدى محركات البحث (تُضاف إلى sameAs وidentifier في البيانات المنظّمة). أضفها فقط إن كانت الصفحة عن هذا الشخص فعلًا.</p>
+            <div class="yc-grid yc-grid--2">
+                <p><label for="yc_author_alt_name">الاسم بالإنجليزية / اسم بديل</label><input type="text" dir="auto" id="yc_author_alt_name" name="yc_author_alt_name" value="<?php echo esc_attr( $v( 'yc_author_alt_name' ) ); ?>" placeholder="Abdulrahman Al-Qahtani"></p>
+                <p><label for="yc_author_wikidata">Wikidata (رابط أو رقم Q)</label><input type="text" dir="ltr" id="yc_author_wikidata" name="yc_author_wikidata" value="<?php echo esc_attr( $v( 'yc_author_wikidata' ) ); ?>" placeholder="Q123456789 أو https://www.wikidata.org/wiki/Q…"></p>
+                <p><label for="yc_author_wikipedia">Wikipedia</label><input type="url" dir="ltr" id="yc_author_wikipedia" name="yc_author_wikipedia" value="<?php echo esc_attr( $v( 'yc_author_wikipedia' ) ); ?>" placeholder="https://ar.wikipedia.org/wiki/…"></p>
+                <p><label for="yc_author_kgmid">معرّف لوحة المعرفة في جوجل (kgmid — اختياري)</label><input type="text" dir="ltr" id="yc_author_kgmid" name="yc_author_kgmid" value="<?php echo esc_attr( $v( 'yc_author_kgmid' ) ); ?>" placeholder="/g/11abc… أو رابط بحث يحتوي kgmid="></p>
+            </div>
+        </div>
+
+        <!-- 9) روابط شخصية خارجية -->
+        <div class="yc-eeat__sec">
+            <h3><span>9</span> روابط شخصية خارجية</h3>
+            <p class="description">أي صفحة أخرى تعرّف بالكاتب: ملف في هيئة مهنية، مدونة شخصية، قناة، صفحة مؤلف في موقع آخر…</p>
+            <div class="yc-rep" id="yc-rep-link" data-next="<?php echo count( $links ); ?>">
+                <?php foreach ( $links as $i => $r ) { echo yc_author_link_row( $i, $r ); } // phpcs:ignore ?>
+            </div>
+            <p class="yc-rep__actions"><button type="button" class="button yc-rep__add" data-rep="link">+ إضافة رابط</button></p>
+        </div>
+
+        <!-- 10) الظهور الإعلامي -->
+        <div class="yc-eeat__sec">
+            <h3><span>10</span> الظهور في وسائل الإعلام</h3>
+            <p class="description">مقالات أو مقابلات أو حلقات بودكاست/فيديو ظهر فيها الكاتب أو اقتُبس منه في وسيلة إعلامية خارجية.</p>
+            <div class="yc-rep" id="yc-rep-media" data-next="<?php echo count( $media ); ?>">
+                <?php foreach ( $media as $i => $r ) { echo yc_author_media_row( $i, $r ); } // phpcs:ignore ?>
+            </div>
+            <p class="yc-rep__actions"><button type="button" class="button yc-rep__add" data-rep="media">+ إضافة ظهور إعلامي</button></p>
+        </div>
+
+        <script type="text/template" id="yc-tpl-link"><?php echo yc_author_link_row( '__i__', array() ); // phpcs:ignore ?></script>
+        <script type="text/template" id="yc-tpl-media"><?php echo yc_author_media_row( '__i__', array() ); // phpcs:ignore ?></script>
         <script type="text/template" id="yc-tpl-exp"><?php echo yc_author_exp_row( '__i__', array() ); // phpcs:ignore ?></script>
         <script type="text/template" id="yc-tpl-cert"><?php echo yc_author_cert_row( '__i__', array() ); // phpcs:ignore ?></script>
         <script type="text/template" id="yc-tpl-member"><?php echo yc_author_member_row( '__i__', array() ); // phpcs:ignore ?></script>
@@ -504,6 +623,49 @@ function yc_author_profile_save( $user_id ) {
         );
     }
     update_user_meta( $user_id, 'yc_author_member_list', $members );
+
+    // الهوية الرقمية
+    update_user_meta( $user_id, 'yc_author_alt_name', isset( $post['yc_author_alt_name'] ) ? sanitize_text_field( $post['yc_author_alt_name'] ) : '' );
+    $wd = isset( $post['yc_author_wikidata'] ) ? yc_author_wikidata_url( $post['yc_author_wikidata'] ) : '';
+    update_user_meta( $user_id, 'yc_author_wikidata', $wd ? basename( $wd ) : '' );
+    $wp_url = isset( $post['yc_author_wikipedia'] ) ? esc_url_raw( $post['yc_author_wikipedia'] ) : '';
+    update_user_meta( $user_id, 'yc_author_wikipedia', preg_match( '#^https?://([a-z\-]+\.)?(m\.)?wikipedia\.org/#i', $wp_url ) ? $wp_url : '' );
+    $kg = isset( $post['yc_author_kgmid'] ) ? yc_author_kg_url( $post['yc_author_kgmid'] ) : '';
+    update_user_meta( $user_id, 'yc_author_kgmid', $kg ? rawurldecode( substr( $kg, strpos( $kg, '=' ) + 1 ) ) : '' );
+
+    // روابط شخصية خارجية
+    $links = array();
+    foreach ( ( isset( $post['yc_link'] ) && is_array( $post['yc_link'] ) ? $post['yc_link'] : array() ) as $r ) {
+        $url = isset( $r['url'] ) ? esc_url_raw( $r['url'] ) : '';
+        if ( '' === $url ) {
+            continue;
+        }
+        $links[] = array( 'label' => isset( $r['label'] ) ? sanitize_text_field( $r['label'] ) : '', 'url' => $url );
+    }
+    update_user_meta( $user_id, 'yc_author_ext_links', $links );
+
+    // الظهور الإعلامي
+    $types = yc_author_media_types();
+    $media = array();
+    foreach ( ( isset( $post['yc_media'] ) && is_array( $post['yc_media'] ) ? $post['yc_media'] : array() ) as $r ) {
+        $title = isset( $r['title'] ) ? sanitize_text_field( $r['title'] ) : '';
+        $url   = isset( $r['url'] ) ? esc_url_raw( $r['url'] ) : '';
+        if ( '' === $title && '' === $url ) {
+            continue;
+        }
+        $type    = isset( $r['type'] ) && isset( $types[ $r['type'] ] ) ? $r['type'] : 'news';
+        $date    = isset( $r['date'] ) && preg_match( '/^\d{4}-\d{2}-\d{2}$/', $r['date'] ) ? $r['date'] : '';
+        $media[] = array(
+            'title'  => $title,
+            'outlet' => isset( $r['outlet'] ) ? sanitize_text_field( $r['outlet'] ) : '',
+            'type'   => $type,
+            'date'   => $date,
+            'url'    => $url,
+        );
+    }
+    // الأحدث أولًا
+    usort( $media, function ( $a, $b ) { return strcmp( $b['date'], $a['date'] ); } );
+    update_user_meta( $user_id, 'yc_author_media', $media );
 
     // الصيغة القديمة لم تعد تُستخدم بعد أول حفظ
     foreach ( array( 'yc_author_expertise', 'yc_author_certs', 'yc_author_memberships', 'yc_author_stats' ) as $old ) {
@@ -633,3 +795,20 @@ jQuery(function ($) {
 </script>
     <?php
 }
+
+/**
+ * صفحة الكاتب تُخرج ProfilePage + Person كاملين من القالب،
+ * فنحذف نسختي Rank Math المختصرتين في صفحات الكتّاب فقط حتى لا يتكرر الكيان.
+ */
+add_filter( 'rank_math/json_ld', function ( $data ) {
+    if ( ! is_author() || ! is_array( $data ) ) {
+        return $data;
+    }
+    foreach ( $data as $k => $entity ) {
+        $types = ( is_array( $entity ) && isset( $entity['@type'] ) ) ? (array) $entity['@type'] : array();
+        if ( array_intersect( $types, array( 'ProfilePage', 'Person' ) ) ) {
+            unset( $data[ $k ] );
+        }
+    }
+    return $data;
+}, 99 );
