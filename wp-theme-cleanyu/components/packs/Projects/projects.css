@@ -59,52 +59,95 @@
 .yc-prj__btn--call:hover{background:#ffffff3d;color:#fff}
 .yc-prj__related h2{font-size:22px;font-weight:800;color:var(--r-title);margin:0 0 16px}
 
-/* ===== البطاقة + الشبكة ===== */
-.yc-prg{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.yc-prc{background:#fff;border:1px solid var(--r-line);border-radius:var(--largeradius);overflow:hidden;display:flex;flex-direction:column;transition:var(--transition)}
+/* ===== مسرح الوسائط أعلى صفحة المشروع ===== */
+.yc-prj__stage{margin:0 0 22px;background:linear-gradient(135deg,#eaf1fb,#f5f8fd);border-radius:var(--largeradius);padding:18px;display:flex;justify-content:center}
+.yc-prj__stage--img{padding:0;background:var(--bkground);overflow:hidden}
+.yc-prj__stage--img img{display:block;width:100%;height:auto;max-height:560px;object-fit:cover}
+.yc-vid{position:relative;width:100%;background:#0b1220;border-radius:16px;overflow:hidden}
+.yc-vid.is-landscape{aspect-ratio:16/9}
+.yc-vid.is-portrait{aspect-ratio:9/16;max-width:360px;margin-inline:auto}
+.yc-vid--instagram.is-landscape{aspect-ratio:4/5;max-width:480px;margin-inline:auto;background:#fff}
+.yc-vid--instagram.is-portrait{background:#fff;max-width:400px;aspect-ratio:9/16.5}
+.yc-vid--tiktok{background:#000;max-width:340px;aspect-ratio:9/17.5}
+.yc-vid video,.yc-vid iframe,.yc-vid__lite{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.yc-vid video{object-fit:contain;background:#000}
+.yc-vid__lite{padding:0;background:#000;cursor:pointer}
+.yc-vid__lite img{width:100%;height:100%;object-fit:cover;display:block;opacity:.92;transition:var(--transition)}
+.yc-vid__lite:hover img{opacity:1}
+.yc-vid__play,.yc-prc__play{position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:#0b1220b3;
+  box-shadow:0 4px 18px #0006;pointer-events:none}
+.yc-vid__play::after,.yc-prc__play::after{content:"";position:absolute;top:50%;left:50%;margin:-11px 0 0 -6px;border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fff}
+.yc-vid__lite:focus-visible{outline:3px solid #2764c3;outline-offset:-3px}
+.yc-prj__head h1{color:var(--r-brand)}
+.yc-prj__sub{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.yc-prj__sub a{color:var(--r-brand);font-weight:700}
+.yc-prj__mk{color:var(--r-text);font-size:14px}
+.yc-prj__sub b{color:var(--r-title)}
+.yc-prj__dot{color:#9aa5b1}
+.yc-prj__more-vids{margin-bottom:18px}
+.yc-prj__more-vids h2{font-size:19px;font-weight:800;color:var(--r-title);margin:0 0 12px}
+.yc-prj__vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.yc-prj__vgrid figure{margin:0}
+.yc-prj__vgrid .yc-vid.is-portrait{max-width:none}
+.yc-prj__vgrid figcaption{font-size:13.5px;margin-top:6px;color:var(--r-text)}
+
+/* ===== البطاقة (بلاطة وسائط) + الشبكة ===== */
+.yc-prg{display:grid;grid-template-columns:repeat(5,1fr);gap:22px 16px}
+.yc-prg--4{grid-template-columns:repeat(4,1fr)}
+.yc-prc{display:flex;flex-direction:column;gap:8px;min-width:0}
 .yc-prc[hidden]{display:none}
-.yc-prc:hover{box-shadow:0 14px 30px #0c0c0c17;transform:translateY(-3px)}
-.yc-prc__media{position:relative;display:block;aspect-ratio:5/3;background:linear-gradient(135deg,#eaf1fb,#dbe7f8)}
-.yc-prc__media img{width:100%;height:100%;object-fit:cover;display:block}
+.yc-prc__media{position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#eaf1fb,#dbe7f8);box-shadow:0 2px 10px #0c0c0c14}
+.yc-prc__media img,.yc-prc__media video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+.yc-prc__media:hover img,.yc-prc__media:hover video{transform:scale(1.04)}
 .yc-prc__ph{display:block;width:100%;height:100%}
-.yc-prc__svc{position:absolute;top:12px;inset-inline-start:12px;background:#fff;color:var(--r-brand-d);font-size:12.5px;font-weight:800;border-radius:99px;padding:4px 12px;box-shadow:0 2px 8px #0c0c0c1f}
-.yc-prc__body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
-.yc-prc__title{margin:0;font-size:17px;font-weight:800;line-height:1.6}
+.yc-prc__badge{position:absolute;top:10px;inset-inline-start:10px;background:#0b1220cc;color:#fff;font-size:13px;font-weight:800;border-radius:99px;padding:4px 11px;direction:rtl}
+.yc-prc__play{width:46px;height:46px;margin:-23px 0 0 -23px}
+.yc-prc__play::after{margin:-8px 0 0 -4px;border-width:8px 0 8px 13px}
+.yc-prc__body{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.yc-prc__title{margin:0;font-size:15.5px;font-weight:800;line-height:1.6}
 .yc-prc__title a{color:var(--r-title);text-decoration:none}
 .yc-prc__title a:hover{color:var(--r-brand)}
-.yc-prc__meta{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--r-text)}
-.yc-prc__meta li{display:inline-flex;align-items:center;gap:5px}
-.yc-prc__meta svg{width:14px;height:14px;fill:none;stroke:var(--r-brand);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.yc-prc__body p{margin:0;font-size:14.5px;line-height:1.85}
-.yc-prc__more{margin-top:auto;font-size:14.5px;font-weight:800;color:var(--r-brand);text-decoration:none}
-.yc-prc__more:hover{color:var(--r-brand-d)}
+.yc-prc__svc{background:#eef1f6;color:#5a6b7d;font-size:12.5px;font-weight:700;border-radius:99px;padding:3px 11px}
 
-/* ===== صفحة كل المشاريع ===== */
-.yc-prs__hero{background:linear-gradient(135deg,var(--r-brand),var(--r-brand-d));color:#fff;border-radius:var(--largeradius);padding:40px 24px;text-align:center;margin-bottom:24px}
-.yc-prs__hero h1{margin:0 0 10px;font-size:32px;font-weight:800;color:#fff}
-.yc-prs__lead,.yc-prs__lead p{max-width:760px;margin:0 auto;color:#e8efff;font-size:16.5px;line-height:1.9}
-.yc-prs__tags{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.yc-prs__tags li{background:#ffffff24;border:1px solid #ffffff47;border-radius:99px;padding:7px 16px;font-size:14px;font-weight:700}
-.yc-prs__filter{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:22px}
-.yc-prs__filter button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 18px;border-radius:99px;border:1.5px solid var(--r-line);
+/* ===== صفحة كل الأعمال ===== */
+.yc-prs{padding-top:0}
+.yc-prs__hero{background:linear-gradient(180deg,#eaf1fb 0%,#f6f8fb 100%);padding:18px 0 22px;margin-bottom:24px}
+.yc-prs__hero h1{margin:0 0 8px;font-size:40px;font-weight:800;color:var(--r-brand);line-height:1.3}
+.yc-prs__lead,.yc-prs__lead p{margin:0;max-width:880px;color:var(--r-text);font-size:16px;line-height:1.9}
+.yc-prs__count{margin:8px 0 14px;color:var(--r-title);font-size:15.5px}
+.yc-prs__filter,.yc-prs__subs{display:flex;flex-wrap:wrap;gap:10px}
+.yc-prs__subs{margin-top:12px}
+.yc-prs__subs[hidden]{display:none}
+.yc-prs__filter button,.yc-prs__subs button{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:7px 18px;border-radius:99px;border:1.5px solid var(--r-line);
   background:#fff;color:var(--r-title);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;transition:var(--transition)}
-.yc-prs__filter button b{background:var(--r-soft);color:var(--r-brand-d);border-radius:99px;padding:1px 9px;font-size:12.5px}
-.yc-prs__filter button:hover{border-color:var(--r-brand)}
-.yc-prs__filter button[aria-pressed=true]{background:var(--r-brand);border-color:var(--r-brand);color:#fff}
-.yc-prs__filter button[aria-pressed=true] b{background:#ffffff33;color:#fff}
-.yc-prs__filter button:focus-visible,.yc-prc a:focus-visible,.yc-prj a:focus-visible{outline:3px solid #2764c380;outline-offset:2px}
+.yc-prs__filter i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.yc-prs__subs button{min-height:38px;font-size:13.5px;font-weight:600;padding:6px 15px}
+.yc-prs__filter button:hover,.yc-prs__subs button:hover{border-color:var(--r-brand)}
+.yc-prs__filter button[aria-pressed=true],.yc-prs__subs button[aria-pressed=true]{background:#0b1a3a;border-color:#0b1a3a;color:#fff}
+.yc-prs__filter button:focus-visible,.yc-prs__subs button:focus-visible,.yc-prc a:focus-visible,.yc-prj a:focus-visible,.yc-prs__more:focus-visible{outline:3px solid #2764c380;outline-offset:2px}
+.yc-prs__morewrap{text-align:center;margin:30px 0 0}
+.yc-prs__more{min-height:46px;padding:8px 34px;border-radius:99px;border:1.5px solid var(--r-brand);background:#fff;color:var(--r-brand);font:inherit;font-weight:800;cursor:pointer;transition:var(--transition)}
+.yc-prs__more:hover{background:var(--r-brand);color:#fff}
+.yc-prs__more[hidden]{display:none}
 .yc-prs__empty{text-align:center;padding:30px}
 
-@media only screen and (max-width:1000px){.yc-prg{grid-template-columns:repeat(2,1fr)}.yc-prj__facts{grid-template-columns:repeat(2,1fr)}}
+@media only screen and (max-width:1200px){.yc-prg{grid-template-columns:repeat(4,1fr)}}
+@media only screen and (max-width:1000px){.yc-prg,.yc-prg--4{grid-template-columns:repeat(3,1fr)}.yc-prj__facts{grid-template-columns:repeat(2,1fr)}}
 @media only screen and (max-width:640px){
-  .yc-prg,.yc-prj__facts{grid-template-columns:1fr}
-  .yc-prj__head h1,.yc-prs__hero h1{font-size:24px}
+  .yc-prg,.yc-prg--4{grid-template-columns:repeat(2,1fr);gap:16px 12px}
+  .yc-prj__facts{grid-template-columns:1fr}
+  .yc-prj__head h1{font-size:23px}
+  .yc-prs__hero h1{font-size:30px}
+  .yc-prs__lead,.yc-prs__lead p{font-size:15px}
+  .yc-prs__filter,.yc-prs__subs{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding:0 16px 6px;scrollbar-width:thin}
+  .yc-prs__filter button,.yc-prs__subs button{flex-shrink:0}
+  .yc-prj__stage{padding:10px}
   .yc-prj__sec{padding:18px 16px}
   .yc-prj__sec h2{font-size:18px}
   .yc-prj__sec p{font-size:15.5px}
   .yc-prj__gal--3{grid-template-columns:repeat(2,1fr)}
   .yc-prj__cta{padding:20px 18px}
   .yc-prj__btns,.yc-prj__btn{width:100%;justify-content:center}
-  .yc-prs__hero{padding:28px 16px}
+  .yc-prc__title{font-size:14px}
 }
-@media (prefers-reduced-motion:reduce){.yc-prc,.yc-prc:hover,.yc-prj__gal img{transition:none;transform:none}}
+@media (prefers-reduced-motion:reduce){.yc-prc__media img,.yc-prc__media video,.yc-vid__lite img{transition:none;transform:none!important}}

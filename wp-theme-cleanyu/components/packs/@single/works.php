@@ -57,20 +57,46 @@ echo '<div class="container">';
     Breadcrumb( $post );
   echo '</breadcrumb></div>';
 
+  /* ---------- الوسائط: الفيديو أولًا، وإلا الصورة ---------- */
+  $media  = yc_pr_media_summary( $pid );
+  $videos = $media['videos'];
+  if ( $videos ) {
+    echo '<div class="yc-prj__stage">' . yc_pr_player( $videos[0], true ) . '</div>';
+  } elseif ( $hero ) {
+    echo '<figure class="yc-prj__stage yc-prj__stage--img"><img src="' . esc_url( $hero ) . '" alt="' . esc_attr( $title ) . '" fetchpriority="high"></figure>';
+  }
+
   /* ---------- العنوان ---------- */
   echo '<div class="yc-prj__head">';
-    if ( $svc ) {
-      echo '<a class="yc-prj__svc" href="' . esc_url( $svc_url ) . '">' . esc_html( $svc->name ) . '</a>';
-    }
     echo '<h1>' . esc_html( $title ) . '</h1>';
-    $sub = array_filter( array( $m( 'yc_pr_city' ) . ( $m( 'yc_pr_district' ) ? ' — ' . $m( 'yc_pr_district' ) : '' ), $m( 'yc_pr_duration' ) ) );
-    if ( $sub ) {
-      echo '<p class="yc-prj__sub">' . esc_html( implode( ' · ', $sub ) ) . '</p>';
+    $meta = array();
+    if ( $svc ) {
+      $meta[] = '<span class="yc-prj__mk">الخدمة</span> <a href="' . esc_url( $svc_url ) . '">' . esc_html( $svc->name ) . '</a>';
+    }
+    $nimg = count( $media['images'] );
+    $kind = $videos && $nimg ? 'صور وفيديو' : ( $videos ? 'فيديو' : ( $nimg ? 'صور' : '' ) );
+    if ( $kind ) {
+      $meta[] = '<span class="yc-prj__mk">' . esc_html( $kind ) . '</span>';
+    }
+    if ( $videos && $videos[0]['label'] ) {
+      $meta[] = '<b>فيديو ' . esc_html( $videos[0]['label'] ) . '</b>';
+    }
+    $place = $m( 'yc_pr_city' ) . ( $m( 'yc_pr_district' ) ? ' — ' . $m( 'yc_pr_district' ) : '' );
+    if ( '' !== trim( $place ) ) {
+      $meta[] = esc_html( $place );
+    }
+    if ( $meta ) {
+      echo '<p class="yc-prj__sub">' . implode( '<span aria-hidden="true" class="yc-prj__dot">·</span>', $meta ) . '</p>'; // phpcs:ignore -- مُهرَّب أعلاه
     }
   echo '</div>';
 
-  if ( $hero ) {
-    echo '<figure class="yc-prj__hero"><img src="' . esc_url( $hero ) . '" alt="' . esc_attr( $title ) . '" fetchpriority="high"></figure>';
+  /* باقي فيديوهات المشروع */
+  if ( count( $videos ) > 1 ) {
+    echo '<section class="yc-prj__more-vids"><h2>فيديوهات أخرى من المشروع</h2><div class="yc-prj__vgrid">';
+    foreach ( array_slice( $videos, 1 ) as $v ) {
+      echo '<figure>' . yc_pr_player( $v ) . '<figcaption>' . esc_html( $v['caption'] ) . '</figcaption></figure>'; // phpcs:ignore
+    }
+    echo '</div></section>';
   }
 
   /* ---------- 1) التفاصيل الأساسية ---------- */
@@ -173,14 +199,26 @@ echo '<div class="container">';
     echo '</div></div>';
   }
 
-  /* ---------- مشاريع مشابهة ---------- */
-  $args = array( 'post_type' => 'works', 'posts_per_page' => 3, 'post__not_in' => array( $pid ), 'no_found_rows' => true );
-  if ( $svc ) {
-    $args['cat'] = $svc->term_id;
+  /* ---------- أعمال مشابهة: نفس الخدمة الفرعية أولًا ثم نفس القسم ---------- */
+  $related = array();
+  $exclude = array( $pid );
+  $subcat  = 0;
+  $pcats   = get_the_terms( $pid, 'category' );
+  if ( is_array( $pcats ) ) {
+    foreach ( $pcats as $c ) {
+      if ( $c->parent ) { $subcat = $c->term_id; break; }
+    }
   }
-  $related = get_posts( $args );
+  foreach ( array_filter( array( $subcat, $svc ? $svc->term_id : 0 ) ) as $cat_id ) {
+    if ( count( $related ) >= 4 ) { break; }
+    $more = get_posts( array( 'post_type' => 'works', 'posts_per_page' => 4 - count( $related ), 'post__not_in' => $exclude, 'cat' => $cat_id, 'no_found_rows' => true ) );
+    foreach ( $more as $r ) { $related[] = $r; $exclude[] = $r->ID; }
+  }
+  if ( ! $related ) {
+    $related = get_posts( array( 'post_type' => 'works', 'posts_per_page' => 4, 'post__not_in' => $exclude, 'no_found_rows' => true ) );
+  }
   if ( $related ) {
-    echo '<section class="yc-prj__related"><h2>مشاريع مشابهة</h2><div class="yc-prg">';
+    echo '<section class="yc-prj__related"><h2>أعمال مشابهة</h2><div class="yc-prg yc-prg--4">';
     foreach ( $related as $r ) {
       echo yc_pr_card( $r ); // phpcs:ignore
     }
@@ -190,28 +228,56 @@ echo '<div class="container">';
 echo '</div>';
 echo '</article>';
 
-/* ---------- البيانات المنظّمة ---------- */
-$schema = array(
-    '@context'      => 'https://schema.org',
-    '@type'         => 'Article',
-    'headline'      => $title,
-    'datePublished' => get_post_time( 'c', true, $post ),
-    'dateModified'  => get_post_modified_time( 'c', true, $post ),
-    'mainEntityOfPage' => get_permalink( $pid ),
-    'publisher'     => array( '@type' => 'Organization', 'name' => get_bloginfo( 'name' ), 'url' => home_url( '/' ) ),
-    'author'        => array( '@type' => 'Organization', 'name' => get_bloginfo( 'name' ), 'url' => home_url( '/' ) ),
+/* ---------- البيانات المنظّمة: Article + VideoObject (أو ImageObject إن كانت صورًا فقط) ---------- */
+$page_url = get_permalink( $pid );
+$article  = array(
+    '@type'            => 'Article',
+    '@id'              => $page_url . '#article',
+    'headline'         => $title,
+    'datePublished'    => get_post_time( 'c', true, $post ),
+    'dateModified'     => get_post_modified_time( 'c', true, $post ),
+    'mainEntityOfPage' => $page_url,
+    'inLanguage'       => 'ar',
+    'publisher'        => array( '@type' => 'Organization', 'name' => get_bloginfo( 'name' ), 'url' => home_url( '/' ) ),
+    'author'           => array( '@type' => 'Organization', 'name' => get_bloginfo( 'name' ), 'url' => home_url( '/' ) ),
 );
-if ( $hero ) {
-    $schema['image'] = $hero;
-}
 $first = yc_pr_paras( get_post_meta( $pid, 'yc_pr_challenge', true ) );
 if ( $first ) {
-    $schema['description'] = wp_trim_words( $first[0], 40, '…' );
+    $article['description'] = wp_trim_words( $first[0], 40, '…' );
 }
 if ( $svc ) {
-    $schema['about'] = array( '@type' => 'Service', 'name' => $svc->name, 'url' => $svc_url );
+    $article['about'] = array( '@type' => 'Service', 'name' => $svc->name, 'url' => $svc_url );
 }
 if ( $m( 'yc_pr_city' ) ) {
-    $schema['contentLocation'] = array( '@type' => 'Place', 'name' => $m( 'yc_pr_city' ) . ( $m( 'yc_pr_district' ) ? '، ' . $m( 'yc_pr_district' ) : '' ) );
+    $article['contentLocation'] = array( '@type' => 'Place', 'name' => $m( 'yc_pr_city' ) . ( $m( 'yc_pr_district' ) ? '، ' . $m( 'yc_pr_district' ) : '' ) );
 }
-echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG ) . '</script>';
+$graph = array();
+if ( $videos ) {
+    $refs = array();
+    foreach ( $videos as $i => $v ) {
+        $vo = yc_pr_video_schema( $v, $post );
+        if ( $vo ) {
+            $vo['@id']  = $page_url . '#video-' . ( $i + 1 );
+            $graph[]    = $vo;
+            $refs[]     = array( '@id' => $vo['@id'] );
+        }
+    }
+    if ( $refs ) {
+        $article['video'] = $refs;
+    }
+    if ( $media['thumb'] ) {
+        $article['image'] = $media['thumb'];
+    }
+} elseif ( $media['images'] ) {
+    $refs = array();
+    foreach ( $media['images'] as $i => $img ) {
+        $io        = yc_pr_image_schema( $img, $post );
+        $io['@id'] = $page_url . '#image-' . ( $i + 1 );
+        $graph[]   = $io;
+        $refs[]    = array( '@id' => $io['@id'] );
+    }
+    $article['image'] = $refs;
+}
+array_unshift( $graph, $article );
+echo '<script type="application/ld+json">' . wp_json_encode( array( '@context' => 'https://schema.org', '@graph' => $graph ), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG ) . '</script>';
+echo yc_pr_player_js(); // phpcs:ignore

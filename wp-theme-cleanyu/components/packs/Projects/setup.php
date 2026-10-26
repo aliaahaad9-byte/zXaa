@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+require_once __DIR__ . '/media.php';
+
 /* ---------- ربط المشاريع بالأقسام والمدن ---------- */
 add_action( 'init', function () {
     if ( post_type_exists( 'works' ) ) {
@@ -88,6 +90,8 @@ function yc_pr_box( $post ) {
     wp_nonce_field( 'yc_pr_save', 'yc_pr_nonce' );
     echo '<div class="yc-pr-admin">';
     echo '<p class="description">اختر <b>قسم الخدمة</b> من صندوق «التصنيفات» والمدينة من «المدن»، وضع صورة المشروع الرئيسية في «الصورة البارزة». ما تكتبه هنا يظهر في صفحة المشروع بأربعة أقسام مرقّمة.</p>';
+
+    do_action( 'yc_pr_box_top', $post );
 
     echo '<h3>1. تفاصيل المشروع الأساسية</h3><div class="yc-pr-grid">';
     foreach ( yc_pr_text_fields() as $k => $f ) {
@@ -359,39 +363,45 @@ function yc_pr_import_page() {
     echo '</div>';
 }
 
-/** بطاقة مشروع (صفحة المشاريع + المشاريع المشابهة). */
+/** بطاقة مشروع بشكل «بلاطة وسائط»: صورة/فيديو عمودي + شارة + عنوان + الخدمة. */
 function yc_pr_card( $p, $heading = 'h3' ) {
-    $id    = $p->ID;
-    $img   = yc_pr_hero( $id, 'medium_large' );
-    $svc   = yc_pr_service_term( $id );
-    $city  = trim( (string) get_post_meta( $id, 'yc_pr_city', true ) );
-    $dur   = trim( (string) get_post_meta( $id, 'yc_pr_duration', true ) );
-    $intro = yc_pr_paras( get_post_meta( $id, 'yc_pr_challenge', true ) );
-    $intro = $intro ? wp_trim_words( $intro[0], 26, '…' ) : wp_trim_words( wp_strip_all_tags( $p->post_content ), 26, '…' );
-    $link  = get_permalink( $id );
+    $id   = $p->ID;
+    $m    = yc_pr_media_summary( $id );
+    $svc  = yc_pr_service_term( $id );
+    $sub  = null;
+    $cats = get_the_terms( $id, 'category' );
+    if ( is_array( $cats ) ) {
+        foreach ( $cats as $c ) {
+            if ( $c->parent ) {
+                $sub = $c;
+                break;
+            }
+        }
+    }
+    $pill = $sub ? $sub : $svc;
+    $link = get_permalink( $id );
+    $ttl  = get_the_title( $id );
 
-    $h  = '<article class="yc-prc" data-svc="' . esc_attr( $svc ? $svc->term_id : 0 ) . '">';
-    $h .= '<a class="yc-prc__media" href="' . esc_url( $link ) . '" tabindex="-1" aria-hidden="true">';
-    $h .= $img ? '<img src="' . esc_url( $img ) . '" alt="" loading="lazy" width="600" height="360">' : '<span class="yc-prc__ph"></span>';
-    if ( $svc ) {
-        $h .= '<span class="yc-prc__svc">' . esc_html( $svc->name ) . '</span>';
+    $h  = '<article class="yc-prc' . ( $m['is_video'] ? ' is-video' : '' ) . '" data-fam="' . esc_attr( $svc ? $svc->term_id : 0 ) . '" data-sub="' . esc_attr( $sub ? $sub->term_id : 0 ) . '">';
+    $h .= '<a class="yc-prc__media" href="' . esc_url( $link ) . '" aria-label="' . esc_attr( ( $m['is_video'] ? 'شاهد فيديو: ' : '' ) . $ttl ) . '">';
+    if ( $m['thumb'] ) {
+        $h .= '<img src="' . esc_url( $m['thumb'] ) . '" alt="" loading="lazy" width="400" height="530">';
+    } elseif ( $m['frame'] ) {
+        $h .= '<video src="' . esc_url( $m['frame'] ) . '#t=0.5" preload="metadata" muted playsinline tabindex="-1" aria-hidden="true"></video>';
+    } else {
+        $h .= '<span class="yc-prc__ph"></span>';
+    }
+    if ( $m['badge'] ) {
+        $h .= '<span class="yc-prc__badge">' . esc_html( $m['badge'] ) . '</span>';
+    }
+    if ( $m['is_video'] ) {
+        $h .= '<span class="yc-prc__play" aria-hidden="true"></span>';
     }
     $h .= '</a><div class="yc-prc__body">';
-    $h .= '<' . $heading . ' class="yc-prc__title"><a href="' . esc_url( $link ) . '">' . esc_html( get_the_title( $id ) ) . '</a></' . $heading . '>';
-    if ( $city || $dur ) {
-        $h .= '<ul class="yc-prc__meta">';
-        if ( $city ) {
-            $h .= '<li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' . esc_html( $city ) . '</li>';
-        }
-        if ( $dur ) {
-            $h .= '<li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' . esc_html( $dur ) . '</li>';
-        }
-        $h .= '</ul>';
+    $h .= '<' . $heading . ' class="yc-prc__title"><a href="' . esc_url( $link ) . '">' . esc_html( $ttl ) . '</a></' . $heading . '>';
+    if ( $pill ) {
+        $h .= '<span class="yc-prc__svc">' . esc_html( $pill->name ) . '</span>';
     }
-    if ( $intro ) {
-        $h .= '<p>' . esc_html( $intro ) . '</p>';
-    }
-    $h .= '<a class="yc-prc__more" href="' . esc_url( $link ) . '">تفاصيل المشروع <span aria-hidden="true">←</span></a>';
     $h .= '</div></article>';
     return $h;
 }
