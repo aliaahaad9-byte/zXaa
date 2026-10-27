@@ -81,7 +81,7 @@ class Theme__WidgetModel__intro extends WP_Widget {
                                 }
                             echo'</div>';
                             if(wp_is_mobile() == false){
-                            if(IsSpeed() == false){
+                            {
                                 echo '<div class="img_back-yu">';
                                     echo '<img widht="100%" height="100%" alt="'.get_option('Sitename').'" data-loader-src="'.$intropost['images']['url'].'"/>';
                                 echo'</div>';

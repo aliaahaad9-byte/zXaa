@@ -184,9 +184,6 @@ echo '<div class="single-post">';
                                     $content = explode("<div class='-single-parent'", $content)[0];
                                     $pattern = '/<table[^>]*>(.*?)<\/table>/s'; // نمط يستهدف العناصر <table>
                                     $content = preg_replace($pattern, '<div class="tablecontainer">$0</div>', $content);
-                                    if(strpos($_SERVER['HTTP_USER_AGENT'],'Lighthouse') !==false){
-                                         $content = preg_replace('/<a\b[^>]*>(.*?)<\/a>/i', '$1', $content);
-                                    }
                                     echo $content;
                                 echo '</div>';
                             echo '</div>';

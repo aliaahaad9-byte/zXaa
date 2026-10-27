@@ -1,16 +1,11 @@
 <?php
 /*
-    Dev: YourColor Dev team;
-    Function_Name: IsSpeed;
-    Function_Role: Check IF User Agent IS Google Speed;
-    Return: true (if the user agent is Google )/ false ;
-    default : false ;
+    كان هذا الملف يعرّف IsSpeed() لإرسال صفحة مختلفة لأدوات القياس (Lighthouse/PageSpeed)
+    ولموبايلات "moto g". أُلغي ذلك: الجميع يرى نفس الصفحة.
+    تبقى الدالة وتُرجع false دائمًا فقط حتى لا يتعطل أي كود خارجي (مثل مقتطفات WPCode) قد يستدعيها.
 */
-function IsSpeed() {
-    $IsSpeed = false;
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'moto g') !== false) {
-        $IsSpeed =  true;
+if ( ! function_exists( 'IsSpeed' ) ) {
+    function IsSpeed() {
+        return false;
     }
-    return $IsSpeed;
 }

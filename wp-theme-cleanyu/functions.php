@@ -187,9 +187,7 @@ function wpdocs_add_custom_shortcode() {
                     $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
                     
                                   
-                    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false) {
                         echo '<img src="'.$f['image'].'" width="100%" height="100%" alt="'.$image_alt.'">';
-                    }
                   echo '<div class="box-title">';
                      echo '<h2 class="bk-title">';
                         if( isset($f['link']) && $f['link'] != '' ){
@@ -222,9 +220,7 @@ function wpdocs_add_custom_shortcode() {
             $image_url = $src;
             $image_id = get_attachment_id_from_url($image_url);
             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-            if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
             echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
-            }
           echo '</div>';
         }
       echo '</post--albums>';
@@ -237,9 +233,7 @@ function wpdocs_add_custom_shortcode() {
                 $image_url = $src;
                 $image_id = get_attachment_id_from_url($image_url);
                 $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-                if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
                 echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
-                }
               echo '</div>';
             }
           echo '</div>';
@@ -306,9 +300,7 @@ function wpdocs_add_custom_shortcode() {
                          $image_url = $st['image'];
                          $image_id = get_attachment_id_from_url($image_url);
                             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-                         if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
                          echo '<img data-loader-src="'.$st['image'].'"  width="100%" height="100%" alt="'.$image_alt.'"/>';
-                         }
                       echo '</div>';
                       echo '<div class="step-desc">';
                          echo '<h3>'.$st['title'].'</h3>';
@@ -381,14 +373,40 @@ function orderHeader($test) {
 }
 function orderFooter($test) {
     $html = ob_get_clean();
-    $dom = new DOMDocument();
-    libxml_use_internal_errors(true);
-    $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html);
-    $xpath = new DOMXpath($dom);
     $html = str_replace('target="_blank"', 'target="_blank" rel="nofollow"', $html);
+    $html = yc_native_images($html);
     $html = update_protocol_links($html);
 
     echo $html;
+}
+
+/**
+ * الصور: تحويل <img data-loader-src> إلى src عادي من الخادم بدل انتظار JavaScript.
+ * - أول صورتين (الشعار ثم الصورة الرئيسية غالبًا) تُحمَّلان فورًا، والثانية بأولوية عالية.
+ * - باقي الصور loading="lazy" (تحميل عند الاقتراب منها).
+ * الإطارات (iframe) وdata-loader-style/srcset تبقى كما هي ويعالجها LazyloaderHook كما كانت.
+ */
+function yc_native_images( $html ) {
+    $i = 0;
+    return preg_replace_callback( '/<img\b[^>]*>/i', function ( $m ) use ( &$i ) {
+        $tag = $m[0];
+        if ( false === stripos( $tag, 'data-loader-src=' ) ) {
+            return $tag;
+        }
+        if ( ! preg_match( '/\sdata-loader-src\s*=\s*(["\'])(.*?)\1/is', $tag, $d ) || '' === trim( $d[2] ) ) {
+            return $tag; // صورة بلا رابط: نتركها كما هي
+        }
+        $i++;
+        $has_src = preg_match( '/\ssrc\s*=/i', $tag );
+        // نحذف data-loader-src، ونضع src إن لم يكن موجودًا
+        $tag = preg_replace( '/\sdata-loader-src\s*=\s*(["\']).*?\1/is', $has_src ? '' : ' src=' . $d[1] . $d[2] . $d[1], $tag, 1 );
+        if ( ! preg_match( '/\sloading\s*=/i', $tag ) ) {
+            $extra = ( $i <= 2 ) ? ( 2 === $i ? ' fetchpriority="high"' : '' ) : ' loading="lazy"';
+            $extra .= preg_match( '/\sdecoding\s*=/i', $tag ) ? '' : ' decoding="async"';
+            $tag = preg_replace( '/\s*\/?>$/', $extra . ( substr( $tag, -2 ) === '/>' ? ' />' : '>' ), $tag, 1 );
+        }
+        return $tag;
+    }, $html );
 }
 
 add_action( 'BeforeHeader', 'orderHeader' );

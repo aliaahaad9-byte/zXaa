@@ -169,7 +169,7 @@ $post_tag = ((is_array(get_the_terms($post->ID,'post_tag',true)))) ? get_the_ter
     }
 $show_coverimage = get_option('show_coverimage');
  $postcovers = get_post_meta($post->ID, 'imagescovers', true);
-if(IsSpeed() == false){
+{
     if(wp_is_mobile()){
         if($show_coverimage == 'on'){
         echo '<div class="imagecover-post">';
@@ -183,9 +183,7 @@ if(IsSpeed() == false){
                             $image_url = $src;
                             $image_id = attachment_url_to_postid($image_url);
                             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-                            if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false) {
-                                echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
-                            }
+                            echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
                             echo '</div>';
                         }
                     }
@@ -198,9 +196,7 @@ if(IsSpeed() == false){
                                 $image_url = $src;
                                 $image_id = attachment_url_to_postid($image_url);
                                 $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-                                if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false) {
-                                    echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
-                                }
+                                echo '<img data-loader-src="'.$src.'"  width="100%" height="100%" alt="'.$image_alt.'" />';
                                 echo '</div>';
                             echo '</div>';
                         }
@@ -251,9 +247,6 @@ echo '<div class="single-post">';
                                     $content = explode("<div class='-single-parent'", $content)[0];
                                     $pattern = '/<table[^>]*>(.*?)<\/table>/s'; // نمط يستهدف العناصر <table>
                                     $content = preg_replace($pattern, '<div class="tablecontainer">$0</div>', $content);
-                                    if(IsSpeed() == true){
-                                         $content = preg_replace('/<a\b[^>]*>(.*?)<\/a>/i', '$1', $content);
-                                    }
                                     echo $content;
                                 echo '</div>';
                             echo '</div>';
@@ -307,7 +300,7 @@ echo '<div class="single-post">';
                             echo '</ul>';
                         echo '</div>';
                     echo '</div>';
-                    if(IsSpeed() == false){
+                    {
                     echo '<div class="-single-social">';
                         echo '<span>شارك معانا</span>';
                         echo '<ul class="blogs-box-social-share">';

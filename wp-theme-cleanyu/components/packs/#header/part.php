@@ -11,21 +11,26 @@ do_action('BeforeWPHead');
  wp_head(); 
 
 do_action('AfterWPHead');
-if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
-    if(!empty(get_option('favicon')['url'])){
-        echo '<link rel="shortcut icon" type="image/png" href="'.get_option('favicon')['url'].'">';
+if(!empty(get_option('favicon')['url'])){
+    echo '<link rel="shortcut icon" type="image/png" href="'.get_option('favicon')['url'].'">';
+}
+// Font Awesome: ملف واحد يجمع كل الأنماط (بدل 35 طلبًا) — وإن لم يوجد نعود للطريقة القديمة
+$fontawesomeBundle = $this->StylesPath.'fontawesome/bundle/fa-all.css';
+if( file_exists($fontawesomeBundle) ) {
+    echo '<link rel="stylesheet" href="'.$this->StylesURL.'fontawesome/bundle/fa-all.css?v='.filemtime($fontawesomeBundle).'">';
+}else {
+    $fontawesomePath = $this->StylesPath."fontawesome/css/*.css";
+    $fontawesomeCss = glob($fontawesomePath);
+    $fontawesomeURL = $this->StylesURL.'fontawesome/css/';
+    echo '<link rel="stylesheet" href="'.$fontawesomeURL.'fontawesome.css">';
+    foreach ( $fontawesomeCss as $file ) {
+        echo '<link rel="stylesheet" href="'.$fontawesomeURL.basename($file).'">';
     }
 }
-if(IsSpeed() == false){
-    $fontawesomePath = $this->StylesPath."fontawesome/css/*.css";
-$fontawesomeCss = glob($fontawesomePath);
-
-$fontawesomeURL = $this->StylesURL.'fontawesome/css/';
-
-echo '<link rel="stylesheet" href="'.$fontawesomeURL.'fontawesome.css">';
-foreach ( $fontawesomeCss as $file ) {
-    echo '<link rel="stylesheet" href="'.$fontawesomeURL.basename($file).'">';				
-}
+// تحميل مسبق للوزن الأكثر استخدامًا من خط القالب
+$yc_font_dir = get_template_directory().'/components/styles/Font/YourColor/';
+if( file_exists($yc_font_dir.'Montserrat-Arabic-Regular.woff2') ) {
+    echo '<link rel="preload" href="'.$this->StylesURL.'/Font/YourColor/Montserrat-Arabic-Regular.woff2" as="font" type="font/woff2" crossorigin>';
 }
 echo '<meta name="apple-mobile-web-app-title" content="'.get_bloginfo("name").'">';
 echo '<meta http-equiv="Cache-control" content="public">';
@@ -35,56 +40,20 @@ echo '<meta name="msapplication-TileColor" content="#a03576">';
 //echo '<link rel="stylesheet" media="all" href="'.$this->StylesURL.'main.css?'.rand().'" />';
 //echo '<link rel="stylesheet" media="all" href="'.$this->StylesURL.'responsive.css?'.rand().'" />';
  	echo '<style>';
- 	 	if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') === false ) {
-			echo '@font-face {';
-				echo 'font-family: YourColor;';
-				echo 'font-style: normal;';
-				echo 'font-weight: 200;';
-				echo 'font-display: swap;';
-				echo 'src: url("'.$this->StylesURL.'/Font/YourColor/Montserrat-Arabic-ExtraLight.ttf") format("truetype");';
-			echo '}';
-			echo '@font-face {';
-				echo 'font-family: YourColor;';
-				echo 'font-style: normal;';
-				echo 'font-weight: 300;';
-				echo 'font-display: swap;';
-				echo 'src: url("'.$this->StylesURL.'/Font/YourColor/Montserrat-Arabic-Light.ttf") format("truetype");';
-			echo '}';
-			echo '@font-face {';
-				echo 'font-family: YourColor;';
-				echo 'font-style: normal;';
-				echo 'font-weight: 400;';
-				echo 'font-display: swap;';
-				echo 'src: url("'.$this->StylesURL.'/Font/YourColor/Montserrat-Arabic-Regular.ttf") format("truetype");';
-			echo '}';
-			echo '@font-face {';
-				echo 'font-family: YourColor;';
-				echo 'font-style: normal;';
-				echo 'font-weight: 500;';
-				echo 'font-display: swap;';
-				echo 'src: url("'.$this->StylesURL.'/Font/YourColor/Montserrat-Arabic-Medium.ttf") format("truetype");';
-			echo '}';
-			echo '@font-face {';
-				echo 'font-family: YourColor;';
-				echo 'font-style: normal;';
-				echo 'font-weight: 600;';
-				echo 'font-display: swap;';
-				echo 'src: url("'.$this->StylesURL.'/Font/YourColor/Montserrat-Arabic-Bold.ttf") format("truetype");';
-			echo '}';
-			echo '@font-face {';
-				echo 'font-family: YourColor;';
-				echo 'font-style: normal;';
-				echo 'font-weight: 700;';
-				echo 'font-display: swap;';
-				echo 'src: url("'.$this->StylesURL.'/Font/YourColor/Montserrat-Arabic-ExtraBold.ttf") format("truetype");';
-			echo '}';
-		
+ 		// خط القالب: WOFF2 أولًا (أصغر بنحو 70%) ثم TTF احتياطًا — نفس الخط بالضبط
+		$yc_fonts = array( 200 => 'ExtraLight', 300 => 'Light', 400 => 'Regular', 500 => 'Medium', 600 => 'Bold', 700 => 'ExtraBold' );
+		foreach( $yc_fonts as $yc_w => $yc_n ) {
+			$yc_src = array();
+			if( file_exists($yc_font_dir.'Montserrat-Arabic-'.$yc_n.'.woff2') ) {
+				$yc_src[] = 'url("'.$this->StylesURL.'/Font/YourColor/Montserrat-Arabic-'.$yc_n.'.woff2") format("woff2")';
+			}
+			$yc_src[] = 'url("'.$this->StylesURL.'/Font/YourColor/Montserrat-Arabic-'.$yc_n.'.ttf") format("truetype")';
+			echo '@font-face {font-family: YourColor;font-style: normal;font-weight: '.$yc_w.';font-display: swap;src: '.implode(',', $yc_src).';}';
 		}
 		require get_template_directory().'/components/styles/main.css';
     	require get_template_directory().'/components/styles/responsive.css';
 	echo '</style>';
-	if( IsSpeed() == false){
-			
+	{
 			$show_headCodes = wp_is_mobile() ? get_option('show_ads_mobile_header') : get_option('show_ads_header');
 			$ads_code = wp_is_mobile() ? get_option('mobile_ads_header', '') : get_option('ads_header', '');
 

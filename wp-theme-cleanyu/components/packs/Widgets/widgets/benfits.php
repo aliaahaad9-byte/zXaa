@@ -31,7 +31,7 @@ class Theme__WidgetModel__benfits extends WP_Widget {
                 echo '<benfits>';
                     foreach($benfits as $box){
                         echo '<benfit>';
-                             if(IsSpeed() == false){
+                             {
                             echo '<div class="images_features">';
                                 echo '<img width="80" height="80" alt="'.get_option('Sitename').'" data-loader-src="'.$box['images']['url'].'"/>';
                             echo '</div>';
