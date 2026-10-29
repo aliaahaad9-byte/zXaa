@@ -102,10 +102,11 @@ function yc_fw_button( $slot ) {
             . '.btn-works .footer-header svg{width:100%;height:30px}'
             . '.btn-works a:focus-visible{outline:3px solid #2764c380;outline-offset:3px;border-radius:14px}'
             . '.btn-works--stack{position:absolute;left:0;bottom:100%;margin-bottom:17px}'
-            . '.btn-works--right{position:fixed;right:20px;bottom:100px;z-index:3}'
+            . '.btn-works--right{position:fixed;right:20px;bottom:5vh;z-index:2}'
             . '.btn-works--right a{flex-direction:row-reverse}'
             . '.btn-works--right span{padding:0 20px 0 15px;margin-left:0;margin-right:-13px}'
             . '@media only screen and (max-width:780px){.btn-works{display:block}}'
+            . ( 'right' === $slot ? '@media only screen and (max-width:780px){body #button{bottom:calc(5vh + 70px)}}' : '' )
             . '</style>';
     }
     $icon = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 15l5-4.5 4 3.5 3-2.5 6 5"/><circle cx="16.5" cy="8.8" r="1.4" fill="#fff" stroke="none"/></svg>';
