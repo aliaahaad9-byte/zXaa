@@ -173,6 +173,13 @@ $metaboxes['Footer'] = array(
 			'id'    => 'footer_about',
 		),
 
+		array(
+			'name'  => 'رابط تطبيق Google Play (اتركه فارغًا لاستخدام الرابط الافتراضي، أو اكتب - لإخفاء الشارة)',
+			'nameEN'=> 'Google Play URL',
+			'type'  => 'text',
+			'id'    => 'play_store_url',
+		),
+
 		# بيانات التوثيق
 		array(
 			'name' => 'بيانات التوثيق',

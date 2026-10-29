@@ -13,15 +13,15 @@ if( $comment->user_id > 0 ) {
 $AvatarAuthor = get_avatar_url($user);
 echo '<li id="comment-'.$comment->comment_ID.'">';
 	echo '<div class="CommentContent">';
-		echo '<div class="UserAvatar '.$class.'"><img data-loader-src="'.$AvatarAuthor.'" width="50" height="50"></div>';
-		echo '<div class="NameArea">'.$comment->comment_author.'</div>';
+		echo '<div class="UserAvatar '.$class.'"><img data-loader-src="'.esc_url($AvatarAuthor).'" width="50" height="50"></div>';
+		echo '<div class="NameArea">'.esc_html($comment->comment_author).'</div>';
 		echo '<div class="CommentDate">';
 			$date = 'منذ '.human_time_diff( date('U', strtotime($comment->comment_date)), current_time('timestamp') );
 			echo $date;
 		echo '</div>';
-		echo '<a href="javascript:void(0);" data-comment="'.$comment->comment_ID.'" data-id="'.$post->ID.'" class="activable" onClick="ReplyComment(this);">رد</a>';
+		echo '<a href="javascript:void(0);" data-comment="'.(int)$comment->comment_ID.'" data-id="'.(int)$post->ID.'" data-name="'.esc_attr($comment->comment_author).'" class="activable" onClick="YCReplyComment(this);">رد</a>';
 	echo '</div>';
-	echo '<p class="contentcomment">'.$comment->comment_content.'</p>';
+	echo '<p class="contentcomment">'.nl2br(esc_html($comment->comment_content)).'</p>';
 echo '</li>';
 $arguments = array(
 	'status' => 'approve',

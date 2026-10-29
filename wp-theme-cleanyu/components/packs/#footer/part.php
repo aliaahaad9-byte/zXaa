@@ -159,8 +159,14 @@ elseif( is_tax('country') ) {
 
 			echo'<div class="blocks-footer">';
 
-				// عمود الشركة: اللوجو + نبذة مختصرة
-				if( !empty($logo_footer) || !empty($footer_about) ) {
+				// عمود الشركة: اللوجو + نبذة مختصرة + التواصل الاجتماعي + شارة Google Play
+				$play_url = trim( (string) get_option('play_store_url') );
+				if( $play_url === '' ) {
+					$play_url = 'https://play.google.com/store/apps/details?id=com.altanfez.app&hl=ar';
+				}
+				if( $play_url === '-' ) {
+					$play_url = '';
+				}
 				echo '<div class="footer-brand">';
 					if( !empty($logo_footer) ) {
 						echo '<div class="footer-brand__logo">';
@@ -172,8 +178,16 @@ elseif( is_tax('country') ) {
 					if( !empty($footer_about) ) {
 						echo '<p class="footer-brand__about">'.esc_html( wp_strip_all_tags($footer_about) ).'</p>';
 					}
+					echo '<div class="footer-brand__social">';
+						(new ThemeStatic)->Part("social");
+					echo '</div>';
+					if( $play_url !== '' ) {
+						echo '<a class="gp-badge" href="'.esc_url($play_url).'" target="_blank" rel="noopener" aria-label="حمّل تطبيق '.esc_attr(get_bloginfo('name')).' من Google Play">';
+							echo '<svg viewBox="0 0 24 26" width="22" height="24" aria-hidden="true" focusable="false"><path d="M1.2 1.1c-.3.3-.5.8-.5 1.4v21c0 .6.2 1.1.5 1.4l.1.1L13 13.3v-.3L1.3 1z" fill="#00d7fe"/><path d="M16.9 17.2l-3.9-3.9v-.3l3.9-3.9.1.1 4.6 2.6c1.3.7 1.3 2 0 2.7l-4.6 2.6z" fill="#ffce00"/><path d="M17 17.1L13 13.2 1.2 24.9c.4.4 1.1.5 1.9.1L17 17.1" fill="#f43249"/><path d="M17 9.2L3.1 1.3C2.3.9 1.6 1 1.2 1.4L13 13.2z" fill="#00f076"/></svg>';
+							echo '<span><small>احصل عليه من</small><b>Google Play</b></span>';
+						echo '</a>';
+					}
 				echo '</div>';
-				}
 
 				echo '<div class ="footer_menu">';
 					echo '<span class ="text-footer-menu">روابط هامة</span>';
@@ -217,17 +231,10 @@ elseif( is_tax('country') ) {
 					echo '</div>';
 				}
 
-				echo'<div class="blocks-yc-">';				
-					echo'<div class="contact-info-right">';
-		                echo '<span class ="text-footer-menu">التواصل الإجتماعي</span>';
-		                echo'<div class="contact-box">';
-							(new ThemeStatic)->Part("social");
-		                echo'</div>';
-		            echo'</div>';
-				echo'</div>';
 			echo'</div>';
 			
 		echo '</div>';
+		echo '<style>.footer-brand__social{margin-top:20px}.footer-brand__social .social--footer{flex-wrap:wrap;gap:10px}.footer-brand__social .social--footer>a{margin-inline-end:0;width:40px;height:40px}.gp-badge{display:inline-flex;align-items:center;gap:10px;margin-top:16px;padding:7px 16px 7px 14px;border:1px solid #ffffff55;border-radius:10px;color:#fff;text-decoration:none;transition:all .2s ease;background:transparent;direction:ltr}.gp-badge:hover{background:#ffffff14;border-color:#ffffffaa;color:#fff}.gp-badge span{display:flex;flex-direction:column;line-height:1.15;text-align:left}.gp-badge small{font-size:10px;font-weight:400;opacity:.85;letter-spacing:.3px}.gp-badge b{font-size:16px;font-weight:600;font-family:Arial,sans-serif}.gp-badge svg{flex-shrink:0}@media only screen and (max-width:780px){.footer-brand__social .social--footer{justify-content:center}}</style>';
 		// طرق الدفع المتاحة
 		if( $hide_payments != 'on' ) {
 			$payments = array(
@@ -386,8 +393,12 @@ elseif( is_tax('country') ) {
 				echo '</div>';
 			echo '</a>';
 		echo'</div>';
+		// زر «سابقة أعمالنا» (على الجوال فقط) — ضمن الأزرار العائمة يسار الشاشة
+		if( function_exists('yc_fw_button') ) { echo yc_fw_button('stack'); }
 	
 	echo'</div>';
+	// ... أو أقصى اليمين حسب الإعداد
+	if( function_exists('yc_fw_button') ) { echo yc_fw_button('right'); }
 echo '</root>';
 
 $TempDIR = $this->TempURL;
