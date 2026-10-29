@@ -187,6 +187,8 @@ echo '<div class="single-post">';
                                     echo $content;
                                 echo '</div>';
                             echo '</div>';
+                            // الجداول العريضة تتمرر داخل إطارها بدل أن توسّع الصفحة على الجوال
+                            echo '<style>.ArticleDetails .tablecontainer{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.ArticleDetails .tablecontainer>table{margin-bottom:0}</style>';
                             
                         echo '</div>';
                     echo '</div>';
