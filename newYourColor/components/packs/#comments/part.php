@@ -9,10 +9,10 @@ echo '<div class ="comments_label">';
 			echo '<div class="alerts"></div>';
 			echo '<div class ="Comment_lise">';
 				if( is_user_logged_in() ) { global $current_user;
-					echo '<input type="text" disabled name="yourname" value="'.$current_user->display_name.'" placeholder="إسمك الكريم *" />';
+					echo '<input type="text" disabled name="user_name" value="'.$current_user->display_name.'" placeholder="إسمك الكريم *" />';
 					echo '<input type="email" disabled name="email" value="'.$current_user->user_email.'" placeholder="بريدك الإلكتروني *" />';
 				}else {
-					echo '<input type="text" name="yourname" placeholder="إسمك الكريم *" />';
+					echo '<input type="text" name="user_name" placeholder="إسمك الكريم *" />';
 					echo '<input type="email" name="email" placeholder="بريدك الإلكتروني *" />';
 				}
 			echo '</div>';

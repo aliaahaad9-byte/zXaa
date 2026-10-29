@@ -793,3 +793,113 @@
 		font-size: 12px
 	}
 }
+/* ==========================================================================
+   هوية الألوان (برتقالي) — بدل الأزرق في: قسم الخدمات، الفوتر، زرّي البحث والقائمة.
+   في آخر الملف عمدًا حتى تغلب القواعد الأصلية دون تعديلها.
+   الأبيض على #f97316 = 2.8:1 فقط فلا يوضع خلف نص؛ النص الأبيض يقع على
+   #c2410c (5.18:1) و #9a3412 (7.31:1) و #7c2d12.
+   ========================================================================== */
+
+/* قسم «ماذا نقدم لكم من خدمات» */
+section.bh_category_shap .--intro--bg--styles {
+	background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%);
+	--item-color: rgba(255, 255, 255, .07)
+}
+section.bh_category_shap .category_panner-mobile {
+	background-color: rgba(255, 255, 255, .16);
+	border-color: rgba(255, 255, 255, .28)
+}
+/* بديل الصورة المفقودة في بطاقة القسم */
+.-category-image .-category-icon-fallback {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	margin: 0 auto;
+	border-radius: 16px;
+	background: #fff1e6;
+	color: #c2410c;
+	font-size: 26px
+}
+.-category-image .-category-icon-fallback i {
+	color: #c2410c;
+	font-size: 26px
+}
+
+/* الفوتر */
+footer,
+#button {
+	background: #9a3412
+}
+.foot {
+	background: #7c2d12
+}
+.footer_menu ul li a {
+	background: rgba(0, 0, 0, .2)
+}
+.footer_menu ul li a:hover {
+	background: #c2410c
+}
+.footer_menu ul li a:before {
+	border-color: #fed7aa
+}
+.social--footer>a:hover {
+	color: #c2410c
+}
+/* اسم جهة البرمجة كان يرث لون الروابط الداكن فلا يُقرأ على خلفية الفوتر */
+.company p a,
+.company p a strong {
+	color: #fff
+}
+
+/* زرّا البحث والقائمة */
+.search_header span {
+	background: #c2410c
+}
+@media only screen and (max-width:1150px) {
+	/* البحث كان مخفيًا تمامًا على الجوال */
+	.search_header {
+		display: flex
+	}
+	.menu-barbox {
+		align-items: center;
+		gap: 8px
+	}
+	header .menu_bar,
+	.search_header span {
+		width: 44px;
+		height: 44px;
+		border-radius: 12px;
+		background: #c2410c;
+		margin: 0
+	}
+	header .menu_bar i {
+		color: #fff
+	}
+	.search_header form {
+		top: 52px;
+		min-width: 0;
+		width: calc(100vw - 32px);
+		max-width: 330px;
+		box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
+		z-index: 1000
+	}
+}
+
+/* مواعيد العمل في الفوتر على الجوال: السطور تلتف تحت العنوان بدل أن تخرج عن الشاشة */
+@media only screen and (max-width:700px) {
+	.contact-info {
+		min-width: 0
+	}
+	.contact-info>div.contact-hours {
+		flex-direction: column;
+		align-items: flex-start;
+		padding-left: 0
+	}
+	.contact-hours__lines p {
+		margin-inline-start: 0;
+		font-size: 16px;
+		white-space: normal
+	}
+}

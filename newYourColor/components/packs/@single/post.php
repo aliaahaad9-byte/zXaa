@@ -313,7 +313,7 @@ echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' style="--bg-post:url
                             echo '</div>';
                         echo '</div>';
                         echo '<div class="-single-social">';
-                            echo '<span>ارسال للجيران</span>';
+                            echo '<span>شارك</span>';
                             echo '<ul class="blogs-box-social-share">';
                                 echo '<li class="whatsapp" data-sharer="whatsapp" data-hashtag="#'.str_replace(' ', '_', $Title).'" data-url="'.$Permalink.'"'.( ( !wp_is_mobile() ) ? ' data-web="true"' : '' ).' data-link="true" data-blank="true" data-title="'.$Title.'"b" rel="noopener" data-custom-class="socialTips">';
                                     echo '<div data-navigate-off="true">';
@@ -374,7 +374,7 @@ echo '<div class="single-post-boxed" '.( ( !IsSpeed() ) ? ' style="--bg-post:url
                             }
                             if(!empty($questions)){
                                 echo '<div class="-faqs-singlebox">';
-                                    echo '<h2 class="-TitleContent-section"><i class="fa-solid fa-question"></i>الأسئلة الشائعة حول '.esc_html( rtrim( trim( $post->post_title ), " ؟?.!" ) ).'؟</h2>';
+                                    echo '<h2 class="-TitleContent-section"><i class="fa-solid fa-question"></i>الأسئلة الشائعة حول '.esc_html( rtrim( trim( $post->post_title ), " ؟?.!" ) ).'</h2>';
                                     echo '<ul>';
                                         $q=0;
                                         foreach ($questions as $v) {$q++;

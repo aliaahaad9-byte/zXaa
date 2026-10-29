@@ -59,7 +59,8 @@ class Theme__WidgetModel__category_shap extends WP_Widget {
         if( isset($instance['button_name']) ) {
             $button_name = $instance['button_name'];
         }
-        $imagepin = get_option( 'imagepin' )['url'];
+        $imagepin_opt = get_option( 'imagepin' );
+        $imagepin = ( is_array( $imagepin_opt ) && ! empty( $imagepin_opt['url'] ) ) ? $imagepin_opt['url'] : '';
         echo'<section section-concept="true" class="bh_category_shap">';
             echo '<div class="--intro--bg--styles"><div class="--intro--bg--shapes -shape-intro--bg--v1"></div><div class="--intro--bg--shapes -shape-intro--bg--v3"></div><div class="--intro--bg--shapes -shape-intro--bg--v2"></div></div>';
             echo'<div class="container">';
@@ -73,7 +74,6 @@ class Theme__WidgetModel__category_shap extends WP_Widget {
                 echo '</div>';
                
                 echo'<div class="category_panner-mobile">';
-                    $imagepin = get_option('imagepin')['url'];
                     foreach( $terms as $category ) {
                         $content = wp_trim_words($category->description, 15, '...');
                         $icon = get_term_meta($category->term_id, "icon", true);
@@ -88,8 +88,13 @@ class Theme__WidgetModel__category_shap extends WP_Widget {
                         echo '<div class= "-category-boxed">';
                             echo '<div class= "-category-image">';
                                 echo'<a href="'.get_term_link($category).'">';
-                                    echo '<img width="100%" height="100%" alt="'.$category->name.'" src="'.$image.'"/>';
-                                   
+                                    if( !empty($image) ) {
+                                        echo '<img width="100%" height="100%" alt="'.$category->name.'" src="'.$image.'"/>';
+                                    } else {
+                                        // قسم بلا صورة ولا صورة ثابتة في الإعدادات: أيقونة القسم بدل صورة مكسورة
+                                        $icon_html = ( 0 === strpos( trim( $icon ), '<' ) ) ? $icon : '<i aria-hidden="true" class="'.esc_attr( $icon ).'"></i>';
+                                        echo '<span class="-category-icon-fallback">'.$icon_html.'</span>';
+                                    }
                                 echo '</a>';
                             echo '</div>';
                             echo '<div class= "cat_title_boxed">';

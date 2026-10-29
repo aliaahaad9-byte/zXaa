@@ -398,7 +398,13 @@ function SubmitComment(e, t = !1) {
             data: a,
             dataType: "json",
             success: function(t) {
-                null == t.error && ($(e).removeClass("loading"), $(e).find(".loader").remove(), $(e).trigger("reset"), "0" == $(e).attr("data-parent") ? $(".CommentsListInner").prepend(t.output) : $("#comment-" + $(e).attr("data-parent")).after('<ul class="ChildComments">' + t.output + "</ul>"))
+                // إزالة علامة التحميل دائمًا، وعرض النتيجة (نجاح أو خطأ) داخل النموذج نفسه
+                $(e).removeClass("loading"), $(e).find(".loader").remove();
+                if (null != t.error) {
+                    $(e).find(".alerts").html('<div class="alert alert-danger">' + $("<div>").text(t.message || "تعذّر إرسال التعليق، حاول مرة أخرى.").html() + "</div>");
+                    return;
+                }
+                $(e).trigger("reset"), $(e).attr("data-parent", "0"), $(".ReplyCommentPreview").remove(), $(e).find(".alerts").html(t.output || "");
             }
         }), 0 == Currentuser_Logged && ($.cookie("user-data-email", o.email), $.cookie("user-data-name", o.name))), !1
     }
