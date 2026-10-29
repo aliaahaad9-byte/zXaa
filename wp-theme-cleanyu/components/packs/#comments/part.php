@@ -17,7 +17,7 @@ echo '<div class ="comments_label">';
 				}
 			echo '</div>';
 			// حقل فخ للسبام: مخفي عن الزوار
-			echo '<div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true"><label>الموقع<input type="text" name="website" tabindex="-1" autocomplete="off" value="" /></label></div>';
+			echo '<div style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap" aria-hidden="true"><label>الموقع<input type="text" name="website" tabindex="-1" autocomplete="off" value="" /></label></div>';
 			echo '<div class ="textarea_form">';
 				echo '<textarea name="comment" required maxlength="2000" placeholder="أكتب التعليق هنا .." aria-label="التعليق"></textarea>';
 				echo '<button class="hoverable activable" type="submit">إرســال التعليق</button>';
