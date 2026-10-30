@@ -94,8 +94,7 @@ echo '<section class="yb-hero"><div class="container">';
         };
         echo '<div class="yb-row">'; $field( 'company', 'اسم المنشأة', 'text', true, '', 'autocomplete="organization"' ); $select( 'sector', 'نوع القطاع', $sectors ); echo '</div>';
         echo '<div class="yb-row">'; $field( 'person', 'اسم المسؤول ومسماه الوظيفي', 'text', true, 'مثال: محمد أحمد، مدير العمليات', 'autocomplete="name"' ); $field( 'phone', 'رقم الجوال', 'tel', true, '05xxxxxxxx', 'dir="ltr" inputmode="tel" autocomplete="tel"' ); echo '</div>';
-        echo '<div class="yb-row">'; $field( 'email', 'البريد الإلكتروني (اختياري)', 'email', false, '', 'dir="ltr" autocomplete="email"' ); $select( 'city', 'المدينة', $cities ); echo '</div>';
-        echo '<div class="yb-row">'; $field( 'district', 'الحي (اختياري)', 'text', false ); $field( 'sites', 'عدد المواقع أو الفروع (اختياري)', 'text', false, '', 'inputmode="numeric" autocomplete="off"' ); echo '</div>';
+        echo '<div class="yb-row">'; $select( 'city', 'المدينة', $cities ); $field( 'district', 'الحي (اختياري)', 'text', false ); echo '</div>';
         echo '<fieldset class="yb-f"><legend>الخدمات المطلوبة <i aria-hidden="true">*</i></legend><div class="yb-chk">';
         foreach ( $services as $s ) {
             echo '<label><input type="checkbox" name="services" value="' . esc_attr( $s ) . '"><span>' . $e( $s ) . '</span></label>';

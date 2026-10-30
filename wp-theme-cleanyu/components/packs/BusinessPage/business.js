@@ -41,10 +41,8 @@
     if (val('sector')) { L.push('القطاع: ' + val('sector')); }
     L.push('المسؤول: ' + val('person'));
     L.push('الجوال: ' + normPhone(val('phone')));
-    if (val('email')) { L.push('البريد: ' + val('email')); }
     if (val('city')) { L.push('المدينة: ' + val('city')); }
     if (val('district')) { L.push('الحي: ' + val('district')); }
-    if (val('sites')) { L.push('عدد المواقع: ' + latin(val('sites'))); }
     if (services().length) { L.push('الخدمات: ' + services().join('، ')); }
     if (val('notes')) { L.push('ملاحظات: ' + val('notes')); }
     L.push('', pageUrl);
@@ -58,7 +56,6 @@
       if (!val(k)) { fail(k, 'هذا الحقل مطلوب.'); } else { setErr(k, ''); }
     });
     if (!phoneOk(val('phone'))) { fail('phone', 'رقم الجوال غير صحيح (مثال: 05xxxxxxxx).'); } else { setErr('phone', ''); }
-    if (val('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'))) { fail('email', 'البريد الإلكتروني غير صحيح.'); } else { setErr('email', ''); }
     if (!services().length) { fail('services', 'اختر خدمة واحدة على الأقل.'); } else { setErr('services', ''); }
     if (!el('agree').checked) { fail('agree', 'الموافقة مطلوبة لإرسال الطلب.'); } else { setErr('agree', ''); }
     return bad ? first || true : null;
