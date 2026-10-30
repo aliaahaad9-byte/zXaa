@@ -401,14 +401,19 @@ echo'<header>';
 			}
 		    }
 		echo'</div>';
-		echo'<div class="menu-nav">';
+		echo'<div class="menu-nav" id="yc-menu">';
+			// شريط أعلى اللوحة — يظهر على الجوال فقط
+			echo'<div class="menu-nav__top">';
+				if( !empty( $logo ) && isset( $logo['url'] ) && !empty( $logo['url'] ) ){
+					echo'<a class="menu-nav__logo" href="'.esc_url( home_url() ).'"><img width="160" height="40" alt="'.esc_attr( get_bloginfo('name') ).'" src="'.esc_url( $logo['url'] ).'"></a>';
+				}
+				echo'<button type="button" class="menu-nav__close" aria-label="إغلاق القائمة"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>';
+			echo'</div>';
 		    if(IsSpeed() == false){
-			echo'<form method="GET" action="'.home_url().'" style="display:none;">';
-
-		        echo'<input type="seach" name="s" placeholder="أدخل كلمة البحث" />';
-
-		        echo'<button  aria-label="seach" type="submit"><i class="fa fa-search"></i></button>';
-
+			// البحث داخل القائمة بدل أيقونة البحث في الرأس
+			echo'<form class="menu-nav__search" role="search" method="GET" action="'.esc_url( home_url() ).'" style="display:none;">';
+		        echo'<input type="search" name="s" placeholder="ابحث في الموقع" enterkeyhint="search" autocomplete="off" aria-label="ابحث في الموقع" />';
+		        echo'<button aria-label="بحث" type="submit"><i class="fa-regular fa-magnifying-glass" aria-hidden="true"></i></button>';
 		    echo'</form>'; 
 		    }
 			wp_nav_menu(
@@ -431,6 +436,35 @@ echo'<header>';
 	               'walker'         => '',
 				)
 			);
+
+			// المدن (من تصنيف المدن الموجود) — روابطها لأرشيف كل مدينة
+			$yc_menu_cities = get_terms( array( 'taxonomy' => 'country', 'hide_empty' => false, 'number' => 12 ) );
+			if( !empty( $yc_menu_cities ) && !is_wp_error( $yc_menu_cities ) ){
+				echo'<div class="menu-nav__cities">';
+					echo'<p class="menu-nav__label">المدن</p>';
+					echo'<ul>';
+					foreach( $yc_menu_cities as $yc_city ){
+						$yc_city_link = get_term_link( $yc_city );
+						if( !is_wp_error( $yc_city_link ) ){
+							echo'<li><a href="'.esc_url( $yc_city_link ).'">'.esc_html( $yc_city->name ).'</a></li>';
+						}
+					}
+					echo'</ul>';
+				echo'</div>';
+			}
+
+			// أزرار التواصل — نفس أرقام الصفحة (تتبع النقرات يعمل عليها تلقائيًا)
+			$yc_menu_wa = preg_replace( '/[^0-9]/', '', (string) $Whatsapp );
+			if( !empty( $Phone ) || '' !== $yc_menu_wa ){
+				echo'<div class="menu-nav__cta">';
+					if( '' !== $yc_menu_wa ){
+						echo'<a class="menu-nav__btn menu-nav__btn--wa" href="https://wa.me/'.esc_attr( $yc_menu_wa ).'" target="_blank" rel="nofollow noopener" data-call="whatsapp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>واتساب</span></a>';
+					}
+					if( !empty( $Phone ) ){
+						echo'<a class="menu-nav__btn menu-nav__btn--call" href="tel:'.esc_attr( $Phone ).'" data-call="Phone"><i class="fa-solid fa-phone" aria-hidden="true"></i><span>اتصل بنا</span></a>';
+					}
+				echo'</div>';
+			}
 			
 		echo'</div>';
 		echo '<div class="menu-barbox">';
