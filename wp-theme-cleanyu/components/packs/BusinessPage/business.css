@@ -1,0 +1,134 @@
+/* صفحة قطاع الأعمال — خفيفة: بلا صور ولا مكتبات، القيم من متغيّرات القالب */
+.yb{--b-brand:var(--uicolor);--b-navy:#033673;--b-navy2:#1d4b92;--b-gold:#f5a524;--b-wa:#0b6e57;--b-ok:#0f7a3b;--b-err:#b42318;
+  --b-title:var(--titlecolor);--b-text:var(--contentcolor);--b-line:var(--border);--b-soft:#f4f7fd;
+  font-family:var(--ffamily);color:var(--b-text);display:block;padding-bottom:40px}
+.yb *{box-sizing:border-box}
+.yb svg{display:block;flex-shrink:0}
+.yb a{text-decoration:none}
+.yb h2,.yb h3{color:var(--b-title);line-height:1.5;margin:0}
+.yb-sec{padding:44px 0 0}
+.yb-sec>.container>h2{font-size:27px;font-weight:800;margin:0 0 10px}
+.yb-sub{margin:0 0 22px;font-size:16.5px;line-height:1.9;max-width:820px}
+
+/* الهيرو + النموذج */
+.yb-hero{background:linear-gradient(135deg,var(--b-navy) 0%,var(--b-navy2) 100%);color:#fff;padding:20px 0 34px}
+.yb-crumb{font-size:13.5px;margin-bottom:16px}
+.yb-crumb a,.yb-crumb span{color:#ffffffd0}
+.yb-hero__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px);grid-template-areas:"intro form" "extra form";grid-template-rows:auto 1fr;gap:0 34px;align-items:start}
+.yb-hero__intro{grid-area:intro}
+.yb-hero__extra{grid-area:extra}
+.yb-form{grid-area:form}
+.yb-hero h1{margin:0 0 12px;font-size:34px;font-weight:800;line-height:1.45;color:#fff}
+.yb-hero__lead{margin:0 0 6px;font-size:17px;line-height:1.95;color:#ffffffe6}
+.yb-btns{display:flex;flex-wrap:wrap;gap:10px}
+.yb-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 22px;border-radius:12px;font:inherit;font-size:16px;font-weight:800;cursor:pointer;border:2px solid transparent;transition:var(--transition)}
+.yb-btn svg{width:19px;height:19px;fill:currentColor}
+.yb-btn--gold{background:var(--b-gold);color:#12243a}
+.yb-btn--wa{background:var(--b-wa);color:#fff}
+.yb-btn--ghost{background:transparent;color:#fff;border-color:#ffffff88}
+.yb-btn:hover{filter:brightness(1.07)}
+.yb-btn:focus-visible,.yb a:focus-visible,.yb summary:focus-visible{outline:3px solid #f5a524;outline-offset:2px}
+.yb-facts{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.yb-facts li{background:#ffffff1f;border:1px solid #ffffff40;border-radius:99px;padding:6px 14px;font-size:14px;font-weight:700;color:#fff}
+
+.yb-form{background:#fff;color:var(--b-text);border-radius:var(--largeradius);padding:22px 22px 20px;box-shadow:0 18px 50px #0b223940;scroll-margin-top:90px}
+.yb-form h2{font-size:21px;font-weight:800;margin:0 0 4px}
+.yb-form__note{margin:0 0 14px;font-size:14px;line-height:1.8}
+.yb-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.yb-f{display:flex;flex-direction:column;gap:5px;min-width:0;border:0;margin:0 0 12px;padding:0}
+.yb-row .yb-f{margin:0}
+.yb-f>label,.yb-f>legend{font-size:14.5px;font-weight:700;color:var(--b-title);padding:0}
+.yb-f>legend{margin-bottom:6px}
+.yb-f i{color:var(--b-err);font-style:normal}
+.yb-f small{font-weight:400;font-size:12.5px}
+.yb input[type=text],.yb input[type=tel],.yb input[type=email],.yb input[type=number],.yb select,.yb textarea{width:100%;min-height:46px;border:1.5px solid var(--b-line);border-radius:var(--miniradius);padding:9px 12px;font:inherit;font-size:16px;color:var(--b-title);background:#fff}
+.yb textarea{min-height:84px;resize:vertical;line-height:1.7}
+.yb input:focus,.yb select:focus,.yb textarea:focus{outline:0;border-color:var(--b-brand);box-shadow:0 0 0 3px #2764c32b}
+.yb [aria-invalid=true]{border-color:var(--b-err)}
+.yb-err{color:var(--b-err);font-size:13px;font-weight:600}
+.yb-chk{display:flex;flex-wrap:wrap;gap:8px}
+.yb-chk label{position:relative;display:inline-flex;margin:0}
+.yb-chk input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.yb-chk span{display:inline-flex;align-items:center;min-height:40px;padding:6px 14px;border:1.5px solid var(--b-line);border-radius:99px;font-size:14.5px;font-weight:700;color:var(--b-title);background:#fff;transition:var(--transition)}
+.yb-chk input:checked+span{background:var(--b-brand);border-color:var(--b-brand);color:#fff}
+.yb-chk input:focus-visible+span{outline:3px solid #2764c366;outline-offset:2px}
+.yb-agree{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.7;margin:2px 0 12px}
+.yb-agree input{width:20px;min-height:20px;height:20px;margin-top:3px;flex-shrink:0}
+.yb-agree a{color:var(--b-brand);font-weight:700;text-decoration:underline}
+.yb-send{width:100%;background:var(--b-wa);color:#fff;min-height:52px;font-size:17px}
+.yb-ok{margin:10px 0 0;color:var(--b-ok);font-weight:700;font-size:14.5px}
+
+/* الكروت العامة */
+.yb-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.yb-card{background:#fff;border:1px solid var(--b-line);border-radius:var(--largeradius);padding:18px;display:flex;flex-direction:column;gap:8px}
+.yb-card h3{font-size:18px;font-weight:800;color:var(--b-navy2)}
+.yb-card p{margin:0;font-size:15.5px;line-height:1.85}
+.yb-card a.yb-more{margin-top:auto;font-weight:700;color:var(--b-brand);text-decoration:underline}
+.yb-cards--3{grid-template-columns:repeat(3,1fr)}
+.yb-card--accent{border-top:4px solid var(--b-gold)}
+
+/* الجداول */
+.yb-tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--b-line);border-radius:12px;overflow:hidden;font-size:15.5px}
+.yb-tbl th{background:var(--b-navy);color:#fff;font-weight:800;text-align:right;padding:12px 14px}
+.yb-tbl td{padding:12px 14px;border-top:1px solid var(--b-line);vertical-align:top;line-height:1.8}
+.yb-tbl tbody tr:nth-child(even){background:var(--b-soft)}
+.yb-tbl td:first-child{font-weight:800;color:var(--b-title)}
+.yb-tbl a{color:var(--b-brand);text-decoration:underline}
+
+/* الخطوات */
+.yb-steps{list-style:none;margin:0 0 26px;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:s}
+.yb-steps li{counter-increment:s;position:relative;background:#fff;border:1px solid var(--b-line);border-radius:var(--largeradius);padding:54px 16px 16px;font-size:15.5px;line-height:1.85}
+.yb-steps li:before{content:counter(s);position:absolute;top:14px;right:16px;width:30px;height:30px;border-radius:50%;background:var(--b-brand);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.yb-steps b{display:block;color:var(--b-title);font-size:17px;margin-bottom:3px}
+
+/* شارات المدن والضمان */
+.yb-pills{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.yb-pills li a,.yb-pills li span{display:inline-block;background:var(--b-soft);border:1px solid var(--b-line);border-radius:99px;padding:6px 16px;font-size:15px;font-weight:700;color:var(--b-navy2)}
+.yb-pills--main span{background:var(--b-navy);border-color:var(--b-navy);color:#fff}
+.yb-box{background:var(--b-soft);border:1px solid var(--b-line);border-right:5px solid var(--b-gold);border-radius:var(--largeradius);padding:16px 20px;margin:0 0 14px;line-height:1.95;font-size:16px}
+.yb-box b{color:var(--b-title)}
+.yb-box a{color:var(--b-brand);font-weight:700;text-decoration:underline}
+.yb-list{margin:0;padding:0 20px 0 0;line-height:2}
+
+/* الأسئلة */
+.yb-faq details{background:#fff;border:1px solid var(--b-line);border-radius:12px;margin:0 0 10px}
+.yb-faq summary{cursor:pointer;padding:14px 18px;font-weight:800;color:var(--b-title);font-size:16.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.yb-faq summary::-webkit-details-marker{display:none}
+.yb-faq summary:after{content:"+";font-size:22px;color:var(--b-brand);line-height:1}
+.yb-faq details[open] summary:after{content:"−"}
+.yb-faq p{margin:0;padding:0 18px 16px;line-height:1.95;font-size:16px}
+
+/* التواصل */
+.yb-contact{background:linear-gradient(135deg,var(--b-navy) 0%,var(--b-navy2) 100%);color:#fff;border-radius:var(--largeradius);padding:28px 24px;text-align:center}
+.yb-contact h2{color:#fff;font-size:25px;font-weight:800;margin:0 0 8px}
+.yb-contact p{margin:0 auto 16px;max-width:680px;line-height:1.9;color:#ffffffe6}
+.yb-contact .yb-btns{justify-content:center}
+.yb-contact ul{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;font-size:15px;color:#ffffffe0}
+.yb-links{margin:22px 0 0;font-size:15.5px;line-height:2}
+.yb-links a{color:var(--b-brand);font-weight:700;text-decoration:underline;margin-inline-end:14px}
+
+@media (max-width:1000px){
+ .yb-hero__grid{grid-template-columns:1fr;grid-template-areas:"intro" "form" "extra";grid-template-rows:auto;gap:16px 0}
+ .yb-hero__extra{margin-top:8px}
+ .yb-cards{grid-template-columns:repeat(2,1fr)}
+ .yb-steps{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+ .yb-hero h1{font-size:25px}
+ .yb-hero__lead{font-size:15.5px;line-height:1.85}
+ .yb-hero h1{margin-bottom:8px}
+ .yb-sec>.container>h2{font-size:22px}
+ .yb-row{grid-template-columns:1fr}
+ .yb-form{padding:18px 16px}
+ .yb-cards,.yb-cards--3,.yb-steps{grid-template-columns:1fr}
+ .yb-btn{width:100%}
+ .yb-tbl--stack thead{display:none}
+ .yb-tbl--stack,.yb-tbl--stack tbody,.yb-tbl--stack tr,.yb-tbl--stack td{display:block;width:100%}
+ .yb-tbl--stack{border:0;background:transparent}
+ .yb-tbl--stack tr{background:#fff;border:1px solid var(--b-line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+ .yb-tbl--stack tbody tr:nth-child(even){background:#fff}
+ .yb-tbl--stack td{border:0;padding:8px 14px}
+ .yb-tbl--stack td:first-child{background:var(--b-navy);color:#fff;font-size:16.5px}
+ .yb-tbl--stack td[data-l]:not(:first-child):before{content:attr(data-l);display:block;font-size:13px;font-weight:800;color:var(--b-brand)}
+ .yb-tbl--stack td:first-child a{color:#fff}
+}

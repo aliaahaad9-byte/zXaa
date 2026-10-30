@@ -12,7 +12,7 @@ foreach( glob($ModelsPath.'/*.php') as $model ) {
 	$models[$model_ID] = ucfirst($modelname);
 }
 // أسماء عربية للنماذج الجديدة
-$yc_model_labels = array( 'calculator' => 'حاسبة الأسعار', 'offers' => 'صفحة العروض', 'order' => 'طلب خدمة', 'projects' => 'سابقة الأعمال' );
+$yc_model_labels = array( 'calculator' => 'حاسبة الأسعار', 'offers' => 'صفحة العروض', 'order' => 'طلب خدمة', 'projects' => 'سابقة الأعمال', 'business' => 'قطاع الأعمال' );
 foreach( $yc_model_labels as $yc_k => $yc_l ) {
 	if( isset($models[$yc_k]) ) { $models[$yc_k] = $yc_l; }
 }
