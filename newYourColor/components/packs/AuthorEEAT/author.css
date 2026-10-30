@@ -1,0 +1,335 @@
+/* ==========================================================================
+   AuthorEEAT — صفحة الكاتب وصندوق «عن الكاتب»
+   كل القيم من متغيّرات القالب (main.css). الأبيض على لون الهوية #1682d7 = 4.03:1
+   فلا يُستخدم خلف نص؛ الأزرار والنصوص الملوّنة بالدرجة الأغمق #1068ae (5.81:1).
+   ========================================================================== */
+
+.eeat-card,
+.eeat-profile {
+	--ea-brand: var(--uicolor, #1682d7);
+	--ea-ink: #1068ae;
+	--ea-green: #25863c;
+	--ea-title: var(--titlecolor, #011e12);
+	--ea-text: var(--textcolor, #0b2239);
+	--ea-muted: var(--contentcolor, #455b6c);
+	--ea-bg: var(--bkground, #f2f4fa);
+	--ea-line: var(--border, #d7d9df);
+	--ea-shadow: var(--box-shadow, 0 20px 60px 0px rgba(59, 42, 130, .06));
+	--ea-r: var(--miniradius, 20px);
+	--ea-r-lg: var(--largeradius, 30px);
+	--ea-t: var(--transition, all 0.2s ease);
+	font-family: var(--ffamily, Alexandria), system-ui, sans-serif;
+	color: var(--ea-text);
+	direction: rtl;
+	text-align: right;
+}
+.eeat-card *, .eeat-profile * { box-sizing: border-box; }
+.eeat-card p, .eeat-profile p, .eeat-profile h1, .eeat-profile h2, .eeat-profile h3 { margin: 0; }
+.eeat-card ul, .eeat-profile ul { list-style: none; margin: 0; padding: 0; }
+.eeat-num { direction: ltr; unicode-bidi: embed; font-variant-numeric: tabular-nums; }
+
+/* شارة «خبير موثّق» */
+.eeat-verified {
+	display: inline-flex; align-items: center; gap: 6px;
+	padding: 5px 12px 5px 14px;
+	border-radius: 999px;
+	background: #e9f6ee; color: var(--ea-green);
+	font-size: 12.5px; font-weight: 700; line-height: 1.4;
+	white-space: nowrap;
+}
+.eeat-verified svg { width: 16px; height: 16px; fill: var(--ea-green); flex: none; }
+
+/* روابط التواصل */
+.eeat-social { display: flex; flex-wrap: wrap; gap: 8px; }
+.eeat-social a {
+	width: 40px; height: 40px;
+	display: inline-flex; align-items: center; justify-content: center;
+	border-radius: 12px;
+	background: #fff; border: 1px solid var(--ea-line);
+	color: var(--ea-ink); font-size: 16px;
+	text-decoration: none;
+	transition: var(--ea-t);
+}
+.eeat-social a:hover { background: var(--ea-ink); border-color: var(--ea-ink); color: #fff; transform: translateY(-2px); }
+.eeat-social a:focus-visible { outline: 3px solid var(--ea-brand); outline-offset: 2px; }
+.eeat-social--sm a { width: 36px; height: 36px; font-size: 14px; border-radius: 10px; }
+
+/* ==========================================================================
+   صندوق «عن الكاتب» أسفل المقال
+   ========================================================================== */
+.eeat-card {
+	margin: 28px 0 8px;
+	padding: 24px;
+	background: #fff;
+	border: 1px solid var(--ea-line);
+	border-top: 4px solid var(--ea-brand);
+	border-radius: var(--ea-r);
+	box-shadow: var(--ea-shadow);
+}
+.eeat-card__head { display: flex; align-items: center; gap: 16px; }
+.eeat-card__photo { flex: none; display: block; }
+.eeat-card__photo img {
+	width: 84px; height: 84px;
+	border-radius: 22px;
+	object-fit: cover;
+	display: block;
+	border: 3px solid #fff;
+	box-shadow: 0 0 0 1px var(--ea-line), 0 8px 18px rgba(11, 34, 57, .08);
+}
+.eeat-card__id { flex: 1; min-width: 0; }
+.eeat-card__label { display: block; font-size: 12px; color: var(--ea-muted); margin-bottom: 2px; }
+.eeat-card__name {
+	display: inline-block;
+	font-size: 19px; font-weight: 800; line-height: 1.4;
+	color: var(--ea-title); text-decoration: none;
+}
+.eeat-card__name:hover { color: var(--ea-ink); }
+.eeat-card__job { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; font-size: 13.5px; font-weight: 600; color: var(--ea-ink); }
+
+.eeat-card__facts {
+	display: flex; flex-wrap: wrap; gap: 10px;
+	margin-top: 18px; padding-top: 16px;
+	border-top: 1px dashed var(--ea-line);
+}
+.eeat-card__facts li {
+	display: inline-flex; align-items: center; gap: 8px;
+	padding: 8px 13px;
+	background: var(--ea-bg);
+	border-radius: 12px;
+	font-size: 13px; color: var(--ea-text);
+}
+.eeat-card__facts i { color: var(--ea-ink); font-size: 14px; }
+.eeat-card__facts b { font-weight: 800; }
+
+.eeat-card__match {
+	display: flex; gap: 12px; align-items: flex-start;
+	margin-top: 16px; padding: 15px 16px;
+	background: linear-gradient(135deg, rgba(22, 130, 215, .07), rgba(22, 130, 215, .02));
+	border: 1px solid rgba(22, 130, 215, .18);
+	border-radius: 16px;
+}
+.eeat-card__match-icon {
+	width: 40px; height: 40px; flex: none;
+	display: inline-flex; align-items: center; justify-content: center;
+	border-radius: 12px;
+	background: #fff; color: var(--ea-ink); font-size: 17px;
+	box-shadow: 0 4px 10px rgba(16, 104, 174, .12);
+}
+.eeat-card__match strong { display: block; font-size: 14.5px; font-weight: 800; color: var(--ea-title); margin-bottom: 4px; }
+.eeat-card__match p, .eeat-card__bio { font-size: 14px; line-height: 1.95; color: var(--ea-muted); }
+.eeat-card__bio { margin-top: 16px; }
+
+.eeat-card__certs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.eeat-card__certs span {
+	display: inline-flex; align-items: center; gap: 7px;
+	padding: 6px 12px;
+	border: 1px solid var(--ea-line); border-radius: 999px;
+	font-size: 12.5px; font-weight: 600; color: var(--ea-text);
+}
+.eeat-card__certs i { color: var(--ea-green); font-size: 12px; }
+
+.eeat-card__more {
+	display: inline-flex; align-items: center; gap: 8px;
+	margin-top: 18px;
+	font-size: 13.5px; font-weight: 700;
+	color: var(--ea-ink); text-decoration: none;
+	transition: var(--ea-t);
+}
+.eeat-card__more:hover { gap: 12px; color: var(--ea-ink); }
+
+/* ==========================================================================
+   صفحة الكاتب
+   ========================================================================== */
+.eeat-page { padding-block: 26px 10px; }
+.eeat-page breadcrumb { display: block; margin-bottom: 18px; }
+
+.eeat-hero {
+	display: grid;
+	grid-template-columns: 220px 1fr;
+	gap: 34px;
+	align-items: center;
+	padding: 34px;
+	background:
+		radial-gradient(700px 300px at 0% 0%, rgba(22, 130, 215, .12), transparent 60%),
+		#fff;
+	border: 1px solid var(--ea-line);
+	border-radius: var(--ea-r-lg);
+	box-shadow: var(--ea-shadow);
+}
+.eeat-hero__photo img {
+	width: 220px; height: 220px;
+	display: block;
+	object-fit: cover;
+	border-radius: var(--ea-r-lg);
+	border: 5px solid #fff;
+	box-shadow: 0 0 0 1px var(--ea-line), 0 18px 40px rgba(11, 34, 57, .12);
+}
+.eeat-hero__body h1 {
+	font-size: 34px; font-weight: 800; line-height: 1.35;
+	color: var(--ea-title);
+	margin-top: 10px;
+	letter-spacing: -0.4px;
+}
+.eeat-hero__body .eeat-verified { margin-bottom: 2px; }
+.eeat-hero__job { margin-top: 6px !important; font-size: 17px; font-weight: 700; color: var(--ea-ink); }
+.eeat-hero__lead { margin-top: 12px !important; font-size: 15px; line-height: 2; color: var(--ea-muted); max-width: 70ch; }
+.eeat-hero__meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 18px; }
+.eeat-hero__meta span {
+	display: inline-flex; align-items: center; gap: 7px;
+	padding: 7px 13px;
+	background: var(--ea-bg);
+	border-radius: 999px;
+	font-size: 13px; font-weight: 600; color: var(--ea-text);
+}
+.eeat-hero__meta i { color: var(--ea-ink); }
+
+/* شريط الأرقام */
+.eeat-stats {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 14px;
+	margin-top: 18px;
+}
+.eeat-stats--1 { grid-template-columns: 1fr; }
+.eeat-stats--2 { grid-template-columns: repeat(2, 1fr); }
+.eeat-stats--3 { grid-template-columns: repeat(3, 1fr); }
+.eeat-stat {
+	display: flex; flex-direction: column; align-items: center; justify-content: center;
+	gap: 4px;
+	padding: 20px 12px;
+	background: #fff;
+	border: 1px solid var(--ea-line);
+	border-radius: var(--ea-r);
+	text-align: center;
+}
+.eeat-stat i {
+	width: 42px; height: 42px;
+	display: inline-flex; align-items: center; justify-content: center;
+	border-radius: 13px;
+	background: rgba(22, 130, 215, .1); color: var(--ea-ink);
+	font-size: 17px; margin-bottom: 6px;
+}
+.eeat-stat b { font-size: 28px; font-weight: 800; color: var(--ea-title); line-height: 1.2; }
+.eeat-stat span { font-size: 13px; font-weight: 600; color: var(--ea-muted); }
+
+/* الأقسام */
+.eeat-block {
+	margin-top: 18px;
+	padding: 28px;
+	background: #fff;
+	border: 1px solid var(--ea-line);
+	border-radius: var(--ea-r);
+	box-shadow: var(--ea-shadow);
+}
+.eeat-title {
+	display: flex; align-items: center; gap: 11px;
+	font-size: 20px; font-weight: 800; line-height: 1.4;
+	color: var(--ea-title);
+	margin-bottom: 18px !important;
+}
+.eeat-title i {
+	width: 38px; height: 38px; flex: none;
+	display: inline-flex; align-items: center; justify-content: center;
+	border-radius: 12px;
+	background: var(--ea-ink); color: #fff; font-size: 15px;
+}
+.eeat-title--posts { margin: 34px 0 16px !important; }
+.eeat-about p { font-size: 15px; line-height: 2.1; color: var(--ea-muted); margin-bottom: 12px; }
+.eeat-about p:last-child { margin-bottom: 0; }
+
+/* الخبرة حسب القسم */
+.eeat-exp { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.eeat-exp__item {
+	display: flex; flex-direction: column;
+	padding: 20px;
+	background: var(--ea-bg);
+	border: 1px solid transparent;
+	border-radius: 18px;
+	transition: var(--ea-t);
+}
+.eeat-exp__item:hover { background: #fff; border-color: rgba(22, 130, 215, .3); box-shadow: var(--ea-shadow); }
+.eeat-exp__head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.eeat-exp__icon {
+	width: 46px; height: 46px; flex: none;
+	display: inline-flex; align-items: center; justify-content: center;
+	border-radius: 14px;
+	background: #fff; color: var(--ea-ink); font-size: 19px;
+	box-shadow: 0 4px 12px rgba(16, 104, 174, .12);
+}
+.eeat-exp__head h3 { flex: 1; font-size: 16.5px; font-weight: 800; color: var(--ea-title); }
+.eeat-exp__years {
+	flex: none;
+	padding: 5px 11px;
+	border-radius: 999px;
+	background: #fff; color: var(--ea-ink);
+	font-size: 12.5px; font-weight: 700;
+}
+.eeat-exp__item p { flex: 1; font-size: 14px; line-height: 2; color: var(--ea-muted); }
+.eeat-exp__link {
+	display: inline-flex; align-items: center; gap: 7px;
+	margin-top: 12px;
+	font-size: 13px; font-weight: 700;
+	color: var(--ea-ink); text-decoration: none;
+	transition: var(--ea-t);
+}
+.eeat-exp__link:hover { gap: 11px; color: var(--ea-ink); }
+
+/* الشهادات والعضويات */
+.eeat-split { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.eeat-split--single { grid-template-columns: 1fr; }
+.eeat-split .eeat-block { margin-top: 18px; }
+.eeat-list { display: flex; flex-direction: column; gap: 10px; }
+.eeat-list li {
+	display: flex; align-items: center; gap: 12px;
+	padding: 13px 14px;
+	border: 1px solid var(--ea-line);
+	border-radius: 14px;
+}
+.eeat-list__icon {
+	width: 38px; height: 38px; flex: none;
+	display: inline-flex; align-items: center; justify-content: center;
+	border-radius: 11px;
+	background: #e9f6ee; color: var(--ea-green); font-size: 15px;
+}
+.eeat-list li > div { flex: 1; min-width: 0; }
+.eeat-list strong { display: block; font-size: 14.5px; font-weight: 700; color: var(--ea-title); line-height: 1.6; }
+.eeat-list small { display: block; font-size: 12.5px; color: var(--ea-muted); margin-top: 2px; }
+.eeat-list__verify {
+	flex: none;
+	padding: 6px 12px;
+	border-radius: 9px;
+	background: var(--ea-ink); color: #fff !important;
+	font-size: 12px; font-weight: 700; text-decoration: none;
+}
+.eeat-list__verify:hover { background: #0d5a97; }
+
+/* الإنجازات */
+.eeat-highlights { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 18px; }
+.eeat-highlights li { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; line-height: 1.9; color: var(--ea-text); }
+.eeat-highlights i { color: var(--ea-green); margin-top: 6px; }
+
+/* ==========================================================================
+   الاستجابة
+   ========================================================================== */
+@media (max-width: 960px) {
+	.eeat-hero { grid-template-columns: 1fr; text-align: center; justify-items: center; padding: 28px 20px; gap: 20px; }
+	.eeat-hero__photo img { width: 170px; height: 170px; }
+	.eeat-hero__body h1 { font-size: 27px; }
+	.eeat-hero__lead { margin-inline: auto; }
+	.eeat-hero__meta, .eeat-hero .eeat-social { justify-content: center; }
+	.eeat-stats { grid-template-columns: repeat(2, 1fr); }
+	.eeat-exp, .eeat-split, .eeat-highlights { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+	.eeat-card { padding: 18px; }
+	.eeat-card__head { flex-wrap: wrap; }
+	.eeat-card__head .eeat-social { width: 100%; }
+	.eeat-card__photo img { width: 68px; height: 68px; border-radius: 18px; }
+	.eeat-block { padding: 20px 16px; }
+	.eeat-title { font-size: 17.5px; }
+	.eeat-stat b { font-size: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.eeat-card *, .eeat-profile * { transition-duration: .01ms !important; }
+	.eeat-social a:hover { transform: none; }
+}
