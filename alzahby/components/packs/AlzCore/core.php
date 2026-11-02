@@ -722,7 +722,7 @@ final class Alz {
 	}
 
 	/** ربط استاند غير مربوط بصفحة المستخدم — عملية ذرّية (UPDATE ... WHERE profile_id IS NULL) */
-	public static function claim_stand( $user_id, $code ) {
+	public static function claim_stand( $user_id, $code, $kind = '' ) {
 		global $wpdb;
 		if ( ! preg_match( self::CODE_RE, $code ) ) {
 			return new WP_Error( 'code', 'كود الاستاند غير صحيح' );
@@ -736,6 +736,14 @@ final class Alz {
 			return new WP_Error( 'profile_required', 'أنشئ صفحتك أولاً ثم اربط الاستاند' );
 		}
 		$t       = self::table( 'stands' );
+		// الربط من خانة منصة معينة: الكود لازم يكون لاستاند من نفس النوع
+		if ( '' !== $kind ) {
+			$actual = self::stand_kind_of( $code );
+			if ( '' !== $actual && $actual !== $kind ) {
+				$defs = self::stand_kinds();
+				return new WP_Error( 'kind', 'هذا الكود خاص بـ «' . $defs[ $actual ]['label'] . '» وليس «' . $defs[ $kind ]['label'] . '»' );
+			}
+		}
 		$changed = $wpdb->query( $wpdb->prepare( "UPDATE $t SET profile_id = %d, claimed_at = %s WHERE code = %s AND profile_id IS NULL", $profile->id, self::now(), $code ) );
 		if ( $changed ) {
 			return true;

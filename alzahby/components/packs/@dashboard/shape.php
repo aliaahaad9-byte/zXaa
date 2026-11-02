@@ -238,6 +238,14 @@ $i      = function ( $n ) {
 								<?php if ( 'greview' === $k ) : ?>
 									<div class="target__ok" data-review hidden></div>
 								<?php endif; ?>
+								<div class="target__code">
+									<span class="lbl">كود الاستاند (المكتوب تحت الـ QR)</span>
+									<div class="row-gap">
+										<input class="input" data-code dir="ltr" maxlength="16" placeholder="مثال: Ab3dEf9hJk" autocomplete="off">
+										<button type="button" class="btn btn--outline" data-claim="<?php echo esc_attr( $k ); ?>"><?php $i( 'link' ); ?> ربط الاستاند</button>
+									</div>
+									<ul class="target__stands" data-stands></ul>
+								</div>
 							</div>
 						<?php endforeach; ?>
 						<p style="margin:14px 0 0"><button class="btn btn--dark" type="submit"><?php $i( 'save' ); ?> حفظ الروابط</button></p>

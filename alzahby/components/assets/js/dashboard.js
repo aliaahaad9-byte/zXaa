@@ -659,8 +659,11 @@
   function countKinds(list) {
     $$("[data-target]").forEach(function (box) {
       var k = box.getAttribute("data-target");
-      var n = list.filter(function (s) { return s.kind === k; }).length;
-      $("[data-count]", box).textContent = n ? n + " استاند مربوط" : "";
+      var mine = list.filter(function (s) { return s.kind === k; });
+      $("[data-count]", box).textContent = mine.length ? mine.length + " استاند مربوط" : "لا يوجد استاند مربوط";
+      $("[data-stands]", box).innerHTML = mine.map(function (s) {
+        return '<li><b dir="ltr">' + esc(s.code) + '</b><small class="muted">' + Number(s.scan_count || 0).toLocaleString("en-US") + ' مسح</small><button type="button" class="btn btn--ghost btn--sm danger" data-release="' + esc(s.code) + '">' + I.unlink + " فك الربط</button></li>";
+      }).join("");
     });
   }
   function renderStands(list) {
@@ -687,14 +690,15 @@
       toast("تم ربط الاستاند", "ok");
     }).catch(function (ex) { toast(ex.message, "err"); }).then(function () { btn.disabled = false; });
   });
-  standsEl.addEventListener("click", function (e) {
+  function releaseClick(e) {
     var b = e.target.closest("[data-release]");
     if (!b || !confirm("فك ربط هذا الاستاند؟ لن يفتح صفحتك بعد ذلك.")) return;
     api("POST", "stands/release", { code: b.getAttribute("data-release") }).then(function (res) {
       renderStands(res.stands);
       toast("تم فك ربط الاستاند", "ok");
     }).catch(function (ex) { toast(ex.message, "err"); });
-  });
+  }
+  standsEl.addEventListener("click", releaseClick);
 
   /* ---------------- روابط استاندات الدفع والتقييم ---------------- */
   var tForm = $("#targetsForm");
@@ -724,20 +728,56 @@
   window.addEventListener("beforeunload", function (e) {
     if (tDirty()) { e.preventDefault(); e.returnValue = ""; }
   });
+  // ربط استاند من خانة المنصة بالكود المكتوب تحت الـ QR
+  function claimIn(box) {
+    var k = box.getAttribute("data-target"), inp = $("[data-code]", box), code = inp.value.trim();
+    if (!code) return Promise.resolve(false);
+    if (!/^[A-Za-z0-9]{6,16}$/.test(code)) return Promise.reject(new Error("كود الاستاند غير صحيح (" + KINDS[k].short + ")"));
+    return api("POST", "stands/claim", { code: code, kind: k }).then(function (res) {
+      inp.value = "";
+      renderStands(res.stands);
+      return true;
+    });
+  }
+  tForm.addEventListener("click", function (e) {
+    releaseClick(e);
+    var b = e.target.closest("[data-claim]");
+    if (!b) return;
+    var box = b.closest("[data-target]"), k = box.getAttribute("data-target");
+    if (!$("[data-code]", box).value.trim()) { $("[data-code]", box).focus(); return toast("اكتب الكود المطبوع تحت الـ QR", "err"); }
+    b.disabled = true;
+    claimIn(box).then(function () {
+      var v = tForm[k].value.trim();
+      toast(v && v === (tSaved[k] || "") ? "تم ربط " + KINDS[k].label + " — يفتح رابطك الآن" : "تم ربط " + KINDS[k].label + " — أضف رابطك واحفظ", "ok");
+      if (!v) tForm[k].focus();
+    }).catch(function (ex) { toast(ex.message, "err"); }).then(function () { b.disabled = false; });
+  });
+  tForm.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && e.target.hasAttribute("data-code")) {
+      e.preventDefault();
+      $("[data-claim]", e.target.closest("[data-target]")).click();
+    }
+  });
   tForm.addEventListener("submit", function (e) {
     e.preventDefault();
     var btn = $("button[type=submit]", tForm);
     btn.disabled = true;
     btn.innerHTML = I.loader.replace('class="ic"', 'class="ic spin"') + " جارِ الحفظ";
-    api("PUT", "targets", {
+    var claimed = 0;
+    // أي كود مكتوب في الخانات يتم ربطه مع الحفظ
+    $$("[data-target]", tForm).reduce(function (p, box) {
+      return p.then(function () { return claimIn(box).then(function (ok) { if (ok) claimed++; }); });
+    }, Promise.resolve()).then(function () {
+      return api("PUT", "targets", {
       instapay: tForm.instapay.value.trim(),
       vcash: tForm.vcash.value.trim(),
       greview: tForm.greview.value.trim()
+      });
     }).then(function (res) {
       tSaved = res.targets;
       fillTargets(res.targets);
       $$("[data-target]").forEach(function (b) { b.classList.remove("focus"); });
-      toast(res.notice || "تم حفظ الروابط — الاستاندات تفتحها الآن", res.notice ? "err" : "ok");
+      toast(res.notice || (claimed ? "تم ربط " + claimed + " استاند وحفظ الروابط" : "تم حفظ الروابط — الاستاندات تفتحها الآن"), res.notice ? "err" : "ok");
     }).catch(function (ex) { toast(ex.message, "err"); }).then(function () {
       btn.disabled = false;
       btn.innerHTML = I.save + " حفظ الروابط";

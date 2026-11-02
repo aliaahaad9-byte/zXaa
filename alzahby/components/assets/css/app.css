@@ -308,3 +308,11 @@ h2{font-size:18px;font-weight:900;display:flex;align-items:center;gap:8px}
 .pay__btn:hover{filter:brightness(1.1)}
 .pay__note{font-size:13px;margin:14px 0 0}
 .pay__more{display:inline-block;margin-top:16px;font-size:13px}
+
+.target__code{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.target__code .lbl{margin:0 0 6px}
+.target__stands{list-style:none;margin:8px 0 0;padding:0}
+.target__stands li{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px}
+.target__stands li b{font-family:ui-monospace,monospace}
+.target__stands li button{margin-inline-start:auto}
+.target__stands:empty{display:none}

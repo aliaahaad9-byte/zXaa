@@ -219,7 +219,9 @@ final class AlzApi {
 	public static function stand( WP_REST_Request $req ) {
 		$uid  = get_current_user_id();
 		$code = trim( (string) $req->get_param( 'code' ) );
-		$res  = 'claim' === $req['action'] ? Alz::claim_stand( $uid, $code ) : Alz::release_stand( $uid, $code );
+		$kind = (string) $req->get_param( 'kind' );
+		$kind = ( '' !== $kind && Alz::is_stand_kind( $kind ) ) ? $kind : '';
+		$res  = 'claim' === $req['action'] ? Alz::claim_stand( $uid, $code, $kind ) : Alz::release_stand( $uid, $code );
 		if ( is_wp_error( $res ) ) {
 			return self::error( $res->get_error_message() );
 		}
