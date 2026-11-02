@@ -27,7 +27,9 @@ final class AlzAdmin {
 				$count = max( 1, min( 500, (int) $req->get_param( 'count' ) ) );
 				$batch = sanitize_text_field( (string) $req->get_param( 'batch' ) );
 				$batch = '' !== $batch ? mb_substr( $batch, 0, 40 ) : 'batch-' . gmdate( 'Y-m-d-His' );
-				return array( 'batch' => $batch, 'codes' => Alz::generate_stands( $count, $batch ) );
+				$kind  = (string) $req->get_param( 'kind' );
+				$kind  = Alz::is_stand_kind( $kind ) ? $kind : 'profile';
+				return array( 'batch' => $batch, 'kind' => $kind, 'codes' => Alz::generate_stands( $count, $batch, $kind ) );
 			},
 		) );
 		register_rest_route( 'alzahby/v1', '/admin/stands/batch', array(
@@ -38,16 +40,18 @@ final class AlzAdmin {
 				$t     = Alz::table( 'stands' );
 				$batch = sanitize_text_field( (string) $req->get_param( 'batch' ) );
 				$only  = 'free' === $req->get_param( 'only' ) ? ' AND profile_id IS NULL' : '';
-				$codes = $wpdb->get_col( $wpdb->prepare( "SELECT code FROM $t WHERE batch = %s$only ORDER BY id", $batch ) ); // phpcs:ignore
-				return array( 'batch' => $batch, 'codes' => $codes );
+				$kind  = (string) $req->get_param( 'kind' );
+				$kind  = Alz::is_stand_kind( $kind ) ? $kind : 'profile';
+				$codes = $wpdb->get_col( $wpdb->prepare( "SELECT code FROM $t WHERE batch = %s AND kind = %s$only ORDER BY id", $batch, $kind ) ); // phpcs:ignore
+				return array( 'batch' => $batch, 'kind' => $kind, 'codes' => $codes );
 			},
 		) );
 	}
 
-	public static function batches() {
+	public static function batches( $kind = 'profile' ) {
 		global $wpdb;
 		$t = Alz::table( 'stands' );
-		return $wpdb->get_results( "SELECT batch, COUNT(*) total, SUM(profile_id IS NOT NULL) linked, MAX(created_at) created FROM $t WHERE batch IS NOT NULL GROUP BY batch ORDER BY created DESC LIMIT 100" ); // phpcs:ignore
+		return $wpdb->get_results( $wpdb->prepare( "SELECT batch, COUNT(*) total, SUM(profile_id IS NOT NULL) linked, MAX(created_at) created FROM $t WHERE batch IS NOT NULL AND kind = %s GROUP BY batch ORDER BY created DESC LIMIT 100", $kind ) ); // phpcs:ignore
 	}
 
 	public static function menu() {
@@ -66,39 +70,52 @@ final class AlzAdmin {
 		$t     = Alz::table( 'stands' );
 		$batch = isset( $_GET['batch'] ) ? sanitize_text_field( wp_unslash( $_GET['batch'] ) ) : '';
 		$rows  = $batch
-			? $wpdb->get_results( $wpdb->prepare( "SELECT code, batch, profile_id, scan_count FROM $t WHERE batch = %s ORDER BY id", $batch ) )
-			: $wpdb->get_results( "SELECT code, batch, profile_id, scan_count FROM $t ORDER BY id" ); // phpcs:ignore
+			? $wpdb->get_results( $wpdb->prepare( "SELECT code, kind, batch, profile_id, scan_count FROM $t WHERE batch = %s ORDER BY id", $batch ) )
+			: $wpdb->get_results( "SELECT code, kind, batch, profile_id, scan_count FROM $t ORDER BY id" ); // phpcs:ignore
 
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename=stands-' . sanitize_file_name( $batch ? $batch : 'all' ) . '.csv' );
 		$out = fopen( 'php://output', 'w' );
 		fwrite( $out, "\xEF\xBB\xBF" );
-		fputcsv( $out, array( 'code', 'print_url', 'batch', 'linked', 'scans' ) );
+		fputcsv( $out, array( 'code', 'type', 'print_url', 'batch', 'linked', 'scans' ) );
 		foreach ( $rows as $r ) {
-			fputcsv( $out, array( $r->code, home_url( '/s/' . $r->code ), $r->batch, $r->profile_id ? 'yes' : 'no', $r->scan_count ) );
+			fputcsv( $out, array( $r->code, $r->kind, home_url( '/s/' . $r->code ), $r->batch, $r->profile_id ? 'yes' : 'no', $r->scan_count ) );
 		}
 		fclose( $out ); // phpcs:ignore
 		exit;
 	}
 
 	/** إعدادات التصميم الافتراضية: مكان مربع الـ QR كنسبة مئوية من صورة القالب */
-	public static function design_defaults() {
+	public static function design_defaults( $kind = 'profile' ) {
+		$img  = get_template_directory_uri() . '/components/assets/img/';
+		$sets = array(
+			'profile'  => array( 'stand-template.webp', 22.0, 22.9, 56.1, 38.7, '#0b1020' ),
+			'instapay' => array( 'stand-instapay.webp', 20.2, 23.2, 59.6, 39.9, '#350366' ),
+			'vcash'    => array( 'stand-vcash.webp', 19.3, 23.2, 61.3, 39.0, '#8f1416' ),
+			'greview'  => array( 'stand-greview.webp', 20.9, 22.9, 58.3, 38.5, '#06183e' ),
+		);
+		$d = isset( $sets[ $kind ] ) ? $sets[ $kind ] : $sets['profile'];
 		return array(
-			'template' => get_template_directory_uri() . '/components/assets/img/stand-template.webp',
-			'x'        => 22.0,
-			'y'        => 22.9,
-			'w'        => 56.1,
-			'h'        => 38.7,
+			'template' => $img . $d[0],
+			'x'        => $d[1],
+			'y'        => $d[2],
+			'w'        => $d[3],
+			'h'        => $d[4],
 			'qr'       => 86,
 			'code'     => 1,
-			'color'    => '#0b1020',
+			'color'    => $d[5],
 		);
 	}
 
-	public static function design() {
-		$saved = get_option( 'alz_stand_design', array() );
-		return array_merge( self::design_defaults(), is_array( $saved ) ? $saved : array() );
+	/** خيار التصميم: الاستاند الأساسي يحتفظ باسمه القديم حتى لا يضيع تصميم محفوظ سابقاً */
+	private static function design_option( $kind ) {
+		return 'profile' === $kind ? 'alz_stand_design' : 'alz_stand_design_' . $kind;
+	}
+
+	public static function design( $kind = 'profile' ) {
+		$saved = get_option( self::design_option( $kind ), array() );
+		return array_merge( self::design_defaults( $kind ), is_array( $saved ) ? $saved : array() );
 	}
 
 	/** صفحة مولّد تصاميم الاستاندات: يركّب QR لكل كود على صورة القالب ويحمّلها ZIP أو PDF */
@@ -106,10 +123,13 @@ final class AlzAdmin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
+		$kinds  = Alz::stand_kinds();
+		$kind   = isset( $_GET['kind'] ) ? sanitize_key( $_GET['kind'] ) : 'profile';
+		$kind   = Alz::is_stand_kind( $kind ) ? $kind : 'profile';
 		$notice = '';
 		if ( isset( $_POST['alz_design_save'] ) ) {
 			check_admin_referer( 'alz_design' );
-			$d = self::design_defaults();
+			$d = self::design_defaults( $kind );
 			$n = array( 'template' => isset( $_POST['template'] ) ? esc_url_raw( wp_unslash( $_POST['template'] ) ) : $d['template'] );
 			foreach ( array( 'x', 'y', 'w', 'h' ) as $k ) {
 				$n[ $k ] = isset( $_POST[ $k ] ) ? max( 0, min( 100, round( (float) $_POST[ $k ], 2 ) ) ) : $d[ $k ];
@@ -120,24 +140,34 @@ final class AlzAdmin {
 			if ( '' === $n['template'] ) {
 				$n['template'] = $d['template'];
 			}
-			update_option( 'alz_stand_design', $n );
+			update_option( self::design_option( $kind ), $n );
 			$notice = 'تم حفظ إعدادات التصميم.';
 		}
 		if ( isset( $_POST['alz_design_reset'] ) ) {
 			check_admin_referer( 'alz_design' );
-			delete_option( 'alz_stand_design' );
+			delete_option( self::design_option( $kind ) );
 			$notice = 'تمت استعادة التصميم الافتراضي.';
 		}
 		wp_enqueue_media();
-		$design  = self::design();
-		$batches = self::batches();
+		$design  = self::design( $kind );
+		$batches = self::batches( $kind );
+		$page    = admin_url( 'admin.php?page=alzahby-designer' );
 		?>
 		<div class="wrap alzd" dir="rtl">
 			<h1>تصميم الاستاندات وتوليد أكواد QR للطباعة</h1>
+			<nav class="nav-tab-wrapper alzd__tabs">
+				<?php foreach ( $kinds as $k => $kd ) : ?>
+					<a class="nav-tab<?php echo $k === $kind ? ' nav-tab-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'kind', $k, $page ) ); ?>"><i style="background:<?php echo esc_attr( $kd['color'] ); ?>"></i><?php echo esc_html( $kd['label'] ); ?></a>
+				<?php endforeach; ?>
+			</nav>
 			<?php if ( $notice ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $notice ); ?></p></div>
 			<?php endif; ?>
-			<p>كل تصميم يحمل QR فريد برابط ثابت <code dir="ltr"><?php echo esc_html( home_url( '/s/CODE' ) ); ?></code> وكود مكتوب تحته. العميل يمسح الـ QR أو يكتب الكود في لوحته ليربط الاستاند بصفحته.</p>
+			<?php if ( 'profile' === $kind ) : ?>
+				<p>كل تصميم يحمل QR فريد برابط ثابت <code dir="ltr"><?php echo esc_html( home_url( '/s/CODE' ) ); ?></code> وكود مكتوب تحته. العميل يمسح الـ QR أو يكتب الكود في لوحته ليربط الاستاند بصفحته.</p>
+			<?php else : ?>
+				<p><b><?php echo esc_html( $kinds[ $kind ]['label'] ); ?>:</b> كل تصميم يحمل QR فريد برابط ثابت <code dir="ltr"><?php echo esc_html( home_url( '/s/CODE' ) ); ?></code>. بعد ما العميل يفعّله يضيف رابط <?php echo esc_html( $kinds[ $kind ]['short'] ); ?> مرة واحدة من لوحته، والاستاند يفتح الرابط ده مباشرة لزبائنه<?php echo 'greview' === $kind ? ' (رابط الخرائط يتحول تلقائياً لقسم المراجعات)' : ''; ?>.</p>
+			<?php endif; ?>
 
 			<div class="alzd__grid">
 				<div class="alzd__side">
@@ -149,7 +179,7 @@ final class AlzAdmin {
 							</select>
 							<input type="number" id="alzCountCustom" min="1" max="500" value="75" class="small-text" hidden>
 						</label></p>
-						<p><label>اسم الدفعة<br><input type="text" id="alzBatch" class="regular-text" value="<?php echo esc_attr( 'batch-' . gmdate( 'Y-m-d' ) ); ?>"></label></p>
+						<p><label>اسم الدفعة<br><input type="text" id="alzBatch" class="regular-text" value="<?php echo esc_attr( ( 'profile' === $kind ? 'batch' : $kind ) . '-' . gmdate( 'Y-m-d' ) ); ?>"></label></p>
 						<p><label>صيغة التحميل<br>
 							<select id="alzFormat">
 								<option value="pdf">PDF للطباعة (صفحة لكل استاند)</option>
@@ -213,6 +243,7 @@ final class AlzAdmin {
 			</div>
 		</div>
 		<style>
+			.alzd__tabs{margin:12px 0 4px}.alzd__tabs i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px;vertical-align:middle}
 			.alzd__grid{display:grid;gap:20px;grid-template-columns:minmax(300px,420px) 1fr;align-items:start;margin-top:16px}
 			@media(max-width:960px){.alzd__grid{grid-template-columns:1fr}}
 			.alzd__card{max-width:none;padding:8px 18px 14px;margin:0 0 16px}
@@ -231,6 +262,7 @@ final class AlzAdmin {
 		echo wp_json_encode(
 			array(
 				'design' => $design,
+				'kind'   => $kind,
 				'api'    => rest_url( 'alzahby/v1/admin/stands/' ),
 				'nonce'  => wp_create_nonce( 'wp_rest' ),
 				'base'   => home_url( '/s/' ),
@@ -256,7 +288,8 @@ final class AlzAdmin {
 			check_admin_referer( 'alz_generate' );
 			$count = isset( $_POST['count'] ) ? absint( $_POST['count'] ) : 0;
 			$batch = isset( $_POST['batch'] ) ? sanitize_text_field( wp_unslash( $_POST['batch'] ) ) : '';
-			$new   = Alz::generate_stands( $count, $batch );
+			$gkind = isset( $_POST['kind'] ) ? sanitize_key( $_POST['kind'] ) : 'profile';
+			$new   = Alz::generate_stands( $count, $batch, $gkind );
 		}
 		if ( isset( $_POST['alz_unlink'] ) ) {
 			check_admin_referer( 'alz_unlink' );
@@ -264,8 +297,20 @@ final class AlzAdmin {
 			$wpdb->query( $wpdb->prepare( "UPDATE $t SET profile_id = NULL, claimed_at = NULL WHERE code = %s", $code ) );
 		}
 
+		$kinds  = Alz::stand_kinds();
 		$filter = isset( $_GET['f'] ) ? sanitize_key( $_GET['f'] ) : 'all';
-		$where  = 'linked' === $filter ? 'WHERE s.profile_id IS NOT NULL' : ( 'free' === $filter ? 'WHERE s.profile_id IS NULL' : '' );
+		$kf     = isset( $_GET['kind'] ) ? sanitize_key( $_GET['kind'] ) : '';
+		$kf     = Alz::is_stand_kind( $kf ) ? $kf : '';
+		$conds  = array();
+		if ( 'linked' === $filter ) {
+			$conds[] = 's.profile_id IS NOT NULL';
+		} elseif ( 'free' === $filter ) {
+			$conds[] = 's.profile_id IS NULL';
+		}
+		if ( $kf ) {
+			$conds[] = "s.kind = '" . esc_sql( $kf ) . "'";
+		}
+		$where = $conds ? 'WHERE ' . implode( ' AND ', $conds ) : '';
 		$paged  = max( 1, isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1 );
 		$per    = 50;
 		$total  = (int) $wpdb->get_var( "SELECT COUNT(*) FROM $t s $where" ); // phpcs:ignore
@@ -284,6 +329,7 @@ final class AlzAdmin {
 					<p>
 						<label>العدد <input type="number" name="count" min="1" max="1000" value="50" class="small-text"></label>
 						&nbsp; <label>اسم الدفعة <input type="text" name="batch" value="<?php echo esc_attr( 'batch-' . gmdate( 'Y-m-d' ) ); ?>"></label>
+						&nbsp; <label>النوع <select name="kind"><?php foreach ( $kinds as $k => $kd ) : ?><option value="<?php echo esc_attr( $k ); ?>"><?php echo esc_html( $kd['short'] ); ?></option><?php endforeach; ?></select></label>
 						&nbsp; <button class="button button-primary">توليد</button>
 					</p>
 				</form>
@@ -296,17 +342,24 @@ final class AlzAdmin {
 
 			<ul class="subsubsub">
 				<?php foreach ( array( 'all' => 'الكل', 'linked' => 'مربوطة', 'free' => 'غير مربوطة' ) as $k => $v ) : ?>
-					<li><a href="<?php echo esc_url( add_query_arg( 'f', $k, $base ) ); ?>" class="<?php echo $filter === $k ? 'current' : ''; ?>"><?php echo esc_html( $v ); ?></a> |</li>
+					<li><a href="<?php echo esc_url( add_query_arg( array( 'f' => $k, 'kind' => $kf ), $base ) ); ?>" class="<?php echo $filter === $k ? 'current' : ''; ?>"><?php echo esc_html( $v ); ?></a> |</li>
 				<?php endforeach; ?>
+				<li>&nbsp; النوع:
+					<a href="<?php echo esc_url( add_query_arg( 'f', $filter, $base ) ); ?>" class="<?php echo '' === $kf ? 'current' : ''; ?>">الكل</a>
+					<?php foreach ( $kinds as $k => $kd ) : ?>
+						| <a href="<?php echo esc_url( add_query_arg( array( 'f' => $filter, 'kind' => $k ), $base ) ); ?>" class="<?php echo $kf === $k ? 'current' : ''; ?>"><?php echo esc_html( $kd['short'] ); ?></a>
+					<?php endforeach; ?>
+				|</li>
 				<li><a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=alz_export_stands' ), 'alz_export_stands' ) ); ?>">تصدير الكل CSV</a></li>
 			</ul>
 
 			<table class="widefat striped" style="margin-top:12px">
-				<thead><tr><th>الكود</th><th>الدفعة</th><th>النشاط المربوط</th><th>عدد المسح</th><th>تاريخ الربط</th><th></th></tr></thead>
+				<thead><tr><th>الكود</th><th>النوع</th><th>الدفعة</th><th>النشاط المربوط</th><th>عدد المسح</th><th>تاريخ الربط</th><th></th></tr></thead>
 				<tbody>
 				<?php foreach ( $rows as $r ) : ?>
 					<tr>
 						<td><code dir="ltr"><?php echo esc_html( $r->code ); ?></code></td>
+						<td><?php $kd = isset( $kinds[ $r->kind ] ) ? $kinds[ $r->kind ] : $kinds['profile']; ?><span style="display:inline-block;padding:1px 8px;border-radius:9px;color:#fff;font-size:12px;background:<?php echo esc_attr( $kd['color'] ); ?>"><?php echo esc_html( $kd['short'] ); ?></span></td>
 						<td><?php echo esc_html( $r->batch ); ?></td>
 						<td><?php echo $r->slug ? '<a target="_blank" href="' . esc_url( home_url( '/' . $r->slug . '/' ) ) . '">' . esc_html( $r->business_name ) . '</a>' : '—'; ?></td>
 						<td><?php echo (int) $r->scan_count; ?></td>
@@ -322,7 +375,7 @@ final class AlzAdmin {
 					</tr>
 				<?php endforeach; ?>
 				<?php if ( ! $rows ) : ?>
-					<tr><td colspan="6">لا توجد استاندات.</td></tr>
+					<tr><td colspan="7">لا توجد استاندات.</td></tr>
 				<?php endif; ?>
 				</tbody>
 			</table>

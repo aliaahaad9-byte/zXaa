@@ -2,6 +2,7 @@
 /**
  * المسارات:
  *   /s/{code}                 الرابط المطبوع على الاستاند (QR + NFC) — ثابت للأبد
+ *                             (صفحة النشاط / إنستاباي / فودافون كاش / تقييم جوجل حسب نوع الاستاند)
  *   /u/{id}                   الرابط الدائم لصفحة النشاط
  *   /{slug}                   الرابط المختصر لصفحة النشاط
  *   /dashboard                لوحة تحكم العميل
@@ -108,12 +109,50 @@ add_filter(
 		if ( ! $stand ) {
 			return false;
 		}
-		if ( $stand->profile ) {
+		$user_id = get_current_user_id();
+		$kinds   = Alz::stand_kinds();
+		$kind    = $stand->kind;
+
+		// استاند صفحة النشاط المربوط ⟵ صفحة النشاط
+		if ( 'profile' === $kind && $stand->profile ) {
 			wp_safe_redirect( home_url( '/' . $stand->profile->slug . '/' ), 302 );
 			exit;
 		}
 
-		$user_id = get_current_user_id();
+		// استاند إنستاباي / فودافون كاش / تقييم جوجل المربوط ⟵ رابط العميل لهذه المنصة
+		if ( 'profile' !== $kind && $stand->owner ) {
+			$target = Alz::stand_target( $stand->owner, $kind );
+			if ( $target && ! empty( $target['href'] ) ) {
+				wp_redirect( $target['href'], 302 ); // phpcs:ignore -- رابط خارجي تم التحقق منه عند الحفظ
+				exit;
+			}
+			if ( $target && ! empty( $target['copy'] ) ) {
+				return array(
+					'mode'    => 'pay',
+					'kind'    => $kind,
+					'def'     => $kinds[ $kind ],
+					'code'    => $code,
+					'value'   => $target['copy'],
+					'profile' => $stand->owner,
+				);
+			}
+			// لم يُضف الرابط بعد: صاحب الاستاند يذهب لإضافته، والزبون يرى صفحة النشاط إن وُجدت
+			if ( $user_id && (int) $stand->owner->owner_id === $user_id ) {
+				wp_safe_redirect( add_query_arg( array( 'tab' => 'share', 'setup' => $kind ), Alz::dashboard_url() ) . '#targets' );
+				exit;
+			}
+			if ( $stand->profile ) {
+				wp_safe_redirect( home_url( '/' . $stand->profile->slug . '/' ), 302 );
+				exit;
+			}
+			return array(
+				'mode' => 'pending',
+				'kind' => $kind,
+				'def'  => $kinds[ $kind ],
+				'code' => $code,
+			);
+		}
+
 		$error   = '';
 		$profile = $user_id ? Alz::profile_by_owner( $user_id ) : null;
 
@@ -124,7 +163,11 @@ add_filter(
 			} else {
 				$res = Alz::claim_stand( $user_id, $code );
 				if ( true === $res ) {
-					wp_safe_redirect( add_query_arg( array( 'tab' => 'share', 'claimed' => 1 ), Alz::dashboard_url() ) );
+					$args = array( 'tab' => 'share', 'claimed' => 1 );
+					if ( 'profile' !== $kind ) {
+						$args['setup'] = $kind;
+					}
+					wp_safe_redirect( add_query_arg( $args, Alz::dashboard_url() ) );
 					exit;
 				}
 				$error = $res->get_error_message();
@@ -132,6 +175,9 @@ add_filter(
 		}
 
 		return array(
+			'mode'        => 'claim',
+			'kind'        => $kind,
+			'def'         => $kinds[ $kind ],
 			'code'        => $code,
 			'user_id'     => $user_id,
 			'has_profile' => (bool) $profile,
@@ -151,12 +197,14 @@ add_filter(
 		}
 		$profile = Alz::profile_by_owner( $user_id );
 		$stand   = isset( $_GET['stand'] ) ? sanitize_text_field( wp_unslash( $_GET['stand'] ) ) : '';
+		$setup   = isset( $_GET['setup'] ) ? sanitize_key( $_GET['setup'] ) : '';
 		return array(
 			'user'    => wp_get_current_user(),
 			'profile' => $profile,
 			'links'   => $profile ? Alz::links( $profile->id ) : array(),
 			'stands'  => $profile ? Alz::stands( $profile->id ) : array(),
 			'stand'   => preg_match( Alz::CODE_RE, $stand ) ? $stand : '',
+			'setup'   => ( 'profile' !== $setup && Alz::is_stand_kind( $setup ) ) ? $setup : '',
 		);
 	}
 );

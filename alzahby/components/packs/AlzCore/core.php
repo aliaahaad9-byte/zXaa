@@ -2,6 +2,7 @@
 /**
  * Alz — نواة منصة QurTap
  * الجداول: alz_profiles (النشاط) · alz_links (الروابط) · alz_stands (الاستاندات المطبوعة)
+ * أنواع الاستاندات: profile (صفحة النشاط) · instapay · vcash · greview — كل نوع يفتح رابطاً واحداً للعميل
  *
  * قاعدة الحماية: أي عملية كتابة تأخذ owner_id من get_current_user_id() فقط،
  * ولا يتم قبول profile_id من المتصفح أبداً — بديل Row Level Security.
@@ -12,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Alz {
 
-	const DB_VERSION = '1.0.0';
+	const DB_VERSION = '1.1.0';
 	const ROLE       = 'alz_client';
 	const MAX_LINKS  = 60;
 
@@ -74,6 +75,10 @@ final class Alz {
 			button_style varchar(10) NOT NULL DEFAULT 'brand',
 			layout varchar(10) NOT NULL DEFAULT 'list',
 			is_published tinyint(1) NOT NULL DEFAULT 1,
+			instapay_url varchar(500) NULL,
+			vcash_url varchar(500) NULL,
+			review_input varchar(500) NULL,
+			review_url varchar(1000) NULL,
 			view_count bigint(20) unsigned NOT NULL DEFAULT 0,
 			created_at datetime NOT NULL,
 			updated_at datetime NOT NULL,
@@ -106,6 +111,7 @@ final class Alz {
 			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 			code varchar(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
 			profile_id bigint(20) unsigned NULL,
+			kind varchar(20) NOT NULL DEFAULT 'profile',
 			label varchar(60) NULL,
 			batch varchar(40) NULL,
 			claimed_at datetime NULL,
@@ -113,7 +119,8 @@ final class Alz {
 			created_at datetime NOT NULL,
 			PRIMARY KEY  (id),
 			UNIQUE KEY code (code),
-			KEY profile_id (profile_id)
+			KEY profile_id (profile_id),
+			KEY kind (kind)
 			) $charset;"
 		);
 
@@ -418,6 +425,12 @@ final class Alz {
 		return $row;
 	}
 
+	public static function profile_by_id( $id ) {
+		global $wpdb;
+		$t = self::table( 'profiles' );
+		return self::cast_profile( $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $t WHERE id = %d", (int) $id ) ) );
+	}
+
 	public static function profile_by_owner( $user_id ) {
 		global $wpdb;
 		$t = self::table( 'profiles' );
@@ -581,6 +594,13 @@ final class Alz {
 		foreach ( array_values( $links ) as $i => $l ) {
 			$type  = isset( $l['type'] ) ? (string) $l['type'] : '';
 			$value = isset( $l['value'] ) ? sanitize_text_field( (string) $l['value'] ) : '';
+			// رابط خرائط جوجل في زر «قيّمنا على جوجل» يتحول تلقائياً لقسم المراجعات
+			if ( 'google_review' === $type && self::is_gmaps_input( $value ) ) {
+				$conv = self::google_review_link( $value );
+				if ( $conv['ok'] && mb_strlen( $conv['url'] ) <= 500 ) {
+					$value = $conv['url'];
+				}
+			}
 			$err   = self::validate_link( $type, $value );
 			if ( $err ) {
 				return new WP_Error( 'link', sprintf( 'الرابط رقم %d: %s', $i + 1, $err ) );
@@ -679,7 +699,7 @@ final class Alz {
 	public static function stands( $profile_id ) {
 		global $wpdb;
 		$t = self::table( 'stands' );
-		return $wpdb->get_results( $wpdb->prepare( "SELECT code, label, claimed_at, scan_count FROM $t WHERE profile_id = %d ORDER BY claimed_at DESC", $profile_id ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT code, kind, label, claimed_at, scan_count FROM $t WHERE profile_id = %d ORDER BY claimed_at DESC", $profile_id ) );
 	}
 
 	/** يُستدعى عند فتح /s/CODE — يزيد عداد المسح ويرجع حالة الاستاند */
@@ -689,12 +709,15 @@ final class Alz {
 			return null;
 		}
 		$t     = self::table( 'stands' );
-		$stand = $wpdb->get_row( $wpdb->prepare( "SELECT id, code, profile_id FROM $t WHERE code = %s", $code ) );
+		$stand = $wpdb->get_row( $wpdb->prepare( "SELECT id, code, kind, profile_id FROM $t WHERE code = %s", $code ) );
 		if ( ! $stand ) {
 			return null;
 		}
 		$wpdb->query( $wpdb->prepare( "UPDATE $t SET scan_count = scan_count + 1 WHERE id = %d", $stand->id ) );
+		$stand->kind    = self::is_stand_kind( $stand->kind ) ? $stand->kind : 'profile';
 		$stand->profile = $stand->profile_id ? self::public_profile( 'id', $stand->profile_id ) : null;
+		// استاندات الدفع / التقييم تعمل حتى لو كانت صفحة النشاط موقوفة
+		$stand->owner = $stand->profile_id ? self::profile_by_id( $stand->profile_id ) : null;
 		return $stand;
 	}
 
@@ -724,6 +747,15 @@ final class Alz {
 		return new WP_Error( 'unavailable', 'هذا الاستاند مربوط بنشاط آخر أو الكود غير صحيح' );
 	}
 
+	public static function stand_kind_of( $code ) {
+		global $wpdb;
+		if ( ! preg_match( self::CODE_RE, (string) $code ) ) {
+			return '';
+		}
+		$t = self::table( 'stands' );
+		return (string) $wpdb->get_var( $wpdb->prepare( "SELECT kind FROM $t WHERE code = %s", $code ) );
+	}
+
 	public static function release_stand( $user_id, $code ) {
 		global $wpdb;
 		$profile = self::profile_by_owner( $user_id );
@@ -745,10 +777,11 @@ final class Alz {
 	}
 
 	/** توليد دفعة أكواد جديدة (للأدمن فقط — يتم التحقق في شاشة الإدارة) */
-	public static function generate_stands( $count, $batch ) {
+	public static function generate_stands( $count, $batch, $kind = 'profile' ) {
 		global $wpdb;
 		$t     = self::table( 'stands' );
 		$codes = array();
+		$kind  = self::is_stand_kind( $kind ) ? $kind : 'profile';
 		$count = max( 1, min( 1000, (int) $count ) );
 		while ( count( $codes ) < $count ) {
 			$code = self::random_code();
@@ -756,6 +789,7 @@ final class Alz {
 				$t,
 				array(
 					'code'       => $code,
+					'kind'       => $kind,
 					'batch'      => $batch ? $batch : null,
 					'created_at' => self::now(),
 				)
@@ -765,6 +799,371 @@ final class Alz {
 			}
 		}
 		return $codes;
+	}
+
+	/* =================================================================
+	 *  أنواع الاستاندات: كل نوع (غير صفحة النشاط) يفتح رابطاً واحداً يحدده العميل
+	 * ================================================================= */
+	public static function stand_kinds() {
+		return array(
+			'profile'  => array(
+				'label' => 'استاند صفحة النشاط',
+				'short' => 'صفحة النشاط',
+				'field' => '',
+				'icon'  => 'nfc',
+				'color' => '#0b1020',
+			),
+			'instapay' => array(
+				'label'       => 'استاند إنستاباي',
+				'short'       => 'إنستاباي',
+				'field'       => 'instapay_url',
+				'icon'        => 'instapay',
+				'color'       => '#350366',
+				'placeholder' => 'https://ipn.eg/S/... أو name@instapay',
+				'hint'        => 'رابط الدفع من تطبيق إنستاباي (يفتح التطبيق مباشرة) أو عنوان الدفع name@instapay',
+			),
+			'vcash'    => array(
+				'label'       => 'استاند فودافون كاش',
+				'short'       => 'فودافون كاش',
+				'field'       => 'vcash_url',
+				'icon'        => 'wallet',
+				'color'       => '#e60000',
+				'placeholder' => 'رابط الدفع أو رقم المحفظة 010xxxxxxxx',
+				'hint'        => 'رابط الدفع من تطبيق فودافون كاش، أو رقم المحفظة ليظهر للزبون مع زر نسخ',
+			),
+			'greview'  => array(
+				'label'       => 'استاند تقييم جوجل',
+				'short'       => 'تقييم جوجل',
+				'field'       => 'review_input',
+				'icon'        => 'google_review',
+				'color'       => '#06183e',
+				'placeholder' => 'https://maps.app.goo.gl/...',
+				'hint'        => 'انسخ رابط مشاركة نشاطك من خرائط جوجل — يتحول تلقائياً لقسم المراجعات',
+			),
+		);
+	}
+
+	public static function is_stand_kind( $k ) {
+		return is_string( $k ) && array_key_exists( $k, self::stand_kinds() );
+	}
+
+	/** روابط الاستاندات الخاصة بالعميل — للوحة التحكم */
+	public static function targets( $profile ) {
+		return array(
+			'instapay'     => (string) $profile->instapay_url,
+			'vcash'        => (string) $profile->vcash_url,
+			'greview'      => (string) $profile->review_input,
+			'review_url'   => (string) $profile->review_url,
+			'review_ready' => '' !== (string) $profile->review_url,
+		);
+	}
+
+	private static function is_egypt_mobile( $v ) {
+		return (bool) preg_match( '/^201[0125]\d{8}$/', self::normalize_phone( $v ) );
+	}
+
+	/** التحقق من قيمة رابط استاند — يرجع رسالة خطأ أو سلسلة فارغة */
+	public static function validate_target( $kind, $v ) {
+		$v = trim( (string) $v );
+		if ( '' === $v ) {
+			return '';
+		}
+		if ( mb_strlen( $v ) > 500 ) {
+			return 'الرابط طويل جداً';
+		}
+		if ( preg_match( '/^\s*(javascript|data|vbscript|file):/i', $v ) ) {
+			return 'رابط غير مسموح';
+		}
+		$url = self::is_url( $v ) && '' !== esc_url_raw( $v, array( 'https', 'http' ) );
+		switch ( $kind ) {
+			case 'instapay':
+				if ( $url || preg_match( '/^[A-Za-z0-9._-]{2,60}@instapay$/i', $v ) || self::is_egypt_mobile( $v ) ) {
+					return '';
+				}
+				return 'ضع رابط الدفع من إنستاباي أو عنوان name@instapay';
+			case 'vcash':
+				if ( $url || self::is_egypt_mobile( $v ) ) {
+					return '';
+				}
+				return 'ضع رابط الدفع أو رقم محفظة صحيح (01xxxxxxxxx)';
+			case 'greview':
+				return self::is_gmaps_input( $v ) ? '' : 'ضع رابط نشاطك من خرائط جوجل (maps.app.goo.gl/...)';
+		}
+		return 'نوع غير معروف';
+	}
+
+	/**
+	 * حفظ روابط الاستاندات للمستخدم الحالي فقط.
+	 *
+	 * @return array|WP_Error  array( 'profile' => object, 'notice' => string )
+	 */
+	public static function save_targets( $user_id, $data ) {
+		global $wpdb;
+		$profile = self::profile_by_owner( $user_id );
+		if ( ! $profile ) {
+			return new WP_Error( 'no_profile', 'أنشئ صفحتك أولاً' );
+		}
+		$data   = is_array( $data ) ? $data : array();
+		$fields = array();
+		$notice = '';
+		foreach ( array( 'instapay' => 'instapay_url', 'vcash' => 'vcash_url', 'greview' => 'review_input' ) as $kind => $col ) {
+			if ( ! array_key_exists( $kind, $data ) ) {
+				continue;
+			}
+			$v   = trim( sanitize_text_field( self::latin_digits( (string) $data[ $kind ] ) ) );
+			$err = self::validate_target( $kind, $v );
+			if ( $err ) {
+				$defs = self::stand_kinds();
+				return new WP_Error( 'target', $defs[ $kind ]['short'] . ': ' . $err );
+			}
+			$fields[ $col ] = '' === $v ? null : $v;
+			if ( 'greview' === $kind ) {
+				if ( '' === $v ) {
+					$fields['review_url'] = null;
+				} elseif ( $v !== (string) $profile->review_input || '' === (string) $profile->review_url ) {
+					$conv                 = self::google_review_link( $v );
+					$fields['review_url'] = $conv['ok'] ? $conv['url'] : null;
+					if ( ! $conv['ok'] ) {
+						$notice = 'تم الحفظ، لكن تعذر الوصول لقسم المراجعات الآن — الاستاند سيفتح صفحة نشاطك على الخرائط وسنعيد المحاولة تلقائياً.';
+					}
+				}
+			}
+		}
+		if ( $fields ) {
+			$fields['updated_at'] = self::now();
+			$wpdb->update( self::table( 'profiles' ), $fields, array( 'id' => $profile->id, 'owner_id' => $user_id ) );
+		}
+		return array(
+			'profile' => self::profile_by_owner( $user_id ),
+			'notice'  => $notice,
+		);
+	}
+
+	/**
+	 * وجهة استاند الدفع / التقييم:
+	 * array( 'href' => رابط للتحويل ) أو array( 'copy' => قيمة تُعرض مع زر نسخ ) أو null إن لم يُضبط بعد
+	 */
+	public static function stand_target( $profile, $kind ) {
+		if ( ! $profile ) {
+			return null;
+		}
+		if ( 'greview' === $kind ) {
+			$input = trim( (string) $profile->review_input );
+			if ( '' === $input ) {
+				return null;
+			}
+			$url = (string) $profile->review_url;
+			// لم يتحول وقت الحفظ (مشكلة شبكة مثلاً) — محاولة جديدة كل ساعة على الأكثر
+			if ( '' === $url && self::rate_limit( 'gmr_' . $profile->id, 1, HOUR_IN_SECONDS ) ) {
+				$conv = self::google_review_link( $input );
+				if ( $conv['ok'] ) {
+					$url = $conv['url'];
+					global $wpdb;
+					$wpdb->update( self::table( 'profiles' ), array( 'review_url' => $url ), array( 'id' => $profile->id ) );
+				}
+			}
+			$href = esc_url_raw( '' !== $url ? $url : $input, array( 'https', 'http' ) );
+			return $href ? array( 'href' => $href ) : null;
+		}
+		$col = 'instapay' === $kind ? 'instapay_url' : ( 'vcash' === $kind ? 'vcash_url' : '' );
+		$v   = $col ? trim( (string) $profile->$col ) : '';
+		if ( '' === $v ) {
+			return null;
+		}
+		if ( self::is_url( $v ) ) {
+			$href = esc_url_raw( $v, array( 'https', 'http' ) );
+			return $href ? array( 'href' => $href ) : null;
+		}
+		if ( preg_match( '/@instapay$/i', $v ) ) {
+			return array( 'copy' => $v );
+		}
+		return array( 'copy' => '0' . substr( self::normalize_phone( $v ), 2 ) );
+	}
+
+	/* =================================================================
+	 *  خرائط جوجل → قسم المراجعات مباشرة
+	 *  maps.app.goo.gl/XXXX  ⟶  google.com/maps/place/.../data=...!9m1!1b1...
+	 * ================================================================= */
+	private static function host_of( $url ) {
+		$h = wp_parse_url( (string) $url, PHP_URL_HOST );
+		return $h ? strtolower( $h ) : '';
+	}
+
+	private static function is_google_host( $h ) {
+		return (bool) preg_match( '/^(www\.|maps\.)?google\.(com|[a-z]{2,3}|com?\.[a-z]{2})$/', $h );
+	}
+
+	private static function is_gmaps_short( $url ) {
+		$h = self::host_of( $url );
+		return 'maps.app.goo.gl' === $h || ( in_array( $h, array( 'goo.gl', 'g.co' ), true ) && preg_match( '#^https?://[^/]+/(maps|kgs)/#i', $url ) );
+	}
+
+	/** روابط جوجل جاهزة للتقييم أصلاً (g.page/r/.../review أو writereview) */
+	private static function is_review_ready( $url ) {
+		$h = self::host_of( $url );
+		return ( 'g.page' === $h && preg_match( '#/review#i', $url ) ) || ( 'search.google.com' === $h && preg_match( '#/local/(write)?reviews?#i', $url ) );
+	}
+
+	public static function is_gmaps_input( $url ) {
+		$url = trim( (string) $url );
+		if ( ! preg_match( '#^https?://#i', $url ) ) {
+			return false;
+		}
+		$h = self::host_of( $url );
+		if ( self::is_gmaps_short( $url ) || self::is_review_ready( $url ) || 'g.page' === $h ) {
+			return true;
+		}
+		return self::is_google_host( $h ) && ( 0 === strpos( $h, 'maps.' ) || preg_match( '#^https?://[^/]+/maps([/?]|$)#i', $url ) );
+	}
+
+	/** فك الرابط المختصر بتتبع التحويلات يدوياً — فقط عبر نطاقات جوجل */
+	public static function resolve_gmaps_short( $url ) {
+		$key    = 'alz_gm_' . md5( $url );
+		$cached = get_transient( $key );
+		if ( $cached ) {
+			return $cached;
+		}
+		$cur = $url;
+		for ( $i = 0; $i < 6; $i++ ) {
+			$res = wp_safe_remote_get(
+				$cur,
+				array(
+					'redirection'         => 0,
+					'timeout'             => 8,
+					'limit_response_size' => 300000,
+					'user-agent'          => 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36',
+					'headers'             => array( 'Accept-Language' => 'ar,en;q=0.8' ),
+				)
+			);
+			if ( is_wp_error( $res ) ) {
+				return '';
+			}
+			$code = (int) wp_remote_retrieve_response_code( $res );
+			$loc  = (string) wp_remote_retrieve_header( $res, 'location' );
+			if ( $code >= 300 && $code < 400 && '' !== $loc ) {
+				if ( 0 === strpos( $loc, '/' ) ) {
+					$loc = 'https://' . self::host_of( $cur ) . $loc;
+				}
+				$h = self::host_of( $loc );
+				// صفحة الموافقة على الكوكيز (أوروبا) — الرابط الحقيقي في continue
+				if ( 'consent.google.com' === $h ) {
+					parse_str( (string) wp_parse_url( $loc, PHP_URL_QUERY ), $q );
+					$loc = isset( $q['continue'] ) ? (string) $q['continue'] : '';
+					$h   = self::host_of( $loc );
+				}
+				if ( self::is_google_host( $h ) ) {
+					set_transient( $key, $loc, DAY_IN_SECONDS );
+					return $loc;
+				}
+				if ( ! in_array( $h, array( 'maps.app.goo.gl', 'goo.gl', 'g.co', 'www.g.co' ), true ) ) {
+					return '';
+				}
+				$cur = $loc;
+				continue;
+			}
+			// بعض الروابط ترجع 200 وبداخلها الرابط الكامل
+			if ( 200 === $code && preg_match( '#https://(?:www\.)?google\.[a-z.]+/maps/[^"\'\s<>\\\\]+#i', (string) wp_remote_retrieve_body( $res ), $m ) ) {
+				$loc = html_entity_decode( $m[0] );
+				set_transient( $key, $loc, DAY_IN_SECONDS );
+				return $loc;
+			}
+			return '';
+		}
+		return '';
+	}
+
+	/**
+	 * تحويل رابط خرائط جوجل الكامل لرابط يفتح على تبويب المراجعات.
+	 * بيانات الرابط بعد /data= بصيغة !<رقم الحقل><النوع><القيمة>، والحقل من نوع m رقمه = عدد كل ما بداخله.
+	 * المراجعات = إضافة !9m1!1b1 داخل كتلة المكان (3m) التي تحتوي معرّف المكان !1s0x..:0x.. وزيادة عدادات الكتل الأم بـ 2.
+	 */
+	public static function gmaps_reviews_url( $url ) {
+		$url = trim( (string) $url );
+		if ( ! self::is_google_host( self::host_of( $url ) ) ) {
+			return '';
+		}
+		$parts = explode( '?', $url, 2 );
+		$path  = $parts[0];
+		$query = isset( $parts[1] ) ? $parts[1] : '';
+		parse_str( $query, $q );
+
+		if ( preg_match( '#/data=([^/?\#]+)#', $path, $m ) ) {
+			$tok = explode( '!', ltrim( $m[1], '!' ) );
+			$n   = count( $tok );
+			for ( $i = 0; $i < $n - 1; $i++ ) {
+				if ( ! preg_match( '/^3m(\d+)$/', $tok[ $i ], $mm ) || ! preg_match( '/^1s0x[0-9a-f]+:0x[0-9a-f]+$/i', $tok[ $i + 1 ] ) ) {
+					continue;
+				}
+				$cnt = (int) $mm[1];
+				$end = min( $n - 1, $i + $cnt );
+				// موجود بالفعل؟
+				for ( $j = $i + 1; $j < $end; $j++ ) {
+					if ( '9m1' === $tok[ $j ] && '1b1' === $tok[ $j + 1 ] ) {
+						return 'https://www.google.com' . substr( $path, strpos( $path, '/maps' ) );
+					}
+				}
+				// مكان الإضافة: قبل أول حقل مباشر رقمه أكبر من 9 (ترتيب الحقول)
+				$pos = $end + 1;
+				$j   = $i + 1;
+				while ( $j <= $end ) {
+					if ( ! preg_match( '/^(\d+)([a-z])(.*)$/', $tok[ $j ], $f ) ) {
+						break;
+					}
+					if ( (int) $f[1] > 9 ) {
+						$pos = $j;
+						break;
+					}
+					$j += ( 'm' === $f[2] ) ? (int) $f[3] + 1 : 1;
+				}
+				// الكتل الأم التي تحتوي هذه الكتلة
+				for ( $k = 0; $k < $i; $k++ ) {
+					if ( preg_match( '/^(\d+)m(\d+)$/', $tok[ $k ], $pm ) && $k + (int) $pm[2] >= $i ) {
+						$tok[ $k ] = $pm[1] . 'm' . ( (int) $pm[2] + 2 );
+					}
+				}
+				$tok[ $i ] = '3m' . ( $cnt + 2 );
+				array_splice( $tok, $pos, 0, array( '9m1', '1b1' ) );
+				$data = '!' . implode( '!', $tok );
+				$path = str_replace( '/data=' . $m[1], '/data=' . $data, $path );
+				return 'https://www.google.com' . substr( $path, strpos( $path, '/maps' ) );
+			}
+		}
+
+		// روابط بمعرّف المكان فقط: ?ftid=0x..:0x.. أو !1s0x..:0x.. أو ?cid=رقم
+		$ftid = '';
+		if ( isset( $q['ftid'] ) && preg_match( '/^0x[0-9a-f]+:0x[0-9a-f]+$/i', $q['ftid'] ) ) {
+			$ftid = $q['ftid'];
+		} elseif ( preg_match( '/!1s(0x[0-9a-f]+:0x[0-9a-f]+)/i', $url, $fm ) ) {
+			$ftid = $fm[1];
+		} elseif ( isset( $q['cid'] ) && preg_match( '/^\d{5,20}$/', $q['cid'] ) && function_exists( 'gmp_strval' ) ) {
+			$ftid = '0x0:0x' . gmp_strval( gmp_init( $q['cid'], 10 ), 16 );
+		}
+		if ( $ftid ) {
+			return 'https://www.google.com/maps/place/data=!4m4!3m3!1s' . $ftid . '!9m1!1b1';
+		}
+		return '';
+	}
+
+	/**
+	 * من أي رابط خرائط يضيفه العميل ⟶ رابط قسم المراجعات.
+	 *
+	 * @return array( 'ok' => bool, 'url' => string )
+	 */
+	public static function google_review_link( $input ) {
+		$input = trim( (string) $input );
+		if ( self::is_review_ready( $input ) ) {
+			return array( 'ok' => true, 'url' => $input );
+		}
+		$long = self::is_gmaps_short( $input ) ? self::resolve_gmaps_short( $input ) : $input;
+		$out  = $long ? self::gmaps_reviews_url( $long ) : '';
+		if ( '' === $out ) {
+			return array( 'ok' => false, 'url' => $input );
+		}
+		// اسم المكان في المسار قد يكون طويلاً بالعربي — نختصره لو تجاوز الحد
+		if ( strlen( $out ) > 900 ) {
+			$out = preg_replace( '#/maps/place/[^/]+/#', '/maps/place/+/', $out );
+		}
+		return array( 'ok' => true, 'url' => $out );
 	}
 
 	/* =================================================================

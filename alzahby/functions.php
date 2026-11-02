@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ALZ_VERSION', '1.0.0' );
+define( 'ALZ_VERSION', '1.1.0' );
 
 class ThemeTree {
 	private $args;

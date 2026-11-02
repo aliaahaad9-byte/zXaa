@@ -26,6 +26,12 @@ final class AlzApi {
 			array( 'methods' => 'POST', 'callback' => array( __CLASS__, 'create' ), 'permission_callback' => $auth ),
 			array( 'methods' => 'PUT', 'callback' => array( __CLASS__, 'save' ), 'permission_callback' => $auth ),
 		) );
+		// روابط استاندات إنستاباي / فودافون كاش / تقييم جوجل
+		register_rest_route( self::NS, '/targets', array(
+			'methods'             => 'PUT',
+			'callback'            => array( __CLASS__, 'targets' ),
+			'permission_callback' => $auth,
+		) );
 		register_rest_route( self::NS, '/slug', array(
 			'methods'             => 'GET',
 			'callback'            => array( __CLASS__, 'slug' ),
@@ -103,6 +109,7 @@ final class AlzApi {
 		if ( $stand ) {
 			$res              = Alz::claim_stand( $uid, $stand );
 			$out['stand']     = true === $res ? 'claimed' : $res->get_error_message();
+			$out['stand_kind'] = true === $res ? Alz::stand_kind_of( $stand ) : '';
 		}
 		return new WP_REST_Response( $out, 201 );
 	}
@@ -118,6 +125,21 @@ final class AlzApi {
 			'profile' => self::export_profile( $res['profile'] ),
 			'links'   => self::export_links( $res['links'] ),
 			'idmap'   => $res['idmap'],
+		);
+	}
+
+	public static function targets( WP_REST_Request $req ) {
+		$uid = get_current_user_id();
+		if ( ! Alz::rate_limit( 'targets_' . $uid, 30, HOUR_IN_SECONDS ) ) {
+			return self::error( 'محاولات كثيرة، حاول لاحقاً', 429 );
+		}
+		$res = Alz::save_targets( $uid, $req->get_json_params() );
+		if ( is_wp_error( $res ) ) {
+			return self::error( $res->get_error_message() );
+		}
+		return array(
+			'targets' => Alz::targets( $res['profile'] ),
+			'notice'  => $res['notice'],
 		);
 	}
 
@@ -202,7 +224,10 @@ final class AlzApi {
 			return self::error( $res->get_error_message() );
 		}
 		$p = Alz::profile_by_owner( $uid );
-		return array( 'stands' => $p ? Alz::stands( $p->id ) : array() );
+		return array(
+			'stands' => $p ? Alz::stands( $p->id ) : array(),
+			'kind'   => 'claim' === $req['action'] ? Alz::stand_kind_of( $code ) : '',
+		);
 	}
 
 	public static function track( WP_REST_Request $req ) {

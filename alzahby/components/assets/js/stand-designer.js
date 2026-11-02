@@ -1,7 +1,8 @@
 /* مولّد تصاميم الاستاندات: يركّب QR فريد لكل كود على صورة القالب ويصدّرها PDF أو ZIP — كله في المتصفح */
 (function () {
   "use strict";
-  var C = window.ALZD, D = C.design;
+  var C = window.ALZD, D = C.design, KIND = C.kind || "profile";
+  var PREFIX = KIND === "profile" ? "stands-" : "stands-" + KIND + "-";
   var $ = function (id) { return document.getElementById(id); };
   var canvas = $("alzCanvas"), stage = $("alzStage"), box = $("alzBox");
   var img = new Image(), ready = false;
@@ -225,11 +226,11 @@
     }
     progress(codes.length, codes.length, "جارِ تجهيز الملف…");
     if (format === "pdf") {
-      download(makePdf(out), "stands-" + batch + ".pdf");
+      download(makePdf(out), PREFIX + batch + ".pdf");
     } else {
       var csv = "﻿code,print_url\n" + codes.map(function (c) { return c + "," + C.base + c; }).join("\n");
       out.push({ name: batch + "/codes.csv", data: new TextEncoder().encode(csv) });
-      download(makeZip(out), "stands-" + batch + ".zip");
+      download(makeZip(out), PREFIX + batch + ".zip");
     }
     progress(codes.length, codes.length, "تم ✓ " + codes.length + " استاند");
   }
@@ -254,7 +255,7 @@
     if (!confirm("سيتم إنشاء " + count + " كود جديد وحفظها في قاعدة البيانات. متابعة؟")) return;
     btn.disabled = true;
     progress(0, count, "جارِ توليد الأكواد…");
-    api("POST", "generate", { count: count, batch: $("alzBatch").value })
+    api("POST", "generate", { count: count, batch: $("alzBatch").value, kind: KIND })
       .then(function (res) { return exportCodes(res.codes, res.batch); })
       .catch(function (e) { alert(e.message); prog.hidden = true; })
       .then(function () { btn.disabled = false; });
@@ -264,7 +265,7 @@
   if (re) re.addEventListener("click", function () {
     var b = $("alzOldBatch").value, only = $("alzOnlyFree").checked ? "&only=free" : "";
     re.disabled = true;
-    api("GET", "batch?batch=" + encodeURIComponent(b) + only)
+    api("GET", "batch?batch=" + encodeURIComponent(b) + "&kind=" + encodeURIComponent(KIND) + only)
       .then(function (res) { return exportCodes(res.codes, res.batch); })
       .catch(function (e) { alert(e.message); })
       .then(function () { re.disabled = false; });

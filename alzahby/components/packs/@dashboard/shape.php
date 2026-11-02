@@ -7,6 +7,7 @@
  * @var array       $links
  * @var array       $stands
  * @var string      $stand   كود استاند قادم من صفحة المسح (اختياري)
+ * @var string      $setup   نوع استاند يحتاج إضافة رابطه (instapay / vcash / greview)
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -97,7 +98,7 @@ $i      = function ( $n ) {
 		<button data-tab="links"><?php $i( 'link' ); ?> الروابط</button>
 		<button data-tab="identity"><?php $i( 'store' ); ?> الهوية</button>
 		<button data-tab="design"><?php $i( 'palette' ); ?> التصميم</button>
-		<button data-tab="share"><?php $i( 'nfc' ); ?> QR والاستاند</button>
+		<button data-tab="share"><?php $i( 'nfc' ); ?> QR والاستاندات</button>
 	</nav>
 
 	<div class="dash__grid">
@@ -218,6 +219,30 @@ $i      = function ( $n ) {
 						</div>
 					</div>
 				</div>
+				<div class="card" id="targets">
+					<h2><?php $i( 'qr' ); ?> روابط استاندات الدفع والتقييم</h2>
+					<p class="muted" style="margin:-6px 0 14px;font-size:13px">لكل منصة استاند QR مستقل يفتح رابطك مباشرة. أضف رابطك مرة واحدة ويشتغل على كل استاندات المنصة — وتقدر تغيّره في أي وقت والكود المطبوع يفضل شغال.</p>
+					<form id="targetsForm" novalidate>
+						<?php
+						foreach ( Alz::stand_kinds() as $k => $d ) :
+							if ( 'profile' === $k ) {
+								continue;
+							}
+							?>
+							<div class="target<?php echo $setup === $k ? ' focus' : ''; ?>" data-target="<?php echo esc_attr( $k ); ?>" style="--kc:<?php echo esc_attr( $d['color'] ); ?>">
+								<div class="target__head"><span class="chip-ic"><?php $i( $d['icon'] ); ?></span> <?php echo esc_html( $d['short'] ); ?> <small class="muted" data-count></small></div>
+								<label class="field">
+									<input name="<?php echo esc_attr( $k ); ?>" dir="ltr" maxlength="500" placeholder="<?php echo esc_attr( $d['placeholder'] ); ?>" autocomplete="off">
+									<small class="muted"><?php echo esc_html( $d['hint'] ); ?></small>
+								</label>
+								<?php if ( 'greview' === $k ) : ?>
+									<div class="target__ok" data-review hidden></div>
+								<?php endif; ?>
+							</div>
+						<?php endforeach; ?>
+						<p style="margin:14px 0 0"><button class="btn btn--dark" type="submit"><?php $i( 'save' ); ?> حفظ الروابط</button></p>
+					</form>
+				</div>
 				<div class="card">
 					<h2><?php $i( 'nfc' ); ?> الاستاندات المربوطة</h2>
 					<p class="alert alert--warn"><?php $i( 'scan' ); ?> أسهل طريقة: افتح كاميرا موبايلك وامسح الـ QR المطبوع على الاستاند وأنت مسجّل دخول — سيُربط بصفحتك تلقائياً. أو اكتب الكود المطبوع أسفل الـ QR هنا.</p>
@@ -263,10 +288,13 @@ echo wp_json_encode(
 			'nonce'   => wp_create_nonce( 'wp_rest' ),
 			'home'    => home_url( '/' ),
 			'tab'     => $tab,
-			'notice'  => isset( $_GET['claimed'] ) ? 'تم ربط الاستاند بصفحتك بنجاح 🎉' : '', // phpcs:ignore
+			'notice'  => isset( $_GET['claimed'] ) ? ( $setup ? 'تم ربط الاستاند 🎉 أضف رابطك الآن ليفتح مباشرة' : 'تم ربط الاستاند بصفحتك بنجاح 🎉' ) : '', // phpcs:ignore
 			'profile' => $profile ? AlzApi::export_profile( $profile ) : null,
 			'links'   => $profile ? AlzApi::export_links( $links ) : array(),
 			'stands'  => $stands,
+			'kinds'   => Alz::stand_kinds(),
+			'targets' => $profile ? Alz::targets( $profile ) : null,
+			'setup'   => $setup,
 			'urls'    => $profile ? Alz::profile_urls( $profile ) : null,
 		)
 	)

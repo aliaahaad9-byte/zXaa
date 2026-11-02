@@ -72,6 +72,7 @@
       }).then(function (res) {
         if (res.stand && res.stand !== "claimed") alert("تم إنشاء صفحتك، لكن الاستاند لم يُربط: " + res.stand + "\nيمكنك ربطه من تبويب «QR والاستاند».");
         var q = res.stand ? "?tab=share" + (res.stand === "claimed" ? "&claimed=1" : "") : "";
+        if (res.stand === "claimed" && res.stand_kind && res.stand_kind !== "profile") q += "&setup=" + encodeURIComponent(res.stand_kind);
         window.location.href = window.location.pathname + q;
       }).catch(function (ex) {
         err.textContent = ex.message;
@@ -648,9 +649,24 @@
   });
 
   var standsEl = $("#stands");
+  var KINDS = C.kinds || {};
+  function kindBadge(k) {
+    var d = KINDS[k] || KINDS.profile;
+    if (!d) return "";
+    return '<span class="kind" style="--kc:' + esc(d.color) + '">' + (I[d.icon] || "") + esc(d.short) + "</span>";
+  }
+  // عدد الاستاندات المربوطة من كل نوع بجانب حقل رابطه
+  function countKinds(list) {
+    $$("[data-target]").forEach(function (box) {
+      var k = box.getAttribute("data-target");
+      var n = list.filter(function (s) { return s.kind === k; }).length;
+      $("[data-count]", box).textContent = n ? n + " استاند مربوط" : "";
+    });
+  }
   function renderStands(list) {
+    countKinds(list);
     standsEl.innerHTML = list.length ? list.map(function (s) {
-      return '<li><div><b dir="ltr">' + esc(s.code) + "</b><small class=\"muted\">" + Number(s.scan_count || 0).toLocaleString("en-US") + ' مسح / لمسة</small></div><button type="button" class="btn btn--ghost btn--sm danger" data-release="' + esc(s.code) + '">' + I.unlink + " فك الربط</button></li>";
+      return '<li><div><b dir="ltr">' + esc(s.code) + kindBadge(s.kind || "profile") + "</b><small class=\"muted\">" + Number(s.scan_count || 0).toLocaleString("en-US") + ' مسح / لمسة</small></div><button type="button" class="btn btn--ghost btn--sm danger" data-release="' + esc(s.code) + '">' + I.unlink + " فك الربط</button></li>";
     }).join("") : '<li class="muted center">لا توجد استاندات مربوطة بعد</li>';
   }
   $("#claimForm").addEventListener("submit", function (e) {
@@ -660,6 +676,14 @@
     api("POST", "stands/claim", { code: f.code.value.trim() }).then(function (res) {
       renderStands(res.stands);
       f.reset();
+      var d = KINDS[res.kind];
+      if (d && res.kind !== "profile") {
+        var inp = $('#targetsForm [name="' + res.kind + '"]');
+        if (inp && !inp.value.trim()) {
+          focusTarget(res.kind);
+          return toast("تم ربط " + d.label + " — أضف رابطك الآن", "ok");
+        }
+      }
       toast("تم ربط الاستاند", "ok");
     }).catch(function (ex) { toast(ex.message, "err"); }).then(function () { btn.disabled = false; });
   });
@@ -670,6 +694,54 @@
       renderStands(res.stands);
       toast("تم فك ربط الاستاند", "ok");
     }).catch(function (ex) { toast(ex.message, "err"); });
+  });
+
+  /* ---------------- روابط استاندات الدفع والتقييم ---------------- */
+  var tForm = $("#targetsForm");
+  function focusTarget(k) {
+    $$("[data-target]").forEach(function (b) { b.classList.toggle("focus", b.getAttribute("data-target") === k); });
+    var inp = $('[name="' + k + '"]', tForm);
+    if (inp) {
+      inp.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(function () { inp.focus(); }, 350);
+    }
+  }
+  function fillTargets(t) {
+    if (!t) return;
+    ["instapay", "vcash", "greview"].forEach(function (k) { tForm[k].value = t[k] || ""; });
+    var box = $("[data-review]", tForm);
+    if (!t.greview) { box.hidden = true; return; }
+    box.hidden = false;
+    box.classList.toggle("target__warn", !t.review_ready);
+    box.innerHTML = t.review_ready
+      ? I.check + ' يفتح قسم المراجعات مباشرة — <a href="' + esc(t.review_url) + '" target="_blank" rel="noopener">جرّب الرابط</a>'
+      : "⚠ لم نتمكن من الوصول لقسم المراجعات بعد — الاستاند يفتح نشاطك على الخرائط وسنعيد المحاولة تلقائياً";
+  }
+  var tSaved = C.targets || {};
+  function tDirty() {
+    return ["instapay", "vcash", "greview"].some(function (k) { return tForm[k].value.trim() !== (tSaved[k] || ""); });
+  }
+  window.addEventListener("beforeunload", function (e) {
+    if (tDirty()) { e.preventDefault(); e.returnValue = ""; }
+  });
+  tForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var btn = $("button[type=submit]", tForm);
+    btn.disabled = true;
+    btn.innerHTML = I.loader.replace('class="ic"', 'class="ic spin"') + " جارِ الحفظ";
+    api("PUT", "targets", {
+      instapay: tForm.instapay.value.trim(),
+      vcash: tForm.vcash.value.trim(),
+      greview: tForm.greview.value.trim()
+    }).then(function (res) {
+      tSaved = res.targets;
+      fillTargets(res.targets);
+      $$("[data-target]").forEach(function (b) { b.classList.remove("focus"); });
+      toast(res.notice || "تم حفظ الروابط — الاستاندات تفتحها الآن", res.notice ? "err" : "ok");
+    }).catch(function (ex) { toast(ex.message, "err"); }).then(function () {
+      btn.disabled = false;
+      btn.innerHTML = I.save + " حفظ الروابط";
+    });
   });
 
   /* =================================================================
@@ -732,8 +804,10 @@
   bindUrls();
   syncFields();
   renderLinks();
+  fillTargets(C.targets);
   renderStands(C.stands || []);
   setTab(C.tab || "links");
+  if (C.setup) setTimeout(function () { focusTarget(C.setup); }, 300);
   refresh();
   if (C.notice) toast(C.notice, "ok");
 })();
