@@ -14,7 +14,7 @@ $works = get_posts( array( 'post_type' => 'works', 'posts_per_page' => -1, 'post
 // الأقسام الرئيسية والفرعية الموجودة فعلًا في المشاريع
 $fams = array();
 foreach ( $works as $w ) {
-    $f = yc_pr_service_term( $w->ID );
+    list( $f, $sk, $sn ) = function_exists( 'yc_pr_classify' ) ? yc_pr_classify( $w->ID ) : array( yc_pr_service_term( $w->ID ), '', '' );
     if ( ! $f ) {
         continue;
     }
@@ -22,18 +22,23 @@ foreach ( $works as $w ) {
         $fams[ $f->term_id ] = array( 'name' => $f->name, 'n' => 0, 'subs' => array() );
     }
     $fams[ $f->term_id ]['n']++;
-    $cats = get_the_terms( $w->ID, 'category' );
-    if ( is_array( $cats ) ) {
-        foreach ( $cats as $c ) {
-            if ( $c->parent ) {
-                if ( ! isset( $fams[ $f->term_id ]['subs'][ $c->term_id ] ) ) {
-                    $fams[ $f->term_id ]['subs'][ $c->term_id ] = array( 'name' => $c->name, 'n' => 0 );
-                }
-                $fams[ $f->term_id ]['subs'][ $c->term_id ]['n']++;
-                break;
-            }
+    if ( '' !== $sk ) {
+        if ( ! isset( $fams[ $f->term_id ]['subs'][ $sk ] ) ) {
+            $fams[ $f->term_id ]['subs'][ $sk ] = array( 'name' => $sn, 'n' => 0 );
         }
+        $fams[ $f->term_id ]['subs'][ $sk ]['n']++;
     }
+}
+// ترتيب الأزرار: الخدمات الفرعية حسب ترتيبها في «الخدمات الفرعية»، ثم التصنيفات
+$order = function_exists( 'yc_pr_subs' ) ? array_keys( yc_pr_subs() ) : array();
+foreach ( $fams as $fid => $fd ) {
+    uksort( $fams[ $fid ]['subs'], function ( $a, $b ) use ( $order ) {
+        $ia = 's' === $a[0] ? array_search( (int) substr( $a, 1 ), $order ) : false;
+        $ib = 's' === $b[0] ? array_search( (int) substr( $b, 1 ), $order ) : false;
+        $ia = false === $ia ? 9999 : $ia;
+        $ib = false === $ib ? 9999 : $ib;
+        return $ia === $ib ? strcmp( $a, $b ) : $ia - $ib;
+    } );
 }
 $dots = array( '#2764c3', '#0f9d58', '#d93025', '#2764c3', '#e8a20c', '#7b3fd1', '#0b8a8a' );
 
@@ -68,12 +73,12 @@ echo '<section class="yc-prs">';
         }
       echo '</div>';
       foreach ( $fams as $id => $f ) {
-        if ( count( $f['subs'] ) < 2 ) {
+        if ( ! $f['subs'] ) {
           continue;
         }
         echo '<div class="yc-prs__subs" data-for="' . (int) $id . '" role="group" aria-label="' . esc_attr( 'تصفية ' . $f['name'] ) . '" hidden>';
         foreach ( $f['subs'] as $sid => $sb ) {
-          echo '<button type="button" aria-pressed="false" data-sub="' . (int) $sid . '">' . esc_html( $sb['name'] ) . '</button>';
+          echo '<button type="button" aria-pressed="false" data-sub="' . esc_attr( $sid ) . '">' . esc_html( $sb['name'] ) . '</button>';
         }
         echo '</div>';
       }
@@ -126,7 +131,7 @@ if ( $works ) {
   famBtns.forEach(function(b){ b.addEventListener('click',function(){ fam=b.getAttribute('data-fam'); sub=''; shown=PAGE; apply(true); }); });
   subBars.forEach(function(bar){ bar.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b){return;} var v=b.getAttribute('data-sub'); sub=(sub===v)?'':v; shown=PAGE; apply(true); }); });
   if(more){ more.addEventListener('click',function(){ var first=cards.filter(function(c){return c.hidden;})[0]; shown+=PAGE; apply(false); var a=first&&first.querySelector('a'); if(a){a.focus();} }); }
-  try{ var q=new URLSearchParams(location.search); if(q.get('fam')&&famBtns.some(function(b){return b.getAttribute('data-fam')===q.get('fam');})){ fam=q.get('fam'); } if(q.get('sub')){ sub=q.get('sub'); } }catch(e){}
+  try{ var q=new URLSearchParams(location.search); if(q.get('fam')&&famBtns.some(function(b){return b.getAttribute('data-fam')===q.get('fam');})){ fam=q.get('fam'); } if(q.get('sub')){ sub=q.get('sub'); if(/^\d+$/.test(sub)){ sub='c'+sub; } } }catch(e){}
   apply(false);
 })();
 </script>

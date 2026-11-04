@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/media.php';
+require_once __DIR__ . '/subs.php';
 
 /* ---------- ربط المشاريع بالأقسام والمدن ---------- */
 add_action( 'init', function () {
@@ -367,22 +368,12 @@ function yc_pr_import_page() {
 function yc_pr_card( $p, $heading = 'h3' ) {
     $id   = $p->ID;
     $m    = yc_pr_media_summary( $id );
-    $svc  = yc_pr_service_term( $id );
-    $sub  = null;
-    $cats = get_the_terms( $id, 'category' );
-    if ( is_array( $cats ) ) {
-        foreach ( $cats as $c ) {
-            if ( $c->parent ) {
-                $sub = $c;
-                break;
-            }
-        }
-    }
-    $pill = $sub ? $sub : $svc;
+    list( $svc, $subkey, $subname ) = yc_pr_classify( $id );
+    $pill = '' !== $subname ? $subname : ( $svc ? $svc->name : '' );
     $link = get_permalink( $id );
     $ttl  = get_the_title( $id );
 
-    $h  = '<article class="yc-prc' . ( $m['is_video'] ? ' is-video' : '' ) . '" data-fam="' . esc_attr( $svc ? $svc->term_id : 0 ) . '" data-sub="' . esc_attr( $sub ? $sub->term_id : 0 ) . '">';
+    $h  = '<article class="yc-prc' . ( $m['is_video'] ? ' is-video' : '' ) . '" data-fam="' . esc_attr( $svc ? $svc->term_id : 0 ) . '" data-sub="' . esc_attr( $subkey ) . '">';
     $h .= '<a class="yc-prc__media" href="' . esc_url( $link ) . '" aria-label="' . esc_attr( ( $m['is_video'] ? 'شاهد فيديو: ' : '' ) . $ttl ) . '">';
     if ( $m['thumb'] ) {
         $h .= '<img src="' . esc_url( $m['thumb'] ) . '" alt="" loading="lazy" width="400" height="530">';
@@ -399,8 +390,8 @@ function yc_pr_card( $p, $heading = 'h3' ) {
     }
     $h .= '</a><div class="yc-prc__body">';
     $h .= '<' . $heading . ' class="yc-prc__title"><a href="' . esc_url( $link ) . '">' . esc_html( $ttl ) . '</a></' . $heading . '>';
-    if ( $pill ) {
-        $h .= '<span class="yc-prc__svc">' . esc_html( $pill->name ) . '</span>';
+    if ( '' !== $pill ) {
+        $h .= '<span class="yc-prc__svc">' . esc_html( $pill ) . '</span>';
     }
     $h .= '</div></article>';
     return $h;

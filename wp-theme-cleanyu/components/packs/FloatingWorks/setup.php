@@ -14,7 +14,7 @@ function yc_fw_defaults() {
         'enabled'     => 1,
         'text'        => 'سابقة أعمالنا',
         'url'         => '',
-        'mode'        => 'all',      // all | cities
+        'mode'        => 'all',      // all | cities | linked (المقالات المرتبطة بخدمة فرعية فقط)
         'cities'      => array(),
         'show_home'   => 1,
         'show_nocity' => 1,
@@ -59,6 +59,20 @@ function yc_fw_url( $o ) {
     return home_url( '/works/' );
 }
 
+/** الخدمة الفرعية المرتبطة بالمقال/الصفحة الحالية (0 إن لم توجد). */
+function yc_fw_linked_sub() {
+    if ( ! function_exists( 'yc_pr_sub_for_post' ) || ! is_singular() ) {
+        return 0;
+    }
+    return yc_pr_sub_for_post( get_queried_object_id() );
+}
+
+/** رابط الزر في الصفحة الحالية: تبويب الخدمة الفرعية إن كان المقال مرتبطًا بها. */
+function yc_fw_target( $o ) {
+    $sid = yc_fw_linked_sub();
+    return $sid ? yc_pr_sub_url( $sid, yc_fw_url( $o ) ) : yc_fw_url( $o );
+}
+
 /** هل يظهر الزر في الصفحة الحالية؟ */
 function yc_fw_visible( $o ) {
     if ( empty( $o['enabled'] ) ) {
@@ -68,6 +82,13 @@ function yc_fw_visible( $o ) {
     $here = untrailingslashit( strtok( (string) ( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '' ), '?' ) );
     $to   = untrailingslashit( (string) wp_parse_url( yc_fw_url( $o ), PHP_URL_PATH ) );
     if ( '' !== $to && rawurldecode( $here ) === rawurldecode( $to ) ) {
+        return false;
+    }
+    // المقال المرتبط بخدمة فرعية يظهر عليه الزر دائمًا (برابط تبويبها)
+    if ( yc_fw_linked_sub() ) {
+        return true;
+    }
+    if ( 'linked' === $o['mode'] ) {
         return false;
     }
     if ( 'cities' !== $o['mode'] ) {
@@ -111,7 +132,7 @@ function yc_fw_button( $slot ) {
     }
     $icon = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 15l5-4.5 4 3.5 3-2.5 6 5"/><circle cx="16.5" cy="8.8" r="1.4" fill="#fff" stroke="none"/></svg>';
     $out .= '<div class="btn-works btn-works--' . esc_attr( $slot ) . '" style="--yc-fw:' . esc_attr( $color ) . '">'
-        . '<a href="' . esc_url( yc_fw_url( $o ) ) . '" aria-label="' . esc_attr( $o['text'] ) . '">'
+        . '<a href="' . esc_url( yc_fw_target( $o ) ) . '" aria-label="' . esc_attr( $o['text'] ) . '">'
         . '<span>' . esc_html( $o['text'] ) . '</span>'
         . '<div class="footer-header">' . $icon . '</div>'
         . '</a></div>';
@@ -134,7 +155,7 @@ add_action( 'admin_init', function () {
         'enabled'     => empty( $in['enabled'] ) ? 0 : 1,
         'text'        => isset( $in['text'] ) && '' !== trim( $in['text'] ) ? sanitize_text_field( $in['text'] ) : $d['text'],
         'url'         => isset( $in['url'] ) ? esc_url_raw( trim( $in['url'] ) ) : '',
-        'mode'        => isset( $in['mode'] ) && 'cities' === $in['mode'] ? 'cities' : 'all',
+        'mode'        => isset( $in['mode'] ) && in_array( $in['mode'], array( 'cities', 'linked' ), true ) ? $in['mode'] : 'all',
         'cities'      => isset( $in['cities'] ) && is_array( $in['cities'] ) ? array_values( array_unique( array_map( 'absint', $in['cities'] ) ) ) : array(),
         'show_home'   => empty( $in['show_home'] ) ? 0 : 1,
         'show_nocity' => empty( $in['show_nocity'] ) ? 0 : 1,
@@ -173,7 +194,9 @@ function yc_fw_page() {
 
     echo '<div style="' . $box . '"><h2 style="margin-top:0">أين يظهر؟</h2>';
     echo '<p><label><input type="radio" name="fw[mode]" value="all" ' . checked( $o['mode'], 'all', false ) . '> كل الصفحات</label><br>';
-    echo '<label><input type="radio" name="fw[mode]" value="cities" ' . checked( $o['mode'], 'cities', false ) . '> مدن محددة فقط <span class="description">(تُعرَف المدينة من أرشيف المدينة، أو من مقال مرتبط بمدينة، أو من اسم المدينة في عنوان الصفحة)</span></label></p>';
+    echo '<label><input type="radio" name="fw[mode]" value="cities" ' . checked( $o['mode'], 'cities', false ) . '> مدن محددة فقط <span class="description">(تُعرَف المدينة من أرشيف المدينة، أو من مقال مرتبط بمدينة، أو من اسم المدينة في عنوان الصفحة)</span></label><br>';
+    echo '<label><input type="radio" name="fw[mode]" value="linked" ' . checked( $o['mode'], 'linked', false ) . '> المقالات المرتبطة بخدمة فرعية فقط <span class="description">(مثل مقال تنظيف خزانات ← يفتح تبويب «تنظيف خزانات»)</span></label></p>';
+    echo '<p class="description">في كل الأوضاع: المقال المرتبط بخدمة فرعية يظهر عليه الزر برابط تبويبها مباشرة. اربط المقالات من <a href="' . esc_url( admin_url( 'edit.php?post_type=works&page=yc-pr-subs' ) ) . '">سابقة الأعمال ← الخدمات الفرعية</a>.</p>';
     if ( $cities ) {
         echo '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px 14px;margin:8px 0 12px">';
         foreach ( $cities as $c ) {
