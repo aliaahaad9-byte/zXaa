@@ -83,7 +83,7 @@ function dg_brands_strip() {
 	$items = dg_brands();
 	echo '<section class="brands" aria-label="الماركات التي نخدمها">';
 		echo '<div class="brands__track">';
-		for ( $loop = 0; $loop < 2; $loop++ ) {
+		for ( $loop = 0; $loop < 4; $loop++ ) {
 			echo '<ul class="brands__list" role="list"' . ( $loop ? ' aria-hidden="true"' : '' ) . '>';
 			foreach ( $items as $b ) {
 				$url = dg_page_url( $b['hub'] );

@@ -40,6 +40,7 @@
   .nav__foot .btn{width:100%}
 }
 @media (max-width:1024px){
+  .reels__rail{grid-auto-columns:calc((100% - 3*16px)/4)}
   .est-grid,.wl__layout,.visit__grid,.about__grid{grid-template-columns:1fr}
   .wl__panel{position:static}
   .svc__grid,.posts-grid,.cases__grid{grid-template-columns:repeat(2,1fr)}
@@ -73,6 +74,7 @@
   .wl__btn{min-height:104px;font-size:12.5px;padding:10px 6px}
   .wl__btn .dg-ico{width:34px;height:34px}
   .reels__rail{grid-auto-columns:62%}
+  .brands__track{animation-duration:30s}
   .brands__list a{min-width:136px;min-height:64px;padding-inline:16px}
   .brands__name{font-size:18px}
   .footer__grid{grid-template-columns:1fr;gap:28px}
