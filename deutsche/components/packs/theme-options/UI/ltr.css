@@ -1,0 +1,64 @@
+ul.YTSLayouts {
+    float: left;
+    margin-left: 0;
+    margin-right: 17px;
+}
+
+.LayoutsBuilderFooter {
+    text-align: right;
+}
+
+.yts-field > label {
+    float: left;
+    text-align: left;
+}
+
+a.YTSUploadButton {left: auto;right: 0;border-radius: 0 6px 6px 0;}
+
+.yts-type-file_list > div.yts-field-inner {
+    padding-left: 110px;
+    padding-right: 0;
+}
+
+.yts-type-file_list > div.yts-field-inner > .YTSUploadButton {
+    left: 0;
+    right: auto;
+}
+
+.YTSTabListManage {
+    float: right;
+    margin-left: 0;
+    margin-right: 50px;
+}
+
+.YTSTabMenu > .YTSTabMenuTitle {
+    float: left;
+}
+
+.YTSTabListManage .SliderOwl-prev {
+    background: linear-gradient(to left, #f1f1f1, transparent);
+    text-align: right;
+    padding-right: 20px;
+}
+
+.YTSTabListManage > ul .owl-item {
+    float: left;
+}
+
+.YTSTabListManage .SliderOwl-next:hover {
+    background: transparent;
+}
+
+.YTSBottomBar {
+    text-align: right;
+}
+
+.YTSBottomBar > button > i {
+    margin-left: 0;
+    margin-right: 15px;
+    float: left;
+}
+
+.YTSBottomBar > button {
+    text-align: left;
+}

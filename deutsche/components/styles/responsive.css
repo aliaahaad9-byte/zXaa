@@ -1,0 +1,104 @@
+/* =====================================================================
+   Deutsche Garage — responsive layer (desktop-first overrides,
+   tested at 1440 / 1024 / 768 / 390 / 360).
+   ===================================================================== */
+@media (max-width:1360px){
+  .hdr-phone span{display:none}
+  .nav__list a{padding-inline:10px}
+}
+@media (max-width:1180px){
+  .why__grid{grid-template-columns:repeat(2,1fr)}
+  .feat__grid{grid-template-columns:repeat(2,1fr)}
+  .sched__grid{grid-template-columns:repeat(2,1fr)}
+  .sched__card::after{display:none}
+  .footer__grid{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:1024px){
+  .topbar{display:none}
+}
+@media (max-width:1180px){
+  :root{--hdr:64px}
+  .site-header{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--ink)}
+  html.nav-locked .site-header{z-index:300}
+  .nav-scrim{z-index:250}
+  .nav-toggle{display:inline-grid}
+  .nav{position:fixed;top:0;bottom:0;inset-inline-end:0;z-index:200;width:min(360px,88vw);display:flex;flex-direction:column;background:#121315;padding:16px;transform:translateX(-105%);transition:transform .3s var(--ease);overflow-y:auto;visibility:hidden}
+  [dir=rtl] .nav{transform:translateX(-105%)}
+  .nav.is-open{transform:none;visibility:visible}
+  .nav__head{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;margin-bottom:8px;border-bottom:1px solid var(--line-dark)}
+  .nav__head img{height:24px;width:auto}
+  .nav__list{flex-direction:column;align-items:stretch;gap:2px}
+  .nav__list>li{flex-wrap:wrap}
+  .nav__list>li>a{flex:1;min-height:52px;font-size:17px}
+  .sub-toggle{width:52px;height:52px;margin:0}
+  .nav__list .sub-menu{position:static;flex-basis:100%;opacity:1;visibility:visible;transform:none;display:none;box-shadow:none;background:transparent;border:0;border-inline-start:2px solid var(--red);border-radius:0;margin:4px 12px 8px;padding:0 8px}
+  .nav__list>li.is-open>.sub-menu{display:block}
+  .nav__list>li:hover>.sub-menu{display:none}
+  .nav__list>li.is-open:hover>.sub-menu{display:block}
+  .nav__foot{display:grid;gap:10px;margin-top:auto;padding-top:20px}
+  .nav__foot .btn{width:100%}
+}
+@media (max-width:1024px){
+  .est-grid,.wl__layout,.visit__grid,.about__grid{grid-template-columns:1fr}
+  .wl__panel{position:static}
+  .svc__grid,.posts-grid,.cases__grid{grid-template-columns:repeat(2,1fr)}
+  .article__grid{grid-template-columns:1fr}
+  .article__aside{position:static}
+}
+
+@media (max-width:700px){
+  body{font-size:16px;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+  .hdr-book{display:none}
+  .brand img{height:24px}
+  .hero{min-height:auto}
+  .hero__media img{object-position:50% 100%}
+  .hero__shade{background:linear-gradient(180deg,rgba(10,10,11,.88) 0%,rgba(10,10,11,.78) 55%,rgba(10,10,11,.35) 100%)}
+  .hero__inner{padding-block:40px 200px}
+  .hero__title{font-size:28px;line-height:1.4}
+  .hero__sub{font-size:16px}
+  .hero__ctas .btn{width:100%}
+  .hero__facts{gap:14px;margin-top:28px}
+  .hero__facts li{width:100%}
+  .phero__ctas .btn,.band__cta .btn,.visit__ctas .btn,.wl__ctas .btn{width:100%}
+  .band__cta{width:100%}
+  .why__grid,.svc__grid,.posts-grid,.cases__grid,.feat__grid,.sched__grid,.checklist,.steps{grid-template-columns:1fr}
+  .steps{gap:32px}
+  .sec-head--split{align-items:flex-start}
+  .chips{grid-template-columns:repeat(2,1fr)}
+  .est__steps{font-size:11.5px}
+  .est__nav{position:sticky;bottom:calc(76px + env(safe-area-inset-bottom));background:#fff;padding-top:8px}
+  .est__nav .btn{flex:1}
+  .wl__grid{grid-template-columns:repeat(3,1fr);gap:8px}
+  .wl__btn{min-height:104px;font-size:12.5px;padding:10px 6px}
+  .wl__btn .dg-ico{width:34px;height:34px}
+  .reels__rail{grid-auto-columns:62%}
+  .brands__list a{min-width:136px;min-height:64px;padding-inline:16px}
+  .brands__name{font-size:18px}
+  .footer__grid{grid-template-columns:1fr;gap:28px}
+  .footer__bottom-inner{justify-content:center;text-align:center}
+  .search-form{flex-direction:column}
+  .stats{grid-template-columns:1fr 1fr}
+  .case__dl div{grid-template-columns:1fr;gap:0}
+  .checklist__n{display:none}
+
+  /* Sticky emergency bar */
+  .fab-wa{display:none}
+  .mbar{position:fixed;inset-inline:0;bottom:0;z-index:120;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#222;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -6px 20px rgba(0,0,0,.25)}
+  .mbar__btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:64px;text-decoration:none;font-weight:800;font-size:14px;color:#fff;background:var(--ink)}
+  .mbar__btn .dg-ico{width:24px;height:24px}
+  .mbar__btn--call{background:var(--red-600)}
+  .mbar__btn--wa{background:var(--wa-600)}
+  .mbar__btn--map .dg-ico{color:var(--yellow)}
+  .mbar__btn:active{filter:brightness(.9)}
+}
+
+@media (max-width:380px){
+  .wl__grid{grid-template-columns:repeat(2,1fr)}
+  .chips{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr}
+}
+
+@media print{
+  .topbar,.site-header,.mbar,.fab-wa,.site-footer,.est-wrap,.band{display:none!important}
+}

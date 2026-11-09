@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css?family=Changa:400,700,800');
+.ReportsManagement {
+    padding: 15px 0 15px 15px;
+    font-family: Changa;
+    text-align: center;
+}
+
+.ReportsManagement > h2 {
+    font-family: Changa;
+    font-size: 22px;
+}
+
+.ReportsManagement > table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+}
+
+.ReportsManagement > table th {
+    text-align: right;
+    border: 1px solid #3878ec;
+    font-size: 16px;
+    color: #3878ec;
+    box-sizing: border-box;
+    padding: 11px 17px;
+    font-family: Changa;
+}
+
+.IsMessages.ReportsManagement > table th:nth-child(2),.IsMessages.ReportsManagement > table th:nth-child(3) {
+    width: max-content;
+}
+
+.IsMessages.ReportsManagement > table th:nth-child(1) {
+    width: 190px;
+}
+
+.ReportsManagement > table td {
+    padding: 15px;
+    border: 1px solid #d6d6d6;
+    font-size: 15px;
+    font-family: Changa;
+    font-weight: bold;
+}
+
+.ReportsManagement > table td {
+    text-align: right;
+    line-height: 26px;
+}
+
+.ReportsManagement > table th:first-child {
+    width: 60px;
+    text-align: center;
+}
+
+.ReportsManagement > table td:first-child {
+    text-align: center;
+    font-family: Arial Black;
+    font-size: 19px;
+}
+
+.ReportsManagement > table th:last-child {
+    width: 123px;
+    text-align: center;
+}
+
+.IsMessages.ReportsManagement > table th:last-child {
+    width: 106px;
+}
+
+.ReportsManagement > table td a {
+    display: inline-block;
+    font-weight: bold;
+    text-decoration: none;
+    background: #3878ec;
+    text-align: center;
+    height: 24px;
+    line-height: 24px;
+    font-size: 12px;
+    color: white;
+    padding: 0px 10px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.ReportsManagement > table tr:nth-child(2n+0) td {
+    background: #ebf2ff;
+}
+
+.ReportsManagement > table td a + a {
+    background: #5ed071;
+    margin-left: 0;
+}
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+.alert-blue {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+.alert-default {
+    color: #383d41;
+    background-color: #e2e3e5;
+    border-color: #d6d8db;
+}
+.alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    font-family: Changa;
+    font-size: 17px;
+}
