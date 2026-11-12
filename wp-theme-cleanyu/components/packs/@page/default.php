@@ -73,31 +73,34 @@ $post_tag = ((is_array(get_the_terms($post->ID,'post_tag',true)))) ? get_the_ter
             }
         }
     }
-    if( !empty($questions)  && $questions[0]['question'] != '' ){
-        echo '<script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                "mainEntity": [ ';
-                    foreach( $questions as $i => $faq ){
-                        $i++;
-                        echo '{
-                        "@type": "Question",
-                        "name": "'.$faq['question'].'",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "'.$faq['answer'].'"
-                            }
-                        }';
-                        if( $i < count($questions) ){
-                            echo ',';
-                        }
-                    }
-                 
-                echo ']
+    if ( ! empty( $questions ) ) {
+        $faq_entities = array();
+        foreach ( $questions as $faq ) {
+            $faq_q = isset( $faq['question'] ) ? trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( $faq['question'] ) ) ) : '';
+            $faq_a = isset( $faq['answer'] ) ? trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( $faq['answer'] ) ) ) : '';
+            if ( $faq_q === '' || $faq_a === '' ) {
+                continue;
             }
-        </script>';
+            $faq_entities[] = array(
+                '@type'          => 'Question',
+                'name'           => $faq_q,
+                'acceptedAnswer' => array(
+                    '@type' => 'Answer',
+                    'text'  => $faq_a,
+                ),
+            );
         }
+        if ( ! empty( $faq_entities ) ) {
+            echo '<script type="application/ld+json">' . wp_json_encode(
+                array(
+                    '@context'   => 'https://schema.org',
+                    '@type'      => 'FAQPage',
+                    'mainEntity' => $faq_entities,
+                ),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            ) . '</script>';
+        }
+    }
         
         $item_list_element = [];
 
