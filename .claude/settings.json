@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "claude-image-view": {
+      "source": {
+        "source": "github",
+        "repo": "jarrodwatts/claude-image-view"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "image-view@claude-image-view": true
+  }
+}
